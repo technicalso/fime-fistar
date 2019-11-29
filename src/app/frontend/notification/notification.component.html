@@ -1,0 +1,65 @@
+<div class="notification"
+     infiniteScroll
+     [infiniteScrollDistance]="1"
+     [infiniteScrollThrottle]="1000"
+     (scrolled)="onScroll()">
+    <div class="wrap">
+        <div class="header">
+            <div class="left-group">
+                <h1>{{ 'notifications' | translate }}</h1>
+                <span class="badge notification-count" *ngIf="notificationNumber">
+                    {{ notificationNumber }}
+                </span>
+            </div>
+            <div class="right-group">
+                <span class="check-as-read" (click)="markAllAsRead()">
+                    {{ 'check_as_read' | translate }}
+                </span>
+            </div>
+        </div>
+        <div class="content">
+            <div class="notification-item" *ngFor="let notification of notifications; let i = index;"
+               (click)="goToNotification([notification.id], notification.url, notification.is_seen)" [ngClass]="{'unseen': !notification.is_seen}">
+                <div class="avatar">
+                    <img [src]="notification.user_avatar ? env.rootHost + notification.user_avatar : 'assets/images/user.png'" alt="image" *ngIf="!notification.is_system">
+                    <img [src]="'assets/icons/_iconAll_Others_active.png'" alt="image"
+                         *ngIf="notification.is_system" class="system-avatar">
+                </div>
+                <div class="notification-detail">
+                    <h2 class="notification-title" *ngIf="notification.type != 'try_applied' && notification.type != 'delivery'">
+                        {{ notification.title }}
+                    </h2>
+                    <h2 class="notification-title" *ngIf="notification.type == 'try_applied'">
+                        {{ notification.title | translate }}
+                    </h2>
+                    <h2 class="notification-title" *ngIf="notification.type == 'delivery'">
+                        {{ notification.title | translate }}
+                    </h2>
+                    <div class="notification-content-wrap" [innerHtml]="notification.content | safeHtml"
+                         *ngIf="notification.is_system"></div>
+                    <p class="notification-content" *ngIf="!notification.is_system && notification.type == 'comment'"
+                        [innerHtml]=" 'notification_comment' | translate | safeHtml">
+                    </p>
+                    <p class="notification-content" *ngIf="!notification.is_system && notification.type == 'reply'"
+                       [innerHtml]=" 'notification_reply' | translate | safeHtml">
+                    </p>
+                    <p class="notification-content" *ngIf="!notification.is_system && notification.type == 'like'"
+                       [innerHtml]=" 'notification_like' | translate | safeHtml">
+                    </p>
+                    <p class="notification-content" *ngIf="!notification.is_system && notification.type == 'follow'"
+                       [innerHtml]=" 'notification_follow' | translate | safeHtml">
+                    </p>
+                    <p class="notification-content" *ngIf="!notification.is_system && notification.type == 'try_applied'">
+                        <strong>{{ notification.product_name }}</strong>{{ 'try_open_content' | translate }}
+                    </p>
+                    <p class="notification-content" *ngIf="!notification.is_system && notification.type == 'delivery'">
+                        <strong>{{ notification.product_name }}</strong>{{ 'try_on_delivery' | translate }}
+                    </p>
+                    <p class="notification-time">
+                        {{ notification.time }} {{ notification.timeUnit | translate }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

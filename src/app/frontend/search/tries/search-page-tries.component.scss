@@ -1,0 +1,33 @@
+@import "~scss/mixins";
+
+.tries{
+  padding: 0;
+  .tries-header{
+    display: none;
+  }
+  .main-wrap {
+    display: block;
+    width: 100%;
+
+    ngx-masonry {
+    }
+
+    .masonry-item{
+      width: 300px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+@include phone {
+  .tries {
+    .main-wrap {
+      ngx-masonry {
+        .masonry-item {
+          width: 100%;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}

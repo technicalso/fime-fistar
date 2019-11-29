@@ -1,0 +1,182 @@
+<div class="admin-images-ai">
+    <div class="row">
+        <H4>Images AI</H4>
+
+    </div>
+    <hr>
+    <form class="mt-3" novalidate>
+        <mat-card class="search-control">
+            <div class="row">
+
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Object</label>
+                                <div>
+                                    <!-- <mat-form-field class="full-width">
+                                        <input matInput placeholder="" name="keyword">
+                                    </mat-form-field> -->
+
+                                    <mat-form-field>
+                                        <mat-select [(value)]="allValue" [(ngModel)]="allValue" name="allValue">
+                                            <mat-option *ngFor="let food of foods" [value]="food.value">
+                                                {{food.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="op-0">Object</label>
+                                <mat-form-field class="px-3">
+                                    <input matInput [(value)]="search" [(ngModel)]="search" name="search" (ngModelChange)="handleChangeKeyword($event)">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-5">
+                    <label>Select the period <span class="text-danger">(*)</span></label>
+                    <div class="form-group">
+                        <mat-form-field style="margin-right:20px;">
+                            <mat-datepicker-toggle [for]="period_from" matSuffix></mat-datepicker-toggle>
+                            <mat-datepicker #period_from type="datetime" openOnFocus="true" timeInterval="5">
+                            </mat-datepicker>
+                            <input matInput class="form-control" [(ngModel)]="dataBlind.period.start"
+                                [matDatepicker]="period_from" autocomplete="false" placeholder="From" readonly
+                                name="dataBlind.period.start">
+                        </mat-form-field>
+
+
+
+                        <mat-form-field>
+                            <mat-datepicker-toggle [for]="period_to" matSuffix></mat-datepicker-toggle>
+                            <mat-datepicker #period_to type="datetime" openOnFocus="true" timeInterval="5">
+                            </mat-datepicker>
+                            <input matInput class="form-control" [(ngModel)]="dataBlind.period.end"
+                                name="dataBlind.period.end" [matDatepicker]="period_to"
+                                (ngModelChange)="handleChangeEndDate()" autocomplete="false" placeholder="To"
+                                readonly>
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+                <div class="col-3" style="margin-top: 30px;">
+                    <div class="pull-right">
+                        <button class="btn btn-primary mr-1" [disabled]="activeClick == false"
+                            (click)="onSubmit()"><i class="material-icons align-text-bottom">
+                                search
+                            </i> <span>Search</span></button>
+                        <button type="button" class="btn btn-default mr-1" (click)="onReset()" ><i class="material-icons align-text-bottom">
+                                replay
+                            </i> <span>Reset</span></button>
+                        <button type="button" class="btn btn-default mr-1" (click)="dowloadCSV()"><i class="material-icons align-text-bottom">
+                                get_app
+                            </i> <span>Excel</span></button>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </mat-card>
+    </form>
+    <div class="row mt-3">
+        <div class="col-3">
+            <div class="row">
+                <label for="" class="red-color pl-3">Statistics </label>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <h3>{{fistarCount}}/{{campaignCount}}</h3>
+                    <p class="font-15">Fistars/Campaigns</p>
+                </div>
+                <div class="col-4">
+                    <h3>{{data.total}}</h3>
+                    <!-- <h3>{{imageCount}}</h3> -->
+                    <p class="font-15">Total Images</p>
+                </div>
+                <div class="col-4">
+                    <h3>{{keywordCount}}</h3>
+                    <p class="font-15">Total Keywords</p>
+                </div>
+            </div>
+            <hr>
+            <label for="" class="red-color">The most analyzed keywords</label>
+            <table class="table table-bordered">
+
+                <tbody>
+                    <tr *ngFor="let keyword of dataKeyword.keywords">
+                        <td>{{keyword.keyword}}</td>
+                        <td>{{keyword.count}}</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <div class="col-9">
+            <label for="" class="red-color">The analyzed keywords history</label>
+            <ngx-datatable #myTable class="material" [rows]="data.data" [columnMode]="'force'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [count]="data.total" [externalPaging]="true"
+                [offset]="data.current_page - 1" [limit]="data.per_page" (page)="goPage($event)">
+
+                <ngx-datatable-column name="Date" prop="created_at" [sortable]="false"></ngx-datatable-column>
+                <ngx-datatable-column name="Type" prop="typename" [sortable]="false"></ngx-datatable-column>
+                <ngx-datatable-column name="Name">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <a href="javascript:void()" *ngIf="row.type == 2"
+                            [routerLink]="['/admin/partner/recommend/', row.p_id]">{{row.nameData}}</a>
+                        <a href="javascript:void()" *ngIf="row.type == 1"
+                            [routerLink]="['/admin/fistar/recommend/', row.uid]">{{row.nameData}}</a>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Image">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <img class="img" *ngIf="row.type == 2" [src]="commonService.getImageLink(row.image, 'campaigns', 'medium')" />
+                        <img class="img" *ngIf="row.type == 1" [src]="commonService.getImageLink(row.image, 'analysis/'+row.obj_id, 'NONE')" />
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Keywords">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <a href="javascript:void(0)"
+                            (click)="openModalKeyword(keyword, row.json_keyword.responses)">{{row.pass_keyword ? row.pass_keyword : ""}}</a>
+                    </ng-template>
+                </ngx-datatable-column>
+
+            </ngx-datatable>
+
+        </div>
+    </div>
+    <div class="modal-keyword">
+        <ng-template #keyword class="modal-keyword" id="modal-keyword">
+            <div class="modal-keyword">
+                <div class="modal-header">
+                    <h2>Images AI keywords</h2>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2 process-keyword" *ngFor="let item of dataProcess">
+                        <small>{{item.description}}</small>
+                        <progressbar [animate]="false" [value]="item.score*100" type="success"><b>{{(item.score*100).toFixed(2)}}%</b>
+                        </progressbar>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

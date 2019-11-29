@@ -1,0 +1,126 @@
+<div class="app-admin-campaign-review-detail">
+    <div class="row bt">
+        <div class="col-12 d-flex justify-content-between top">
+
+            <div class="admin-heading">
+                {{ "Campaign > fistar review" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" (click)="back()"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <app-admin-campaign-tab [tryId]="data['detailAll']"></app-admin-campaign-tab><br>
+    <div class="row title bt">
+        <div class="col-md-12">
+            <button class="btn btn-default">
+                {{ data['detailAll']['cp_status'] == 59 ? 'Matching' : 
+                    data['detailAll']['cp_status'] == 60 ? 'Ready' :
+                    data['detailAll']['cp_status'] == 61 ? 'On-Going' :
+                    data['detailAll']['cp_status'] == 62 ? 'Closed' : ''
+                }}
+            </button>&nbsp;
+            <span class="title-big">
+                {{ data['detailAll']['cp_name']}}
+            </span>
+        </div>
+
+    </div>
+
+    <div class="row title bt">
+        <div class="col-md-2">
+            <label>Channel: </label>&nbsp;&nbsp;
+            <span for="" class="title-big">{{channel}}</span>
+        </div>
+        <div class="col-md-2">
+            <label>Category</label>&nbsp;&nbsp;
+            <span for="" class="title-big">{{category}}</span>
+        </div>
+    </div>
+
+    <div class="row title-date bt">
+        <div class="col-md-12">
+            <label class="date">{{data['detailAll']['cp_period_start']}}</label>
+            <span for="" class="title-big"><b>{{title_m_ch}}</b></span>
+        </div>
+
+    </div>
+    <div class="row bt">
+        <div class="col-12">
+            <div class="content-review" [innerHTML]="content_m_ch"></div>
+        </div>
+    </div>
+    <div class="row bt mb-2">
+        <div class="col-12">
+            <div style="border: 1px solid #8b8b8b;padding: 5px;">{{url_sns}}</div>
+        </div>
+    </div>
+    <div row="row bt">
+        <!-- 101 -->
+        <button (click)="updateStatus(102)" *ngIf="rv_status == 101" class="btn btn-primary float-right"
+            style="margin-right:10px">
+            <span>Write reviews</span>
+        </button>
+        <!-- 102 -->
+        <button (click)="updateStatus(103)" *ngIf="rv_status == 102" class="btn btn-primary float-right"
+            style="margin-right:10px">
+            <span>Request to Check</span>
+        </button>
+        <!-- 103 -->
+        <button (click)="updateStatus(104)" *ngIf="rv_status == 103" class="btn btn-success float-right"
+            style="margin-right:10px">
+            <span>Request to modify</span>
+        </button>
+
+        <button (click)="updateStatus(105)" *ngIf="rv_status == 103" class="btn btn-success float-right"
+            style="margin-right:10px">
+            <span>Approve reviews</span>
+        </button>
+        <!-- 104 -->
+        <button (click)="updateStatus(103)" *ngIf="rv_status==104" class="btn btn-primary float-right"
+            style="margin-right:10px">
+            <span>Request to Check</span>
+        </button>
+        <!-- 105 -->
+        <div *ngIf="data['detailAll']['cp_status'] == 62">
+            <button *ngIf="rv_status==105 && isPayment" class="btn btn-dark float-right" style="margin-right:10px">
+                <span>Payments Completed</span>
+            </button>
+            <button *ngIf="rv_status==105 && !isPayment" class="btn btn-dark float-right" style="margin-right:10px">
+                <span>Before Payment</span>
+            </button>
+        </div>
+        <div *ngIf="data['detailAll']['cp_status'] != 59">
+            <button *ngIf="rv_status==105 && sns_id==1" (click)="goToLinkUrl()" class="btn btn-primary float-right"
+                style="margin-right:10px">
+                <span>Fime Review</span>
+            </button>
+            <button *ngIf="rv_status==105 && sns_id==2" (click)="goToLinkUrl()" class="btn btn-primary float-right"
+                style="margin-right:10px">
+                <span>Facebook Review</span>
+            </button>
+            <button *ngIf="rv_status==105 && sns_id==3" (click)="goToLinkUrl()" class="btn btn-primary float-right"
+                style="margin-right:10px">
+                <span>Youtube Review</span>
+            </button>
+            <button *ngIf="rv_status==105 && sns_id==4" (click)="goToLinkUrl()" class="btn btn-primary float-right"
+                style="margin-right:10px">
+                <span>Instagram Review</span>
+            </button>
+        </div>
+
+        <button (click)="navigatee()" class="btn btn-default float-right" style="margin-right:10px">
+            <span>Modify</span>
+        </button>
+
+        <button (click)="addReview()" class="btn btn-default float-right" style="margin-right:10px">
+            <span>Add Review</span>
+        </button>
+    </div>
+    <!-- <div class="row text-right" *ngIf="rv_status==105">
+        <textarea name="" id="" [(ngModel)]="url_sns" style="width: 100%" rows="2" style="width:100%; height: 55px;"
+            readonly></textarea>
+    </div> -->
+</div>

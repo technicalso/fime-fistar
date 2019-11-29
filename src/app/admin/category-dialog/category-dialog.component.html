@@ -1,0 +1,86 @@
+<div class="category-dialog">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading" *ngIf="!category.code">Add Category</div>
+            <div class="admin-heading" *ngIf="category.code">Edit Category</div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate class="review-form">
+        <div class="category-container">
+            <div class="category-content">
+                <div class="form-group">
+                    <label>
+                        <span>Category Name</span>
+                        <input type="text" placeholder="Enter category name" class="form-control"
+                               [(ngModel)]="category.code_nm"
+                               formControlName="name"/>
+                    </label>
+                    <div *ngIf="
+                            form.controls.name.invalid &&
+                            (form.controls.name.dirty ||
+                                form.controls.name.touched)
+                        "
+                         class="text-danger">
+                        <div *ngIf="form.controls.name.errors.required">
+                            Please enter category name
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group img pointer">
+                    <div class="active">
+                        <label>
+                            <span class="pointer">Active Icon: </span>
+                            <input class="select-img" type="file" (change)="fileChangeEvent($event, 1)"
+                                   accept=".png, .jpg, .jpeg, .gif">
+
+                            <div class="icon" *ngIf="activeImages != ''; else activeImagesTemp">
+                                <img [src]="env.rootHost + activeImages">
+                            </div>
+                            <ng-template #activeImagesTemp>
+                                <div class="icon">
+                                    <button class="btn btn-outline-primary" style="padding: 5px">
+                                        <i class="material-icons align-text-bottom">
+                                            cloud_upload
+                                        </i> <span> Select</span>
+                                    </button>
+                                </div>
+                            </ng-template>
+                        </label>
+
+                    </div>
+                    <div class="inactive">
+                        <label>
+                            <span class="pointer">Inactive Icon: </span>
+                            <input class="select-img" type="file" (change)="fileChangeEvent($event, 0)"
+                                   accept=".png, .jpg, .jpeg, .gif">
+                            <div class="icon" *ngIf="inactiveImages != ''; else inactiveImagesTemp">
+                                <img [src]="env.rootHost + inactiveImages">
+                            </div>
+                            <ng-template #inactiveImagesTemp>
+                                <div class="icon">
+                                    <button class="btn btn-outline-primary" style="padding: 5px">
+                                        <i class="material-icons align-text-bottom">
+                                            cloud_upload
+                                        </i> <span> Select</span>
+                                    </button>
+                                </div>
+                            </ng-template>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-default mr-1" (click)="close()" >
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" (click)="onSave()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

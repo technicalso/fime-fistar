@@ -1,0 +1,160 @@
+<div class="app-admin-request-fistar">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                FISTAR REQUEST
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <mat-card class="search-control">
+            <div class="row">
+
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>New join fiStar</label>
+                            <div >
+                                <mat-form-field class="full-width">
+                                    <input matInput placeholder="" [(ngModel)]="data.keyword" name="keyword" formControlName="keyword">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>State</label>
+                            <div>
+                                <mat-form-field class="full-width">
+                                    <mat-select [(ngModel)]="data.state" formControlName="state" name="state">
+                                        <mat-option   [value]="1">
+                                            Waiting
+                                        </mat-option>
+                                        
+                                        <mat-option   [value]="3">
+                                            Reject
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-5">
+                        <label>Join Date</label>
+                        <div class="form-group">
+                            <mat-form-field style="margin-right:20px">
+                                <mat-datepicker-toggle [for]="period_from"
+                                                        matSuffix></mat-datepicker-toggle>
+                                <mat-datepicker #period_from type="datetime" openOnFocus="true"
+                                                timeInterval="5"></mat-datepicker>
+                                <input matInput readonly class="form-control" formControlName="period_from"
+                                        [(ngModel)]="data.period_from"
+                                        [matDatepicker]="period_from"  autocomplete="false"
+                                        [max]="data.period_to" placeholder="From" name="period_from">
+                            </mat-form-field>
+
+
+
+                            <mat-form-field>
+                                <mat-datepicker-toggle [for]="period_to"
+                                                        matSuffix></mat-datepicker-toggle>
+                                <mat-datepicker #period_to type="datetime" openOnFocus="true"
+                                                timeInterval="5"></mat-datepicker>
+                                <input matInput readonly   class="form-control" formControlName="period_to"
+                                        [(ngModel)]="data.period_to"
+                                        [matDatepicker]="period_to"  autocomplete="false"
+                                        [min]="data.period_from" placeholder="To" name="period_to">
+                            </mat-form-field>
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="col-3" style="margin-top: 30px;">
+                        <div class="pull-right">
+                            <button class="btn btn-primary mr-1" (click)="onSearch()"><i class="material-icons align-text-bottom">
+                                search
+                            </i> <span>Search</span></button>
+                        </div>
+                    </div>
+
+            </div>
+        </mat-card>
+    </form>
+        <br>
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col">
+                <button class="btn btn-primary float-right" (click)="accessRequest(2)" [disabled]="showHide()">
+                    <span>Approve</span>
+                </button>
+                <button class="btn btn-primary float-right" (click)="accessRequest(3)" [disabled]="showHide()"
+                    style="margin-right: 20px; ">
+                    <span>Reject</span>
+                </button>
+            </div>
+        </div>
+        <ngx-datatable [scrollbarH]="false" #myTable class="material" [rows]="fistars" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+        [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)' [selected]="selected"
+        [rowHeight]="'auto'"
+        [externalPaging]="true" [count]="page.total" [offset]="page.current_page - 1" [limit]="10" (page)="setPage($event)"
+        >
+            <ngx-datatable-column [frozenLeft]="false" [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Name" prop="fullname" [sortable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Photo" [canAutoResize]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <img class="img" [src]="commonService.getImageLink(row.picture,'fistars','original')" />
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Gender" prop="gender.cd_label" [sortable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Age" [canAutoResize]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{getAge(row.dob)}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Location" prop="location.cd_label" [sortable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="Facebook" [canAutoResize]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{countFollower(row, 2)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Instagram" [canAutoResize]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{countFollower(row, 4)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Youtube" [canAutoResize]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{countFollower(row, 3)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Introduction" prop="self_intro" [sortable]="false"></ngx-datatable-column>
+            <ngx-datatable-column name="State"  [canAutoResize]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <label for="" *ngIf="row.state==1">Waiting<br><small style="font-size: 10px">{{row.created_at}}</small></label>
+                    <label for="" *ngIf="row.state==2">Approve<br><small style="font-size: 10px">{{row.created_at}} | {{row.approve_date}}</small></label>
+                    <label for="" *ngIf="row.state==3">Reject<br><small style="font-size: 10px">{{row.created_at}} | {{row.reject_date}}</small></label>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'" [cellClass]="'text-center'">>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-icon-button [matMenuTriggerFor]="userActions">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #userActions="matMenu">
+                    <button mat-menu-item routerLink="/admin/request/fistar/basic/{{row.uid}}" class="datatable-action-button" style="font-weight: bold">
+                        <span>Basic</span>
+                    </button>
+                </mat-menu>
+            </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+</div>
+
+

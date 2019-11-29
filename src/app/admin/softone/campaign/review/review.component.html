@@ -1,0 +1,74 @@
+<div class="app-admin-campaign-review">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading">
+                {{ "Campaign > fistar review" | translate }}
+            </div>
+
+            <div>
+                <button class="btn btn-default" routerLink="/admin/campaign" routerLinkActive="router-link-active"><i
+                        class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+
+    <app-admin-campaign-tab [tryId]="cpData.cp_try_id"></app-admin-campaign-tab><br>
+
+    <div class="row justify-content-between">
+        <div>
+            <button class="btn btn-default">{{ this.campain.status }}</button>&nbsp;<span style="margin-top: 7px ">
+                {{ this.campain.name }}</span>
+        </div>
+        <button class="btn btn-default" (click)="this.campain.status=='Matching'?noAddReview():addReview()" >Add Review</button>
+
+    </div><br>
+    <div class="row search">
+        <table class="table table-bordered">
+            <tbody>
+                <tr style="vertical-align: middle;">
+                    <td (click)="search('all')" [ngClass]="{'active-bg': activeItem=='all'}">Total reviews
+                        {{data.defaultList.length}}</td>
+                    <td (click)="search(105)" [ngClass]="{'active-bg': activeItem==105}">Completed {{count['list5']}}
+                    </td>
+                    <td (click)="search(102)" [ngClass]="{'active-bg': activeItem==102}">Ready to write
+                        {{count['list1'] + count['list2']}}</td>
+                    <td (click)="search(103)" [ngClass]="{'active-bg': activeItem==103}">Checking {{count['list3']}}
+                    </td>
+                    <td (click)="search(104)" [ngClass]="{'active-bg': activeItem==104}">Modifying {{count['list4']}}
+                    </td>
+                    <td>
+                        <h3>{{ campain.total}}</h3>
+                        <p>Total cost</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right"     style="margin-right:10px">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+        </div>
+    </div> -->
+    <div class="row">
+        <app-data-table [items]="data.list" [headers]="data.header" [pageSize]="data.list.length" [isCheckItem]="false"
+            [isCheckItemRadio]="false" [showPage]="false" [currentPage]="data.page" [totalPage]="data.total_page"
+            (outputOption)="view($event)" [groupHeaders]="data.groupHeader"></app-data-table>
+    </div>
+</div>
+
+<app-review-payment [data]="dataHistoryReview" [title]="titleReviewPayment" *ngIf="showHistoryPayment"
+    (closeP)="close($event)"></app-review-payment>
+<app-info-payment [buttonSubmit]="idPayment" (ouputSave)="editItem($event)" [campain]="campain" [data]="dataInfoPayment"
+    *ngIf="showPayment" (closeP)="closeP($event)"></app-info-payment>
+<app-info-payment [buttonSubmit]="idPayment" (ouputSave)="addhandleItem($event)" [campain]="campain"
+    *ngIf="addNewPayment" (closeP)="closeadd($event)"></app-info-payment>

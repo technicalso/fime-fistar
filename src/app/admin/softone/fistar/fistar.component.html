@@ -1,0 +1,295 @@
+<div class="component-admin-fistar">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                FISTAR
+            </div>
+        </div>
+    </div>
+   <mat-card class="search-control">
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>fistar User</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select [(ngModel)]="fistarSearch.fistarUserField">
+                                    <mat-option *ngFor="let item of fistarUserFieldList" [value]="item.field">
+                                        {{item.label}}
+                                      </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+
+                        <div class="none-label">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="" [(ngModel)]="fistarSearch.fistarUserValue">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select  [(ngModel)]="fistarSearch.gender">
+                                    <mat-option value="" >All</mat-option>
+                                    <mat-option value={{item.cd_id}}  *ngFor ="let item of gender.code">{{item.cd_label}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select [(ngModel)]="fistarSearch.age">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value={{item.cd_id}}  *ngFor = "let item of age.code">
+                                        {{item.cd_label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Location</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select [(ngModel)]="fistarSearch.location">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value={{item.cd_id}}   *ngFor = "let item of location.code">
+                                        {{item.cd_label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Followers</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select [(ngModel)]="fistarSearch.followers">
+                                    <mat-option value="" >All</mat-option>
+                                    <mat-option value={{item.cd_id}}   *ngFor = "let item of followers.code">
+                                        {{item.cd_label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Channel</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select [(ngModel)]="fistarSearch.channel">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value={{item.sns_id}}   *ngFor = "let item of channel.data">
+                                        {{item.sns_name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select [(ngModel)]="fistarSearch.category">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value={{item.cd_id}}   *ngFor = "let item of category.code">
+                                        {{item.cd_label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-group">
+                        <label>Campaign State</label>
+                        <div style="margin-top:20px">
+                            <mat-checkbox color="primary" (click)=checkAll() [(ngModel)]="checkedAll">All</mat-checkbox>
+                            <mat-checkbox (click)="unCheckAll()"   class="px-3" color="primary"  *ngFor="let item of groupCheckbox "  [(ngModel)]="item.checked" name={{groupCheckbox}}  value={{item.value}}>{{item.name}}</mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3" style="margin-top: 30px;">
+                    <div class="pull-right">
+                        <button class="btn btn-primary mr-1" (click)="search()"><i class="material-icons align-text-bottom">
+                            search
+                        </i> <span>Search</span></button>
+                        <button class="btn btn-default mr-1" (click)="resetForm()"><i class="material-icons align-text-bottom" >
+                            replay
+                        </i> <span>Reset</span></button>
+                        <button class="btn btn-default mr-1" (click)="dowloadCSV()"><i class="material-icons align-text-bottom">
+                                get_app
+                            </i> <span>Excel</span></button>
+                    </div>
+                </div>
+            </div>
+    </mat-card>
+        <br>
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col">
+                <button class="btn btn-primary float-right" [routerLink]="['/admin/fistar/add']">
+                    <i class="material-icons align-text-bottom">
+                        add
+                    </i> <span>Add</span>
+                </button>
+                <button class="btn btn-primary float-right" (click)="openModal(template)" style="margin-right:20px;" [disabled]="!sendMessageTo.length">
+                    <span>Send message to selected</span>
+                </button>
+            </div>
+        </div>
+        <ngx-datatable [scrollbarH]="false" #myTable class="material" [rows]="fistars" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+        [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)' [selected]="selected"
+        [rowHeight]="'auto'"
+        [externalPaging]="true" [count]="page.total" [offset]="page.current_page - 1" [limit]="10" 
+        (page)="setPage($event)"
+        >
+            <ngx-datatable-column [frozenLeft]="false" [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Name" prop="fullname" [sortable]="false" [width]="150" [canAutoResize]="true"></ngx-datatable-column>
+            <ngx-datatable-column name="Photo" [canAutoResize]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <img class="img" [src]=" env.host_fistar+'/storage/fistars/medium/' + row.picture" />
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Gender" [canAutoResize]="false" prop="gender.cd_label"></ngx-datatable-column>
+            <ngx-datatable-column name="Age" [canAutoResize]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{getAge(row.dob)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Location" prop="location.cd_label" [sortable]="false" [width]="150"  [canAutoResize]="true"></ngx-datatable-column>
+            <ngx-datatable-column name="Scrap" [canAutoResize]="true">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{commonService.parseLargeNum(row.scraps_count)}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Followers" [canAutoResize]="true">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{commonService.parseLargeNum(row.total_follower)}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [width]="350" [canAutoResize]="true">
+                <ng-template let-column="column"  ngx-datatable-header-template>
+                    Channel (Postting Fare VND)
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div [innerHTML]="renderCostChannel(row.channels)"></div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Campaign" [canAutoResize]="true">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{getLastestCampaignStatus(row)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="State" [canAutoResize]="true">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.active ? 'Enable' : 'Disable'}}
+                    </ng-template>
+                </ngx-datatable-column>
+            <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'" [cellClass]="'text-center'">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-icon-button [matMenuTriggerFor]="userActions">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #userActions="matMenu">
+                    <button mat-menu-item routerLink="/admin/fistar/basic-infomation/{{row.uid}}" class="datatable-action-button">
+                        <mat-icon>edit</mat-icon>
+                        <span>Basic Edit</span>
+                    </button>
+
+                    <button mat-menu-item routerLink="/admin/fistar/fistar-infomation/{{row.uid}}" class="datatable-action-button">
+                        <mat-icon>edit</mat-icon>
+                        <span>Fistar Edit</span>
+                    </button>
+
+                    <button mat-menu-item routerLink="/admin/fistar/sns/{{row.uid}}" class="datatable-action-button">
+                        <mat-icon>edit</mat-icon>
+                        <span>SNS Edit</span>
+                    </button>
+
+                    <button mat-menu-item routerLink="/admin/fistar/campaign-history/{{row.uid}}" class="datatable-action-button">
+                        <mat-icon>edit</mat-icon>
+                        <span>Campaign History</span>
+                    </button>
+                    <button mat-menu-item routerLink="/admin/fistar/recommend/{{row.uid}}" class="datatable-action-button">
+                        <mat-icon>edit</mat-icon>
+                        <span>Recommend</span>
+                    </button>
+                    <button mat-menu-item *ngIf="row.active" class="datatable-action-button" (click)="actionDisable(row.uid)">
+                        <mat-icon>visibility_off</mat-icon>
+                        <span>Disable</span>
+                    </button>
+                    <button mat-menu-item *ngIf="!row.active"  class="datatable-action-button" (click)="actionEnable(row.uid)">
+                        <mat-icon>visibility</mat-icon>
+                        <span>Enable</span>
+                    </button>
+
+                </mat-menu>
+            </ng-template>
+            </ngx-datatable-column>
+
+        </ngx-datatable>
+</div>
+
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Send message</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+       <h3>Fistar to </h3>
+        <label *ngFor="let item of sendMessageTo" style="margin-right:20px">{{item.fullname}}<i class="fas fa-backspace" (click)="removeChecked(item.uid)"></i></label>
+        <form [formGroup]="form" novalidate>
+            <input type="text"  class="form-control" placeholder="Title" [(ngModel)]="contentMessage.title"
+            formControlName="title" /> <br>
+            <textarea name="" class="form-control" id="" cols="30" rows="10" placeholder="Message"  [(ngModel)]="contentMessage.message"
+            formControlName="message"></textarea>
+            <div class="actions d-flex ">
+                <button class="btn btn-default mr-1" (click)="modalRef.hide()">
+                    <i class="material-icons align-text-bottom">
+                        cancel
+                    </i> <span> {{ "cancel" | translate }}</span>
+                </button>
+                <button class="btn btn-primary mr-1" (click)="sendMessageFistar()" [disabled]="!contentMessage.message || !contentMessage.title || selected==''">
+                    <span> {{ "Send" | translate }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

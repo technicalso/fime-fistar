@@ -1,0 +1,95 @@
+<div class="app-admin-customer-add-noti">
+
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading" *ngIf="!idNoti">
+                {{ "crete_notifycation" | translate }}
+            </div>
+            <div class="admin-heading" *ngIf="idNoti">
+                {{ "edit_notifycation" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/customer/notification"><i
+                        class=" material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Title" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="data.notice_title"
+                                    formControlName="notice_title" />
+                                <div *ngIf="form.controls.notice_title.errors?.required && form.controls.notice_title.touched"
+                                    class="text-danger">
+                                    <div>
+                                        {{ "Title" | translate }} required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Type" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    <mat-radio-group aria-label="Select an option" [(ngModel)]="data.type"
+                                        formControlName="type">
+                                        <mat-radio-button [value]="3">All</mat-radio-button>
+                                        <mat-radio-button [value]="11">Influencer</mat-radio-button>
+                                        <mat-radio-button [value]="22">Partner</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Contents" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" rows="4" name="description"
+                                    [(ngModel)]="data.notice_message" formControlName="notice_message"></textarea>
+                                <div *ngIf="form.controls.notice_message.errors?.required && form.controls.notice_message.touched"
+                                    class="text-danger">
+                                    <div>
+                                        {{ "Contents" | translate }} is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/customer/notification">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" (click)="save()" [disabled]="form.invalid">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,12 @@
+<div>
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+    <div class="support-action" [hidden]="offset < 100">
+        <button class="go-to-top-btn" (click)="scrollToTop($event)">
+            <i class="material-icons">
+                arrow_upward
+            </i>
+        </button>
+    </div>
+</div>

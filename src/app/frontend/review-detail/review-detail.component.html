@@ -1,0 +1,143 @@
+<div class="review-detail" >
+    <div class="loading-block" *ngIf="isLoading">
+        <img src="assets/images/loading.gif" alt="loading">
+    </div>
+
+    <div class="container" *ngIf="review.review_no && !isLoading">
+        <div class="main-wrap">
+            <div class="left-col">
+                <app-images-slider [objectType]="'review'"></app-images-slider>
+            </div>
+            <div class="right-col">
+                <div class="info">
+                    <div class="info-header">
+                        <h1 class="review-name">
+                            {{ review.goods_nm }}
+                        </h1>
+                        <div class="edit-review-options" *ngIf="review.user_no == user.user_no">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true" style="margin-right: 10px" [routerLink]="['/reviews/edit/' + review.slug]"></i>
+                            <i class="fa fa-trash-o" aria-hidden="true" [swal]="deleteSwal" (confirm)="deleteReview()"></i>
+                        </div>
+                    </div>
+                    <div class="review-content" *ngIf="review.review_short">
+                        <h2>{{ 'short_des' | translate }}</h2>
+                        <p [innerHtml]="review.review_short | safeHtml"></p>
+                    </div>
+                    <div class="winner-block">
+                        <h2>Tác giả</h2>
+                        <a [routerLink]="['/usr/' + review.author.slug]">
+                            <img [src]="review.author.pic ? env.rootHost + review.author.pic : 'assets/images/user.png'" alt=""
+                                 title="{{review.author.id ? review.author.id : review.author.reg_name}}" class="winner-avt">
+                            <span class="winner-name" [innerHtml]="review.author.id ? review.author.id : review.author.reg_name | safeHtml"></span>
+                        </a>
+                    </div>
+                    <div class="action-block">
+                        <div class="like-block">
+                            <i [ngClass]="{'active': review.is_liked}" class="fa fa-heart-o" aria-hidden="true"
+                                [appAuth] (action)="toggleLikeReview(review.review_no, i)"></i>
+                            <span class="like-number number-of-like" (click)="usersLikeDialog(review.review_no, 'review')">{{ review.like_number | numberlike }}</span>
+                            <div class="user-likes">
+                                <div *ngFor="let user of review.users_liked; let i = index">
+                                    <div class="circle-avt" *ngIf="i < 4">
+                                        <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/user.png'"
+                                             alt="" title="{{user.id ? user.id : user.reg_name}}" class="user-avt" [routerLink]="['/usr/' + user.slug]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-block">
+                            <div class="comment-group">
+                                <button class="comment-icon" (click)="scrollToElement(comment)"></button>
+                                <span class="comment-number">{{ review.comment_number | numberlike }}</span>
+                            </div>
+                            <button class="share-icon" (click)="shareLink()"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="description-block">
+                    <h2>{{ 'content' | translate }}</h2>
+                    <p [innerHtml]="review.review_dc | safeHtml"></p>
+                </div>
+                <div #comment>
+                    <app-comments (changeCommentCount)="updateCommentCount($event)" [objectType]="'review'"></app-comments>
+                </div>
+            </div>
+        </div>
+        <div class="main-wrap-2">
+            <ngx-masonry #mymasonry [options]="myOptions" infiniteScroll [infiniteScrollDistance]="2"
+                         [infiniteScrollThrottle]="1000" (scrolled)="onScroll()">
+                <ngxMasonryItem class="masonry-item" [ngClass]="{'review': item.type=='review'}"
+                                *ngFor="let item of reviews; let i = index;"
+                                data-id="{{ i }}">
+                    <div class="masonry-item-container">
+                        <div class="post-header">
+                            <div class="user-block pointer">
+                                <img [src]="item.author_avatar ? env.rootHost + item.author_avatar : '/assets/images/user.png'"
+                                     alt="{{item.author}}" class="user-avt" (load)="updateLayout()"
+                                     routerLink="/usr/{{item.author_slug}}">
+                                <div class="user-info">
+                                    <span class="user-name" routerLink="/usr/{{item.author_slug}}" [innerHtml]="item.author_ds ? item.author_ds : item.author | safeHtml"></span>
+                                    <span class="number-of-follows"
+                                          routerLink="/usr/{{item.author_slug}}/followers">{{ item.author_follows }} {{ 'follower' | translate }}</span>
+                                </div>
+                            </div>
+                            <button type="button" class="follow-btn" [ngClass]="{'active': item.followed == 1}"
+                                    *ngIf="item.user_no != user.user_no"
+                                    [appAuth] (action)="toggleFollowFimer(item.author_id)">
+                                <ng-container *ngIf="item.followed != 1">
+                                    <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span> <i
+                                        class="material-icons">add</i>
+                                </ng-container>
+                                <ng-container *ngIf="item.followed == 1">
+                                    <span title="{{ 'unfollow' | translate }}">{{ 'unfollow' | translate }}</span>
+                                    <i class="material-icons">done</i>
+                                </ng-container>
+                            </button>
+                        </div>
+                        <div class="post-body">
+                            <a [routerLink]="['/reviews/detail/' + item.slug]">
+                                <img class="main-img"
+                                     [src]="item.images ? env.rootHost + item.images : 'https://via.placeholder.com/900'"
+                                     alt="Review image">
+                                <video class="main-img" *ngIf="item.resource_type == 3" controls>
+                                    <source [src]="item.images ? env.rootHost + item.images: 'https://via.placeholder.com/900'"
+                                            type="video/mp4">
+                                    <source [src]="item.images ? env.rootHost + item.images: 'https://via.placeholder.com/900'"
+                                            type="video/ogg">
+                                    <source [src]="item.images ? env.rootHost + item.images: 'https://via.placeholder.com/900'"
+                                            type="video/webm">
+                                </video>
+                                <iframe class="main-img" style="height: 300px"
+                                        [src]="item.images ? (item.images + '?autoplay=1&mute=1&loop=1&controls=0&showinfo=0' | safe) : ('https://via.placeholder.com/900' | safe)"
+                                        *ngIf="item.resource_type == 2"></iframe>
+                            </a>
+                            <a class="review-name" [routerLink]="['/reviews/detail/' + item.slug]">{{ item.goods_nm }}</a>
+                            <p class="time">{{ item.time }} {{ item.timeUnit | translate }} {{ 'ago' | translate }}</p>
+                            <p class="post-content" [innerHtml]="item.review_short | safeHtml">
+                            </p>
+                            <a [routerLink]="['/reviews/detail/' + item.slug]"
+                               class="see-more-link">{{ 'see_more' | translate }}</a>
+                        </div>
+                        <div class="post-footer">
+                            <div class="action-block">
+                                <button class="action-btn" [ngClass]="{'active': item.is_liked == 1}" [appAuth]
+                                        (action)="toggleLikeReviews(item, i)">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </button>
+                                <button class="action-btn" [routerLink]="['/reviews/detail/' + item.slug]">
+                                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="likes">
+                            <span class="number-of-like" (click)="usersLikeDialog(item.review_no, 'review')">{{ item.like_number | numberlike }} {{ '_like' | translate }}</span>
+                        </div>
+                    </div>
+                </ngxMasonryItem>
+            </ngx-masonry>
+
+        </div>
+    </div>
+</div>
+<swal #deleteSwal text="{{ 'delete_review_confirm' | translate }}" type="question" [showCancelButton]="true"
+    [focusCancel]="true"></swal>

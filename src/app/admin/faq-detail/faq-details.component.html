@@ -1,0 +1,74 @@
+<div class="component-admin-faq">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading" *ngIf="!faqId">
+                {{ "create faq" | translate }}
+            </div>
+            <div class="admin-heading" *ngIf="faqId">
+                {{ "edit faq" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/faqs"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="form-group">
+                        <label>{{ "title" | translate }}</label>
+                        <input type="text" class="form-control" placeholder="Enter title" [(ngModel)]="faq.sj"
+                               formControlName="sj" name="sj"/>
+                        <div *ngIf="form.controls.sj.invalid && (form.controls.sj.dirty || form.controls.sj.touched)"
+                             class="text-danger">
+                            <div *ngIf="form.controls.sj.errors.required">
+                                {{ "title_required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label>{{ 'type' | translate }}</label>
+                        </div>
+                        <div class="form-check form-check-inline" *ngFor="let faq_category of faq_categories">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                   id="category-{{faq_category.code}}" value="{{faq_category.code}}"
+                                   (change)="changeFAQCategoriesID($event, faq_category.code)"
+                                   [checked]="faq.faq_se_code == faq_category.code">
+                            <label class="form-check-label" for="category-{{faq_category.code}}">{{faq_category.code_nm}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>{{ "content" | translate }}</label>
+                        <textarea type="text" class="form-control" placeholder="Enter description"
+                                  [(ngModel)]="faq.cn"
+                                  formControlName="cn" name="cn" rows="10"></textarea>
+                        <div *ngIf="form.controls.cn.invalid && (form.controls.cn.dirty || form.controls.cn.touched)"
+                             class="text-danger">
+                            <div *ngIf="form.controls.cn.errors.required">
+                                {{ "content_required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/faqs">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" [disabled]="!form.valid" (click)="save()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

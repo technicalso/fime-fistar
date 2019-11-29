@@ -1,0 +1,28 @@
+<div class="search-page-header container">
+    <div class="main-wrap">
+        <p class="search-label">{{ 'search_result' | translate}}: <strong class="search-key">'{{searchValue}}'</strong></p>
+        <div class="bottom">
+            <div class="filter-type d-flex flex-row justify-content-center reviews"
+                 [ngClass]="{'active' : searchKey === 'reviews'}" (click)="onTab('reviews')">
+                <div class="icon"></div>
+                <div class="filter d-flex flex-column">
+                    <span>{{ 'mypage.reviews' | translate }}</span>
+                </div>
+            </div>
+            <div class="filter-type d-flex flex-row justify-content-center try"
+                 [ngClass]="{'active' : searchKey === 'tries'}" (click)="onTab('tries')">
+                <div class="icon"></div>
+                <div class="filter d-flex flex-column">
+                    <span>{{ 'mypage.try_free' | translate }}</span>
+                </div>
+            </div>
+            <div class="filter-type d-flex flex-row justify-content-center fimers"
+                 [ngClass]="{'active' : searchKey === 'fimers'}" (click)="onTab('fimers')">
+                <div class="icon"></div>
+                <div class="filter d-flex flex-column">
+                    <span>Fimers</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

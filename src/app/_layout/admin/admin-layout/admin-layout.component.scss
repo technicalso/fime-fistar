@@ -1,0 +1,31 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+
+:host {
+    display: block;
+    background: #EBEFF5;
+    height: 100%;
+}
+
+.hidden{
+    display: none;
+}
+
+.main-container {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    &.auth{
+        left: 250px;
+        padding: 20px;
+    }
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+

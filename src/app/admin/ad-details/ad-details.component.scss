@@ -1,0 +1,53 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-ad {
+    .order-btn {
+        background: white;
+        border: 1px #495057 solid;
+        color: #495057;
+    }
+
+    .order-menu {
+        height: 150px;
+        overflow: auto;
+    }
+
+    #showOnFrontend {
+        width: 16px;
+        height: 16px;
+    }
+
+    ::ng-deep {
+        angular-file-uploader {
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .afu-upload-btn {
+                display: none;
+            }
+
+            .afu-valid-file {
+                margin: 0;
+            }
+
+            &.afu-select-btn:focus,
+            &.afu-select-btn:active,
+            &.afu-select-btn:hover,
+            .afu-select-btn {
+                background-image: -webkit-gradient(linear,left top,right top,from($gradient_left),to($gradient_right))!important;
+                background-image: linear-gradient(to right,$gradient_left, $gradient_right)!important;
+                -webkit-box-shadow: 0 0 0 0 $gradient_left, 0 0 0 0 $gradient_right!important;
+                box-shadow: 0 0 0 0 $gradient_left, 0 0 0 0 $gradient_right!important;
+                border-radius: .375rem;
+                text-shadow: none;
+                border: none;
+                line-height: calc((1rem * 1.25) + 4px);
+                text-transform: uppercase;
+            }
+        }
+    }
+}

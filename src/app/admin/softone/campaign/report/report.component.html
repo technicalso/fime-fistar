@@ -1,0 +1,189 @@
+<div class="app-admin-campaign-report">
+    <div class="row top">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading">
+                {{ "Campaign > report" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/campaign"><i
+                        class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <app-admin-campaign-tab [tryId]="cpData.cp_try_id"></app-admin-campaign-tab><br>
+    <div class="row">
+        <div class="col-md-2">
+            <img [src]="commonService.getCampaignThumb(data)" alt="" height="150" width="150">
+        </div>
+        <div class="col-md-8">
+            <button class="btn btn-default">{{campain.cp_status}}</button>&nbsp;<span
+                style="margin-top: 7px; font-weight: 700">{{campain.cp_name}}</span>
+            <div [innerHTML]="campain['cp_description']"></div>
+            <p>
+                <span class="badge badge-success" style="margin-right: 10px; "
+                    *ngFor="let item of campain.keyword">{{ item['code']['cd_label'] }}</span>
+            </p>
+        </div>
+        <div class="col-md-2" style=" border-left-style: groove">
+            <h1>Try period</h1>
+            <p>
+                Start : {{campain['cp_period_start']}}<br>
+                End : {{campain['cp_period_end']}}
+            </p>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Try free</th>
+                <th>fiStar</th>
+                <th>fiStar recruiting period</th>
+                <th>Product price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{campain['category']['cd_label']  }}</td>
+                <td>{{campain['cp_total_free'] }}</td>
+                <td>{{campain['cp_total_influencer'] }}</td>
+                <td>{{campain['fiStarRecruitingPeriod']}}</td>
+                <td>
+                    <label style="text-decoration: line-through; margin-right: 15px">
+                        {{campain['cp_product_price'] || 0 }}
+                    </label>{{campain['cp_campaign_price'] || 0 }}
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="row">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td><label for="" style="margin-right:20px">Total like</label> <span
+                            style="font-size: 35px">{{ campain['review_statitics']['sum_like'] || 0 }}</span></td>
+                    <td><label for="" style="margin-right:20px">Total share</label> <span
+                            style="font-size: 35px">{{ campain['review_statitics']['sum_share'] || 0 }}</span></td>
+                    <td><label for="" style="margin-right:20px">Total comments</label> <span
+                            style="font-size: 35px">{{ campain['review_statitics']['sum_comment'] || 0 }}</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <p>Post in the campaign</p>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="" style="font-size: 150px">{{campain['review_statitics_channel'].length || 0}}</label>
+                </div>
+                <div class="col-md-8">
+                    <table class="table table-borderless">
+                        <tbody *ngIf="campain['review_statitics_channel'].length > 0">
+                            <tr *ngFor="let item of campain['review_statitics_channel']">
+                                <td>
+                                    <i class="fab" [ngClass]="{' fa-adversal': item['sns_id'] ==1,
+                                        ' fa-facebook': item['sns_id'] ==2,
+                                        ' fa-youtube': item['sns_id'] ==3,
+                                    ' fa-instagram': item['sns_id']==4 }"></i>
+                                </td>
+                                <td>Likes : {{item['total_like'] || 0}}</td>
+                                <td>Shares : {{item['total_share'] || 0}}</td>
+                                <td>Comments : {{item['total_comment'] || 0}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <google-chart width="600" [title]="chart1.title" [type]="chart1.type" [data]="chart1.data"
+                [columnNames]="chart1.columnNames" [roles]="chart1.roles"></google-chart>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-6">
+            <google-chart width="600" [title]="chart2.title" [type]="chart2.type" [data]="chart2.data"
+                [columnNames]="chart2.columnNames" [roles]="chart2.roles"></google-chart>
+        </div>
+    </div>
+    <p style="font-size: 30px"><b>Review</b></p>
+    <div class="row post" style=" border-style:groove;padding:10px;" *ngFor="let item of campain.review">
+        <div class="col-md-2">
+            <img [src]="commonService.getCampaignThumb(data)" alt=""
+                height="150" width="150">
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ngx-avatar [src]="convertImgLink(item['user']['picture'],'fistars','thumbnail')" size="100"></ngx-avatar>
+                        </div>
+                        <div class="col-md-8">
+                            <p style="font-weight: 700">
+                                <span style="margin-right: 5px">
+                                    <img src="{{item['user']['gender']['cd_label'] == 'Male' ? 'assets/images/male.png' : 'assets/images/female.png'}}"
+                                        alt="">
+                                </span> 
+                                <span>
+                                    {{item['user']['fullname'] }}
+                                </span>
+                            </p>
+
+                            <!-- <span><i class='fas' [ngClass]="{'fa-female': item['user']['gender']['cd_label'] == 'Male',
+                                'fa-male': item['user']['gender']['cd_label'] == 'Female'}"></i><b>{{item['user']['fullname']}}</b></span> -->
+                            <p>{{showOnlyYear(item['user']['dob'] )}} ({{calulateAge(item['user']['dob'])}}) {{item['user']['location']['cd_label']}}</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="row">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td><i class="fab" [ngClass]="{'fa-adversal': item['channel']['sns']['sns_id'] ==1,
+                                        ' fa-facebook': item['channel']['sns']['sns_id'] ==2,
+                                        ' fa-youtube': item['channel']['sns']['sns_id'] ==3,
+                                    ' fa-instagram': item['channel']['sns']['sns_id']==4 }"></i></td>
+                                    <td><i class="fa fa-heart"></i> {{ item['channel']['m_ch_like'] || 0 }}</td>
+                                    <td><i class="fa fa-comments"></i> {{ item['channel']['m_ch_comment'] || 0 }}</td>
+                                    <td><i class="fa fa-share-alt"></i> {{ item['channel']['m_ch_share'] || 0 }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <span style="margin-right: 100px; ">{{ item['channel']['created_at'] }} /
+                                {{ item['channel']['sns']['sns_name'] }}</span>
+                            <p style="font-weight: 700">{{ campain.cp_name }}</p>
+                            <p>{{ item['channel']['m_ch_title'] }}</p>
+                            <p [innerHTML]="item['channel']['m_ch_content']"></p>
+                        </div>
+                        <div class="col-md-2">
+                                <!-- <a href="{{ item['channel']['m_ch_url'] }}" target="_parent"> -->
+                        <button type="button" class="btn btn-info "
+                                style="float:left;margin-right:-10px;" (click)="goToLink(item['channel']['m_ch_url'])">more</button>
+                            <!-- </a> -->
+                        </div>
+                        <br>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

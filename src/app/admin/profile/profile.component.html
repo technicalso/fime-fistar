@@ -1,0 +1,123 @@
+<div class="component-admin-banner">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading">
+                USER PROFILE
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/user-management"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>User No</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="user.user_no"
+                                       formControlName="user_no" name="user_no"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "admin.users.name" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter name"
+                                       [(ngModel)]="user.reg_name"
+                                       formControlName="reg_name" name="reg_name"/>
+                                <div *ngIf="form.controls.reg_name.invalid && (form.controls.reg_name.dirty || form.controls.reg_name.touched)"
+                                     class="text-danger">
+                                    <div *ngIf="form.controls.reg_name.errors.required">
+                                        {{ "admin.users.name_required" | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Display name</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter name"
+                                       [(ngModel)]="user.id"
+                                       formControlName="id" name="id"/>
+                                <div *ngIf="form.controls.id.invalid && (form.controls.id.dirty || form.controls.id.touched)"
+                                     class="text-danger">
+                                    <div *ngIf="form.controls.id.errors.required">
+                                        {{ "admin.users.name_required" | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "admin.users.email" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter email"
+                                       [(ngModel)]="user.email"
+                                       formControlName="email" name="email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "admin.users.phone" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter phone number"
+                                       [(ngModel)]="user.cellphone"
+                                       formControlName="cellphone" name="cellphone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "admin.users.address" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" placeholder="Enter address"
+                                          [(ngModel)]="user.home_addr1"
+                                          formControlName="home_addr1" name="home_addr1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/profile">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-success mr-1" routerLink="/admin/update-password">
+                <i class="material-icons align-text-bottom">
+                    vpn_key
+                </i> <span> Update password</span>
+            </button>
+            <button class="btn btn-primary mr-1" (click)="save()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

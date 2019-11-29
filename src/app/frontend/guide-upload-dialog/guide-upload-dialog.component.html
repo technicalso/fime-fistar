@@ -1,0 +1,20 @@
+<div class="guide-dialog">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">Hướng dẫn chụp ảnh review</div>
+            <div class="btn-dialog-close" (click)="close()">
+                <fa name="times-circle" size="2x"></fa>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <img [src]="env.rootHost + '/data/images/site/guide/guide01.jpg'" alt="Khong phu hop">
+            <p class="img-des">Hình ảnh không phù hợp (X)</p>
+        </div>
+        <div class="col-12">
+            <img [src]="env.rootHost + '/data/images/site/guide/guide02.jpg'" alt="Khong phu hop">
+            <p class="img-des">Hình ảnh phù hợp (O)</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="app-admin-customer-notification">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                CUSTOMER > <b>Notifications</b>
+            </div>
+        </div>
+    </div>
+    <mat-card class="search-control">
+        <form [formGroup]="formSearch">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <div class="none-label">
+                            <mat-form-field class="full-width">
+                                <input matInput formControlName="title">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select formControlName="type">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value="22">Partner</mat-option>
+                                    <mat-option value="11">Influencer</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>State</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select formControlName="state">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value="1">Enabled</mat-option>
+                                    <mat-option value="0">Disabled</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2" style="margin-top: 30px;">
+                    <div class="pull-right">
+                        <button class="btn btn-primary mr-1" (click)="search()"><i
+                                class="material-icons align-text-bottom">
+                                search
+                            </i> <span>Search</span></button>
+                        <button class="btn btn-default mr-1" (click)="reset()"><i
+                                class="material-icons align-text-bottom">
+                                replay
+                            </i> <span>Reset</span></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </mat-card>
+    <br>
+    <div class="row">
+        <div class="col">
+            <p>
+                <label id="numberSelected">{{  numberSelected }}</label>
+                Selected
+                /
+                <label id="numberTotal">0</label>
+                Total
+            </p>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" routerLink="/admin/customer/notification/add">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+            <button [disabled]="numberSelected == 0 ? true : false" class="btn btn-primary float-right"
+                style="margin-right: 10px" (click)="deleteIds()">
+                <i class="material-icons align-text-bottom">
+                    delete
+                </i> <span>Delete</span>
+            </button>
+        </div>
+    </div>
+
+    <app-data-table [showNumberTotalDataTable]="isShowNumberTotalDataTable" (outputCheck)="getItem($event)"
+        [items]="data.list" [headers]="data.header" [pageSize]="10" [isCheckItem]="true" [isCheckItemRadio]="true"
+        [showPage]="true" (outputPage)="getParams($event)" [currentPage]="data.page" (getId)="delete($event)"
+        (disab)="disabled($event)" [totalPage]="data.total_page">
+    </app-data-table>
+</div>
+
+<!-- <app-data-table [items]="data.list" [headers]="data.header" [pageSize]="10" [isCheckItem]="true"
+    [isCheckItemRadio]="false" [showPage]="true" (outputPage)="getParams($event)" [currentPage]="data.page"
+    [totalPage]="data.total_page" (getId)="delete($event)" (disab)="disabled($event)"></app-data-table> -->
+
+<!-- (outputCheck)="getItem($event)" -->

@@ -1,0 +1,85 @@
+<div class="app-admin-campaign-payment-manager modal-custom ">
+    <div class="content modal-content">
+        <div class="content-1" *ngIf="step == 1">
+            <div class="row">
+                <div class="col">
+                    <div class="admin-heading">
+                        Payments Management
+                    </div>
+                </div>
+                <div class="col">
+                    <span class="close" (click)="closecomponent()">&times;</span>
+                </div>
+            </div>
+            <mat-card class="search-control" [formGroup]="form">
+                <div class="row">
+                    <div class="col-2">
+                        <label>User Type</label>
+                        <div>
+                            <select formControlName="type" #option (change)="resetDefault(option.value)">
+                                <option value="">All</option>
+                                <option value="1">Partner</option>
+                                <option value="2">FiStar</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>Search filter</label>
+                            <div>
+                                <select formControlName="filter">
+                                    <option value="">All</option>
+                                    <option *ngFor="let item of optionss" value="{{item['value']}}">{{item['title']}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group">
+                            <div class="none-label">
+                                <input class="form-control" placeholder="" formControlName="keyword">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="pull-right">
+                            <button class="btn btn-primary mr-1" (click)="search()"><i
+                                    class="material-icons align-text-bottom">
+                                    search
+                                </i> <span>Search</span></button>
+                            <button class="btn btn-default mr-1" (click)="reset()"><i
+                                    class="material-icons align-text-bottom">
+                                    replay
+                                </i> <span>Reset</span></button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+            <div class="row">
+                <div class="col-md-12 pt-3">
+                    <h5> {{ data.total_page }} Search Result</h5>
+                </div>
+                <div class="col-md-12">
+                    <app-data-table (outputRow)="getItem($event)" [items]="data.list" [headers]="data.header"
+                        [pageSize]="10" [showPage]="true" (outputPage)="getParams($event)" [currentPage]="data.page"
+                        (outputOption)="navigate($event)" [totalPage]="data.total_page"></app-data-table>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="content-2 " *ngIf="step == 2">
+            <app-admin-campaign-payment-fistar-infor [type]="type" [detail]="detaill" [data]="detail"
+                (close)="getStep($event)">
+            </app-admin-campaign-payment-fistar-infor>
+        </div> -->
+    </div>
+</div>
+
+<app-info-payment [typeShowData]="typeShowDataPayment" [isShowInfoBank]="isShowInfoBankPayment"
+    [buttonSubmit]="idPayment" (ouputSave)="editPayment($event)" [campain]="campain_payment" [data]="dataInfoPayment"
+    *ngIf="isShowPayment" (closeP)="closeP($event)">
+</app-info-payment>

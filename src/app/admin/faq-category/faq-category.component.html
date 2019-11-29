@@ -1,0 +1,41 @@
+<div class="component-admin-faq-category component-admin-try">
+    <!-- <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select> -->
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">FAQ Types</div>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" (click)="addCategory()">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+        </div>
+    </div>
+    <ngx-datatable #myTable class="material" [rows]="categories" [columnMode]="'force'" [headerHeight]="50"
+                   [footerHeight]="50" [rowHeight]="'auto'" [count]="categories.length" [limit]="pageSize">
+        <ngx-datatable-column name="Name" prop="code_nm"></ngx-datatable-column>
+        <ngx-datatable-column [width]="180" name="Action" [sortable]="false" [canAutoResize]="false" [resizeable]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <mat-chip-list class="action">
+                    <i class="material-icons" (click)="editCategory(row)">
+                        edit
+                    </i>
+                    <i class="material-icons" [swal]="deleteSwal" (confirm)="onDelete(row)">
+                        delete
+                    </i>
+                </mat-chip-list>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+
+<swal #deleteSwal text="Are you sure to delete category?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>

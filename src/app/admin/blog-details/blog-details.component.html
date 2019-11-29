@@ -1,0 +1,115 @@
+<div class="component-admin-blog">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading" *ngIf="!blogId">
+                Create blog
+            </div>
+            <div class="admin-heading" *ngIf="blogId">
+                Edit blog
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/blogs"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "title" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter title" [(ngModel)]="blog.title"
+                                    formControlName="title" name="title" />
+                                <div *ngIf="form.controls.title.invalid && (form.controls.title.dirty || form.controls.title.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="form.controls.title.errors.required">
+                                        {{ "title_required" | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "short_description" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" placeholder="Enter short description"
+                                    [(ngModel)]="blog.short_description" formControlName="short_description" name="short_description"></textarea>
+                                <div *ngIf="form.controls.short_description.invalid && (form.controls.short_description.dirty || form.controls.short_description.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="form.controls.short_description.errors.required">
+                                        {{ "short_description_required" | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "content" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <ck-editor [(ngModel)]="blog.content" skin="moono-lisa" language="en" [fullPage]="true"
+                                    formControlName="content" name="content"></ck-editor>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "is_disabled" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <ui-switch size="small" formControlName="is_disabled" [(ngModel)]="blog.is_disabled"
+                                    color="#FF65B1"></ui-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Show on Main page</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <ui-switch size="small" formControlName="show_on_main" [(ngModel)]="blog.show_on_main"
+                                    color="#FF65B1"></ui-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Main image</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <app-admin-resource #resource [resource]="{ url: blog.url, resource_type: blog.resource_type }"
+                                    title="Cover" [resizeToWidth]="500" [aspectRatio]="4 / 3"></app-admin-resource>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/blogs">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" [disabled]="!form.valid" (click)="onSave()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

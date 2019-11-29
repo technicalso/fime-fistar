@@ -1,0 +1,78 @@
+<div class="resource">
+    <div class="form-group" *ngIf="!resource.change_type || resource.change_type != 'deny'" >
+        <div *ngIf="this.needToCrop">
+            <mat-radio-group [(ngModel)]="resource.resource_type">
+                <mat-radio-button value="1">Image Attachment</mat-radio-button>
+                <ng-container *ngIf="!resource.only_image || !resource.only_image">
+                    <mat-radio-button value="2" (change)="resetUrl()">Youtube Url</mat-radio-button>
+                    <mat-radio-button value="3"(change)="returnUrl()">Video Attachment</mat-radio-button>
+                </ng-container>
+            </mat-radio-group>
+        </div>
+    </div>
+    <mat-card class="img-box">
+        <mat-card-subtitle>
+            <div *ngIf="resource.resource_type == 1">
+                <span>Support .png, .jpg, .jpeg</span>
+                <label class="btn btn-outline-primary float-right">
+                    <span>Select Photos</span>
+                    <input class="select-img" type="file" (change)="fileChangeEvent($event)"
+                           accept=".png, .jpg, .jpeg" multiple *ngIf="resource.resource_type == 1">
+                </label>
+            </div>
+            <ng-container *ngIf="!resource.only_image || !resource.only_image">
+            <div *ngIf="resource.resource_type == 2">
+            </div>
+            <div *ngIf="resource.resource_type == 3">
+                <label class="btn btn-outline-primary float-right">
+                    <span>Select Video</span>
+                    <input class="select-img" type="file" (change)="detectVideoChangeEvent($event)"
+                           ng2FileSelect [uploader]="uploader"  accept="video/mp4,video/x-m4v,video/*"/>
+                </label>
+            </div>
+        </ng-container>
+        </mat-card-subtitle>
+        <mat-card-content>
+            <div class="form-group" *ngIf="resource.resource_type == 1">
+                <div class="banner_img" *ngIf="!multiple">
+                    <img [src]="env.rootHost + resource.image_url" *ngIf="resource.image_url"/>
+                    <img [src]="resource.image_fistar_url" *ngIf="resource.image_fistar_url"/>
+                </div>
+                <div>
+                    <div *ngIf="required_upload_file_url" class="text-danger">
+                        {{ "upload_file_url" | translate }}
+                    </div>
+                    <div class="image-crop-container" style="max-width: 100%">
+                        <image-cropper *ngIf="needToCrop" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                                       [aspectRatio]="aspectRatio"
+                                       [resizeToWidth]="resizeToWidth" format="png"
+                                       (imageCropped)="imageCropped($event)"></image-cropper>
+
+                        <img *ngIf="fileBase64 && !needToCrop && !multiple" [src]="fileBase64" style="width: 100%; height: auto" />
+                        <div *ngIf="multiple" style="width: 100%">
+                            <div *ngFor="let item of multiBase64; let i = index;" class="thumbnail-multi-image">
+                                <img [src]="item" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="!resource.only_image || !resource.only_image">
+            <div class="form-group" *ngIf="resource.resource_type == 2">
+                <input type="text" class="form-control" placeholder="Enter link" [(ngModel)]="resource.video_url" name="url" (change)="detectText($event)"/>
+            </div>
+            <div class="form-group" *ngIf="resource.resource_type == 3">
+                <video *ngIf="resource.video_url" width="80%" height="240" controls>
+                    <!-- <source [src]="env.rootHost + resource.video_url">https://api-fistar.fime.vn -->
+                        <source [src]="'https://api-fistar.fime.vn' + resource.video_url">
+                </video>
+                <video *ngIf="resource.video_fistar_url" width="80%" height="240" controls>
+                    <source [src]="resource.video_fistar_url">
+                </video>
+                <span class="video-name" *ngIf="videoName">{{videoName}}</span>
+            </div>
+            </ng-container>
+        </mat-card-content>
+    </mat-card>
+
+</div>

@@ -1,0 +1,404 @@
+<div class="app-admin-fistar-campaign-history">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading">
+                {{ "Campaign History" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/fistar"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <app-admin-fistar-tab></app-admin-fistar-tab><br>
+    <div class="row">
+        <div class="col-md-4">
+            <div
+                style="width: 150px;overflow: hidden;height: 150px;display: inline-block; border-radius: 50%; vertical-align: middle; margin-right: 20px; border: 1px solid #ADADAD;">
+                <img class="img" style="width: 150px; height: 150px;object-fit: cover"
+                    [src]="commonService.getImageLink(fistar.picture, 'fistars','original')" />
+            </div>
+            <div class="name-fistar" style="display: inline-block; width: calc(100% - 170px); vertical-align: middle">
+                <b>
+                    <h1>{{fistar.fullname}}</h1>
+                </b>
+                <p>{{fistar.id}}</p>
+            </div>
+        </div>
+        <!-- <div class="col-md-2">
+                <b><h4>{{fistar.fullname}}</h4></b>
+                <p>jun, hi-hyun</p>
+            </div> -->
+        <div class="col-md-8">
+            <div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>Relation Campaign</p>
+                                <h3>{{staticCount.total_relation}} Total</h3>
+                            </td>
+                            <td>{{staticCount.status_matching}} Matching</td>
+                            <td>{{staticCount.status_ready}} Ready</td>
+                            <td>{{staticCount.status_ongoing}} On-going</td>
+                            <td>{{staticCount.status_closed}} Closed</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                <p>Try Campaign </p>
+                                <h3>{{staticCount.total_try}} total</h3>
+                            </th>
+                            <td (click)="openModalMess(scrap)"><a href="javascript:void(0)">{{staticCount.scrap}}
+                                    Scrap</a></td>
+                            <td>{{staticCount.status_apply}} Apply</td>
+                            <td>{{staticCount.status_request}} Request</td>
+                            <td>{{staticCount.recommended}} Recommended</td>
+                            <td>{{staticCount.status_reject}} Rejected</td>
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row mr-3" style="justify-content: flex-end">
+        <button (click)="openModalMess(sendmess)" class="datatable-action-button mr-3 btn-info btn">
+            <span>Send message</span>
+        </button>
+        <button [swal]="deleteSwal" hidden class="datatable-action-button btn-outline-dark btn">
+            <span>Delete</span>
+        </button>
+    </div>
+
+    <ngx-datatable [scrollbarH]="false" #myTable class="material" [rows]="fistar.matchings" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
+        [sorts]="[{prop: 'm_id', dir: 'desc'}]" [rowHeight]="'auto'" [count]="fistar.matchings.length" [limit]="10">
+        <ngx-datatable-column [frozenLeft]="false" [width]="50" [sortable]="false" [canAutoResize]="false"
+            [draggable]="false" [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Id" [width]="10" prop="m_id" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column [width]="300">
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <label for="" style="margin-left:20px">Campaign name</label>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <tr style="vertical-align: top;">
+                    <a [routerLink]="['/admin/campaign/edit/'+row.cp_id]">
+                        <td><img style="margin-right:20px;width:100px;height: 100px;"
+                                [src]="commonService.getCampaignThumb(row.campaign)" /></td>
+                        <td><label for="">{{row.campaign.cp_name.substring(0,100)}}...</label> </td>
+                    </a>
+                </tr>
+
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                States
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <label *ngIf="row.campaign.cp_status==59">Matching</label>
+                <label *ngIf="row.campaign.cp_status==60">Ready</label>
+                <label *ngIf="row.campaign.cp_status==61">On-going</label>
+                <label *ngIf="row.campaign.cp_status==62">Closed</label>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <label>Brand</label>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <label>{{row.campaign.cp_brand}}</label>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Matching State
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <!-- <label *ngIf="row.campaign.cp_status==59" >{{row.matching_status.label.fistar_status}}</label>
+                    <label *ngIf="row.campaign.cp_status==60" >{{row.matching_channel[0].review_status.label.partner_status}}</label> -->
+                <!-- {{row.matching_status.label.fistar_status.split('→')[row.matching_status.label.fistar_status.split('→').length -1]}} -->
+                <ng-container [ngSwitch]="row.matching_status.m_status">
+                    <label *ngSwitchCase="1">Request</label>
+                    <label *ngSwitchCase="2">Cancel</label>
+                    <label *ngSwitchCase="3">Reject</label>
+                    <label *ngSwitchCase="4">Re-request</label>
+                    <label *ngSwitchCase="5">Cancel Re-request</label>
+                    <label *ngSwitchCase="6">Approve</label>
+                    <label *ngSwitchCase="7">Cancel</label>
+                    <label *ngSwitchCase="8">Matched</label>
+                    <label *ngSwitchCase="9">Apply</label>
+                    <label *ngSwitchCase="10">Cancel</label>
+                    <label *ngSwitchCase="11">Reject</label>
+                    <label *ngSwitchCase="12">Re-request</label>
+                    <label *ngSwitchCase="13">Cancel Re-request</label>
+                    <label *ngSwitchCase="14">Confirm </label>
+                    <label *ngSwitchCase="15">Cancel</label>
+                    <label *ngSwitchCase="16">Matched</label>
+                </ng-container>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <label>Cost</label>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <label>{{row.campaign.total_cost_selected.estimated_cost}}</label>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="History" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <a style="cursor: pointer; color: blue; text-decoration: underline"
+                    (click)="openModal(template,row)">view</a>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+<swal #deleteSwal text="Are you sure to delete Scrap?" type="question" [showCancelButton]="true" [focusCancel]="true">
+</swal>
+
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Fistar history</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <h1>{{fistar.fullname}}</h1>
+        <p>{{campaign.cp_name}}</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Step 1
+                        <span *ngIf="[1,4,9].indexOf(lastestHistory.m_status)>-1" style="color: red">
+                            *</span>
+                    </th>
+                    <th>Step 2
+                        <span *ngIf="[6,14].indexOf(lastestHistory.m_status)>-1" style="color: red">
+                            *</span>
+                    </th>
+                    <th>Step 3
+                        <span *ngIf="[4,12].indexOf(lastestHistory.m_status)>-1" style="color: red">
+                            *</span>
+                    </th>
+                    <th>Step 4
+                        <span *ngIf="[8,16].indexOf(listHistory[0].m_status)>-1" style="color: red">
+                            *</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="ascHitory.m_status > 8">
+                    <td>fistar Apply</td>
+                    <td>Partner Approve</td>
+                    <td>Partner Confirm</td>
+                    <td>Matched</td>
+                </tr>
+                <tr *ngIf="ascHitory.m_status < 9">
+                    <td>Partner Request</td>
+                    <td>Fistar Approve</td>
+                    <td>Partner Confirm</td>
+                    <td>Matched</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="m_status == 1" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 2)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Cancel</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 3)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Reject</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 6)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Approve</label>
+    </div>
+    <div *ngIf="m_status == 2" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 1)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Re-request</label>
+    </div>
+    <div *ngIf="m_status == 3" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 4)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Re-request</label>
+    </div>
+    <div *ngIf="m_status == 4" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 5)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Cancel</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 3)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Reject</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 6)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Approve</label>
+    </div>
+    <div *ngIf="m_status == 5" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 9)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Re-request</label>
+    </div>
+    <div *ngIf="m_status == 6" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 7)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Cancel</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 8)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Confirm</label>
+    </div>
+    <div *ngIf="m_status == 7" class="btn-group alignRight">
+        <p>No action, this fistar is canceled</p>
+    </div>
+    <div *ngIf="m_status == 8" class="btn-group alignRight">
+        <p>No action, this fistar is matched</p>
+    </div>
+    <div *ngIf="m_status == 9" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 11)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Reject</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 14)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Confirm</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 10)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Cancel</label>
+    </div>
+    <div *ngIf="m_status == 10" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 9)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Re-request</label>
+    </div>
+    <div *ngIf="m_status == 11" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 1)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Re-request</label>
+    </div>
+    <div *ngIf="m_status == 12" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 11)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Reject</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 14)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Confirm</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 13)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Cancel</label>
+    </div>
+    <div *ngIf="m_status == 13" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 1)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Re-request</label>
+    </div>
+    <div *ngIf="m_status == 14" class="btn-group alignRight">
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 15)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Cancel</label>
+        <label class="btn btn-primary" (click)="updateDoingStatus(m_id, 16)" [(ngModel)]="radioModel" btnRadio="Left"
+            tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Approve</label>
+    </div>
+    <div *ngIf="m_status == 15" class="btn-group alignRight">
+        <p>No action, this fistar is canceled</p>
+    </div>
+    <div *ngIf="m_status == 16" class="btn-group alignRight">
+        <p>No action, this fistar is matched</p>
+    </div>
+    <table class="table table-bordered">
+        <tr *ngFor="let item of listHistory">
+            <td>{{item.label.description}}</td>
+            <td>{{item.created_at}}</td>
+            <!-- <ng-container *ngFor="let value of item.matching_history;index as i "> -->
+            <!-- <td *ngIf="i==0">
+                    <label>
+                        {{value.m_user}}
+                        {{value.label.fistar_status.substring(value.label.fistar_status.lastIndexOf(' '), value.label.fistar_status.length)}}
+                    </label>
+
+                </td> -->
+            <td>
+                <span class="text-info" style="margin-right:10px">{{item.m_user}}</span>
+                <ng-container [ngSwitch]="item.m_status">
+                    <label *ngSwitchCase="1">Request</label>
+                    <label *ngSwitchCase="2">Cancel</label>
+                    <label *ngSwitchCase="3">Reject</label>
+                    <label *ngSwitchCase="4">Re-request</label>
+                    <label *ngSwitchCase="5">Cancel Re-request</label>
+                    <label *ngSwitchCase="6">Approve</label>
+                    <label *ngSwitchCase="7">Cancel</label>
+                    <label *ngSwitchCase="8">Matched</label>
+                    <label *ngSwitchCase="9">Apply</label>
+                    <label *ngSwitchCase="10">Cancel</label>
+                    <label *ngSwitchCase="11">Reject</label>
+                    <label *ngSwitchCase="12">Re-request</label>
+                    <label *ngSwitchCase="13">Cancel Re-request</label>
+                    <label *ngSwitchCase="14">Confirm </label>
+                    <label *ngSwitchCase="15">Cancel</label>
+                    <label *ngSwitchCase="16">Matched</label>
+                </ng-container>
+                <!-- {{value.label.partner_status.substring(value.label.partner_status.lastIndexOf(' '), value.label.partner_status.length)}} -->
+            </td>
+            <!-- </ng-container> -->
+        </tr>
+    </table>
+
+</ng-template>
+
+
+
+<ng-template #sendmess>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Send message</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="form" novalidate>
+            <input type="text" class="form-control" placeholder="Title" [(ngModel)]="contentMessage.title"
+                formControlName="title" /> <br>
+            <textarea name="" class="form-control" id="" cols="30" rows="10" placeholder="Message"
+                [(ngModel)]="contentMessage.message" formControlName="message"></textarea>
+            <div class="actions d-flex ">
+                <button class="btn btn-default mr-1" (click)="modalRef.hide()">
+                    <i class="material-icons align-text-bottom">
+                        cancel
+                    </i> <span> {{ "cancel" | translate }}</span>
+                </button>
+                <button class="btn btn-primary mr-1" (click)="sendMessage()"
+                    [disabled]="!contentMessage.message || !contentMessage.title || selected==''">
+                    <span> {{ "Send" | translate }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #scrap>
+    <div class="modal-header">
+        <h2>fistar Scrap</h2>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <h3>{{fistar.fullname}}</h3>
+        <ngx-datatable [scrollbarH]="false" [selected]="selectedScrap" (select)='onSelect($event)' #myTable
+            class="material" [rows]="scrapData" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+            [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" [sorts]="[{prop: 'm_id', dir: 'desc'}]"
+            [rowHeight]="'auto'" [count]="scrapData.length" [limit]="10">
+            <ngx-datatable-column [frozenLeft]="false" [width]="50" [sortable]="false" [canAutoResize]="false"
+                [draggable]="false" [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+            </ngx-datatable-column>
+            <ngx-datatable-column>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <label>{{row.created_at}}</label>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <label>{{row.campaign.cp_name}}</label>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+        <button (confirm)="deleteScrap()" [disabled]="selectedScrap.length==0" [swal]="deleteSwal" class="datatable-action-button btn-outline-dark btn">
+            <span>Delete</span>
+        </button>
+    </div>
+</ng-template>

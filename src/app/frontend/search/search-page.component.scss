@@ -1,0 +1,64 @@
+@import "~scss/mixins";
+
+.search-page {
+  padding-top: 50px;
+  .main-wrap {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  .my-header{
+    width: 100%;
+  }
+
+  .content{
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 25px 0;
+
+    &.edit{
+      padding-top: 0;
+    }
+
+    .loading-block {
+      text-align: center;
+      margin-top: 50px;
+
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+}
+
+@include small-desktop {
+  .search-page {
+    padding: 30px 0;
+
+    .content {
+      padding-top: 25px;
+    }
+  }
+}
+
+@include tablet {
+  .search-page {
+    padding: 30px 0;
+
+    .content {
+      padding-top: 20px;
+    }
+  }
+}
+
+@include phone {
+  .search-page {
+    padding: 20px 0;
+
+    .content {
+      padding: 20px 10px;
+    }
+  }
+}

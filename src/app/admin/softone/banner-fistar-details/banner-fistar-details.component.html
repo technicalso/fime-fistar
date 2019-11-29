@@ -1,0 +1,331 @@
+<div class="app-admin-banner-fistar">
+
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading" *ngIf="!bannerId">
+                BANNER SLIDER > Add
+            </div>
+            <div class="admin-heading" *ngIf="bannerId">
+                BANNER SLIDER > Edit
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/banner-fistar"><i
+                        class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label><label style="color:red">*</label>Name</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter name"
+                                    [(ngModel)]="banner.sb_name" formControlName="sb_name" name="sb_name"
+                                    maxlength="100" />
+                                <!-- <div *ngIf="this.error && this.error.error && this.error.error.sb_name && this.error.error.sb_name[0]"
+                                style="color: red">
+                                Name is required
+                            </div> -->
+                                <div *ngIf="active==false &&form.controls.sb_name.invalid" style="color: red">
+                                    Name is required
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Main description</label> (max 100 characters)
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" placeholder="Enter main description"
+                                    maxlength="100" rows="4" [(ngModel)]="banner.main_description"
+                                    formControlName="main_description" name="main_description"></textarea>
+                            </div>
+                            <div *ngIf="form.controls.main_description.invalid && (form.controls.main_description.dirty || form.controls.main_description.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.main_description.errors.required">
+                                    Main description is required
+                                </div>
+                                <div *ngIf="form.controls.main_description.errors.maxlength">
+                                    Main description max 100 characters
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Sub description</label> (max 200 characters)
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" placeholder="Enter sub description"
+                                    maxlength="200" rows="4" [(ngModel)]="banner.sub_description"
+                                    formControlName="sub_description" name="sub_description"></textarea>
+                            </div>
+                            <div *ngIf="form.controls.sub_description.invalid && (form.controls.sub_description.dirty || form.controls.sub_description.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.sub_description.errors.required">
+                                    Sub description is required
+                                </div>
+                                <div *ngIf="form.controls.sub_description.errors.maxlength">
+                                    Main description max 200 characters
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Image URL</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter url"
+                                    [(ngModel)]="banner.image_url" formControlName="image_url" name="image_url" />
+                            </div>
+                            <div *ngIf="active==false && form.controls.image_url.invalid" style="color: red">
+                                Image URL must be in correct format (example: http://google.com)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Target type</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <select class='form-control' [(ngModel)]="banner.image_url_target"
+                                    formControlName="image_url_target" name="image_url_target">
+                                    <option value=""></option>
+                                    <option value="_blank">_blank</option>
+                                    <option value="_self">_self</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Button1 Text</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter button1 text"
+                                    [(ngModel)]="banner.button_one" formControlName="button_one" />
+                            </div>
+                            <div *ngIf="form.controls.button_one.invalid && (form.controls.button_one.dirty || form.controls.button_one.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.button_one.errors.required">
+                                    Button1 Text is required
+                                </div>
+                            </div>
+
+                            <div *ngIf="form.controls.button_one.invalid " class="text-danger">
+                                Button1 Text max 255 characters
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Button1 link</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter button1 link"
+                                    [(ngModel)]="banner.link_button_one" formControlName="link_button_one" />
+                            </div>
+                            <div *ngIf="form.controls.link_button_one.invalid && (form.controls.link_button_one.dirty || form.controls.link_button_one.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.link_button_one.errors.required">
+                                    Button1 link is required
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Button1 Target Type</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <select class='form-control' [(ngModel)]="banner.target_button_one"
+                                    formControlName="target_button_one" name="target_button_one">
+                                    <option value=""></option>
+                                    <option value="_blank">_blank</option>
+                                    <option value="_self">_self</option>
+                                </select>
+                            </div>
+                            <div *ngIf="form.controls.target_button_one.invalid && (form.controls.target_button_one.dirty || form.controls.target_button_one.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.target_button_one.errors.required">
+                                    Button1 Target Type is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Button2 Text</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter button2 text"
+                                    [(ngModel)]="banner.button_two" formControlName="button_two" />
+                            </div>
+                            <div *ngIf="form.controls.button_two.invalid && (form.controls.button_two.dirty || form.controls.button_two.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.button_two.errors.required">
+                                    Button2 Text is required
+                                </div>
+                            </div>
+                            <div *ngIf="form.controls.button_two.invalid " class="text-danger">
+                                Button1 Text max 255 characters
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Button2 link</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter button2 link"
+                                    [(ngModel)]="banner.link_button_two" formControlName="link_button_two"
+                                    name="link_button_two" />
+                            </div>
+                            <div *ngIf="form.controls.link_button_two.invalid && (form.controls.link_button_two.dirty || form.controls.link_button_two.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.link_button_two.errors.required">
+                                    Button2 link is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Button2 Target Type</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <select class='form-control' [(ngModel)]="banner.target_button_two"
+                                    formControlName="target_button_two" name="target_button_two">
+                                    <option value=""></option>
+                                    <option value="_blank">_blank</option>
+                                    <option value="_self">_self</option>
+                                </select>
+                            </div>
+                            <div *ngIf="form.controls.target_button_two.invalid && (form.controls.target_button_two.dirty || form.controls.target_button_two.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.target_button_two.errors.required">
+                                    Button2 Target Type is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label style="color:red">*</label><label>Period</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group period d-flex">
+
+                                <div style="display: inline-block; width: 200px">
+                                    <div class="calendar-control">
+                                        <label class="example-input-wrapper">
+                                            <input placeholder="Period from:" formControlName="sb_period_start"
+                                                [(ngModel)]="banner.sb_period_start"
+                                                [owlDateTimeTrigger]="sb_period_start" [max]="banner.sb_period_end"
+                                                class="form-control" [owlDateTime]="sb_period_start"
+                                                [readonly]="'true'">
+                                            <owl-date-time #sb_period_start></owl-date-time>
+                                        </label>
+                                    </div>
+                                    <div *ngIf="active==false && form.controls.sb_period_start.invalid"
+                                        class="text-danger">
+                                        <div>
+                                            Period from is required
+                                        </div>
+                                    </div>
+                                </div>
+                                ~
+                                <div style="display: inline-block; width: 200px">
+                                    <div class="calendar-control">
+                                        <label class="example-input-wrapper">
+                                            <input placeholder="Period to:" formControlName="sb_period_end"
+                                                [(ngModel)]="banner.sb_period_end" [owlDateTimeTrigger]="sb_period_end"
+                                                [min]="banner.sb_period_start" class="form-control"
+                                                [owlDateTime]="sb_period_end" [readonly]="'true'">
+                                            <owl-date-time #sb_period_end></owl-date-time>
+                                        </label>
+                                    </div>
+                                    <div *ngIf="active==false && form.controls.sb_period_end.invalid"
+                                        class="text-danger">
+                                        <div>
+                                            Period to is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label style="color:red">*</label><label>Cover image</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <app-softone-resource #resource
+                                    [resource]="{url: null , resource_type: '1', image_url: null, image_fistar_url: image, only_image: true}"
+                                    [resizeToWidth]="1920" [aspectRatio]="19/6"></app-softone-resource>
+                            </div>
+                            <div *ngIf="resource.isChanged==false  && bannerId == undefined && active==false">
+                                <label style="color:red">Cover image is required</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/banner-fistar">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <ng-template #add>
+                <button class="btn btn-primary mr-1" (click)="save()">
+                    <i class="material-icons align-text-bottom">
+                        save
+                    </i> <span> {{ "add" | translate }}</span>
+                </button>
+            </ng-template>
+            <button *ngIf="bannerId != undefined ; else add" class="btn btn-primary mr-1" (click)="update()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,12 @@
+@import '~scss/mixins';
+@import '~scss/variables';
+
+.guide-dialog {
+    img {
+        max-width: 100%;
+    }
+
+    .img-des {
+        margin-top: 10px;
+    }
+}

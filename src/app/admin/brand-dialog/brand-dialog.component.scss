@@ -1,0 +1,14 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.admin-try-dialog {
+}
+
+.btn.btn-primary {
+  background-color: #20a8d8 !important;
+  border-color: #20a8d8 !important;;
+}
+::ng-deep {
+	.brand-content .option{display:none}
+}

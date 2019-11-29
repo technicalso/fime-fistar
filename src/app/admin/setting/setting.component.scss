@@ -1,0 +1,10 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-setting {
+    padding-bottom: 30px;
+    .multi-action {
+        margin-top: 30px;
+    }
+}

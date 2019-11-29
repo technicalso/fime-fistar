@@ -1,0 +1,95 @@
+<div class="app-admin-system-sns">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                SYSTEM > SNS CHANNEL
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="row">
+        <div class="col">
+            <h5>{{total_item}} Total</h5>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" (click)="display('add')">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>SNS CHANNEL ADD</span>
+            </button>
+        </div>
+    </div>
+    <div class="table">
+        <table>
+            <tr>
+                <th *ngFor="let item of data.title">
+                    {{item}}
+                </th>
+            </tr>
+            <tr *ngFor="let item of data.list; index as key">
+                <td>{{key + 1}}</td>
+                <td><a routerLink="/admin/system/sns/detail/{{item.sns_id}}/{{item.sns_name}}" >{{item.sns_name}}</a></td>
+                <!-- <td><a>{{item.sns_name}}</a></td> -->
+                <td><a [href]="item.sns_url" target="_blank">{{item.sns_url}}</a></td>
+                <td *ngIf="item.sns_state === 1">Enabled</td>
+                <td *ngIf="item.sns_state === 0">Disabled</td>
+                <td class='control'>
+                    <button class="btn-control">...</button>
+                    <div class="sub-control">
+                        <a (click)="display('edit',item)">Edit</a>
+                        <a *ngIf="item.sns_state === 1" (click)="disabled(item)">Disabled</a>
+                        <a *ngIf="item.sns_state === 0" (click)="disabled(item)">Enabled</a>
+                        <a (click)="delete(item.sns_id)">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <!-- <ul *ngIf="pager && pager['pages']?.length > 0" class="pagination mt-4 text-right">
+            <li [ngClass]="{disabled:pager['currentPage'] === 1}">
+                <a (click)="choosepage(pager.currentPage - 1)">
+                    Pre
+                </a>
+            </li>
+            <li *ngFor="let page of pager['pages']" [ngClass]="{active:pager['currentPage'] === page}">
+                <a (click)="choosepage(page)">{{page}}</a>
+            </li>
+            <li [ngClass]="{disabled:pager['currentPage'] === pager['totalPages']}">
+                <a (click)="choosepage(pager['currentPage'] + 1)">
+                    Next
+                </a>
+            </li>
+        </ul> -->
+    </div>
+</div>
+<div class="modal-custom" *ngIf="displayPopup">
+    <div class='update modal-content'>
+        <h5 class="">{{titlePopup}}</h5>
+        <div class="form">
+            <form [formGroup]="formGroup">
+                <div class="form-group">
+                    <span>Name</span>
+                    <input type="text" formControlName="sns_name">
+                </div>
+                <div class="form-group">
+                    <span>Url</span>
+                    <input type="text" formControlName="sns_url">
+                </div>
+                <div class="form-group">
+                    <span>State</span>
+                    <select formControlName="sns_state">
+                        <option value="0">Disable</option>
+                        <option value="1">Enable</option>
+                    </select>
+                </div>
+                <div style="margin:  0 auto;">
+                    <button style="margin-right: 20px" (click)="save(actionPopup)" class="btn btn-primary"
+                        [disabled]="!formGroup.valid">{{btnPopup}}</button>
+                    <button (click)="hide()" class="btn btn-default">Cancel</button>
+
+                </div>
+            </form>
+        </div>
+        <div class="close" (click)="hide()"><i class="fas fa-times"></i></div>
+    </div>
+</div>

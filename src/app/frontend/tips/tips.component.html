@@ -1,0 +1,83 @@
+<div class="tips">
+    <div class="container">
+        <section class="tip" *ngIf="tips.length > 0 && !isLoading">
+            <div class="tip-wrap">
+                <div class="row">
+                    <div class="col-lg-8 col-md-12 tip-body">
+                        <div class="inner-body">
+                            <div class="video-block covers">
+                                <div class="img-container img">
+                                    <carousel [interval]="intervalTime" class="carousel">
+                                        <slide class="banner" *ngIf="mainTip.cover_img1">
+                                            <img class="banner-img pointer" [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img1" [routerLink]="['/tips/' + mainTip.ti_id]">
+                                        </slide>
+                                        <slide class="banner"  *ngIf="mainTip.cover_img2">
+                                            <img class="banner-img pointer" [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img2" [routerLink]="['/tips/' + mainTip.ti_id]">
+                                        </slide>
+                                        <slide class="banner" *ngIf="mainTip.cover_img3">
+                                            <img class="banner-img pointer" [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img3" [routerLink]="['/tips/' + mainTip.ti_id]">
+                                        </slide>
+                                        <slide class="banner" *ngIf="mainTip.cover_img4">
+                                            <img class="banner-img pointer" [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img4" [routerLink]="['/tips/' + mainTip.ti_id]">
+                                        </slide>
+                                    </carousel>
+                                </div>
+                            </div>
+                            <div class="video-list-block pointer" [routerLink]="['/tips/' + mainTip.ti_id]">
+                                <div class="video-content">
+                                    <a class="video-title">{{ mainTip.subject }}</a>
+                                    <p class="time">
+                                        {{ mainTip.time }} {{ mainTip.timeUnit | translate }} {{ 'ago' | translate }}
+                                    </p>
+                                    <p class="tip_head">{{mainTip.tips_desc_head }}</p>
+                                    <p class="tip_body">{{mainTip.tips_desc_body }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tip-list">
+                            <div class="tip-item" *ngFor="let tip of otherTips; let i = index;">
+                                <div class="video-block covers">
+                                    <div class="img-container img pointer" [routerLink]="['/tips/' + tip.ti_id]">
+                                        <img class="banner-img post-img " [src]="env.rootHost + tip.img_url + '/' + tip.cover_img1">
+                                    </div>
+                                </div>
+                                <div class="tip-content pointer" [routerLink]="['/tips/' + tip.ti_id]">
+                                    <a class="video-title">{{ tip.subject }}</a>
+                                    <p class="time">
+                                        {{ tip.time }} {{ tip.timeUnit | translate }} {{ 'ago' | translate }}
+                                    </p>
+                                    <p class="tip_head">{{tip.tips_desc_head }}</p>
+                                    <p class="tip_body">{{tip.tips_desc_body }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-4 aside-list">
+                        <header class="top-read">
+                            <span>Top View</span>
+                        </header>
+                        <div class="post-list-block">
+                            <a class="post-item pointer" *ngFor="let item of listTip; let i = index;">
+                                <div class="image-container">
+                                    <img class="banner-img post-img" [src]="env.rootHost + item.img_url + '/' + item.cover_img1" [routerLink]="['/tips/' + item.ti_id]">
+                                </div>
+                                <div class="content post-title" [routerLink]="['/tips/' + item.ti_id]">
+                                    <h2>
+                                        {{item.subject}}
+                                    </h2>
+                                    <p class="time">
+                                        {{ item.time }} {{ item.timeUnit | translate }} {{ 'ago' | translate }}
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="loading-block" *ngIf="isLoading">
+            <img src="assets/images/loading.gif" alt="loading">
+        </div>
+    </div>
+</div>

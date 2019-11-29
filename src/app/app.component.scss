@@ -1,0 +1,595 @@
+@import "~scss/mixins";
+
+::ng-deep {
+  body {
+    font-family: 'Roboto-Regular';
+  }
+  * {
+    outline: none !important;
+  }
+  .display-none{
+    display:none!important
+  }
+
+  button {
+    outline: none !important;
+  }
+
+  .modal-content {
+    padding: 20px;
+
+    .btn-dialog-close {
+      position: absolute;
+      right: 10px;
+      top: 0;
+    }
+
+    .modal-actions {
+      margin-top: 30px;
+      text-align: right;
+    }
+  }
+
+  .admin-heading {
+    padding: 0 0 0.7em;
+    margin-bottom: 0.7em;
+    border-top-left-radius: .375rem;
+    border-top-right-radius: .375rem;
+    color: #2a2a2a;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-bottom: 1px solid #ebeef2;
+    text-transform: uppercase;
+  }
+
+  .actions {
+    margin-top: 30px;
+  }
+
+  .btn-hero {
+    padding: .75rem 1.5rem;
+    font-size: 1rem;
+    text-decoration: none !important;
+    cursor: pointer;
+    margin-right: 10px;
+    outline: none !important;
+    background-color: transparent;
+
+    &.btn-cancel {
+      background: #fff;
+      border-radius: .375rem;
+      text-shadow: none;
+      color: #EB5C88 !important;
+      border: 1px solid #EB5C88;
+      line-height: calc((1rem * 1.25) + 4px);
+      text-transform: uppercase;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    &.btn-danger:focus,
+    &.btn-danger:active,
+    &.btn-danger:hover,
+    &.btn-danger {
+      background: -webkit-gradient(linear, left top, right top, from($gradient_left), to($gradient_right)) !important;
+      background: linear-gradient(to right, $gradient_left, $gradient_right) !important;
+      -webkit-box-shadow: 0 0 0 0 $gradient_left, 0 0 0 0 $gradient_right !important;
+      box-shadow: 0 0 0 0 $gradient_left, 0 0 0 0 $gradient_right !important;
+      border-radius: .375rem;
+      text-shadow: none;
+      border: none;
+      line-height: calc((1rem * 1.25) + 4px);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    &[disabled]:focus,
+    &[disabled]:active,
+    &[disabled]:hover,
+    &[disabled] {
+      background: #ccc !important;
+    }
+  }
+
+  .ngx-datatable {
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    .datatable-header-cell-label {
+      font-size: 16px;
+    }
+
+    .datatable-body-cell-label {
+      font-size: 14px;
+
+      .link {
+        color: #eb5c88 !important;
+      }
+
+      .img {
+        max-width: 100%;
+        width: 120px;
+      }
+    }
+
+    .datatable-body .datatable-row-wrapper {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+
+    .btn-action {
+      margin-right: 30px;
+      display: inline-block;
+      font-weight: bold;
+      cursor: pointer;
+
+      &.btn-edit {
+        color: #7fbdda !important;
+      }
+
+      &.btn-delete {
+        color: #eb5c88 !important;
+      }
+    }
+  }
+
+  .mat-chip .mat-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    margin-right: 5px;
+  }
+
+
+  .mat-datetimepicker-calendar-header {
+    background: #ccc;
+    color: #fff;
+
+    .mat-datetimepicker-calendar-header-date-time {
+      font-size: 20px
+    }
+  }
+
+  .home {
+    .main-wrap {
+      .banner {
+        .carousel {
+          .slide {
+            .carousel-control-next,
+            .carousel-control-prev {
+              width: auto !important;
+              color: #fff;
+            }
+
+            .carousel-control-prev {
+              left: 20px;
+              cursor: pointer;
+            }
+
+            .carousel-control-next {
+              right: 20px;
+              cursor: pointer;
+            }
+
+            .carousel-indicators {
+              bottom: 20px;
+              margin-bottom: 0;
+
+              li {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                margin-left: 10px;
+                margin-right: 10px;
+                cursor: pointer;
+                background-color: #f14c7f;
+              }
+
+              li.active {
+                background-color: #fff;
+              }
+            }
+          }
+        }
+      }
+
+      .try-me {
+        .carousel.slide {
+          position: static;
+        }
+
+        .carousel {
+          position: static;
+
+          .slide {
+            .carousel-control-next,
+            .carousel-control-prev {
+              width: auto !important;
+              cursor: pointer;
+
+              span {
+                width: 10px;
+                height: 10px;
+              }
+            }
+
+            .carousel-control-prev {
+              top: unset;
+              padding: 10px 10px;
+              background-color: #e1e1e1;
+              bottom: 160px;
+              left: -5px;
+              // right: 60px;
+            }
+
+            .carousel-control-next {
+              top: unset;
+              padding: 10px 10px;
+              background-color: #e1e1e1;
+              bottom: 160px;
+              left: unset;
+              right: 5px;
+            }
+
+            .carousel-indicators {
+              bottom: -30px;
+              left: -275px;
+              right: unset;
+              margin-bottom: 0;
+              margin-right: 0;
+              margin-left: 0;
+
+              li {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                margin-right: 20px;
+                background-color: #B7B7B7;
+              }
+
+              li.active {
+                background-color: #f14c7f;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .carousel-control-prev-icon {
+    background-image: url("/assets/icons/chevron-left_64.png");
+  }
+
+  .carousel-control-next-icon {
+    background-image: url("/assets/icons/chevron-right-icon.png");
+  }
+
+  .carousel-control-next, .carousel-control-prev {
+    opacity: 1;
+  }
+
+  .carousel-control-next:focus,
+  .carousel-control-next:hover,
+  .carousel-control-prev:focus,
+  .carousel-control-prev:hover {
+    opacity: 1;
+  }
+
+  .comment-content {
+
+    a {
+      font-size: 12px;
+      font-family: 'Roboto-Regular';
+      color: #222;
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover {
+        color: #f14c7f;
+      }
+    }
+  }
+
+  .img-zoom-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .img-zoom-lens {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    /*set the size of the lens:*/
+    width: 135px;
+    height: 100px;
+  }
+
+  .img-zoom-result {
+    background-color: #fff;
+    z-index: 1000;
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 0;
+    border: 1px solid #d4d4d4;
+    /*set the size of the result div:*/
+    width: 540px;
+    height: 400px;
+  }
+
+  .review-create .mat-card:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+  }
+
+  .review-create .mat-card-subtitle:not(:first-child), .mat-card-title:not(:first-child) {
+    margin-top: 0 !important;
+  }
+
+  .review-create .mat-card {
+    padding: 0;
+  }
+
+  .notification .content .notification-item .notification-detail .notification-content-wrap p {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    width: 100%;
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: #222;
+  }
+
+  .faqs {
+    .content {
+      .card {
+        border: none;
+        border-bottom: 1px solid #ddd;
+        border-radius: unset;
+
+        .card-header {
+          padding: 10px 15px;
+          background-color: #fff;
+          border: none;
+
+          .panel-title {
+            .btn-link {
+              color: #222;
+              font-size: 14px;
+              font-family: 'Roboto-Regular';
+              font-weight: 600;
+              text-decoration: none;
+              white-space: unset;
+              text-align: left;
+
+              &:hover {
+                color: #f14c7f;
+              }
+            }
+          }
+
+          &:first-child {
+            border-radius: unset;
+          }
+        }
+
+        .collapse {
+          padding: 0px 40px;
+
+          .card-body {
+            padding: 0 0px 15px;
+            color: #666;
+            font-size: 13px;
+            white-space: pre-line;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+::ng-deep {
+  @include tablet {
+    .home {
+      .main-wrap {
+        .banner {
+          .carousel {
+            .slide {
+              .carousel-control-prev {
+                left: 15px;
+              }
+
+              .carousel-control-next {
+                right: 15px;
+              }
+
+              .carousel-indicators {
+              }
+            }
+          }
+        }
+        .try-me {
+          .carousel {
+            .slide {
+              .carousel-control-prev {
+                top: unset;
+                padding: 10px 10px;
+                background-color: #e1e1e1;
+                bottom: 490px;
+                left: -5px;
+                // right: 60px;
+              }
+  
+              .carousel-control-next {
+                top: unset;
+                padding: 10px 10px;
+                background-color: #e1e1e1;
+                bottom: 490px;
+                left: unset;
+                right: -5px;
+              }
+              .carousel-indicators {
+                display: none;
+                bottom: -35px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .faqs .content .card .card-header {
+      padding: 10px 0;
+    }
+
+    header .top-header .main-wrap .header-menu .header-menu-right .menu-block .mobile-menu-layer {
+      width: 350px !important;
+    }
+
+    .mat-menu-item.nav-item {
+      width: 100% !important;
+    }
+  }
+
+  @include phone {
+    .home {
+      .main-wrap {
+        .banner {
+          .carousel {
+            .slide {
+              .carousel-control-prev {
+                left: 5px;
+                height: 50%;
+                transform: translateY(50%);
+              }
+
+              .carousel-control-next {
+                right: 5px;
+                height: 50%;
+                transform: translateY(50%);
+              }
+
+              .carousel-indicators {
+              }
+            }
+          }
+        }
+        .try-me {
+          .carousel {
+            .slide {
+              .carousel-control-prev {
+                top: unset;
+                padding: 10px 10px;
+                background-color: #e1e1e1;
+                bottom: 515px;
+                left: -5px;
+                // right: 60px;
+              }
+  
+              .carousel-control-next {
+                top: unset;
+                padding: 10px 10px;
+                background-color: #e1e1e1;
+                bottom: 515px;
+                left: unset;
+                right: -5px;
+              }
+              .carousel-indicators {
+                display: none;
+                bottom: -35px;
+              }
+            }
+          }
+        }
+      }
+    }
+    header .top-header .main-wrap .header-menu .header-menu-right .menu-block .mobile-menu-layer {
+      width: 80% !important;
+    }
+    .faqs .content .card .card-header {
+      padding: 10px 0;
+    }
+    .faqs .content .card .collapse {
+      padding: 0 20px;
+    }
+    .my-page {
+      padding: 20px 0;
+
+      .content {
+        padding: 20px;
+
+        .tries {
+          .main-wrap {
+            ngx-masonry {
+              width: 100% !important;
+            }
+
+            .masonry-item {
+              width: 100% !important;
+            }
+          }
+        }
+      }
+    }
+    .mat-menu-item.nav-item {
+      width: 100% !important;
+      height: 36px !important;
+      font-weight: 400;
+    }
+    .tip-detail .try-free .carousel-indicators {
+      bottom: 10px;
+      li {
+        margin-right: 10px;
+      }
+    }
+    .tip-detail .try-free .carousel-control-prev,
+    .tip-detail .try-free .carousel-control-next {
+      bottom: 10px;
+    }
+    .tip-detail .try-free .carousel-control-next {
+      right: 10px;
+    }
+    .mat-checkbox-layout {
+      white-space: unset !important;
+    }
+  }
+
+  @media (min-width: 1220px) {
+    .container {
+      max-width: 1180px;
+    }
+  }
+
+  @media (min-width: 1380px) {
+  }
+
+  @media (min-width: 1920px) {
+
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+}
+
+.rotate90 {
+  transform: rotate(90deg);
+}
+.rotate180 {
+  transform: rotate(180deg);
+}
+.rotate270 {
+  transform: rotate(270deg);
+}
+@media (min-width: 576px){
+  .container {
+      max-width: 100%;
+  }
+}
+
+

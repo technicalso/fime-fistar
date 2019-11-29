@@ -1,0 +1,53 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.category-dialog {
+  .select-img {
+    display: none;
+  }
+
+  .category-container {
+    display: flex;
+
+    .category-content {
+      width: 100%;
+    }
+
+    .form-group {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      &.img {
+        flex-direction: column;
+      }
+
+      label {
+        span {
+          margin-right: 10px;
+        }
+      }
+
+      .active, .inactive {
+        display: flex;
+
+        label {
+          display: flex;
+        }
+      }
+
+      .icon {
+        img {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+  .btn.btn-primary {
+    background-color: #20a8d8 !important;
+    border-color: #20a8d8 !important;;
+  }
+}

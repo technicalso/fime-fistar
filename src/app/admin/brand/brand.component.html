@@ -1,0 +1,70 @@
+<div class="component-admin-brand component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">Brands</div>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" (click)="addBrand()">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+        </div>
+    </div>
+
+    <mat-card class="search-control">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between">
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Brand name " [(ngModel)]="filter.name">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button class="btn btn-primary mr-1" (click)="onSearch()"><i class="material-icons align-text-bottom">
+                        search
+                    </i> <span>Search</span></button>
+                    <button class="btn btn-default" (click)="onReset()"><i class="material-icons align-text-bottom">
+                        replay
+                    </i> <span>Reset</span></button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+    <ngx-datatable #myTable class="material" [rows]="brands" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+                   [rowHeight]="'auto'" [count]="total" [limit]="pageSize" [offset]="offset" [externalPaging]="true" (page)='setPage($event)'>
+        <ngx-datatable-column name="Name" prop="code_nm"></ngx-datatable-column>
+        <ngx-datatable-column [width]="150" name="Action" [sortable]="false" class="action-column" headerClass="action" [canAutoResize]="false" [resizeable]="false">
+            <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'" [cellClass]="'text-center'">>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button mat-icon-button [matMenuTriggerFor]="userActions">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #userActions="matMenu">
+                        <a mat-menu-item (click)="editBrand(row)" class="datatable-action-button">
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                        </a>
+                        <button mat-menu-item [swal]="deleteSwal" (confirm)="onDelete([row])" class="datatable-action-button">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                        </button>
+                    </mat-menu>
+                </ng-template>
+            </ngx-datatable-column>
+
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+
+<swal #deleteSwal text="Are you sure to delete brand?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>

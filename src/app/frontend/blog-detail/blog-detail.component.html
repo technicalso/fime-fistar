@@ -1,0 +1,153 @@
+<div class="blog-detail">
+    <div class="wrap">
+        <div class="row">
+            <div class="col-lg-8 col-md-12 left-col">
+                <header>
+                    <h1>blogS</h1>
+                </header>
+                <div class="blog-header">
+                    <h1 class="blog-title">{{ blog.title }}</h1>
+                    <p class="time">
+                        {{ blog.time }} {{ blog.timeUnit | translate }} {{ 'ago' | translate }}
+                    </p>
+                    <h2 class="blog-short-description">
+                        {{ blog.short_description }}
+                    </h2>
+                    <div class="facebook-action">
+                        <div class="fb-share-button"
+                             data-layout="button_count"
+                             data-size="small"
+                             data-mobile-iframe="false">
+                            <a target="_blank"
+                               href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                               class="fb-xfbml-parse-ignore">
+                                {{ 'share' | translate }}
+                            </a>
+                        </div>
+                        <div class="fb-like"
+                             data-layout="button_count"
+                             data-action="like"
+                             data-size="small"
+                             data-show-faces="true"
+                             data-share="false"></div>
+                    </div>
+                </div>
+                <article class="blog-content">
+                    <div class="img-container">
+                        <img class="video image-zoom" [src]="blog.url ? env.rootHost + blog.url : 'https://via.placeholder.com/900'"
+                             alt="Review image" *ngIf="blog.resource_type == 1">
+                        <video class="video" *ngIf="blog.resource_type == 3" controls muted>
+                            <source [src]="env.rootHost + blog.url">
+                        </video>
+                        <iframe class="video" [src]="blog.url ? (blog.url + '?autoplay=1&mute=1&loop=1&controls=0&showinfo=0' | safe)
+                                        : ('https://via.placeholder.com/900' | safe)"
+                                *ngIf="blog.resource_type == 2"></iframe>
+                    </div>
+                    <p class="blog-detail-content" [innerHtml]="blog.content | safeHtml"></p>
+                </article>
+                <div class="facebook-action">
+                    <div class="fb-share-button"
+                         data-layout="button_count"
+                         data-size="small"
+                         data-mobile-iframe="false">
+                        <a target="_blank"
+                           href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                           class="fb-xfbml-parse-ignore">
+                            {{ 'share' | translate }}
+                        </a>
+                    </div>
+                    <div class="fb-like"
+                         data-layout="button_count"
+                         data-action="like"
+                         data-size="small"
+                         data-show-faces="true"
+                         data-share="false"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 right-col">
+                <div class="sponsors" *ngIf="mainAd.target_url">
+                    <a class="sponsor" href="{{mainAd.target_url}}" target="_blank">
+                        <span class="label">{{ 'sponsored' | translate }}</span>
+                        <img [src]="mainAd.url ? env.rootHost + mainAd.url : 'https://via.placeholder.com/900'" alt="mainAd.name">
+                    </a>
+                </div>
+                <div class="aside-list" *ngIf="listblog.length > 0">
+                    <header class="top-read">
+                        <span>{{ 'top_news_read' | translate }}</span>
+                    </header>
+                    <div class="post-list-block">
+                        <a [routerLink]="['/blogs/' + item.slug]" class="post-item" *ngFor="let item of listblog; let i = index;">
+                            <div class="image-container">
+                                <img class="post-img image-zoom" [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                     alt="Review image" *ngIf="item.resource_type == 1">
+                                <video class="post-img" *ngIf="item.resource_type == 3">
+                                    <source [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                            type="video/mp4">
+                                    <source [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                            type="video/ogg">
+                                    <source [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                            type="video/webm">
+                                </video>
+                                <img class="post-img" [src]="'https://img.youtube.com/vi/' + item.video_id + '/0.jpg'"
+                                     alt="Review image" *ngIf="item.resource_type == 2">
+                            </div>
+                            <h2 class="post-title">
+                                {{item.title}}
+                            </h2>
+                        </a>
+                    </div>
+                </div>
+                <div class="top-interactive-block" *ngIf="topFimers.length > 0">
+                    <div class="fimer-rank-title">
+                        <h2 class="title">
+                            {{ 'fimer_ranking' | translate }}
+                        </h2>
+                    </div>
+                    <div class="top-interactive">
+                        <h3 class="top-interactive-title">
+                            {{ 'top_interactive' | translate }}
+                        </h3>
+                        <div class="list-fimers">
+                            <div class="fimer" *ngFor="let fimer of topFimers; let i = index;" [ngClass]="{ 'last' : i==2 }">
+                                <div class="avt-block pointer" routerLink="/usr/{{fimer.slug}}">
+                                    <img [src]="fimer.avatar ? env.rootHost + fimer.avatar : 'assets/images/user.png'"
+                                         class="avatar" alt="avatar">
+                                    <div class="fimer-rank" [ngClass]="{'first': i == 0, 'second': i==1, 'third': i==2}">
+                                        <span>#{{i+1}}</span>
+                                    </div>
+                                </div>
+                                <div class="user-info">
+                                    <h2 class="user-name pointer" routerLink="/usr/{{fimer.slug}}">
+                                        {{ fimer.reg_name }}
+                                    </h2>
+                                    <p class="follows pointer" routerLink="/usr/{{fimer.slug}}/followers">
+                                        {{ fimer.follows | numberlike}} {{ 'follower' | translate }}
+                                    </p>
+                                </div>
+                                <div class="action-btn">
+                                    <button type="button" class="follow-btn" [ngClass]="{'active': fimer.followed == 1}"
+                                            [appAuth] (action)="toggleFollowFimer(fimer.user_no)">
+                                        <ng-container *ngIf="fimer.followed == 0">
+                                            <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span>
+                                            <i class="material-icons">add</i>
+                                        </ng-container>
+                                        <ng-container *ngIf="fimer.followed == 1">
+                                            <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
+                                            <i class="material-icons">done</i>
+                                        </ng-container>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sponsors" *ngIf="otherAds.length > 0">
+                    <a class="sponsor" href="{{item.target_url}}" target="_blank" *ngFor="let item of otherAds; let i = index;">
+                        <span class="label">{{ 'sponsored' | translate }}</span>
+                        <img [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'" alt="logo">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

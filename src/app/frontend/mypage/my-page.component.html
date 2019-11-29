@@ -1,0 +1,20 @@
+<div class="loading-block" *ngIf="isLoading">
+    <img src="assets/images/loading.gif" alt="loading">
+</div>
+<div class="my-page" [hidden]="!user.user_no">
+    <div class="container" [hidden]="filterType === 'edit'">
+        <div class="main-wrap">
+            <app-my-page-header #header class="my-header" [user]="user" [filterType]="filterType"></app-my-page-header>
+        </div>
+    </div>
+
+    <div class="content container" [ngClass]="filterType">
+        <app-my-page-reviews #review class="reviews-content" [filterType]="filterType" [user]="user"
+            [needUpdateContent]="needUpdateContent"></app-my-page-reviews>
+        <app-my-page-follow #follower class="followers-content" [filterType]="filterType" [user]="user"
+            [needUpdateContent]="needUpdateContent"></app-my-page-follow>
+        <app-my-page-tries #tries class="tries-content" [user]="user" [filterType]="filterType" [hidden]="filterType !== 'try-free'"
+            [needUpdateContent]="needUpdateContent"></app-my-page-tries>
+        <app-my-page-edit class="tries-content" [user]="user" [hidden]="filterType !== 'edit'"></app-my-page-edit>
+    </div>
+</div>

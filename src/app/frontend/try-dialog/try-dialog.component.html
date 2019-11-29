@@ -1,0 +1,90 @@
+<div class="try-dialog">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">Xác nhận thông tin khách hàng</div>
+            <div class="btn-dialog-close" (click)="close()">
+                <fa name="times-circle" size="2x"></fa>
+            </div>
+        </div>
+    </div>
+    <div class="loading-block" *ngIf="isLoading">
+        <img src="assets/images/loading.gif" alt="loading">
+    </div>
+    <div class="confirmation-container" *ngIf="user.user_no">
+        <div class="confirmation-content">
+            <div class="form-group">
+                <div class="user-info">
+                    <div class="row">
+                        <div class="col-4">Tài khoản</div>
+                        <div class="col-8">{{user.reg_name}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Số điện thoại</div>
+                        <div class="col-8">{{user.cellphone}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Địa chỉ</div>
+                        <div class="col-8">{{user.home_addr1}}</div>
+                    </div>
+                </div>
+                <div class="prec" style="height: 250px; overflow: auto;">
+                    <ng-container *ngIf="tryItem.event_knd_code == '398002'; else buyNotice">
+                        <p>Lời nhắc trước khi đăng kí</p>
+                        <ul>
+                            <li>Không thể hủy đăng ký trải nghiệm miễn phí</li>
+                            <li>Hãy xác nhận thông tin của bạn trước khi đăng ký trải nghiệm miễn phí. Nếu muốn thay đổi
+                                số
+                                liên lạc và địa chỉ vui lòng chọn "Chỉnh sửa thông tin hội viên" và thực hiện thay đổi
+                                số
+                                liên lạc và địa chỉ mới. (Trong trường hợp sản phẩm trải nghiệm miễn phí không thể gửi
+                                đi
+                                được do sai địa chỉ, sản phẩm đó sẽ không được gửi lại lần nữa)
+                            </li>
+                            <li>Bạn phải đăng ký viết reivew trong vòng một tuần sau khi nhận được sản phẩm trải nghiệm
+                                miễn phí
+                            </li>
+                            <li>Khi đăng ký viết reivew, bạn phải đăng tải từ hai hình ảnh trở lên thì bài viết mới được
+                                duyệt.
+                            </li>
+                            <li>Sau khi nhận sản phẩm nếu không đăng ký viết review thì cơ hội được nhận sản phẩm lần
+                                sau
+                                sẽ rất thấp
+                            </li>
+                        </ul>
+                    </ng-container>
+                    <ng-template #buyNotice>
+                        <p>Mua ngay sản phẩm</p>
+                        <ul>
+                            <li>Đơn hàng sẽ không thể hủy sau khi bạn đã đăng ký mua hàng.</li>
+                            <li>Vui lòng xác nhận thông tin của bạn khi đăng ký mua hàng. Nếu bạn muốn đổi thông tin số
+                                điện thoại, địa chỉ vui lòng vào mục “trang cá nhân”, chọn “thay đổi thông tinh cá nhân”
+                                và bắt đầu cập nhật thông tin mới.
+                            </li>
+                            <li>Bạn vui lòng viết nhận xét, đánh giá sản phẩm đã đăng ký mua sau một tuần trải nghiệm
+                            </li>
+                            <li>
+                                Khi viết review về sản phẩm vui lòng đăng kèm 2 hình ảnh trở lên.
+                            </li>
+                            <li>Nếu bạn không viết nhận xét, đánh giá sản phẩm sau khi nhận, bạn sẽ không thể đăng ký
+                                mua
+                                sản phẩm để trải nghiệm nữa và sau này sẽ khó có cơ hội được chọn để nhận những sản phẩm
+                                trải nghiệm miễn phí tiếp theo.
+                            </li>
+                        </ul>
+                    </ng-template>
+                </div>
+                <section class="confirmation-section">
+                    <mat-checkbox [(ngModel)]="confirmationAddress">Xác nhận địa chỉ giao hàng</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="confirmationInfo">Xác nhận nội dung cần lưu ý trước khi đăng ký
+                    </mat-checkbox>
+                </section>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <a (click)="close()" class="btn-hero btn-cancel">Cancel</a>
+            <button class="btn-hero btn-danger" (click)="onSave()">
+                Xác nhận đăng ký
+            </button>
+        </div>
+    </div>
+</div>

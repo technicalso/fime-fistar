@@ -1,0 +1,848 @@
+<div class="app-admin-partner-history">
+
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading" style="text-transform: unset !important">
+                PARTNER > {{ "Campaign History" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/partner"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <app-admin-partner-tab></app-admin-partner-tab><br>
+    <div class="row">
+        <div class="col-md-4">
+            <div
+                style="width: 150px;overflow: hidden;height: 150px;display: inline-block; border-radius: 50%; vertical-align: middle; margin-right: 20px; border: 1px solid #ADADAD;">
+                <img class="img" style="width: 150px; height: 150px;object-fit: cover"
+                    [src]="commonService.getImageLink(partner.pc_image, 'partners','original')" />
+            </div>
+            <div class="name-fistar" style="display: inline-block; width: calc(100% - 170px); vertical-align: middle">
+                <b>
+                    <h1>{{partner.pc_name}}</h1>
+                </b>
+                <p>{{partner.pm_name}}</p>
+            </div>
+        </div>
+        <!-- <div class="col-md-1">
+                <ngx-avatar  src="" size="100"></ngx-avatar>
+            </div>
+            <div class="col-md-2">
+                <b><h4>Gianna.jun</h4></b>
+                <p>jun, hi-hyun</p>
+            </div> -->
+        <div class="col-md-8">
+            <div>
+
+                <table class="table .table-bordered">
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                <p>Campaign</p>
+                                <h3><a href="javascript:void()" (click)="getPartner()">{{totalCampaign}} total</a></h3>
+                            </th>
+                            <td><a href="javascript:void()" (click)="searchCampaign(59)">{{arr[0]}} Matching</a></td>
+                            <td><a href="javascript:void()" (click)="searchCampaign(60)">{{arr[1]}} Ready</a></td>
+                            <td><a href="javascript:void()" (click)="searchCampaign(61)">{{arr[2]}} On-going</a></td>
+                            <td><a href="javascript:void()" (click)="searchCampaign(62)">{{arr[3]}} closed</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="row mr-3 ml-2 mr-2" style="justify-content: space-between">
+        <label style="margin-bottom: -10px;font-size: 15px;">{{selected.length}} selected / {{partners.length}} total /
+            {{totalAllCampaign}}K</label>
+        <div>
+            <button (click)="openModalMess(sendmess)" class="datatable-action-button mr-3 btn-info btn">
+                <span>Send message</span>
+            </button>
+            <button [disabled]="selected.length==0" (confirm)="delete()" [swal]="deleteSwal"
+                class="datatable-action-button btn-outline-dark btn">
+                <span>Delete</span>
+            </button>
+
+        </div>
+    </div>
+    <ngx-datatable [scrollbarH]="false" #myTable class="material history-table" [rows]="partners" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
+        (select)='onSelect($event)' [selected]="selected" [rowHeight]="'auto'" [count]="partners.length" [limit]="10"
+        [rowClass]="rowClass">
+
+        <ngx-datatable-column [frozenLeft]="false" [width]="50" [sortable]="false" [canAutoResize]="false"
+            [draggable]="false" [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Id" [width]="10" prop="cp_id" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column [width]="300">
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <label for="" style="margin-left:50px">Campaign name</label>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <table>
+                    <tr>
+                        <td><a [routerLink]="'/admin/campaign/edit/'+row.cp_id"><img class="img" [src]="commonService.getCampaignThumb(row)" style="margin-right:20px" /></a>
+                        </td>
+                        <td><a [routerLink]="'/admin/campaign/edit/'+row.cp_id">{{row.cp_name}} </a></td>
+                    </tr>
+
+                </table>
+
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                State
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <label *ngIf="row.status.cd_id==59">Matching ({{row.statitics?.matched==undefined?'0':row.statitics.matched}})</label>
+                <label *ngIf="row.status.cd_id==60">Ready ({{row.statitics?.matched==undefined?'0':row.statitics.matched}})</label>
+                <label *ngIf="row.status.cd_id==61">On-going ({{row.statitics?.matched==undefined?'0':row.statitics.matched}})</label>
+                <label *ngIf="row.status.cd_id==62">Closed ({{row.statitics?.matched==undefined?'0':row.statitics.matched}})</label>
+            </ng-template>
+
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Brand">
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <label>Brand</label>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.cp_brand}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Matching State
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                Fime: ({{row.fime}}) Fistar: {{row.cp_total_influencer}}
+                (
+                <label *ngIf="row.statitics && row.statitics.matched!=null">Matched: {{row.statitics.matched}},</label>
+                <label *ngIf="row.statitics && row.statitics.request!=null">Request: {{row.statitics.request}},</label>
+                <label *ngIf="row.statitics && row.statitics.apply!=null">Apply: {{row.statitics.apply}},</label>
+                <label *ngIf="row.statitics && row.statitics.rejected!=null">Rejected:
+                    {{row.statitics.rejected}}</label>
+                )
+            </ng-template>
+        </ngx-datatable-column>
+
+
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Cost
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <label *ngIf="row.cp_status==59">
+                    <div *ngIf="row.total_cost_selected.estimated_cost > 0">Expected Cost
+                        <br>{{row.total_cost_selected.estimated_cost}} VND</div>
+
+                </label>
+                <label *ngIf="row.cp_status!=59">
+                    <div *ngIf="row.total_cost_selected.total_cost > 0">Total Cost
+                        <br>{{row.total_cost_selected.total_cost}} VND</div>
+
+                </label>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="History" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                <!-- <button class="link" (click)="openModal(template,row)">view</button> -->
+                <button class="link" (click)="openModal(template,row)" class="btn btn-info">view</button>
+            </ng-template>
+        </ngx-datatable-column>
+
+    </ngx-datatable>
+</div>
+<swal #deleteSwal text="Are you sure to delete campaign?" type="question" [showCancelButton]="true" [focusCancel]="true">
+</swal>
+
+<!-- <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Fistar State</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <tabset>
+                <tab heading="History" id="tab1">
+                    <p>{{rowCampaign.cp_name}}</p>
+
+                    <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Step 1</th>
+                        <th>Step 2</th>
+                        <th>Step 3</th>
+                        <th>Step 4</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>fistar Apply</td>
+                        <td>Partner Approve</td>
+                        <td>Partner Confirm</td>
+                        <td>Matched</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    <div class="btn-group" >
+                            <label class="btn btn-primary" [(ngModel)]="radioModel"
+                                    btnRadio="Left" tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">reject</label>
+                
+                            <label class="btn btn-primary" [(ngModel)]="radioModel"
+                                    btnRadio="Middle" tabindex="0" role="button" style="margin-right:5px;border-radius:2px;;">Approve</label>
+                
+                            <label class="btn btn-primary" [(ngModel)]="radioModel"
+                                    btnRadio="Right" tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Re-request</label>
+                
+                            <label class="btn btn-primary" [(ngModel)]="radioModel"
+                                    btnRadio="Middle" tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Confirm</label>
+                
+                            <label class="btn btn-primary" [(ngModel)]="radioModel"
+                                    btnRadio="Right" tabindex="0" role="button" style="margin-right:5px;border-radius:2px;">Cancel</label>
+                    </div>
+                            
+                    <table class="table table-bordered">
+                            <ng-container *ngFor="let item of campaign">
+                                <tr   *ngFor = "let matching of item.matching_history">
+                                        <td >{{matching.label.description}}</td>
+                                        <td>{{matching.created_at}}</td>
+                                        <td>
+                                            {{matching.m_user}}
+                                            {{matching.label.partner_status.substring(matching.label.partner_status.lastIndexOf(' '), matching.label.partner_status.length)}}
+                                        </td>
+                                </tr>
+                            </ng-container>
+                    </table>
+                
+                </tab>
+                <tab heading="Matched Fistar">
+                        <p>{{rowCampaign.cp_name}}</p>
+                        <table class="table table-bordered">
+                            <tr *ngFor="let itemFistar of campaign">
+                                <td>
+                                    <p>2019.01.01 11.00</p>
+                                    <p>jangun apply</p>
+                                </td>
+                                <td>
+                                    <img src={{itemFistar.influencer.picture}}  alt="" style="widows: 70px;height:70px;float:letf;margin-right: 20px;margin-bottom: 20px" >
+                                    <label>{{itemFistar.influencer.fullname}}</label>
+                                    <p class="label_footer_tab">
+                                        <label for="">{{itemFistar.influencer.count_campaign_relate.scrap}}</label>
+                                        <label for="">{{itemFistar.influencer.channels[1].usn_like}}</label>
+                                        <label for="">{{itemFistar.influencer.channels[2].usn_like}}</label>
+                                        <label for="">{{itemFistar.influencer.channels[3].usn_like}}</label>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                </tab>
+            </tabset>
+        </div>
+      </ng-template> -->
+<!-- Button trigger modal -->
+<!-- Button trigger modal -->
+<!-- <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-sizes-name1" class="modal-title pull-left">fiStar State</h4>
+                <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body wf-content-state">
+                <div>
+                    <tabset>
+                        <tab heading="History" id="tab1">
+                            <div class="title-state">
+                                <h4>
+                                    Mặt nạ giấy NEOGEN DERMALOGY AQUA CAPSULE MASK HYDRA AQUA SET 5 MASK
+                                </h4>
+                            </div>
+                            <div class="step-state">
+                                <ul class="list-step">
+                                    <li class="item-step  step-1">
+                                        Step 1
+                                    </li>
+                                    <li class="item-step step-2">
+                                        Step 2
+                                    </li>
+                                    <li class="item-step step-3">
+                                        Step 3
+                                    </li>
+                                    <li class="item-step step-4">
+                                        Step 4
+                                    </li>
+                                </ul>
+                                <ul class="wf-list-status">
+                                    <li class="item-status">
+                                        fiStar Apply
+                                    </li>
+                                    <li class="item-status">
+                                        Partner Approve
+                                    </li>
+                                    <li class="item-status">
+                                        Partner confirm
+                                    </li>
+                                    <li class="item-status">
+                                        Matched
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="wf-gr-btn">
+                                <button class="btn">Reject</button>
+                                <button class="btn">Approve</button>
+                                <button class="btn">Re-request</button>
+                                <button class="btn">Confirm</button>
+                                <button class="btn">Cancel </button>
+                            </div>
+                            <div class="content-history mt-4">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="2">Step 4</td>
+                                            <td>2019/05/26 21:00</td>
+                                            <td><span class="text-info">Gianna.jun</span> Matched</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>2019/05/26 21:00</td>
+                                            <td><span class="text-info">Gianna.jun</span> Matched</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td rowspan="4">Step 3</td>
+                                            <td>2019/05/26 21:00</td>
+                                            <td>fiStar <span class="text-info">Gianna.jun</span> Apply</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2019/05/26 21:00</td>
+                                            <td>Partner <span class="text-info">Nauen</span> Confirm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2019/05/26 21:00</td>
+                                            <td>Partner <span class="text-info">Nauen</span> Cancel</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2019/05/26 21:00</td>
+                                            <td>Partner <span class="text-info">Gianna.jun</span> Re-request</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td rowspan="3">Step 2</td>
+                                            <td>2019/05/26 21:00</td>
+                                            <td>fiStar <span class="text-info">Gianna.jun</span> Cancel</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2019/05/26 21:00</td>
+                                            <td>Partner <span class="text-info">Gianna.jun</span> Approve</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2019/05/26 21:00</td>
+                                            <td>Partner <span class="text-info">Nauen</span> Reject</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td rowspan="2">Step 1</td>
+                                            <td>2019/05/26 21:00</td>
+                                            <td>fiStar  <span class="text-info">Nauen</span> Apply</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2019/05/26 21:00</td>
+                                            <td>fiStar  <span class="text-info">Gianna.jun</span> Apply</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </tab>
+                        <tab heading="Matched fiStar">
+                            <div class="title-state">
+                                    <h4>
+                                        Mặt nạ giấy NEOGEN DERMALOGY AQUA CAPSULE MASK HYDRA AQUA SET 5 MASK
+                                    </h4>
+                                </div>
+                                <div class="content-matched mt-4">
+                                    <div class="box-item">
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="text">
+                                                    <p>2019.11.05 <span class="text-info">11:15</span></p>
+                                                </div>
+                                                <div class="text">
+                                                        <p><span class="text-info">Gianna.jun</span>Apply</p>
+                                                    </div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="img-thumnail">
+                                                    <div class="image">
+                                                        <img src="http://file.vforum.vn/hinh/2018/12/girl-xinh-hinh-anh-girl-xinh-dep-nhat-quyen-ru-51.jpg" alt="">
+                                                    </div>
+                                                    <div class="star-user">
+                                                            <i class="fas fa-star"></i>
+                                                            <span class="ml-1">4.505</span>
+                                                    </div>
+                                                </div>
+                                                <div class="user-name">
+                                                    <h4 class="name"><i class="fas fa-venus mr-1"></i>Gianna.jun</h4>
+                                                    <div class="old-address">
+                                                        <p><span>1993(26)</span><span>Ha Noi</span></p>
+                                                    </div>
+                                                    <div class="solical-follow d-flex">
+                                                        <div class="item-solical">
+                                                                <i class="fab fa-facebook-f"></i>
+                                                                <span>186k</span>
+                                                        </div>
+                                                        <div class="item-solical">
+                                                                <i class="fab fa-instagram"></i>
+                                                                <span>186k</span>
+                                                        </div>
+                                                        <div class="item-solical">
+                                                                <i class="fab fa-youtube"></i>
+                                                                <span>186k</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                                <div class="left">
+                                                    <div class="text">
+                                                        <p>2019.11.05 <span class="text-info">11:15</span></p>
+                                                    </div>
+                                                    <div class="text">
+                                                            <p><span class="text-info">Gianna.jun</span>Apply</p>
+                                                        </div>
+                                                </div>
+                                                <div class="right">
+                                                    <div class="img-thumnail">
+                                                        <div class="image">
+                                                            <img src="https://thuthuatnhanh.com/wp-content/uploads/2018/07/gai-dep-viet-nam.jpg" alt="">
+                                                        </div>
+                                                        <div class="star-user">
+                                                                <i class="fas fa-star"></i>
+                                                                <span class="ml-1">4.505</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="user-name">
+                                                        <h4 class="name"><i class="fas fa-venus mr-1"></i>jun-pack</h4>
+                                                        <div class="old-address">
+                                                            <p><span>1990(30)</span><span>Da Nang</span></p>
+                                                        </div>
+                                                        <div class="solical-follow d-flex">
+                                                            <div class="item-solical">
+                                                                    <i class="fab fa-facebook-f"></i>
+                                                                    <span>146k</span>
+                                                            </div>
+                                                            <div class="item-solical">
+                                                                    <i class="fab fa-instagram"></i>
+                                                                    <span>126k</span>
+                                                            </div>
+                                                            <div class="item-solical">
+                                                                    <i class="fab fa-youtube"></i>
+                                                                    <span>111k</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-sizes-name1" class="modal-title pull-left">fiStar State</h4>
+                <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body wf-content-state">
+                <div>
+                    <tabset>
+                        <tab heading="History" id="tab1">
+                            <div class="title-state">
+                                <h4>
+                                    {{this.rowCampaign?.cp_name}}
+                                </h4>
+                            </div>
+                            <!-- <div class="step-state">
+                                <ul class="list-step">
+                                    <li class="item-step  step-1">
+                                        Step 1
+                                    </li>
+                                    <li class="item-step step-2">
+                                        Step 2
+                                    </li>
+                                    <li class="item-step step-3">
+                                        Step 3
+                                    </li>
+                                    <li class="item-step step-4">
+                                        Step 4
+                                    </li>
+                                </ul>
+                                <ul class="wf-list-status">
+                                    <li class="item-status">
+                                        fiStar Apply
+                                    </li>
+                                    <li class="item-status">
+                                        Partner Approve
+                                    </li>
+                                    <li class="item-status">
+                                        Partner confirm
+                                    </li>
+                                    <li class="item-status">
+                                        Matched
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="wf-gr-btn">
+                                <button class="btn">Reject</button>
+                                <button class="btn">Approve</button>
+                                <button class="btn">Re-request</button>
+                                <button class="btn">Confirm</button>
+                                <button class="btn">Cancel </button>
+                            </div> -->
+                            <div class="content-history mt-4">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <ng-container *ngFor="let item of campaign;index as i">
+                                            <ng-container *ngFor="let value of item.matching_history">
+                                                <tr *ngIf="i%2==0" style="background: #e5e5e5">
+
+                                                    <td>{{value.label.description}}</td>
+                                                    <td>{{value.created_at}}</td>
+                                                    <td>
+                                                        <!-- <label for="" *ngIf="value.m_type==null">admin</label> 
+                                                    <label for="" *ngIf="value.m_type==0">influencer</label> 
+                                                    <label for="" *ngIf="value.m_type==1">partner</label>  -->
+                                                        <span routerLink="/admin/fistar/campaign-history/{{item.uid}}" class="text-info"
+                                                            style="margin-right:10px; cursor: pointer;">{{value.m_user}}</span>
+                                                        <ng-container [ngSwitch]="value.m_status">
+                                                            <label *ngSwitchCase="1">Request</label>
+                                                            <label *ngSwitchCase="2">Cancel</label>
+                                                            <label *ngSwitchCase="3">Reject</label>
+                                                            <label *ngSwitchCase="4">Re-request</label>
+                                                            <label *ngSwitchCase="5">Cancel Re-request</label>
+                                                            <label *ngSwitchCase="6">Approve</label>
+                                                            <label *ngSwitchCase="7">Cancel</label>
+                                                            <label *ngSwitchCase="8">Matched</label>
+                                                            <label *ngSwitchCase="9">Apply</label>
+                                                            <label *ngSwitchCase="10">Cancel</label>
+                                                            <label *ngSwitchCase="11">Reject</label>
+                                                            <label *ngSwitchCase="12">Re-request</label>
+                                                            <label *ngSwitchCase="13">Cancel Re-request</label>
+                                                            <label *ngSwitchCase="14">Confirm </label>
+                                                            <label *ngSwitchCase="15">Cancel</label>
+                                                            <label *ngSwitchCase="16">Matched</label>
+                                                        </ng-container>
+                                                        <!-- {{value.label.partner_status.substring(value.label.partner_status.lastIndexOf(' '), value.label.partner_status.length)}} -->
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="i%2!=0">
+
+                                                    <td>{{value.label.description}}</td>
+                                                    <td>{{value.created_at}}</td>
+                                                    <td>
+                                                        <!-- <label for="" *ngIf="value.m_type==null">admin</label> 
+                                                        <label for="" *ngIf="value.m_type==0">influencer</label> 
+                                                        <label for="" *ngIf="value.m_type==1">partner</label>  -->
+                                                        <span routerLink="/admin/fistar/campaign-history/{{item.uid}}" class="text-info"
+                                                            style="margin-right:10px; cursor: pointer;">{{value.m_user}}</span>
+                                                        <ng-container [ngSwitch]="value.m_status">
+                                                            <label *ngSwitchCase="1">Request</label>
+                                                            <label *ngSwitchCase="2">Cancel</label>
+                                                            <label *ngSwitchCase="3">Reject</label>
+                                                            <label *ngSwitchCase="4">Re-request</label>
+                                                            <label *ngSwitchCase="5">Cancel Re-request</label>
+                                                            <label *ngSwitchCase="6">Approve</label>
+                                                            <label *ngSwitchCase="7">Cancel</label>
+                                                            <label *ngSwitchCase="8">Matched</label>
+                                                            <label *ngSwitchCase="9">Apply</label>
+                                                            <label *ngSwitchCase="10">Cancel</label>
+                                                            <label *ngSwitchCase="11">Reject</label>
+                                                            <label *ngSwitchCase="12">Re-apply</label>
+                                                            <label *ngSwitchCase="13">Cancel Re-apply</label>
+                                                            <label *ngSwitchCase="14">Confirm </label>
+                                                            <label *ngSwitchCase="15">Cancel</label>
+                                                            <label *ngSwitchCase="16">Matched</label>
+                                                        </ng-container>
+                                                        <!-- <span class="text-info"
+                                                            style="margin-left:10px">{{value.m_user}}</span>
+                                                        {{value.label.partner_status.substring(value.label.partner_status.lastIndexOf(' '), value.label.partner_status.length)}}
+                                                    </td> -->
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </tab>
+                        <tab heading="Matched fiStar">
+                            <div class="title-state">
+                                <h4>
+                                    {{this.rowCampaign?.cp_name}}
+                                </h4>
+                            </div>
+                            <!-- <div class="content-matched mt-4">
+                                <div class="box-item">
+                                    <div class="item">
+                                        <div class="left">
+                                            <div class="text">
+                                                <p>2019.11.05 <span class="text-info">11:15</span></p>
+                                            </div>
+                                            <div class="text">
+                                                <p><span class="text-info">Gianna.jun</span>Apply</p>
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <div class="img-thumnail">
+                                                <div class="image">
+                                                    <img src="http://file.vforum.vn/hinh/2018/12/girl-xinh-hinh-anh-girl-xinh-dep-nhat-quyen-ru-51.jpg"
+                                                        alt="">
+                                                </div>
+                                                <div class="star-user">
+                                                    <i class="fas fa-star"></i>
+                                                    <span class="ml-1">4.505</span>
+                                                </div>
+                                            </div>
+                                            <div class="user-name">
+                                                <h4 class="name"><i class="fas fa-venus mr-1"></i>Gianna.jun</h4>
+                                                <div class="old-address">
+                                                    <p><span>1993(26)</span><span>Ha Noi</span></p>
+                                                </div>
+                                                <div class="solical-follow d-flex">
+                                                    <div class="item-solical">
+                                                        <i class="fab fa-facebook-f"></i>
+                                                        <span>186k</span>
+                                                    </div>
+                                                    <div class="item-solical">
+                                                        <i class="fab fa-instagram"></i>
+                                                        <span>186k</span>
+                                                    </div>
+                                                    <div class="item-solical">
+                                                        <i class="fab fa-youtube"></i>
+                                                        <span>186k</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="left">
+                                            <div class="text">
+                                                <p>2019.11.05 <span class="text-info">11:15</span></p>
+                                            </div>
+                                            <div class="text">
+                                                <p><span class="text-info">Gianna.jun</span>Apply</p>
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <div class="img-thumnail">
+                                                <div class="image">
+                                                    <img src="https://thuthuatnhanh.com/wp-content/uploads/2018/07/gai-dep-viet-nam.jpg"
+                                                        alt="">
+                                                </div>
+                                                <div class="star-user">
+                                                    <i class="fas fa-star"></i>
+                                                    <span class="ml-1">4.505</span>
+                                                </div>
+                                            </div>
+                                            <div class="user-name">
+                                                <h4 class="name"><i class="fas fa-venus mr-1"></i>jun-pack</h4>
+                                                <div class="old-address">
+                                                    <p><span>1990(30)</span><span>Da Nang</span></p>
+                                                </div>
+                                                <div class="solical-follow d-flex">
+                                                    <div class="item-solical">
+                                                        <i class="fab fa-facebook-f"></i>
+                                                        <span>146k</span>
+                                                    </div>
+                                                    <div class="item-solical">
+                                                        <i class="fab fa-instagram"></i>
+                                                        <span>126k</span>
+                                                    </div>
+                                                    <div class="item-solical">
+                                                        <i class="fab fa-youtube"></i>
+                                                        <span>111k</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div class="content-matched mt-4">
+                                <div class="box-item">
+                                    <div class="item" *ngFor="let item of campaign">
+                                        <ng-container *ngFor="let i of item.matching_history">
+                                            <ng-container *ngIf="i.m_status==8 || i.m_status==16">
+                                                <div class="left">
+                                                    <!-- <ng-container *ngFor="let value of item.matching_history">
+                                                <ng-container *ngIf="value.m_status==1">
+                                                    <div class="text">
+                                                        <p>{{value.created_at}}</p>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>
+                                                            <span class="text-info">{{value.m_user}}</span>
+                                                            Request
+                                                        </p>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="value.m_status==9">
+                                                    <div class="text">
+                                                        <p>{{value.created_at}}</p>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>
+                                                            <span class="text-info">{{value.m_user}}</span>
+                                                            Apply
+                                                        </p>
+
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="value.m_status==8||value.m_status==16">
+                                                    <div class="text">
+                                                        <p>{{value.created_at}}</p>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>
+                                                            <span class="text-info">{{value.m_user}}</span>
+                                                            Matched
+                                                        </p>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-container> -->
+
+                                                    <ng-container *ngIf="item.top != ''">
+                                                        <div class="text">
+                                                            <p>{{item.top.created_at}}</p>
+                                                        </div>
+                                                        <div class="text">
+                                                            <p *ngIf="item.top.m_status == 1">
+                                                                <span class="text-info">{{item.top.m_user}}</span>
+                                                                Request
+                                                            </p>
+                                                            <p *ngIf="item.top.m_status == 9">
+                                                                <span class="text-info">{{item.top.m_user}}</span>
+                                                                Apply
+                                                            </p>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="item.bottom != ''">
+                                                        <div class="text">
+                                                            <p>{{item.bottom.created_at}}</p>
+                                                        </div>
+                                                        <div class="text">
+                                                            <p>
+                                                                <span
+                                                                    class="text-info">{{item.bottom.m_user ? item.bottom.user : partner.pm_name}}</span>
+                                                                Matched
+                                                            </p>
+                                                        </div>
+                                                    </ng-container>
+
+
+                                                </div>
+                                                <div class="right">
+                                                    <div class="img-thumnail">
+                                                        <div class="image">
+                                                            <img [src]="commonService.getImageLink(item.influencer.picture,commonService.IMAGE_TYPE.FISTARS,commonService.IMAGE_SIZE.MEDIUM)"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="star-user">
+                                                            <i class="fas fa-star"></i>
+                                                            <span class="ml-1">{{item.influencer.scraps_count}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="user-name">
+                                                        <h4 class="name"><i class="fas fa-venus mr-1"
+                                                                *ngIf="item.influencer.gender.cd_id==10"></i><i
+                                                                class="fas fa-mars"
+                                                                *ngIf="item.influencer.gender.cd_id==9"></i>{{item.influencer.fullname}}
+                                                        </h4>
+                                                        <div class="old-address">
+                                                            <p><span>{{item.influencer.dob.slice(0, 4)}}({{getAge(item.influencer.dob)}})</span><span>{{item.influencer.location.cd_label}}</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="solical-follow d-flex">
+                                                            <ng-container
+                                                                *ngFor="let channel of item.influencer.channels">
+                                                                <div class="item-solical" *ngIf="channel.sns_id==2">
+                                                                    <i class="fab fa-facebook-f"></i>
+                                                                    <span>{{commonService.parseLargeNum(channel.usn_follower)}}</span>
+                                                                </div>
+                                                                <div class="item-solical" *ngIf="channel.sns_id==4">
+                                                                    <i class="fab fa-instagram"></i>
+                                                                    <span>{{commonService.parseLargeNum(channel.usn_follower)}}</span>
+                                                                </div>
+                                                                <div class="item-solical" *ngIf="channel.sns_id==3">
+                                                                    <i class="fab fa-youtube"></i>
+                                                                    <span>{{commonService.parseLargeNum(channel.usn_follower)}}</span>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #sendmess>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Send message</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="form" novalidate>
+            <input type="text" class="form-control" placeholder="Title" [(ngModel)]="contentMessage.title"
+                formControlName="title" /> <br>
+            <textarea name="" class="form-control" id="" cols="30" rows="10" placeholder="Message"
+                [(ngModel)]="contentMessage.message" formControlName="message"></textarea>
+            <div class="actions d-flex ">
+                <button class="btn btn-default mr-1" (click)="modalRef.hide()">
+                    <i class="material-icons align-text-bottom">
+                        cancel
+                    </i> <span> {{ "cancel" | translate }}</span>
+                </button>
+                <button class="btn btn-primary mr-1" (click)="sendMessage()"
+                    [disabled]="!contentMessage.message || !contentMessage.title">
+                    <span> {{ "Send" | translate }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

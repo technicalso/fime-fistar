@@ -1,0 +1,37 @@
+<div class="image-slider" *ngIf="images.length > 0" id="swipezone">
+    <div class="main-image-container"
+         (touchstart)="swipe($event, 'start')"
+         (touchend)="swipe($event, 'end')" >
+        <div class="img-zoom-container"
+             (mouseenter)="imageZoom('mainImage', 'zoomImage');"
+             (mouseleave)="hideImageZoom()">
+            <img alt="main-image" class="main-image" id="mainImage" [ngClass]="objectType"
+                [src]="mainImage.url ? env.rootHost + mainImage.url: 'https://via.placeholder.com/900'">
+            <div id="zoomImage" class="img-zoom-result" [ngStyle]="{'visibility': showZoom ? 'visible' : 'hidden'}"></div>
+        </div>
+        <div class="nav-dots">
+            <div class="dot" *ngFor="let image of images; let i = index;" [ngClass]="{'active' : i == currentImageIndex}"></div>
+        </div>
+<!--        <video class="main-image" *ngIf="resourceType == 3" controls>-->
+<!--            <source [src]="mainImage.url ? env.rootHost + mainImage.url: 'https://via.placeholder.com/900'" type="video/mp4">-->
+<!--            <source [src]="mainImage.url ? env.rootHost + mainImage.url: 'https://via.placeholder.com/900'" type="video/ogg">-->
+<!--            <source [src]="mainImage.url ? env.rootHost + mainImage.url: 'https://via.placeholder.com/900'" type="video/webm">-->
+<!--        </video>-->
+<!--        <iframe class="main-image"-->
+<!--                [src]="mainImage.url ? (mainImage.url | safe) : ('https://via.placeholder.com/900' | safe)"-->
+<!--                *ngIf="resourceType == 2"></iframe>-->
+    </div>
+    <div class="other-images-container">
+        <div class="other-image-container" *ngFor="let image of images; let i = index;"
+             [ngClass]="{'active' : i == currentImageIndex}"
+             (click)="changeImage(i)">
+            <img [src]="image.image ? env.rootHost + image.thumbnail: image.thumbnail"
+                 alt="product" class="other-image" *ngIf="image.thumbnail">
+            <img [src]="'https://via.placeholder.com/900'"
+                 alt="product" class="other-image" *ngIf="!image.thumbnail">
+        </div>
+    </div>
+</div>
+<div *ngIf="images.length == 0" class="place-holder-image">
+    <img [src]="'assets/images/nophoto.png'" alt="noimage">
+</div>

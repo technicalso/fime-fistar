@@ -1,0 +1,108 @@
+<div class="app-admin-customer-qa">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                CUSTOMER > Q&A
+            </div>
+        </div>
+    </div>
+    <mat-card class="search-control">
+        <form [formGroup]="formSearch">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Q&A</label>
+                        <div class="none-label">
+                            <mat-form-field class="full-width">
+                                <input matInput formControlName="qa">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select formControlName="type">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value="0">Partner</mat-option>
+                                    <mat-option value="1">influencer</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <div *ngIf="category">
+                            <mat-form-field class="full-width">
+                                <mat-select formControlName="cat">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option *ngFor="let item of category" [value]="item.cd_id">{{item.cd_label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>State</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select formControlName="status">
+                                    <mat-option value="">All </mat-option>
+                                    <mat-option value="0">Waiting </mat-option>
+                                    <mat-option value="1">Complete</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2" style="margin-top: 30px;">
+                    <div class="pull-right">
+                        <button class="btn btn-primary mr-1" (click)="search()"><i
+                                class="material-icons align-text-bottom">
+                                search
+                            </i> <span>Search</span></button>
+                        <button class="btn btn-default mr-1" (click)="resetFormSearch()"><i
+                                class="material-icons align-text-bottom">
+                                replay
+                            </i> <span>Reset</span></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </mat-card>
+    <br>
+    <div class="row">
+        <div class="col">
+            <p>
+                <label id="numberSelected">{{  numberSelected }}</label>
+                Selected
+                /
+                <label id="numberTotal">0</label>
+                Total
+            </p>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" style="margin-right: 10px" (click)="deleteIds()"
+                [disabled]="numberSelected == 0 ? true : false">
+                <i class="material-icons align-text-bottom">
+                    delete
+                </i> <span>Delete</span>
+            </button>
+        </div>
+    </div>
+
+    <app-data-table [showNumberTotalDataTable]="isShowNumberTotalDataTable" (outputCheck)="getItem($event)"
+        [items]="data.list" [headers]="data.header" [pageSize]="10" [isCheckItem]="true" [isCheckItemRadio]="true"
+        [showPage]="true" (outputPage)="getParams($event)" [currentPage]="data.page" [totalPage]="data.total_page"
+        (getId)="delete($event)"></app-data-table>
+</div>

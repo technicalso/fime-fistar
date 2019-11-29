@@ -1,0 +1,78 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.admin-request-fistar-basic {
+  padding-bottom: 50px;
+
+  .banner_img {
+    margin-bottom: 20px;
+
+    img {
+      width: 150px;
+    }
+  }
+
+  ::ng-deep {
+    angular-file-uploader {
+      .container {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .afu-upload-btn {
+        display: none;
+      }
+
+      .afu-valid-file {
+        margin: 0;
+      }
+
+      &.afu-select-btn:focus,
+      &.afu-select-btn:active,
+      &.afu-select-btn:hover,
+      .afu-select-btn {
+        background-image: -webkit-gradient(linear, left top, right top, from($gradient_left), to($gradient_right)) !important;
+        background-image: linear-gradient(to right, $gradient_left, $gradient_right) !important;
+        -webkit-box-shadow: 0 0 0 0 $gradient_left, 0 0 0 0 $gradient_right !important;
+        box-shadow: 0 0 0 0 $gradient_left, 0 0 0 0 $gradient_right !important;
+        border-radius: .375rem;
+        text-shadow: none;
+        border: none;
+        line-height: calc((1rem * 1.25) + 4px);
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .calendar-control {
+    max-width: 210px;
+    position: relative;
+
+    .mat-datepicker-toggle {
+      position: absolute;
+      right: -2px;
+      top: -2px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+    }
+  }
+
+  .period {
+    display: flex;
+
+    .mat-form-field {
+      margin-right: 20px;
+    }
+  }
+}

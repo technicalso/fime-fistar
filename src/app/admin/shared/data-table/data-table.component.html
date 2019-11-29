@@ -1,0 +1,180 @@
+<div class="area-table">
+    <div class="portlet light bordered">
+
+        <div class="portlet-body">
+            <table class="table table-bordered" id="sample_2">
+                <thead>
+                    <tr>
+                        <th class="table-checkbox center-position" *ngIf="isCheckItem"
+                            style="border: 1px solid #dee2e6 !important;">
+                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                <input type="checkbox" value="check_all" (change)="onChange($event,'all')"
+                                    [checked]="isCheckAll" />
+                            </label>
+                        </th>
+                        <ng-container *ngFor="let header of headers,let i=index">
+                            <ng-container
+                                *ngIf="!groupHeaders || groupHeaders.length == 0 || groupHeaders.indexOf(header) < 0">
+                                <th style="border: 1px solid #dee2e6 !important;"><span>{{header}}</span></th>
+                            </ng-container>
+                            <ng-container
+                                *ngIf="groupHeaders && groupHeaders.length>0 && groupHeaders.indexOf(header) == 0">
+                                <th [attr.colspan]="groupHeaders.length" style="border: 1px solid #dee2e6 !important;">
+                                    <span>{{header}}</span></th>
+                            </ng-container>
+                        </ng-container>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="odd gradeX" *ngFor="let item of items,let i=index" [ngClass]="{'cursorr': item['rows']}"
+                        (click)="selectRow(item)">
+                        <td class="center-position" *ngIf="isCheckItem">
+                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                <input type="checkbox" name="check_table" value="i" (change)="onChange($event,i)"
+                                    [checked]="item.check" />
+                                <span></span>
+                            </label>
+                        </td>
+                        <td *ngFor="let content of item.content,let j=index" [ngClass]="" class="break-line">
+                            <ng-container *ngIf="content.image">
+                                <img class="cover"  *ngIf="!content.link" src="{{content.image}}">
+                                <a routerLink="{{content.link}}" *ngIf="content.link && !content.target"><img class="cover" src="{{content.image}}"></a>
+                                <a routerLink="{{content.link}}" [target]="content.target" *ngIf="content.link && content.target"><img class="cover" src="{{content.image}}"></a>
+                            </ng-container>
+                            
+                            <span *ngIf="content.title&&!content.social&&!content.title_second"
+                                [ngClass]="{'font-bold': content.bold, 'underline': content.underline,'red' : content.red}">
+                                <a routerLink="{{content.link}}" *ngIf="content.link && !content.target">{{content.title}}</a>
+                                <a routerLink="{{content.link}}" [target]="content.target" *ngIf="content.link && content.target">{{content.title}}</a>
+
+                                <ng-container *ngIf="!content.link && !content.dateUpdate && !content.modalView">
+                                    {{content.title}}
+                                </ng-container>
+
+                                <label (click)="showModal(content.dataModal)"
+                                    *ngIf="!content.dateUpdate&&!content.link&&content.modalView">
+                                    {{content.title}}
+                                </label>
+
+                                <ng-container *ngIf="!content.link &&!content.modalVie && content.dateUpdate">
+                                    <p [ngClass]="{'no-margin-bottom':content.dateUpdate != ''}">
+                                        {{content.title}}
+                                    </p>
+                                    <p *ngIf="content.dateUpdate != ''" class="no-margin-bottom">
+                                        {{content.dateUpdate}}
+                                    </p>
+                                </ng-container>
+
+                            </span>
+                            <select *ngIf="content.option" (change)="getAccess($event,item.content[0].title)">
+                                <ng-container *ngFor="let item of content.option">
+                                    <option [value]="item.value" [selected]="item.name === content.activeOption">
+                                        {{item.name}}</option>
+                                </ng-container>
+                            </select>
+                            <span *ngIf="content.title&&content.title_second"
+                                [ngClass]="{'font-bold': content.bold, 'underline': content.underline, 'text-left': content.title_second}">
+                                Start: {{content.title}}<br>
+                                End: {{content.title_second}}
+                            </span>
+                            <span *ngIf="content.arrayTitle">
+                                <p class="link"
+                                    (click)="goTolink(content.arrayTitle.link , content.arrayTitle.idMatching , content.arrayTitle.idChannel)">
+                                    <b>{{content.arrayTitle.title}}</b>
+                                </p>
+                                <p>
+                                    {{content.arrayTitle.status}}
+                                </p>
+                            </span>
+
+                            <div *ngIf="content.title&&content.social&&!content.title_second" class="groub-social">
+                                <span>{{content.title}}</span>
+                                <div class="social">
+                                    <i *ngFor="let channelchild of content.channel" class="fa" [ngClass]="{'fa-adversal': channelchild ==1,
+                                        ' fa-facebook': channelchild ==2,
+                                        ' fa-youtube': channelchild ==3,
+                                    ' fa-instagram': channelchild==4 }"></i>
+                                </div>
+                            </div>
+                            <div class="matching_influencer_channel" *ngIf="content.channel_influencer_star">
+                                <ng-container *ngFor="let channelchild of content.channel_influencer_star">
+                                    <span *ngIf="channelchild['sns_id'] !=1"
+                                        class="item_channel_mathching_start">
+                                        <label (click)="opennew(channelchild)">
+                                            <i class="fa" [ngClass]="{'fa-adversal': channelchild['sns_id'] ==1,
+                                            ' fa-facebook': channelchild['sns_id'] ==2,
+                                            ' fa-youtube': channelchild['sns_id'] ==3,
+                                            ' fa-instagram': channelchild['sns_id']==4 }"></i>{{channelchild['usn_follower']}}
+                                        </label>
+                                    </span>
+                                </ng-container>
+                            </div>
+                            <div class="matching_channel" *ngIf="content.matching_channel">
+                                <div *ngFor="let matching_channel_child of content.matching_channel"
+                                    class="matching_channel_child">
+                                    <i (click)="updateSnsStatus(matching_channel_child)" class="fa" [ngClass]="{'fa-adversal': matching_channel_child['sns_id'] ==1,
+                                        ' fa-facebook': matching_channel_child['sns_id'] ==2,
+                                        ' fa-youtube': matching_channel_child['sns_id'] ==3,
+                                    ' fa-instagram': matching_channel_child['sns_id']==4,
+                                'fa-adversal-orther' : matching_channel_child['m_ch_selected'] == 0 }"></i>
+                                    <span>{{matching_channel_child['cost']}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td *ngIf="item.actions&&item.actions.length>0" class="action">
+                            <select (change)="selectOption(item)" [(ngModel)]="actionIndex">
+                                <option disabled>choose</option>
+                                <option *ngFor="let action of item.actions, let index = index" value="{{index}}">
+                                    {{action}}</option>
+                            </select>
+                        </td>
+                        <td *ngIf="item.manage"><button (click)="selectRow(item)"
+                                class="btn btn-primary">{{item['manage']}}</button></td>
+                        <td *ngIf="item.controls" class='control'>
+                            <button *ngIf="item.controls[0] == 'matched'" class="btn-control" (click)="toaz('matched')">...</button>
+                            <button *ngIf="item.controls[0] == 'cancel'" class="btn-control" (click)="toaz('cancel')">...</button>
+                            <button *ngIf="item.controls[0] != 'matched' && item.controls[0] != 'cancel'" class="btn-control" (click)="displaySub($event)">...</button>
+                            <div class="sub-control changePositionPopup" (mouseleave)="leave($event)">
+                                <ng-container *ngFor="let it of item.controls">
+                                    <a *ngIf="it.link" [routerLink]="it.link">{{it.value}}</a>
+                                    <a *ngIf="it.action == 'delete'" (click)="delete(it.id)">{{it.value}}</a>
+                                    <a *ngIf="it.action == 'disabled'" (click)="changeDisabled(it.id)">{{it.value}}</a>
+                                    <!-- Ánh custom action -->
+                                    <a *ngIf="it.action == 'disabledCampaign'"
+                                        (click)="changeToDisabledStateCampaign(it.id, it.link)">{{it.value}}</a>
+                                    <a *ngIf="it.action == 'enabledCampaign'" style="color: #007bff"
+                                        (click)="changeToEnabledStateCampaign(it.id, it.link)">{{it.value}}</a>
+                                    <!-- Ánh custom action -->
+                                    <a *ngIf="it.action2" (click)="handleAction(it, item)">{{it.value}}</a>
+                                    <!-- <a *ngIf="it.action2" (click)="handleAction(it, item)">{{it.value}}</a>
+                                    <a *ngIf="it.action == 'disabled'" (click)="changeDisabled(it.id)">{{it.value}}</a> -->
+                                </ng-container>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div class="no-data" *ngIf="!items||items.length==0">No data table</div> -->
+        </div>
+        <ul *ngIf="pager  && pager['pages'] && pager['pages'].length &&showPage" class="pagination mt-4">
+
+            <li [ngClass]="{disabled:pager['currentPage'] === 1}">
+                <a (click)="choosepage(pager.currentPage - 1)">
+                    Pre
+                </a>
+            </li>
+            <li *ngFor="let page of pager['pages']" [ngClass]="{active:pager['currentPage'] === page}">
+                <a (click)="choosepage(page)">{{page}}</a>
+            </li>
+            <li [ngClass]="{disabled:pager['currentPage'] === pager['totalPages']}">
+                <a (click)="choosepage(pager['currentPage'] + 1)">
+                    <!-- <i class="fa fa-angle-right"></i> -->
+                    Next
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<div *ngIf="isBackgroundSelector" id="backgroundSelector" (click)="hideSelector()"></div>

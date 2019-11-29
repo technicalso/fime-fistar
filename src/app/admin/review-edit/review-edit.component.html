@@ -1,0 +1,72 @@
+<div class="component-admin-review">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">
+                {{ "edit_review" | translate }}
+            </div>
+        </div>
+    </div>
+    <form class="content" [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-12">
+                <div class="review-title-block">
+                    <label>Title</label>
+                    <!-- <input class="review-title form-control" [(ngModel)]="review.goods_nm"> -->
+                    <input type="text" class="form-control" id="name" [(ngModel)]="review.goods_nm"
+                        formControlName="name" [ngClass]="{'has-error': hasError(form, form.name)}">
+                    <small *ngIf="form.name.errors != null  && form.name.touched" id="nameHelp"
+                        class="form-text text-muted">{{
+                            'please_enter_product_name' | translate }}</small>
+                </div>
+                <div class="review-body">
+                    <label>Short Description</label>
+                    <!-- <input class="review-title form-control" [(ngModel)]="review.review_short"> -->
+                    <textarea [ngClass]="{'has-error': hasError(form, form.short_description)}"
+                        class="form-control shortDescription" id="shortDescription" [(ngModel)]="review.review_short"
+                        formControlName="short_description">
+                    </textarea>
+                    <small *ngIf="form.short_description.errors && form.short_description.touched"
+                        id="shortDescriptionHelp"
+                        class="form-text text-muted">{{ 'please_enter_short_description' | translate }}</small>
+                </div>
+                <div class="form-group">
+                    <label for="category">{{ 'category' | translate}}</label>
+                    <select [ngClass]="{'has-error': hasError(form, form.category_id)}" id="category"
+                        class="form-control" [(ngModel)]="review.goods_cl_code" formControlName="category_id">
+                        <option value="">{{ 'choose_category' | translate }}</option>
+                        <option value="{{ category.code }}" *ngFor="let category of categories">{{ category.code_nm }}
+                        </option>
+                    </select>
+                    <small *ngIf="form.category_id.errors && form.category_id.touched" id="categoryHelp"
+                        class="form-text text-muted">{{
+                        'please_choose_category' | translate }}</small>
+                </div>
+                <div class="review-body">
+                    <label>Description</label>
+                    <!-- <p [innerHtml]="review.review_dc | safeHtml"></p> -->
+                    <ck-editor skin="moono-lisa" language="en" [fullPage]="true" id="description"
+                        formControlName="description" name="description" [(ngModel)]="review.review_dc">
+                    </ck-editor>
+                    <small *ngIf="form.description.errors && form.description.touched" id="descriptionHelp"
+                        class="form-text text-muted">{{
+                        'please_enter_content' | translate }}</small>
+                </div>
+                <div class="form-group">
+                    <div class="form-header">
+                        <label for="images">{{ 'image' | translate }}</label>
+                    </div>
+                    <app-admin-multiple-images-custom id="images" #images [images]="{ data: review.files}"
+                        [resizeToWidth]="500" [aspectRatio]="54 / 40">
+                    </app-admin-multiple-images-custom>
+                    <small *ngIf="form.term.errors" id="agreeHelp" class="form-text text-muted">{{ 'please_agree' |
+                        translate }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-12">
+            <a routerLink="/admin/reviews" class="btn-hero btn-cancel">{{ "back" | translate }}</a>
+            <button type="submit" [disabled]="reviewForm.invalid"
+                class="btn-hero btn-cancel">{{'update_review' | translate }}</button>
+        </div>
+    </form>
+</div>

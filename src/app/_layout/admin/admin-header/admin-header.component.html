@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">
+        <img src="/assets/images/logo.png" class="logo" />
+    </a>
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" routerLink="/admin">
+                    <fa name="heart" size="2x"></fa> <span>Try</span>
+                </a>
+                <ul>
+                    <li>
+                        <a routerLink="/admin/try-categories">Try Category</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/reviews">
+                    <fa name="book" size="2x"></fa> <span>Review</span>
+                </a>
+                <ul>
+                    <li>
+                        <a routerLink="/admin/review-categories"
+                            >Review Category</a
+                        >
+                    </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li><a routerLink="/admin/review-ads">Review Ads</a></li>
+                    <li class="divider dropdown-divider"></li>
+                    <li>
+                        <a routerLink="/admin/review-fimer">Review Fimer</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/users">
+                    <fa name="users" size="2x"></fa> <span>User</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" routerLink="/admin/banners">
+                    <fa name="picture-o" size="2x"></fa> <span>Banner</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/blogs">
+                    <fa name="book" size="2x"></fa> <span>Blog</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/admin/settings">
+                    <fa name="cog" size="2x"></fa> <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+        <div class="btn-group user" dropdown>
+            <button
+                id="button-basic"
+                dropdownToggle
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+                aria-controls="dropdown-basic"
+            >
+                Welcome User <span class="caret"></span>
+            </button>
+            <ul
+                id="dropdown-basic"
+                *dropdownMenu
+                class="dropdown-menu dropdown-menu-user"
+                role="menu"
+                aria-labelledby="button-basic"
+            >
+                <li role="menuitem">
+                    <a class="dropdown-item" href="#">Change password</a>
+                </li>
+                <li class="divider dropdown-divider"></li>
+                <li role="menuitem">
+                    <a class="dropdown-item" href="#">
+                        <fa name="sign-out-alt" size="2x"></fa>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

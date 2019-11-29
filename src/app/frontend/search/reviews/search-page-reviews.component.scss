@@ -1,0 +1,186 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.reviews, .likes {
+  font-family: 'Roboto-Regular';
+  width: 100%;
+  flex-direction: column;
+
+  .masonry {
+    margin-left: 10px;
+    width: 100% !important;
+  }
+
+  .loading-block {
+    text-align: center;
+    margin-top: 50px;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .review-cart {
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+    width: calc(25% - 20px);
+    margin-bottom: 20px;
+    overflow: hidden;
+    .main-img-video {
+      width: 100%;
+    }
+    .header {
+      .cover {
+        width: 100%;
+        height: 220px;
+        position: relative;
+        .fime-pick {
+          width: 65px;
+          left: 10px;
+          top: 10px;
+          position: absolute;
+          text-align: center;
+          border: 3px solid #f9ded7;
+          border-radius: 10px;
+          outline: 0;
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+          p {
+            margin-bottom: 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #f9ded7;
+            text-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+            font-weight: 600;
+          }
+        }
+        img {
+          width: 100%;
+          height: 220px;
+          border-radius: 10px 10px 0 0;
+          object-fit: cover;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .body, .footer {
+      padding: 15px;
+    }
+
+    .body {
+      .title {
+        margin-bottom: 15px;
+
+        .time {
+          text-transform: uppercase;
+          width: 100%;
+          font-size: 12px;
+          color: #363636;
+        }
+
+        .name {
+          display: inline-block;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+          width: 100%;
+          font-size: 14px;
+          color: #363636;
+          font-weight: bold;
+          cursor: pointer;
+
+          &:hover {
+            color: #f14c7f;
+          }
+        }
+      }
+
+      .description {
+        font-size: 12px;
+      }
+
+      .action{
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 5px;
+        font-size: 12px;
+      }
+
+    }
+
+    .footer {
+      .icons {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .action-block {
+        display: flex;
+        justify-content: space-between;
+
+        .action-btn {
+          width: 32px;
+          height: 32px;
+          color: #3a3a3a;
+          margin-right: 15px;
+          cursor: pointer;
+
+          i {
+            font-size: 24px;
+            &.fa-comment-o{
+              margin-top: -2px;
+            }
+          }
+
+          &:hover {
+            color: #f14c7f;
+          }
+        }
+
+        .action-btn.right {
+          margin-right: 0;
+        }
+
+        .action-btn.active {
+          color: #f14c7f;
+        }
+      }
+
+      .number_of_like {
+        font-size: 14px;
+        color: #3a3a3a;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+@include tablet {
+  .reviews, .likes {
+    .masonry {
+      .masonry-item {
+        width: calc(50% - 20px);
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
+@include phone {
+  .reviews, .likes {
+    .masonry {
+      margin-left: 0;
+      .masonry-item {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
+

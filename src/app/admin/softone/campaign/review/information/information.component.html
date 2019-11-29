@@ -1,0 +1,119 @@
+<div class="app-admin-campaign-information" [formGroup]="formvalue">
+    <div class="row bt">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading">
+                {{ "Campaign > fistar review" | translate }}
+            </div>
+
+            <div>
+                <button class="btn btn-default" (click)="backToList()"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link " (click)="navigate('campaign/edit')">Campaign Edit</a>
+                <a class="nav-item nav-link " (click)="navigate('campaign/matching-fistar')">Matching fiStar</a>
+                <a class="nav-item nav-link active ">fiStar Review</a>
+                <a class="nav-item nav-link " (click)="navigate('campaign/campaign-report')">Campaign Report</a>
+                <a class="nav-item nav-link ">Comments</a>
+                <a class="nav-item nav-link ">fime Review</a>
+                <a class="nav-item nav-link ">fime Winners</a>
+                <a class="nav-item nav-link" (click)="navigate('campaign/campaign-payment')">Payments</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row bt">
+        <button class="btn btn-default">
+            {{ data['detailAll']['cp_status'] == 59 ? 'Matching' : 
+                data['detailAll']['cp_status'] == 60 ? 'Ready' :
+                data['detailAll']['cp_status'] == 61 ? 'On-Going' :
+                data['detailAll']['cp_status'] == 62 ? 'Closed' : ''
+            }}</button>&nbsp;
+        <span style="margin-top: 7px ">{{ data['detailAll']['cp_name']}}</span>
+    </div><br>
+    <div class="row bt">
+        <div class="col-12">
+            <input style="width: 100%" type="text" formControlName="m_ch_title">
+            <div *ngIf="formvalue.controls.m_ch_title.errors?.required && formvalue.controls.m_ch_title.touched"
+                class="text-danger">
+                <div>
+                    Title is required
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="staticEmail" class="col-sm-1 col-form-label">Channel</label>
+        <div class="col-sm-2">
+            <select class="form-control" formControlName="sns_id">
+                <option [value]="item['sns_id']" *ngFor="let item of dataBlind.channels">{{item['sns_name']}}</option>
+
+            </select>
+        </div>
+        <div class="col-sm-2"></div>
+        <label for="staticEmail" class="col-sm-1 col-form-label">Category</label>
+        <div class="col-sm-2">
+            <select class="form-control" formControlName="m_ch_category">
+                <option [value]="item['cd_id']" *ngFor="let item of dataBlind.category">{{item['cd_label']}}</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="row bt">
+        <div class="col-12">
+            <div class="form-group">
+                <ck-editor skin="moono-lisa" formControlName="m_ch_content" language="en" [fullPage]="true"
+                    name="description"></ck-editor>
+                <div *ngIf="formvalue.controls.m_ch_content.errors?.required && formvalue.controls.m_ch_content.touched"
+                    class="text-danger">
+                    <div>
+                        Content is required
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row bt">
+        <div class="col-12">
+            <div class="form-group" *ngIf="rv_status==105&&sns_id!=1">
+                <textarea name="" id="" formControlName="m_ch_url" style="width:100%; height: 55px;" rows="2"
+                    placeholder="Enter Url"></textarea>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row bt">
+        <div class="col-12">
+            <button [disabled]="!formvalue.valid" class="btn btn-primary float-right" (click)="saveEdit()"
+                style="margin-right:10px">
+                <span>Save</span>
+            </button>
+            <button class="btn btn-default float-right" (click)="backToList()" style="margin-right:10px">
+                <span>Cancel</span>
+            </button>
+        </div>
+    </div>
+    <br>
+    <!-- <div class="row" *ngIf="rv_status == 105">
+        <div class="col-md-9">
+            <button class="btn btn-default float-right" style="margin-right:10px">
+                <span (click)="save()">Modify</span>
+            </button>
+        </div>
+    </div> -->
+</div>

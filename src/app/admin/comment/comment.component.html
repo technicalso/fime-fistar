@@ -1,0 +1,77 @@
+<div class="component-admin-comment component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">
+                Comment
+            </div>
+        </div>
+    </div>
+
+    <div class="multi-action" *ngIf="selected.length > 0">
+        <div class="col-12 d-flex justify-content-end">
+            <!-- <button class="btn btn-primary mr-1" [swal]="disableSwal" *ngIf="showDeactivate" (confirm)="onToggleMulti(true)">
+                <i class="material-icons align-text-bottom">
+                    visibility_off
+                </i> <span> Disable</span>
+            </button>
+            <button class="btn btn-primary mr-1" [swal]="enableSwal" *ngIf="showActive" (confirm)="onToggleMulti(false)">
+                <i class="material-icons align-text-bottom">
+                    visibility
+                </i> <span> Enable</span>
+            </button> -->
+            <button class="btn btn-default mr-1" [swal]="deleteSwal" *ngIf="showDelete" (confirm)="onDeleteMulti()">
+                <i class="material-icons align-text-bottom">
+                    delete
+                </i> <span>Delete</span>
+            </button>
+        </div>
+    </div>
+
+    <ngx-datatable #myTable class="material" [rows]="comments" [columnMode]="'force'" [headerHeight]="50" [offset]="pageIndex-1" 
+        [footerHeight]="50" [rowHeight]="'auto'" [count]="totalComments" [selectionType]="'checkbox'" [selected]="selected" [selectAllRowsOnPage]="false"
+        [rowHeight]="'auto'" [externalPaging]="true" (page)='setPage($event)' [limit]="pageSize" (select)='onSelect($event)'>
+
+        <ngx-datatable-column [frozenLeft]="true" [width]="50" [sortable]="false" [canAutoResize]="false"
+                              [draggable]="false"
+                              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true" [cellClass]="'text-center d-flex justify-content-center'"
+                              [headerClass]="'text-center d-flex justify-content-center'">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Content" prop="content"></ngx-datatable-column>
+        <ngx-datatable-column name="Author" prop="author"></ngx-datatable-column>
+        <ngx-datatable-column name="Created at" prop="created_at"></ngx-datatable-column>
+        <ngx-datatable-column name="Action" [sortable]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <mat-chip-list class="action">
+                    <i class="material-icons" [swal]="disableSwal" *ngIf="row.expsr_at == 'Y'"
+                       title="Disable" (confirm)="onToggle(row)">
+                        visibility_off
+                    </i>
+                    <i [swal]="enableSwal" *ngIf="row.expsr_at == 'N'" (confirm)="onToggle(row)"
+                       title="Enable" class="material-icons">
+                        visibility
+                    </i>
+                    <i class="material-icons" [swal]="deleteSwal" (confirm)="onDelete([row])" title="Delete">
+                        delete
+                    </i>
+                </mat-chip-list>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+    <div class="actions d-flex justify-content-end col-md-8">
+        <button routerLink="/" class="btn btn-primary">Back</button>
+    </div>
+</div>
+
+<swal #deleteSwal text="Are you sure to delete this comment?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #enableSwal text="Are you sure to approve this comment?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #disableSwal text="Are you sure to disapprove this comment?" type="question" [showCancelButton]="true"
+    [focusCancel]="true"></swal>

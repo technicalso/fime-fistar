@@ -1,0 +1,32 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-blog {
+    .multi-action {
+        margin-top: 30px;
+    }
+
+    .mat-form-field.full-width {
+        width: 100%;
+    }   
+
+    .mat-form-field.half-width {
+        width: 48%;
+        margin-right: 2%
+    }   
+
+    .search-control {
+        margin-top: 20px;
+    }
+
+    .action{
+        i{
+            cursor: pointer;
+            margin-right: 15px;
+            color: #b0b0b0;
+            font-size: 21px;
+            margin-top: 3px;
+        }
+    }
+}

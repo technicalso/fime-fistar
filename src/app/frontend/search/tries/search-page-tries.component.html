@@ -1,0 +1,41 @@
+<div class="tries">
+    <ngx-masonry [useImagesLoaded]="true" [options]="myOptions" class="masonry">
+        <ngxMasonryItem class="masonry-item review-cart" *ngFor="let item of data">
+            <div class="header">
+                <div class="cover">
+                    <img [src]="env.rootHost + item.images">
+                </div>
+            </div>
+            <div class="body">
+                <div class="title">
+                    <div class="name" title="item.name">{{item.name}}</div>
+                    <div class="time">
+                        {{ item.time }} {{ item.timeUnit | translate }} {{ 'ago' | translate }}
+                    </div>
+                </div>
+                <div class="description">{{item.short_description}}</div>
+                <div class="action" [routerLink]="['/tries/detail/' + item.slug]">{{'see_more' | translate}}</div>
+            </div>
+            <div class="footer">
+                <div class="icons">
+                    <div class="action-block">
+                        <div class="action-btn">
+                            <i class="fa fa-heart-o" aria-hidden="true"></i>
+                        </div>
+                        <div class="action-btn">
+                            <i class="fa fa-comment-o" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="action-block">
+                        <div class="action-btn right">
+                            <i class="material-icons">share</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="number_of_like">
+                    <span>{{ item.total_like | numberlike }} {{ '_like' | translate }}</span>
+                </div>
+            </div>
+        </ngxMasonryItem>
+    </ngx-masonry>
+</div>

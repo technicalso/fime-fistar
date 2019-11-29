@@ -1,0 +1,76 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.app-admin-sns {
+    .multi-action {
+        margin-top: 30px;
+    }
+    .action{
+        i{
+            cursor: pointer;
+            margin-right: 15px;
+            color: #b0b0b0;
+            font-size: 20px;
+            margin-top: 6px;
+        }
+    }
+    .btn {
+        i {
+            font-size: 20px;
+        }
+    }
+
+    app-admin-resource{
+       .resource{
+           display: none;
+       }
+    }
+
+    form{
+        &:first-of-type{
+            border-top: 0;
+        }
+        padding-top: 30px;
+        margin-bottom: 30px;
+        border-top: 1px solid #eaeaea;
+        
+        
+        .name-fistar{
+            position: absolute;
+            left: 144px;
+            top: 160px;
+            h1{
+                position: absolute;
+                left: 417px;
+                top: -20px;
+                width: 300px;
+            }
+
+            button{
+                position: absolute;
+                left: 717px;
+                top: -20px;
+                width: 300px;
+            }
+            p{
+                font-weight: normal; 
+            }
+        }
+        .icon-fime{
+            background: pink;
+            border-radius: 50%;
+            color: white;
+            font-size: 27px;
+            padding: 10px;
+        }
+
+        img{
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+
+}
+

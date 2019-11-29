@@ -1,0 +1,57 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.auth {
+  padding: 40px 0;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 13px;
+
+  .wrap {
+    .tab-wrap {
+      .tab-header {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+
+        .tab-item {
+          cursor: pointer;
+          text-align: center;
+          width: 50%;
+          padding: 15px;
+          background-color: #fff;
+          border-bottom: 1px solid #ddd;
+          
+          &.active, &:hover {
+            border-color: #f14c7f;
+            span {
+              color: #222;
+              font-weight: 600;
+            }
+          }
+          
+          span {
+            font-family: 'Roboto-Regular';
+            font-size: 16px;
+            color: #999999;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include phone {
+  .auth {
+    padding: 0;
+    .wrap {
+      .tab-wrap {
+        .tab-header {
+          margin-left: 15px;
+          margin-right: 15px;
+        }
+      }
+    }
+  }
+}

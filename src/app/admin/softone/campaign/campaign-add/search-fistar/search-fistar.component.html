@@ -1,0 +1,130 @@
+<div class="admin-camapaign-fistar-search">
+    <ng-container *ngIf="showFilter">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                Keyword:
+            </div>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" (change)="changeSearchKeyword($event)" />
+            </div>
+        </div>
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>Fi:Star Type</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Location</th>
+                    <th>Follower range</th>
+                    <th>Post range</th>
+                    <th>Channel</th>
+                    <th>Keyword</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <li *ngFor="let item of filter.fistar_type">
+                                <mat-checkbox [checked]="isCheckBox('fistar_type', item.cd_id)" (change)="checkBox('fistar_type', item.cd_id)">{{item.cd_label}}</mat-checkbox>
+
+                        </li>
+                    </td>
+                    <td>
+                        <li *ngFor="let item of filter.gender">
+                                <mat-checkbox [checked]="isCheckBox('gender', item.cd_id)" (change)="checkBox('gender', item.cd_id)">{{item.cd_label}}</mat-checkbox>
+                        </li>
+                    </td>
+                    <td>
+                        <li *ngFor="let item of filter.age_range">
+                                <mat-checkbox [checked]="isCheckBox('age_range', item.cd_id)" (change)="checkBox('age_range', item.cd_id)">{{item.cd_label}}</mat-checkbox>
+                        </li>
+                    </td>
+                    <td>
+                        <li *ngFor="let item of filter.location">
+                                <mat-checkbox [checked]="isCheckBox('location', item.cd_id)" (change)="checkBox('location', item.cd_id)">{{item.cd_label}}</mat-checkbox>
+                        </li>
+                    </td>
+                    <td>
+                        <li *ngFor="let item of filter.follower_range">
+                                <mat-checkbox [checked]="isCheckBox('follower_range', item.cd_id)" (change)="checkBox('follower_range', item.cd_id)">{{item.cd_label}}</mat-checkbox>
+                        </li>
+                    </td>
+                    <td>
+                        <li *ngFor="let item of filter.post_range">
+                                <mat-checkbox [checked]="isCheckBox('post_range', item.cd_id)" (change)="checkBox('post_range', item.cd_id)">{{item.cd_label}}</mat-checkbox>
+                        </li>
+                    </td>
+                    <td>
+                        <li *ngFor="let item of filter.channel">
+                                <mat-checkbox [checked]="isCheckBox('channel', item.cd_id)" (change)="checkBox('channel', item.cd_id)">{{item.cd_label}}</mat-checkbox>
+                        </li>
+                    </td>
+                    <td>
+                        <li *ngFor="let item of filter.keyword">
+                                <mat-checkbox [checked]="isCheckBox('keyword', item.cd_id)" (change)="checkBox('keyword', item.cd_id)">{{item.cd_label}}</mat-checkbox>
+                        </li>
+                        
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </ng-container>
+    <div class="row">
+        <div class="col-6">
+            <button type="button" class="btn btn-default" (click)="showHideFilter()">Show/Hide filter</button> &nbsp;&nbsp;
+            <button type="button" class="btn btn-warning" (click)="reset()">Reset</button>
+        </div>
+        <div class="col-6 text-right"><button type="button" class="btn btn-success" (click)="getListFistar()">&nbsp;&nbsp;<i class="fas fa-search"></i>&nbsp;Search&nbsp;&nbsp;&nbsp;</button></div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <hr/>
+            Result: <label style="color: red">{{data.total}}</label> Fistar
+        </div>
+    </div>
+
+    <div class="row mt-3 search-result-content">
+        <ng-container *ngFor="let item of data.data;index as i">
+            <div class="col-3 mt-4 ">
+                <div class="p-3 border">
+                    <div class="row" style="padding-top: 10px">
+                        <div class="col-10">
+                            <p>
+                                <i class={{getGenderIcon(item.gender)}}></i>
+                                <span style="font-weight: bold;margin-left:10px;">{{item.name}}</span>
+                            </p>
+                            <p>{{getBirthYear(item.dob)}} | {{item.location_label}}</p>
+                        </div>
+                        <div class="col-2">
+                            <mat-checkbox (change)="checkFistar(item)"></mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="fistar-search-thumbnail">
+                                <img [src]="commonService.getImageLink(item.avatar, 'fistars', 'thumbnail')" style="width: 100%;height:100%" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col" [innerHTML]="getChannelFollower(item)">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <hr/>
+    <div class="row mt-3">
+        <div class="col-sm-9">
+            
+        </div>
+        <div class="col-sm-3 text-right">
+                Select <strong>{{fistars.length}}</strong> of {{data.total}}
+            <button class="btn btn-primary" (click)="selectFistar()" [disabled]="fistars.length == 0">Select fistar</button>
+        </div>
+    </div>
+</div>

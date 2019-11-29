@@ -1,0 +1,26 @@
+<div class="auth">
+    <div class="wrap">
+        <div class="tab-wrap">
+            <div class="tab-header">
+                <div class="tab-item"
+                     [ngClass]="{'active': tabIndex == 1}"
+                     (click)="changeTab(1)">
+                    <span>{{ 'login' | translate }}</span>
+                </div>
+                <div class="tab-item"
+                     [ngClass]="{'active': tabIndex == 2}"
+                     (click)="changeTab(2)">
+                    <span>{{ 'register' | translate }}</span>
+                </div>
+            </div>
+            <div class="tab-body">
+                <ng-container *ngIf="tabIndex == 1">
+                    <app-auth-login></app-auth-login>
+                </ng-container>
+                <ng-container *ngIf="tabIndex == 2">
+                    <app-auth-register></app-auth-register>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

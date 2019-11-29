@@ -1,0 +1,28 @@
+<mat-card class="img-box-custom">
+    <mat-card-content>
+        <div class="content">
+            <div class="resource-img default" *ngFor="let img of imagesBase64; let i = index;">
+                <img [src]="img.base64" *ngIf="img.base64 !== ''">
+                <img [src]="img.url" *ngIf="img.base64 === '' && img.url !== ''">
+                <div class="middle">
+                    <mat-card class="overlay-action">
+                        <mat-card-actions>
+<!--                            <a mat-button title="crop" (click)="editImage(i)" *ngIf="imagesBase64[i].base64 !== '' && imagesBase64[i].type != 'image/gif'">-->
+<!--                                <mat-icon>crop</mat-icon>-->
+<!--                            </a>-->
+                            <a mat-button title="delete" (click)="deleteImage(i)">
+                                <mat-icon>delete</mat-icon>
+                            </a>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+            <mat-card-subtitle *ngIf="imagesBase64.length < 7">
+                <label class="btn btn-outline-primary float-right">
+                    <input class="select-img" type="file" (change)="fileChangeEvent($event)"
+                           accept=".png, .jpg, .jpeg, .gif" multiple>
+                </label>
+            </mat-card-subtitle>
+        </div>
+    </mat-card-content>
+</mat-card>

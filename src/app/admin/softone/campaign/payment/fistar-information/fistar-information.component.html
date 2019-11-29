@@ -1,0 +1,231 @@
+<div class="app-admin-campaign-payment-fistar-infor">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading">
+                {{ "Fistar information" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" (click)="back()"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form">
+                <p class="title">Fistar infomation / Partner infomation</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="first">
+                                User No
+                            </td>
+                            <td>
+                                <p>{{ detail[0]['title']}}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Name
+                            </td>
+                            <td>
+                                <p>{{ detail[1]['title']}}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Review Channel
+                            </td>
+                            <td *ngIf="data['sns']">
+                                <p>
+                                    <span>{{data['sns']['sns_id'] == 1 ? 'Fime' : 
+                                        data['sns'] == 2 ? 'Facebook' :
+                                        data['sns'] == 3 ? 'Youtube' : 'Instagram'
+                                                }}</span>
+                                </p>
+                            </td>
+                            <td *ngIf="!data['sns']">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Campaign Name
+                            </td>
+                            <td>
+                                <p>{{ detail[3]['title']}}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Brand
+                            </td>
+                            <td>
+                                <p></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- // type =2  -->
+    <div class="row" *ngIf="type == 0">
+        <div class="col-md-12">
+            <div class="form" [formGroup]="depositform">
+                <p class="title">Register Deposit Detail</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="first">
+                                Paycode
+                            </td>
+                            <td>
+                                <input type="text" formControlName="pay_code" placeholder="Paycode">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Deposit date
+                            </td>
+                            <td>
+                                <input type="text" formControlName="payed_date" placeholder="Deposit date">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Name
+                            </td>
+                            <td>
+                                <input type="text" formControlName="deposit_name" placeholder="Name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Price
+                            </td>
+                            <td>
+                                <input type="text" formControlName="price" placeholder="Price">VND
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="row " *ngIf="type == 1">
+        <div class="col-md-12">
+            <div class="form" [formGroup]="withdrawform">
+                <p class="title">Register Withdraw Detail</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="first">
+                                Paycode
+                            </td>
+                            <td>
+                                <input type="text" formControlName="pay_code" placeholder="Paycode">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Date
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Date" formControlName="payed_date">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Name
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Name" formControlName="deposit_name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Bank name
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Bankname" formControlName="bank_name" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Bank branch
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Bank branch" formControlName="bank_branch" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Account name
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Bank Account Name" formControlName="bank_account_name" disabled>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="first">
+                                Account number
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Bank Account Number"
+                                    formControlName="bank_account_number" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Swift code
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Swift code" formControlName="bank_swift_code" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Price
+                            </td>
+                            <td>
+                                <input type="text" formControlName="price" placeholder="Price">VND
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="type == 0" class="actions d-flex justify-content-end col-md-8">
+        <button class="btn btn-default mr-1" (click)="back()">
+            <i class="material-icons align-text-bottom">
+                cancel
+            </i> <span> {{ "cancel" | translate }}</span>
+        </button>
+        <button class="btn btn-primary mr-1" [disabled]="depositform.invalid" (click)="deposit()">
+            <i class="material-icons align-text-bottom">
+                save
+            </i> <span> {{ "save" | translate }}</span>
+        </button>
+    </div>
+
+    <div *ngIf="type ==1" class="actions d-flex justify-content-end col-md-8">
+        <button class="btn btn-default mr-1" (click)="back()">
+            <i class="material-icons align-text-bottom">
+                cancel
+            </i> <span> {{ "cancel" | translate }}</span>
+        </button>
+        <button class="btn btn-primary mr-1" (click)="withdraw()" [disabled]="withdrawform.invalid">
+            <i class="material-icons align-text-bottom">
+                save
+            </i> <span> {{ "save" | translate }}</span>
+        </button>
+    </div>
+</div>

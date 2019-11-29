@@ -1,0 +1,77 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-review {
+  .admin-heading {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  .mat-comment {
+    background-color: #8b9dc3 !important;
+    color: #fff;
+  }
+  .mat-up {
+    background-color: green !important;
+    color: #fff;
+  }
+  .mat-form-field.full-width {
+    width: 100%;
+  }
+  .mat-form-field.half-width {
+    width: 48%;
+    margin-right: 2%
+  }
+  .action{
+    i{
+      cursor: pointer;
+      margin-right: 15px;
+      color: #b0b0b0;
+      font-size: 21px;
+      margin-top: 3px;
+    }
+  }
+  .multi-action{
+    margin-top: 30px;
+  }
+  .btn {
+    i {
+      font-size: 20px;
+    }
+  }
+
+  .thumbnail-container {
+    cursor: pointer;
+
+    &:hover {
+      .review-thumbnail-zoom {
+        display: block;
+      }
+    }
+
+    .review-thumbnail {
+      max-width: 100%;
+      cursor: pointer;
+    }
+
+    .zoom-thumbnail {
+      position: absolute;
+      left: 100%;
+      top: 0;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    .review-thumbnail-zoom {
+      display: none;
+      max-width: 500px;
+    }
+  }
+}
+
+::ng-deep {
+  .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+    position: relative;
+    overflow: unset;
+  }
+}

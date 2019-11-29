@@ -1,0 +1,73 @@
+<div class="modal-custom">
+    <div class="modal-content">
+        <div class="m-head">
+            <p>Review History</p>
+            <span class="close" (click)="close()">&times;</span>
+        </div>
+        <div class="m-des">
+            <h3>{{ title }}</h3>
+            <h1>{{data['m_ch_title']}}</h1>
+
+        </div>
+        <div class="m-body">
+            <!-- <div class="step">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td *ngFor="let item of data['history_review']">
+                                {{item['label']['description']}}<br>
+                                {{item['label']['fistar_status']}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+            <!-- <div class="step">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td width="33%">
+
+                                Step 1
+                            </td>
+                            <td width="33%">
+                                Step 2
+                            </td>
+                            <td width="33%">
+                                Step 3
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ready
+                            </td>
+                            <td>
+                                Request to check
+                            </td>
+                            <td>
+                                Completed
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+
+            <div class="record">
+                <table>
+                    <tbody>
+                        <tr *ngFor="let item of data['history_review']">
+                            <td class="first">
+                                {{item['label']['description']}}
+                            </td>
+                            <td>
+                                {{item['created_at']}}<br>
+                                <!-- {{item['updated_at']}} -->
+                            </td>
+                            <td>
+                                {{item['label']['fistar_status']}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>

@@ -1,0 +1,148 @@
+<div class="component-admin-banner component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                Banners
+            </div>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" routerLink="/admin/banners/add">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+        </div>
+    </div>
+    <mat-card class="search-control">
+        <div class="row">
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Title</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="" [(ngModel)]="filter.title">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Period</label>
+                    <div>
+                        <mat-form-field class="half-width">
+                            <input matInput [matDatepicker]="from" placeholder="From" [(ngModel)]="filter.from"
+                                   [max]="filter.to">
+                            <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                            <mat-datepicker #from></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="half-width">
+                            <input matInput [matDatepicker]="to" placeholder="To" [(ngModel)]="filter.to"
+                                   [min]="filter.from">
+                            <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                            <mat-datepicker #to></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="pull-right">
+                    <button class="btn btn-primary mr-1" (click)="onSearch()"><i class="material-icons align-text-bottom">
+                        search
+                    </i> <span>Search</span></button>
+                    <button class="btn btn-default" (click)="onReset()"><i class="material-icons align-text-bottom">
+                        replay
+                    </i> <span>Reset</span></button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+    <div class="multi-action d-flex justify-content-end" *ngIf="selected.length > 0">
+        <button class="btn btn-primary mr-1" [swal]="disableSwal" *ngIf="showDeactivate" (confirm)="onToggleMulti(true)">
+            <i class="material-icons align-text-bottom">
+                visibility_off
+            </i> <span> Disable</span>
+        </button>
+        <button class="btn btn-primary mr-1" [swal]="enableSwal" *ngIf="showActive" (confirm)="onToggleMulti(false)">
+            <i class="material-icons align-text-bottom">
+                visibility
+            </i> <span> Enable</span>
+        </button>
+        <button class="btn btn-default mr-1" [swal]="deleteSwal" *ngIf="showDelete" (confirm)="onDeleteMulti()">
+            <i class="material-icons align-text-bottom">
+                delete
+            </i> <span>Delete</span>
+        </button>
+    </div>
+    <ngx-datatable #myTable class="material" [rows]="banners" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+                   [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)' [selected]="selected"
+                   [rowHeight]="'auto'" [count]="total" [offset]="pageIndex-1" [limit]="pageSize" [externalPaging]="true" (page)='setPage($event)'>
+        <ngx-datatable-column [frozenLeft]="true" [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="ID" prop="id" [canAutoResize]="false" [width]="50"></ngx-datatable-column>
+        <ngx-datatable-column name="Cover" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <img class="img" [src]="env.rootHost + row.url" *ngIf="row.resource_type == 1"/>
+                <video class="img" *ngIf="row.resource_type == 3">
+                    <source [src]="env.rootHost + row.url"/>
+                </video>
+                <a class="link" href="{{row.url}}" *ngIf="row.resource_type == 2" target="_blank">Link</a>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
+        <ngx-datatable-column name="Button Text" prop="button_text" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Url" prop="url" [sortable]="false" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <a class="link" href="{{row.target_url}}" *ngIf="row.target_url" target="_blank">Link</a>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Period" prop="event_bgnde">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span>{{ row.period_from | date : 'yyyy/MM/dd HH:mm' }} - {{ row.period_to | date : 'yyyy/MM/dd HH:mm' }}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Views" prop="view_cnt"></ngx-datatable-column>
+
+        <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'" [cellClass]="'text-center'">>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-icon-button [matMenuTriggerFor]="userActions">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #userActions="matMenu">
+                    <a mat-menu-item routerLink="/admin/banners/edit/{{row.id}}" class="datatable-action-button">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </a>
+                    <button mat-menu-item [swal]="disableSwal"
+                            *ngIf="!row.is_disabled" (confirm)="onToggle([row], true)" class="datatable-action-button">
+                        <mat-icon>visibility_off</mat-icon>
+                        <span>Disable</span>
+                    </button>
+                    <button mat-menu-item [swal]="enableSwal"
+                            *ngIf="row.is_disabled" (confirm)="onToggle([row], false)" class="datatable-action-button">
+                        <mat-icon>visibility</mat-icon>
+                        <span>Enable</span>
+                    </button>
+                    <button mat-menu-item [swal]="deleteSwal" (confirm)="onDelete([row])" class="datatable-action-button">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+
+<swal #enableSwal text="Are you sure to enable banner?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #disableSwal text="Are you sure to disable banner?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #deleteSwal text="Are you sure to delete banner?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>

@@ -1,0 +1,164 @@
+<div class="component-admin-banner">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading" *ngIf="!bannerId">
+                {{ "create_banner" | translate }}
+            </div>
+            <div class="admin-heading" *ngIf="bannerId">
+                {{ "edit_banner" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/banners"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "name" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter name"
+                                       [(ngModel)]="banner.name"
+                                       formControlName="name" name="name"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "description" | translate }}</label> (max 255 characters)
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" placeholder="Enter description"
+                                          maxlength="255" rows="4"
+                                          [(ngModel)]="banner.description"
+                                          formControlName="description" name="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "url" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter url"
+                                       [(ngModel)]="banner.target_url"
+                                       formControlName="target_url" name="target_url"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Target type</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <select class='form-control' [(ngModel)]="banner.target_type" formControlName="target_type" name="target_type">
+                                    <option value="_blank">_blank</option>
+                                    <option value="_self">_self</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Button Text</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter button text"
+                                       [(ngModel)]="banner.button_text"
+                                       formControlName="button_text" name="button_text"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Period</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group period">
+                                <div class="from">
+                                    <mat-form-field>
+                                        <mat-datepicker-toggle [for]="period_from"
+                                                               matSuffix></mat-datepicker-toggle>
+                                        <mat-datepicker #period_from type="datetime" openOnFocus="true"
+                                                        timeInterval="5"></mat-datepicker>
+                                        <input matInput class="form-control" formControlName="period_from"
+                                               [(ngModel)]="banner.period_from"
+                                               [matDatepicker]="period_from" required autocomplete="false"
+                                               [max]="banner.period_to" placeholder="From">
+                                    </mat-form-field>
+                                    <div *ngIf="form.controls.period_from.invalid && (form.controls.period_from.dirty || form.controls.period_from.touched)"
+                                         class="text-danger">
+                                        <div *ngIf="form.controls.period_from.errors.required">
+                                            Period is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="to">
+                                    <mat-form-field>
+                                        <mat-datepicker-toggle [for]="period_to"
+                                                               matSuffix></mat-datepicker-toggle>
+                                        <mat-datepicker #period_to type="datetime" openOnFocus="true"
+                                                        timeInterval="5"></mat-datepicker>
+                                        <input matInput class="form-control" formControlName="period_to"
+                                               [(ngModel)]="banner.period_to"
+                                               [matDatepicker]="period_to" required autocomplete="false"
+                                               [min]="banner.period_from" placeholder="To">
+                                    </mat-form-field>
+                                    <div *ngIf="form.controls.period_to.invalid && (form.controls.period_to.dirty || form.controls.period_to.touched)"
+                                         class="text-danger">
+                                        <div *ngIf="form.controls.period_to.errors.required">
+                                            Period is required
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Cover image</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <app-admin-resource #resource
+                                                    [resource]="{ url: banner.url, resource_type: banner.resource_type }"
+                                                    [resizeToWidth]="1920" [aspectRatio]="19/6"></app-admin-resource>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/banners">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" [disabled]="!form.valid"
+                    (click)="save()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

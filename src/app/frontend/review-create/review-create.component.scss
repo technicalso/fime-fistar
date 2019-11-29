@@ -1,0 +1,230 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+.review-create {
+  max-width: 1150px;
+  padding: 50px 0;
+  margin: 0 auto;
+  font-family: 'Roboto-Regular';
+  font-size: 13px;
+  .loading-block {
+    text-align: center;
+    margin-top: 20px;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    .title {
+      font-size: 16px;
+      font-family: 'Roboto-Regular';
+      color: #222222;
+    }
+  }
+  .content {
+    display: flex;
+    .left-col {
+      width: 36%;
+      margin-right: 4%;
+      .guide-link {
+        font-size: 14px;
+        color: #0099ff;
+        font-family: 'Roboto-Regular';
+        text-decoration: none;
+        cursor: pointer;
+        &:hover {
+          color: #f14c7f;
+        }
+      }
+      .form-group {
+        textarea {
+          font-size: 13px;
+        }
+        .form-header {
+          display: flex;
+          justify-content: space-between;
+        }
+
+        .shortDescription{
+          height: 100px;
+          resize: none;
+        }
+      }
+      .has-error {
+        border-color: #cc0000;
+      }
+    }
+    .right-col {
+      width: 60%;
+      .form-group.has-error {
+        border-color: #cc0000;
+      }
+      .form-footer {
+        display: flex;
+        justify-content: space-between;
+        .form-group {
+          margin-bottom: 0;
+        }
+        .post-btn {
+          font-size: 13px;
+          text-transform: uppercase;
+          border: 1px solid #fff;
+          color: #fff;
+          background-color: #f14c7f;
+          line-height: 1;
+          border-radius: 35px;
+          font-family: 'Roboto-Regular';
+          height: 32px;
+          padding: 0 20px;
+          outline: none!important;
+          &:hover {
+            color: #f14c7f;
+            background-color: #fff;
+            border-color: #f14c7f;
+          }
+        }
+        .post-btn:disabled {
+          pointer-events: none;
+          color: #999999;
+          background-color: #f0f0f0;
+        }
+        /* Customize the label (the container) */
+        .container {
+          display: block;
+          position: relative;
+          padding-top: 5px;
+          padding-left: 25px;
+          line-height: 15px;
+          cursor: pointer;
+          font-size: 13px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          a {
+            color: #0099ff;
+            text-decoration: none;
+            &:hover {
+              color: #f14c7f;
+            }
+          }
+        }
+        /* Hide the browser's default checkbox */
+        .container input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+        }
+        /* Create a custom checkbox */
+        .checkmark {
+          position: absolute;
+          top: 4px;
+          left: 0;
+          height: 15px;
+          width: 15px;
+          background-color: #fff;
+          border: 1px solid #ddd;
+        }
+        /* On mouse-over, add a grey background color */
+        .container:hover input~.checkmark {
+          background-color: #fff;
+        }
+        /* When the checkbox is checked, add a blue background */
+        .container input:checked~.checkmark {
+          background-color: #fff;
+        }
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+          content: "";
+          position: absolute;
+          display: none;
+        }
+        /* Show the checkmark when checked */
+        .container input:checked~.checkmark:after {
+          display: block;
+        }
+        /* Style the checkmark/indicator */
+        .container .checkmark:after {
+          left: 5px;
+          top: 0px;
+          width: 5px;
+          height: 10px;
+          border: solid #222;
+          border-width: 0 3px 3px 0;
+          -webkit-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+        }
+      }
+    }
+    .form-group {
+      .form-header {
+        span {
+          color: #8c8c8c;
+        }
+      }
+      label {
+        font-size: 14px;
+        color: #222;
+        font-family: 'Roboto-Regular';
+        font-weight: 600;
+      }
+      small.text-muted {
+        color: #cc0000 !important;
+      }
+      #category {
+        font-size: 13px;
+      }
+      input {
+        font-size: 13px;
+        border-color: #ddd;
+      }
+      textarea {
+        border-color: #ddd;
+      }
+    }
+  }
+}
+
+@include small-desktop {
+  .review-create {
+    max-width: 960px;
+  }
+}
+
+@include tablet {
+  .review-create {
+    padding: 30px 0;
+    max-width: 700px;
+  }
+}
+
+@include phone {
+  .review-create {
+    max-width: 100%;
+    padding: 20px 15px;
+    .content {
+      flex-wrap: wrap;
+      .left-col {
+        width: 100%;
+        margin-right: 0;
+      }
+      .right-col {
+        width: 100%;
+        .form-footer {
+          flex-wrap: wrap;
+          justify-content: normal;
+          .container {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

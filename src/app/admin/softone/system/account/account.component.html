@@ -1,0 +1,77 @@
+<div class="app-admin-system-account">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                SYSTEM > ACCOUNT
+            </div>
+        </div>
+    </div>
+    <mat-card class="search-control">
+        <form [formGroup]="formSearch">
+            <div class="row">
+                <div class="col-2">
+                    <label>Administrator</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group">
+
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select formControlName="filter">
+                                    <mat-option value="USER_NO">User No</mat-option>
+                                    <mat-option value="EMAIL">Email</mat-option>
+                                    <mat-option value="PHONE">Phone</mat-option>
+                                    <mat-option value="REG_NAME">Name</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <div class="none-label">
+                            <mat-form-field class="full-width">
+                                <input matInput formControlName="keyword">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2" style="margin-top: 30px;">
+                    <div class="pull-right">
+                        <button class="btn btn-primary mr-1" (click)="search()"><i
+                                class="material-icons align-text-bottom">
+                                search
+                            </i> <span>Search</span></button>
+                        <button class="btn btn-default mr-1" (click)="reset()"><i
+                                class="material-icons align-text-bottom">
+                                replay
+                            </i> <span>Reset</span></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </mat-card>
+    <br>
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <!-- (click)="openModal(true)" -->
+            <button class="btn btn-primary float-right" routerLink="/admin/system/account/update">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+        </div>
+    </div>
+    <h5>{{total_item}} Total</h5>
+
+    <app-data-table [items]="data.list" [headers]="data.header" [pageSize]="10" [isCheckItem]="false"
+        [isCheckItemRadio]="false" [showPage]="true" (outputPage)="getParams($event)" [currentPage]="data.page"
+        [totalPage]="data.total_page" (getId)="delete($event)" (disab)="disabled($event)"></app-data-table>
+</div>

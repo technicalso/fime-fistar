@@ -1,0 +1,96 @@
+<div class="component-admin-ad">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading" *ngIf="!notificationId">
+                {{ "create_system_notification" | translate }}
+            </div>
+            <div class="admin-heading" *ngIf="notificationId">
+                {{ "edit_system_notification" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/notifications"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "title" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter name" [(ngModel)]="notification.title"
+                                       formControlName="title" name="title" />
+                                <div *ngIf="form.controls.title.invalid && (form.controls.title.dirty || form.controls.title.touched)"
+                                     class="text-danger">
+                                    <div *ngIf="form.controls.title.errors?.required">
+                                        {{ "title_required" | translate }}
+                                    </div>
+                                    <div *ngIf="form.controls.title.errors?.maxlength">
+                                        Title's max length is 200 characters.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "content" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <ck-editor [(ngModel)]="notification.content" skin="moono-lisa" language="en" [fullPage]="true"
+                                           formControlName="content" name="content"></ck-editor>
+                                <div *ngIf="form.controls.content.invalid && (form.controls.content.dirty || form.controls.content.touched)"
+                                     class="text-danger">
+                                    <div *ngIf="form.controls.content.errors?.maxlength">
+                                        Title's max length is 500 characters.
+                                    </div>
+                                    <div *ngIf="form.controls.content.errors?.required">
+                                        Content is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "url" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="{{ 'enter_url' | translate }}"
+                                       [(ngModel)]="notification.url" formControlName="url" name="url" />
+                                <div *ngIf="form.controls.url.invalid && (form.controls.url.dirty || form.controls.url.touched)"
+                                     class="text-danger">
+                                    <div *ngIf="form.controls.url.errors.required">
+                                        URL is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/notifications">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" [disabled]="!form.valid" (click)="save()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

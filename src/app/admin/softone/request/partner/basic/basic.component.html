@@ -1,0 +1,251 @@
+<div class="admin-request-partner-basic">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div>
+                REQUEST > <b>Partner</b>
+            </div>
+
+            <div>
+                <button class="btn btn-default" routerLink="/admin/request/partner"><i
+                        class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "User No" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.pid}} class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Name" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.pm_name}} class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "ID" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.pm_id}} class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Contact" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" class="form-control" value={{data.pm_phone}}
+                                    placeholder="Enter url" name="target_url" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Email" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" class="form-control" value={{data.email}}
+                                    placeholder="Enter url" name="target_url" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Profile Photo</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <div
+                                        style="width: 150px;overflow: hidden;height: 150px;display: inline-block; border-radius: 50%; vertical-align: middle; margin-right: 20px; border: 1px solid #ADADAD;">
+                                        <img class="img" style="width: 150px; height: 150px;object-fit: cover"
+                                            [src]="commonService.getImageLink(data.p_image, 'partners','original')" />
+                                    </div>
+                                    <div class="name-fistar"
+                                        style="display: inline-block; width: calc(100% - 170px); vertical-align: middle">
+                                        <b>
+                                            <h1>{{data.pm_name}}</h1>
+                                        </b>
+                                        <p>{{data.pm_id}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Company Name" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.pc_name}} class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Type of business" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" class="form-control"
+                                    value={{data.type.cd_label}} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Company Contact" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.pc_phone}} class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Company Address" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.pc_address}} class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Product Brand" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.pc_brand}} class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            Keywords
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div>
+                                        {{cdId.length}}/12
+                                    </div>
+                                    <ng-container *ngFor="let keyword of keywords">
+                                        <mat-checkbox [disabled]="true" class="px-3" color="primary"
+                                            *ngIf="cdId.indexOf(keyword.cd_id) === -1">{{keyword.cd_label}}
+                                        </mat-checkbox>
+                                        <mat-checkbox [disabled]="true" class="px-3" color="primary"
+                                            *ngIf="cdId.indexOf(keyword.cd_id) !== -1" [checked]=true>
+                                            {{keyword.cd_label}}
+                                        </mat-checkbox>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Introduction</label>
+                        </div>
+                        <div class="col-md-9">
+
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <textarea type="text" [readonly]="true" class="form-control" maxlength="255"
+                                        rows="4" name="description">{{data.pc_introduction}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngFor="let item of data.channel; index as i">
+                        <ng-container *ngIf="item.sns_id==4">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>{{ "Instagram" | translate }}</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" style="cursor:pointer;" [readonly]="true" (click)="openNewWindown(item.url)" value={{item.url}} class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.sns_id==3">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>{{ "Youtube" | translate }}</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" style="cursor:pointer;" [readonly]="true" (click)="openNewWindown(item.url)" value={{item.url}} class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="item.sns_id==2">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>{{ "FaceBook" | translate }}</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" style="cursor:pointer;" [readonly]="true" (click)="openNewWindown(item.url)" value={{item.url}} class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                    </ng-container>
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8 mb-4">
+            <button class="btn btn-default mr-1" (click)="accessRequest(3)">
+                <span> {{ "Reject" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" (click)="accessRequest(2)">
+                <span> {{ "Approve" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

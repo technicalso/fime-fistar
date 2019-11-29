@@ -1,0 +1,41 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.admin-camapaign-fistar-search {
+    // // ngx-datatable{
+    // //     ngx-datatable-column{
+    // //         text-align: center !important;
+    // //     }
+    // // }
+    // .ngx-datatable .datatable-body .datatable-body-row > div {
+    //     align-items: center !important;
+    //  }
+    .multi-action {
+        margin-top: 30px;
+    }
+    .action{
+        i{
+            cursor: pointer;
+            margin-right: 15px;
+            color: #b0b0b0;
+            font-size: 20px;
+            margin-top: 6px;
+        }
+    }
+    .btn {
+        i {
+            font-size: 20px;
+        }
+    }
+    li{
+        display: block;
+        list-style: none;
+    }
+    .sns-info{
+        display: inline-block;
+        img{
+            max-height: 24px;
+        }
+    }
+}

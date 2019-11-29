@@ -1,0 +1,107 @@
+<div class="fimers container">
+    <div class="fimers-wrap">
+        <div class="fimers-header">
+            <div class="filter-row">
+                <div class="fimers-type">
+                    <div *ngFor="let filter of filter_section; let i = index;">
+                        <div class="filter" [ngClass]="{'active' : filter.active}" (click)="onSearch(filter)">
+                            <div class="btn-circle">
+                                <div class="btn-circle-1">
+                                    <div class="btn-child-circle">
+                                        <div class="img" [ngClass]="filter.filterType"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="title">{{ filter.translateKey | translate }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fimers-body">
+            <ngx-masonry #mymasonry [options]="myOptions" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="1000"
+                         (scrolled)="onScroll()">
+                <ngxMasonryItem class="fimers-body-col" *ngFor="let item of fimers; let i = index;">
+                    <div class="fimers-post">
+                    <div class="fimer-header">
+                        <div class="fimer-avatar">
+                            <div class="user-block">
+                                <div class="avt-block pointer" routerLink="/usr/{{item.slug}}">
+                                    <img [src]="item.pic ? env.rootHost + item.pic : defaultUserAvatar"
+                                         alt="" class="user-avt">
+                                    <div class="fimer-rank fimer-rank-{{i + 1}}">
+                                        <span>#{{i + 1}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fimer-info">
+                            <div class="row">
+                                <div class="col user-name pointer" routerLink="/usr/{{item.slug}}">
+                                    <span [innerHtml]="item.id ? item.id : item.reg_name | safeHtml"></span>
+                                </div>
+                            </div>
+                            <div class="col-info">
+                                <div class="info pointer" routerLink="/usr/{{item.slug}}/reviews">
+                                    <span *ngIf="item.number_of_reviews > 1; else other_number_of_reviews">{{item.number_of_reviews}}
+                                        {{ 'fimers.info.reviews' | translate }}</span>
+                                    <ng-template #other_number_of_reviews>
+                                        <span>{{item.number_of_reviews}} {{ 'fimers.info.review' | translate }}</span>
+                                    </ng-template>
+                                </div>
+                                <div class="border"></div>
+                                <div class="info pointer" routerLink="/usr/{{item.slug}}/followers">
+                                    <span *ngIf="item.number_of_followers > 1; else other_number_of_followers">{{item.number_of_followers}}
+                                        {{ 'fimers.info.followers' | translate }}</span>
+                                    <ng-template #other_number_of_followers>
+                                        <span>{{item.number_of_followers}} {{ 'fimers.info.follower' | translate }}</span>
+                                    </ng-template>
+                                </div>
+                                <div class="border"></div>
+                                <div class="info pointer" routerLink="/usr/{{item.slug}}/followings">
+                                    <span *ngIf="item.number_of_followings > 1; else other_number_of_followings">{{item.number_of_followings}}
+                                        {{ 'fimers.info.followings' | translate }}</span>
+                                    <ng-template #other_number_of_followings>
+                                        <span>{{item.number_of_followings}} {{ 'fimers.info.following' | translate
+                                            }}</span>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fimer-follow">
+                            <button type="button" class="follow-btn" [ngClass]="{'active': item.followed == 1}"
+                                    *ngIf="item.user_no != user.user_no"
+                                    [appAuth] (action)="toggleFollowFimer(item)">
+                                <ng-container *ngIf="item.followed == 0">
+                                    <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span> <i
+                                        class="material-icons">add</i>
+                                </ng-container>
+                                <ng-container *ngIf="item.followed == 1">
+                                    <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
+                                    <i class="material-icons">done</i>
+                                </ng-container>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="reviews" *ngIf="item.reviews.length > 0">
+                        <div class="col-img" *ngFor="let review of item.reviews">
+                            <div routerLink="/reviews/detail/{{review.slug}}" *ngIf="review && review.slug">
+                                <img *ngIf="review.main_image; else imageNull"
+                                     [src]="env.rootHost + review.main_image.file_cours +'/'+review.main_image.stre_file_nm"
+                                     alt="">
+                                <ng-template #imageNull>
+                                    <img [src]="defaultImage" alt="">
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </ngxMasonryItem>
+            </ngx-masonry>
+            <div class="loading-block" *ngIf="isLoading">
+                <img src="assets/images/loading.gif" alt="loading">
+            </div>
+        </div>
+    </div>
+</div>

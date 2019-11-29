@@ -1,0 +1,13 @@
+<div class="search-page">
+    <div class="container">
+        <div class="main-wrap">
+            <app-search-page-header #header class="my-header" [searchKey]="searchKey" [searchValue]="searchValue"></app-search-page-header>
+        </div>
+    </div>
+
+    <div class="content container" [ngClass]="searchKey">
+        <app-search-page-reviews #review class="reviews-content" [searchKey]="searchKey" [searchValue]="searchValue" [needUpdateContent]="needUpdateContent" [hidden]="searchKey!=='reviews'"></app-search-page-reviews>
+        <app-search-page-tries #tries class="tries-content" [searchKey]="searchKey" [searchValue]="searchValue" [needUpdateContent]="needUpdateContent" [hidden]="searchKey!=='tries'"></app-search-page-tries>
+        <app-search-page-fimer #fimers class="fimers-content" [searchKey]="searchKey" [searchValue]="searchValue" [needUpdateContent]="needUpdateContent" [hidden]="searchKey!=='fimers'"></app-search-page-fimer>
+    </div>
+</div>

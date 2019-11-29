@@ -1,0 +1,85 @@
+<div class="app-admin-campaign-payment">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                CAMPAIGN > PAYMENT
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-default" routerLink="/admin/campaign"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+        </div>
+    </div>
+    <app-admin-campaign-tab [tryId]="dataCampaign.cp_try_id"></app-admin-campaign-tab><br>
+    <div class="row">
+        <div class="col-md-2">
+            <img [src]="commonService.getCampaignThumb(dataCampaign)" alt="Smiley face" height="150" width="150">
+        </div>
+        <div class="col-md-8">
+            <!-- <button type="button" class="btn btn-default" style="margin-right: 10px; ">{{
+                campain['cp_state'] == 1 ? 'Approval' : campain == 2 ? 'Disabled' : 'New'}}</button><b>Dior</b><br> -->
+            <p>{{campain['cp_name']}}</p><br>
+            <p>
+                <span class="badge badge-success" style="margin-right: 10px; "
+                    *ngFor="let item of campain.keyword">{{ item['code']['cd_label'] }}</span>
+            </p>
+        </div>
+        <div class="col-md-2" style=" border-left-style: groove">
+            <h1>Try period</h1>
+            <p>
+                Start : {{campain['cp_period_start']}}<br>
+                End : {{campain['cp_period_end']}}
+            </p>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Try free</th>
+                <th>fiStar</th>
+                <th>fiStar recruiting period</th>
+                <th>Product price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{campain['category']['cd_label']  }}</td>
+                <td>{{campain['cp_total_free'] }}</td>
+                <td>{{campain['cp_total_influencer'] }}</td>
+                <td>{{campain['cp_period_start'] }}</td>
+                <td><label
+                        style="text-decoration: line-through; margin-right: 15px">{{campain['cp_product_price'] }}</label>{{campain['cp_sale_price'] }}
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div>
+
+        <div class="row">
+            <div class="col">
+                <p>Total : {{data.list.length}}</p>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary float-right" (click)="showPopupAdd()">
+                    <i class="material-icons align-text-bottom">
+                        add
+                    </i> <span>PAYMENTS MANAGEMENT                        </span>
+                </button>
+            </div>
+        </div>
+
+
+        <app-data-table [items]="data.list" [headers]="data.header" [pageSize]="data.list.length" [isCheckItem]="false"
+            [isCheckItemRadio]="false" [showPage]="false" [currentPage]="data.page" [totalPage]="data.total_page"
+            (outputOption)="navigateItem($event)"></app-data-table>
+    </div>
+</div>
+<app-admin-campaign-payment-manager (close)="closePopup($event)" *ngIf="showpopup"></app-admin-campaign-payment-manager>
+
+<app-info-payment [typeShowData]="typeShowDataPayment" [isShowInfoBank]="isShowInfoBankPayment"
+    [buttonSubmit]="idPayment" (ouputSave)="editPayment($event)" [campain]="campain_payment" [data]="dataInfoPayment"
+    *ngIf="isShowPayment" (closeP)="closeP($event)"></app-info-payment>

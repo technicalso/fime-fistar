@@ -1,0 +1,139 @@
+<div class="reviews" *ngIf="filterType === 'reviews'">
+    <div class="main-wrap">
+        <ngx-masonry [options]="myOptions" class="masonry" infiniteScroll [infiniteScrollDistance]="2"
+                     [infiniteScrollThrottle]="1000" (scrolled)="onScroll()">
+            <ngxMasonryItem class="masonry-item review-cart" *ngFor="let item of reviews">
+                <div class="header">
+                    <div class="cover">
+                        <div class="fime-pick" *ngIf="item.cntnts_no != null">
+                            <p>FIME'S</p>
+                            <p>PICK</p>
+                        </div>
+                        <img [src]="item.main_image ? env.rootHost + item.main_image.file_cours +'/'+ item.main_image.stre_file_nm : 'https://via.placeholder.com/900'"
+                             [routerLink]="['/reviews/detail/' + item.slug]">
+                    </div>
+
+                </div>
+                <div class="body">
+                    <div class="title">
+                        <div class="name" title="item.name" [routerLink]="['/reviews/detail/' + item.slug]">
+                            {{item.goods_nm}}
+                        </div>
+                        <div class="time">
+                            {{ item.time }} {{ item.timeUnit | translate }} {{ 'ago' | translate }}
+                        </div>
+                    </div>
+                    <div class="description">{{item.review_short}}</div>
+                    <div class="action" [routerLink]="['/reviews/detail/' + item.slug]">{{'see_more' | translate}}</div>
+                </div>
+                <div class="footer">
+                    <div class="icons">
+                        <div class="action-block">
+                            <div class="action-btn" [ngClass]="{'active': item.is_liked == 1}" [appAuth]
+                                 (action)="toggleLikeReview(item)">
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                            </div>
+                            <div class="action-btn" [routerLink]="['/reviews/detail/' + item.slug]">
+                                <i class="fa fa-comment-o" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="action-block">
+                            <div class="action-btn right" (click)="shareLink(item.slug, false)">
+                                <i class="material-icons">share</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="number_of_like" (click)="usersLikeDialog(item.review_no, 'review')">
+                        <span>{{ item.total_like | numberlike }} {{ '_like' | translate }}</span>
+                    </div>
+                </div>
+            </ngxMasonryItem>
+        </ngx-masonry>
+    </div>
+    <div class="loading-block" *ngIf="isLoading">
+        <img src="assets/images/loading.gif" alt="loading">
+    </div>
+</div>
+<div class="likes" *ngIf="filterType === 'likes'">
+    <div class="main-wrap">
+        <ngx-masonry [options]="myOptions" class="masonry" infiniteScroll [infiniteScrollDistance]="2"
+                     [infiniteScrollThrottle]="1000" (scrolled)="onScroll()">
+            <ngxMasonryItem class="masonry-item review-cart" *ngFor="let item of likes">
+                <div class="header">
+                    <div class="cover" *ngIf="!item.is_try">
+                        <div class="fime-pick" *ngIf="item.cntnts_no != null">
+                            <p>FIME'S</p>
+                            <p>PICK</p>
+                        </div>
+                        <img [src]="item.main_image ? env.rootHost + item.main_image.file_cours +'/'+ item.main_image.stre_file_nm : 'https://via.placeholder.com/900'"
+                             [routerLink]="['/reviews/detail/' + item.slug]">
+                    </div>
+                    <div class="cover" *ngIf="item.is_try">
+                        <img class="main-img-video"
+                             [src]="item.file.stre_file_nm ? env.rootHost + item.file.file_cours  + '/' + item.file.stre_file_nm  : env.rootHost + item.file.file_cours"
+                             alt="Review image" *ngIf="item.resource_type == 1" [routerLink]="['/tries/' + item.slug]">
+                        <video class="main-img-video" *ngIf="item.resource_type == 3" controls
+                               style="height: 220px">
+                            <source [src]="env.rootHost + item.file.file_cours"
+                                    type="video/mp4">
+                            <source [src]="env.rootHost + item.file.file_cours"
+                                    type="video/ogg">
+                            <source [src]="env.rootHost + item.file.file_cours"
+                                    type="video/webm">
+                        </video>
+                        <iframe class="main-img-video" style="height: 220px"
+                                [src]="item.file.file_cours ? (item.file.file_cours + '?autoplay=1&mute=1&loop=1&controls=1&showinfo=0' | safe) : ('https://via.placeholder.com/900' | safe)"
+                                *ngIf="item.resource_type == 2"></iframe>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="title">
+                        <div class="name" title="item.name" *ngIf="!item.is_try"
+                             [routerLink]="['/reviews/detail/' + item.slug]">{{item.goods_nm}}
+                        </div>
+                        <div class="name" title="item.name" *ngIf="item.is_try" [routerLink]="['/tries/' + item.slug]">
+                            {{item.goods_nm}}
+                        </div>
+                        <div class="time">
+                            {{ item.time }} {{ item.timeUnit | translate }} {{ 'ago' | translate }}
+                        </div>
+                    </div>
+                    <div class="description">{{item.review_short}}</div>
+                    <div class="action" *ngIf="!item.is_try"
+                         [routerLink]="['/reviews/detail/' + item.slug]">{{'see_more' | translate}}
+                    </div>
+                    <div class="action" *ngIf="item.is_try"
+                         [routerLink]="['/tries/' + item.slug]">{{'see_more' | translate}}
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="icons">
+                        <div class="action-block">
+                            <div class="action-btn" [ngClass]="{'active': item.is_liked == 1}" [appAuth]
+                                 (action)="toggleLikeReview(item)">
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                            </div>
+                            <div class="action-btn" [routerLink]="['/reviews/detail/' + item.slug]">
+                                <i class="fa fa-comment-o" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="action-block" (click)="shareLink(item.slug, item.is_try)">
+                            <div class="action-btn right">
+                                <i class="material-icons">share</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="number_of_like" *ngIf="item.is_try" (click)="usersLikeDialog(item.cntnts_no, 'try')">
+                        <span>{{ item.total_like | numberlike }} {{ '_like' | translate }}</span>
+                    </div>
+                    <div class="number_of_like" *ngIf="!item.is_try" (click)="usersLikeDialog(item.review_no, 'review')">
+                        <span>{{ item.total_like | numberlike }} {{ '_like' | translate }}</span>
+                    </div>
+                </div>
+            </ngxMasonryItem>
+        </ngx-masonry>
+    </div>
+    <div class="loading-block" *ngIf="isLoading">
+        <img src="assets/images/loading.gif" alt="loading">
+    </div>
+</div>

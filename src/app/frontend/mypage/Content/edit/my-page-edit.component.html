@@ -1,0 +1,98 @@
+<div class="container">
+    <form class="edit" [formGroup]="form" novalidate>
+        <div class="header">
+            <span>{{"mypage.update_profile_title" | translate}}</span>
+        </div>
+        <div class="body">
+            <div class="edit-row row1 ">
+                <div class="avatar">
+                    <span class="label">{{"mypage.update_profile_avatar" | translate}}</span>
+                    <div class="content">
+                        <div class="user-avt">
+                            <img class="avatar" [src]="model.pic && !isSaving ? env.rootHost + model.pic :  defaultAvatar">
+                            <label class="update-img">
+                                <i class="material-icons">
+                                    camera_alt
+                                </i>
+                                <span>{{"mypage.update_profile_avatar_update" | translate}}</span>
+                                <span>{{"mypage.update_profile_avatar" | translate}}</span>
+                                <input class="select-img" type="file" accept=".png, .jpg, .jpeg, .gif"
+                                       (change)="fileChangeEvent($event)"/>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="message">
+                    <span class="label">{{"mypage.update_profile_message" | translate}}</span>
+                    <div class="content">
+                        <textarea placeholder="{{'mypage.update_profile_input_message' | translate}}"
+                                  [(ngModel)]="model.self_intro" formControlName="self_intro" name="self_intro" maxlength="250"></textarea>
+                        <div *ngIf="form.controls.self_intro.errors && submitted" class="email-valid">
+                            <small class="form-text text-muted" *ngIf="form.controls.self_intro.errors">{{ 'self_intro_200' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-row row2">
+                <div class="account">
+                    <span class="label">{{"mypage.update_profile_account" | translate}}</span>
+                    <div class="content">
+                        <input type="text" [(ngModel)]="user.reg_name" formControlName="reg_name" name="reg_name">
+                    </div>
+                </div>
+                <div class="phone">
+                    <span class="label">{{"mypage.update_profile_phone" | translate}}</span>
+                    <div class="content">
+                        <input type="text" [(ngModel)]="model.cellphone" formControlName="cellphone" name="cellphone">
+                        <div *ngIf="form.controls.cellphone.errors && submitted" class="email-valid">
+                            <small class="form-text text-muted" *ngIf="form.controls.cellphone.errors.required">{{ 'phone_empty' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-row row3">
+                <div class="account">
+                    <span class="label">{{"mypage.update_profile_display_name" | translate}}</span>
+                    <div class="content">
+                        <input type="text" [(ngModel)]="user.slug" formControlName="slug" name="slug">
+                    </div>
+                </div>
+                <div class="phone">
+                    <span class="label">{{"mypage.update_profile_address" | translate}}</span>
+                    <div class="content">
+                        <input type="text" [(ngModel)]="model.home_addr1" formControlName="home_addr1" name="home_addr1">
+                        <div *ngIf="form.controls.home_addr1.errors && submitted" class="email-valid">
+                            <small class="form-text text-muted" *ngIf="form.controls.home_addr1.errors.required">{{ 'address_empty' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-row row4">
+                <div class="account">
+                    <span class="label">{{"mypage.update_profile_email" | translate}}</span>
+                    <div class="content">
+                        <input type="email" [(ngModel)]="model.email" formControlName="email" name="email" [ngClass]="{ 'is-invalid': submitted && form.controls.email.errors }">
+                        <div *ngIf="form.controls.email.errors && submitted" class="email-valid">
+                            <small class="form-text text-muted" *ngIf="form.controls.email.errors.email">{{ 'email_invalid' | translate}}</small>
+                            <small class="form-text text-muted" *ngIf="form.controls.email.errors.required">{{ 'email_empty' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone link-fb" *ngIf="!model.sns_id">
+                    <span class="label">{{"mypage.update_profile_link_with_facebook" | translate}}</span>
+                    <div class="content">
+                        <button class="link-fb-btn not-link" (click)="linkToFacebook()">{{ 'link_now' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button type="button" class="follow-btn"  (click)="onSave()">
+                <span>{{ 'mypage.update' | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<swal #unLinkSwal text="{{ 'unlink_confirm' | translate }}" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>

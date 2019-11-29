@@ -1,0 +1,422 @@
+<div class="app-admin-fistar-info">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading">
+                fiSTAR > <b>Add</b>
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/fistar"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" formControlName="fullname" class="form-control"
+                                    [(ngModel)]="fistar.fullname" />
+                                <div *ngIf="form.controls.fullname.invalid&&activeForm" class="text-danger">
+                                    Name is required
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Password</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="password" formControlName="password" class="form-control"
+                                    [(ngModel)]="fistar.password" />
+                                <div *ngIf="form.controls.password.invalid&&activeForm" class="text-danger">
+                                    Password is required
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>ID</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+
+                                <input type="text" formControlName="id" required class="form-control"
+                                    [(ngModel)]="fistar.id" />
+                                <div *ngIf="form.controls.id.invalid&&activeForm" class="text-danger">
+                                    Id is required
+                                </div>
+                                <div *ngIf="error.error && error.error.errors.id" class="text-danger">
+                                        {{error.error.errors.id[0]}}
+                                    </div>
+                            </div>
+
+                            <!-- <div *ngIf="form.controls.id.invalid && (form.controls.id.dirty || form.controls.id.touched)"
+                                 class="text-danger">
+                                <div *ngIf="form.controls.id.errors.required">
+                                    Display name is required
+                                </div>
+                            </div> -->
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Email</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="email" formControlName="email" class="form-control"
+                                    [(ngModel)]="fistar.email"
+                                    pattern="^[a-zA-Z0-9\.]{2,}@[a-zA-Z0-9]{2}(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z](?:[a-zA-Z-]{0,61}[a-zA-Z])?)(?=.*[\.])*$" />
+                                <div *ngIf="form.controls.email.invalid&&activeForm" class="text-danger">
+                                    Invalid Email
+                                </div>
+                                <div *ngIf="fistar.email==''&&activeForm" class="text-danger">
+                                    Email is required
+                                </div>
+                                <div *ngIf="!form.controls.email.invalid && activeForm &&error.error && error.error.errors.email" class="text-danger">
+                                        {{error.error.errors.email[0]}}
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Phone</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="number" formControlName="phone" class="form-control"
+                                    [(ngModel)]="fistar.phone" />
+                                <div *ngIf="(form.controls.phone.invalid&&activeForm) || error.error && error.error.errors.phone"
+                                    class="text-danger">
+                                    Phone is invalid
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "admin.users.access_control" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+
+                                <mat-checkbox name="active" formControlName="active" class="px-3"
+                                    [(ngModel)]="fistar.active" color="primary">Active
+                                </mat-checkbox>
+                                <mat-checkbox name="allow_comment" formControlName="allow_comment" class="px-3"
+                                    [(ngModel)]="fistar.allow_comment" color="primary">Allow
+                                    Comment
+                                </mat-checkbox>
+                                <mat-checkbox name="allow_review" formControlName="allow_review" class="px-3"
+                                    [(ngModel)]="fistar.allow_review" color="primary">Allow
+                                    Review
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Role" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+
+                                <mat-checkbox class="px-3" formControlName="fimer" [(ngModel)]="fistar.fimer"
+                                    color="primary">fimer
+                                </mat-checkbox>
+                                <mat-checkbox class="px-3" formControlName="fistar" [(ngModel)]="fistar.fistar"
+                                    color="primary">fistar
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Address" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" formControlName="address" class="form-control"
+                                    placeholder="Enter address" [(ngModel)]="fistar.address"></textarea>
+                                <div *ngIf="form.controls.address.invalid&&activeForm" class="text-danger">
+                                    Address is required
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Profile Photo" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <ngx-avatar [src]="image" size="100">
+                                </ngx-avatar>
+                                <div style=" position: absolute;bottom: 14px;right: 490px">
+                                    <h1>{{fistar.fullname}}</h1>
+                                    <p>{{fistar.id}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="file" (change)="fileEvent($event)" class="form-control"
+                                    placeholder="Enter name" />
+                                <div *ngIf="!filedata.name&&activeForm" class="text-danger">
+                                    Profile Photo is required
+                                </div>
+                                <div *ngIf="(form.controls.phone.invalid&&activeForm) || error.error && error.error.errors.picture"
+                                    class="text-danger">
+                                    {{error.error.errors.picture[0]}}
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Gender</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <select formControlName="gender" class="form-control" [(ngModel)]="fistar.gender">
+                                    <option *ngFor="let item of gender" [value]="item.cd_id">{{item.cd_label}}</option>
+                                </select>
+                                <div *ngIf="form.controls.gender.invalid&&activeForm" class="text-danger">
+                                    Gender is invalid
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Date of birth</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="date" formControlName="dob" class="form-control" [(ngModel)]="fistar.dob" />
+                            <div *ngIf="form.controls.dob.invalid&&activeForm" class="text-danger">
+                                Date of birth is required
+                            </div>
+                            <div *ngIf="checkDob()" class="text-danger">
+                                    Date of birth is invalid
+                                </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Location</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select formControlName="location" class="form-control" [(ngModel)]="fistar.location">
+                                <option *ngFor="let item of location" [value]="item.cd_id">{{item.cd_label}}</option>
+                            </select>
+                            <div *ngIf="form.controls.location.invalid&&activeForm" class="text-danger">
+                                Location is required
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Bank account
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-3">
+                                    <label for="">Bank name</label>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" formControlName="bank_name" class="form-control"
+                                        [(ngModel)]="fistar.bank_name" />
+                                </div>
+                                <div class="col-3">
+                                    <label for="">Bank Branch</label>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" formControlName="bank_branch" class="form-control"
+                                        [(ngModel)]="fistar.bank_branch" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-3">
+                                    <label for="">Account name</label>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" formControlName="bank_account_name" class="form-control"
+                                        [(ngModel)]="fistar.bank_account_name" />
+                                </div>
+                                <div class="col-3">
+                                    <label for="">Account number</label>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" formControlName="bank_account_number" class="form-control"
+                                        [(ngModel)]="fistar.bank_account_number" />
+                                    <div *ngIf="form.controls.bank_account_number.value && !checkContainLetter(form.controls.bank_account_number)"
+                                        class="text-danger">
+                                        Invalid number
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-3">
+                                    <label for="">Swift code</label>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" formControlName="bank_swift_code" class="form-control"
+                                        [(ngModel)]="fistar.bank_swift_code" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Keywords" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    <mat-checkbox (change)="checkBox($event)" class="px-3" color="primary"
+                                        *ngFor="let keyword of keywords; let i = index"
+                                        [checked]="checkboxTrue(keyword.cd_id)" value={{keyword.cd_id}}>
+                                        {{keyword.cd_label}}</mat-checkbox>
+                                </div>
+                            </div>
+                            <div *ngIf="keywordIsChange && fistar.keyword.length < 1" class="text-danger">
+                                   Keywords is required
+                                </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Introduction" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" formControlName="self_intro" class="form-control"
+                                    placeholder="Enter introduction" [(ngModel)]="fistar.self_intro"></textarea>
+                                <div *ngIf="form.controls.self_intro.invalid&&activeForm" class="text-danger">
+                                    Introduction is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngFor="let item of channels; let i = index">
+                            <hr />
+                            <div class="row" *ngIf="item.sns_id != 1">
+                                <div class="col-md-3" style="text-transform: capitalize">
+                                    {{item.sns_name}}
+                
+                                </div>
+                                <div class="col-md-5">
+                                    <input class="form-control" placeholder="URL" (change)="changeSNS($event, item.sns_id)" />
+                                    <div *ngIf="errorSns[item.sns_id]" class="text-danger">
+                                        <ng-container *ngIf="errorSns[item.sns_id] == 'invalid'">URL is invalid</ng-container>
+                                        <ng-container *ngIf="errorSns[item.sns_id] == 'required'">URL is required</ng-container>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                        <input class="form-control" placeholder="VND" [id]="'sns_cost_'+item.sns_id" (change)="changeCostSNS($event, item.sns_id)" />
+                                        <div *ngIf="errorSns[item.sns_id]" class="text-danger">
+                                            <ng-container *ngIf="errorSns[item.sns_id] == 'costInvalid'">Cost is invalid</ng-container>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/fistar">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <!-- <button class="btn btn-primary mr-1" (click)="addFistar()"
+                [disabled]="!form.dirty || !checkContainLetter(form.controls.bank_account_number)">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button> -->
+            <!-- <button class="btn btn-primary mr-1" (click)="addFistar()"
+                [disabled]="form.invalid || !checkContainLetter(form.controls.bank_account_number)">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button> -->
+            <button class="btn btn-primary mr-1" (click)="addFistar()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+
+</div>

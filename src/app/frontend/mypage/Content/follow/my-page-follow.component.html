@@ -1,0 +1,71 @@
+<div class="follow container">
+    <div class="users" *ngIf="filterType === 'followers'">
+        <ngx-masonry [options]="myOptions" class="masonry" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="1000" (scrolled)="onScroll()">
+            <ngxMasonryItem class="masonry-item user" *ngFor="let user of followers; let i=index">
+                <div class="left">
+                    <div class="user-avt" routerLink="/usr/{{user.slug}}">
+                        <img [src]="user.pic ? env.rootHost + user.pic : defaultAvatar">
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name" routerLink="/usr/{{user.slug}}" [innerHtml]="user.id ? user.id : user.reg_name | safeHtml"></div>
+                        <div class="number-of-followers">
+                            <span *ngIf="user.number_of_followers > 1; else other_number_of_followers">{{user.number_of_followers}} {{ 'fimers.info.followers' | translate }}</span>
+                            <ng-template #other_number_of_followers>
+                                <span>{{user.number_of_followers}} {{ 'fimers.info.follower' | translate }}</span>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <button type="button" class="follow-btn" [appAuth] (action)="toggleFollowFimer(user)" [ngClass]="{'active': user.followed == 1}"
+                            *ngIf="currentUser.user_no != user.user_no">
+                        <ng-container *ngIf="user.followed != 1">
+                            <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span> <i
+                                class="material-icons">add</i>
+                        </ng-container>
+                        <ng-container *ngIf="user.followed == 1">
+                            <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
+                            <i class="material-icons">done</i>
+                        </ng-container>
+
+                    </button>
+                </div>
+            </ngxMasonryItem>
+        </ngx-masonry>
+    </div>
+
+    <div class="users" *ngIf="filterType === 'followings'">
+        <ngx-masonry [options]="myOptions" class="masonry" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="1000" (scrolled)="onScroll()">
+            <ngxMasonryItem class="masonry-item user" *ngFor="let user of followings; let i=index">
+                <div class="left">
+                    <div class="user-avt pointer" routerLink="/usr/{{user.slug}}">
+                        <img [src]="user.pic ? env.rootHost + user.pic : defaultAvatar">
+                    </div>
+                    <div class="user-info pointer" routerLink="/usr/{{user.slug}}">
+                        <div class="user-name">{{user.id ? user.id : user.reg_name}}</div>
+                        <div class="number-of-followers">
+                            <span *ngIf="user.number_of_followers > 1; else other_number_of_followers">{{user.number_of_followers}} {{ 'fimers.info.followers' | translate }}</span>
+                            <ng-template #other_number_of_followers>
+                                <span>{{user.number_of_followers}} {{ 'fimers.info.follower' | translate }}</span>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <button type="button" class="follow-btn" [appAuth] (action)="toggleFollowFimer(user, user.followed)" [ngClass]="{'active': user.followed == 1}"
+                            *ngIf="currentUser.user_no != user.user_no">
+                        <ng-container *ngIf="user.followed != 1">
+                            <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span> <i
+                                class="material-icons">add</i>
+                        </ng-container>
+                        <ng-container *ngIf="user.followed == 1">
+                            <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
+                            <i class="material-icons">done</i>
+                        </ng-container>
+
+                    </button>
+                </div>
+            </ngxMasonryItem>
+        </ngx-masonry>
+    </div>
+</div>

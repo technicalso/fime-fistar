@@ -1,0 +1,49 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-try {
+    .multi-action {
+        margin-top: 30px;
+    }
+
+    .mat-form-field.full-width {
+        width: 100%;
+    }   
+
+    .mat-form-field.half-width {
+        width: 48%;
+        margin-right: 2%
+    }   
+
+    .search-control {
+        margin-top: 20px;
+    }
+    .action{
+        i{
+            cursor: pointer;
+            margin-right: 10px;
+            color: #b0b0b0;
+            font-size: 24px;
+            margin-top: 6px;
+        }
+    }
+    .multi-action{
+        margin-top: 30px;
+    }
+
+    ngx-datatable {
+        .icon {
+            margin-right: 10px;
+            color: #b0b0b0;
+            font-size: 24px;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+    }
+    .btn {
+        i {
+            font-size: 20px;
+        }
+    }
+}

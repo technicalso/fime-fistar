@@ -1,0 +1,224 @@
+<div class="app-admin-fistar-info">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">       
+            <div class="admin-heading">
+                fiSTAR > <b>fiStar Information</b>
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/fistar"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <app-admin-fistar-tab></app-admin-fistar-tab><br>
+    <form [formGroup]="form" >
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Profile Photo" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <ngx-avatar  [src]="image"
+
+                                    size="100" >
+                                </ngx-avatar>
+                                <div style=" position: absolute;bottom: 14px;left: 146px;">
+                                    <h1>{{fistar.fullname}}</h1>
+                                    <p>{{fistar.id}}</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="file" (change)="fileEvent($event)" class="form-control" placeholder="Enter name"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                            <div class="col-md-3">
+                                <label>Gender</label>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <select class='form-control' [(ngModel)]="fistar.gender.cd_id" formControlName="gender">
+                                        <option [value]="item.cd_id" *ngFor="let item of genderList">{{item.cd_label}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                    </div>
+                  
+
+                    <div class="row">
+                            <div class="col-md-3">
+                                <label>Date of birth</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="date" class="form-control" [(ngModel)]="fistar.dob"
+                                formControlName="dob"/>
+                            </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                            <div class="col-md-3">
+                                <label>Location</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class='form-control' [(ngModel)]="fistar.location.cd_id" formControlName="location">
+                                    <option [value]="item.cd_id" *ngFor="let item of locationList">{{item.cd_label}}</option>
+                                </select>
+                            </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                            <div class="col-md-3">
+                                Bank account
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="">Bank name</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="fistar.bank_name"
+                                            formControlName="bank_name"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="">Bank Branch</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="fistar.bank_branch"
+                                            formControlName="bank_branch"/>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                            <div class="col-md-3">
+
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="">Account name</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="fistar.bank_account_name"
+                                            formControlName="bank_account_name"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="">Account number</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="fistar.bank_account_number"
+                                            formControlName="bank_account_number"/>
+                                            <div *ngIf="form.controls.bank_account_number.value && !checkContainLetter(form.controls.bank_account_number)" class="text-danger"> 
+                                                    Invalid number
+                                                </div>
+                                    </div>
+                                </div>
+                                    
+                            </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                            <div class="col-md-3">
+
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="">Swift code</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="fistar.bank_swift_code"
+                                            formControlName="bank_swift_code"/>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Keyworks" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                                <p>{{cdId.length}} / {{keywords.length}}</p>
+                            <div class="form-group">
+                                <div class="row">
+                                    <ng-container *ngFor="let keyword of keywords">
+                                        <mat-checkbox  class="px-3" color="primary" *ngIf="cdId.indexOf(keyword.cd_id) === -1" (click)="onSelect(keyword.cd_id)" >{{keyword.cd_label}}
+                                        </mat-checkbox>
+                                        <mat-checkbox  class="px-3" color="primary" *ngIf="cdId.indexOf(keyword.cd_id) !== -1" (click)="unSelect(keyword.cd_id)"  [checked]=true>{{keyword.cd_label}}
+                                        </mat-checkbox>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Type" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    <ng-container *ngFor="let type of types">
+                                        <mat-checkbox  class="px-3" color="primary" *ngIf="typeId.indexOf(type.cd_id) === -1" (click)="onSelectType(type.cd_id)" >{{type.cd_label}}
+                                        </mat-checkbox>
+                                        <mat-checkbox  class="px-3" color="primary" *ngIf="typeId.indexOf(type.cd_id) !== -1" (click)="unSelectType(type.cd_id)"  [checked]=true>{{type.cd_label}}
+                                        </mat-checkbox>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Introduction" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control"  placeholder="Enter introduction"  [(ngModel)]="fistar.self_intro"
+                                formControlName="self_intro" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/fistar">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" (click)="updateBasicFistar()" [disabled]="" >
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+
+</div>

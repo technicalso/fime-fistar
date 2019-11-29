@@ -1,0 +1,221 @@
+<div class="app-admin-partner">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                PARTNER
+            </div>
+        </div>
+    </div>
+
+    <mat-card class="search-control">
+        <form [formGroup]="form" novalidate>
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Partner User</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select [(ngModel)]="partnerSearch['filter']" formControlName="type_filter"
+                                    name="type_filter">
+                                    <mat-option value={{item.value}} *ngFor="let item of partnerUser">{{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="" [(ngModel)]="partnerSearch['filter_value']"
+                                    formControlName="value_filter" name="value_filter">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Type of business</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select [(ngModel)]="partnerSearch.pc_tob" formControlName="tob" name="tob">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option *ngFor="let item of partnerTob" value={{item.value}}>{{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label>Campaign status</label>
+                    <div>
+                        <mat-checkbox color="primary" (change)="chkAllChange($event)" [(ngModel)]="checkedAll">All
+                        </mat-checkbox>
+                        <mat-checkbox (change)="checkBox($event)" class="px-3" color="primary"
+                            *ngFor="let item of groupCheckbox; let i = index" [(ngModel)]="item.checked"
+                            name={{groupCheckbox}} [checked]="chkArr[i]" value={{item.value}}>{{item.name}}
+                        </mat-checkbox>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-3" style="margin-top: 30px;">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary mr-1" (click)="search()"><i
+                            class="material-icons align-text-bottom">
+                            search
+                        </i> <span>Search</span></button>
+                    <button type="button" class="btn btn-default mr-1" (click)="reset()"><i
+                            class="material-icons align-text-bottom">
+                            replay
+                        </i> <span>Reset</span></button>
+                    <button type="button" class="btn btn-default mr-1" (click)="dowloadCSV()"><i
+                            class="material-icons align-text-bottom">
+                            get_app
+                        </i> <span>Excel</span></button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+
+
+
+
+    <div class="row mt-5">
+        <div class="col-sm-6">
+            <button class="btn btn-primary" (click)="openModal(template)" style="margin-right:10px; ">
+                <i class="material-icons align-text-bottom">
+                    send
+                </i><span>Send message to selected</span>
+            </button>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button class="btn btn-primary float-right" [routerLink]="['/admin/partner/add']">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+
+            <button class="btn btn-default float-right" (click)="actionDelete()" style="margin-right:10px; ">
+                <i class="material-icons align-text-bottom">
+                    delete
+                </i><span>Delete</span>
+            </button>
+        </div>
+    </div>
+    <ngx-datatable [scrollbarH]="false" #myTable class="material" [rows]="partners.data" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
+        [selected]="selected" (select)='onSelect($event)' [rowHeight]="'auto'" [externalPaging]="true"
+        [count]="partners.total" [offset]="page.current_page - 1" [limit]="page.per_page" (page)="goPage($event)">
+
+        <!-- <ngx-datatable #myTable class="material" [rows]="partners" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+        [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)' [selected]="selected"
+        [rowHeight]="'auto'" [count]="partners.length" [limit]="10"> -->
+        <ngx-datatable-column [frozenLeft]="false" [width]="50" [sortable]="false" [canAutoResize]="false"
+            [draggable]="false" [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Company name" prop="pc_name" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Logo" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <img class="img" [src]="common.getImageLink(row.pc_image, 'partners', 'thumbnail')" />
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Manager" prop="pm_name" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Manager email" prop="email" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Manager phone" prop="pm_phone" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Business type" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.type.cd_label}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Brand" prop="pc_brand" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Campaign" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{getLastestCampaignStatus(row)}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="State" [sortable]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.active ? 'Enable' : 'Disable'}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'"
+            [cellClass]="'text-center'">>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-icon-button [matMenuTriggerFor]="userActions">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #userActions="matMenu" overlapTrigger="false">
+                    <span (mouseleave)="closeMyMenu()">
+                        <button mat-menu-item routerLink="/admin/partner/manager/{{row.pid}}"
+                            class="datatable-action-button" >
+                            <span>Manager Edit</span>
+                        </button>
+
+                        <button mat-menu-item routerLink="/admin/partner/information/{{row.pid}}"
+                            class="datatable-action-button">
+                            <span>Company Edit</span>
+                        </button>
+
+                        <button mat-menu-item routerLink="/admin/partner/history/{{row.pid}}"
+                            class="datatable-action-button">
+                            <span>Campaign History</span>
+                        </button>
+                        <button mat-menu-item routerLink="/admin/partner/recommend/{{row.pid}}"
+                            class="datatable-action-button">
+                            <span>Recommend</span>
+                        </button>
+                        <button mat-menu-item *ngIf="row.active" class="datatable-action-button"
+                            (click)="actionDisable(row.pid)">
+                            <span>Disable</span>
+                        </button>
+                        <button mat-menu-item *ngIf="!row.active" class="datatable-action-button"
+                            (click)="actionEnable(row.pid)">
+                            <span>Enable</span>
+                        </button>
+                    </span>
+
+                </mat-menu>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Send message</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <h3>Partner to </h3>
+        <label *ngFor="let item of sendMessageTo" style="margin-right:20px">{{item.fullname}}<i class="fas fa-backspace"
+                (click)="removeChecked(item.pid)"></i></label>
+        <form [formGroup]="formMess" novalidate>
+            <input type="text" class="form-control" placeholder="Title" [(ngModel)]="contentMessage.title"
+                formControlName="title" /> <br>
+            <textarea name="" class="form-control" id="" cols="30" rows="10" placeholder="Message"
+                [(ngModel)]="contentMessage.message" formControlName="message"></textarea>
+            <div class="actions d-flex ">
+                <button class="btn btn-default mr-1" (click)="modalRef.hide()">
+                    <i class="material-icons align-text-bottom">
+                        cancel
+                    </i> <span> {{ "cancel" | translate }}</span>
+                </button>
+                <button class="btn btn-primary mr-1" (click)="sendMessageFistar()"
+                    [disabled]="!contentMessage.message || !contentMessage.title || selected==''">
+                    <span> {{ "Send" | translate }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

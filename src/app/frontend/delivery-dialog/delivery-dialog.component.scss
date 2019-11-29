@@ -1,0 +1,24 @@
+@import '~scss/mixins';
+@import '~scss/variables';
+
+.delivery-dialog {
+    .loading-block {
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 20px;
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    }
+    .prec {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    .user-info {
+        margin-bottom: 20px;
+    }
+}

@@ -1,0 +1,82 @@
+<div class="app-admin-customer-add">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading" *ngIf="!bannerId">
+                {{ "add_new_faq" | translate }}
+            </div>
+            <div class="admin-heading" *ngIf="bannerId">
+                {{ "edit_faq" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/customer/faq"><i
+                        class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Title" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="title" name="name"
+                                    maxlength="191" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Type" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <input type="radio" class="form-control" formControlName="radio" name="radio"
+                                            [value]='1' />Fistar
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="radio" class="form-control" formControlName="radio" name="radio"
+                                            [value]='0' />Partner
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Contents" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" rows="4" formControlName="content"
+                                    name="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/customer/faq">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" [disabled]="!form.valid" (click)="save()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

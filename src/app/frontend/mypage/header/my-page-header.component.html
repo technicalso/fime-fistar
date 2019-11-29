@@ -1,0 +1,87 @@
+<div class="my-page-header container">
+    <div class="main-wrap">
+        <div class="top">
+            <div class="top-left">
+                <div class="user-avt" *ngIf="(!checkUndefined(user.pic) && user.pic !== null); else noAvatar">
+                    <img [src]="env.rootHost + user.pic">
+                </div>
+                <ng-template #noAvatar>
+                    <div class="user-avt">
+                        <img [src]="defaultAvatar">
+                    </div>
+                </ng-template>
+            </div>
+            <div class="top-right">
+                <div class="name">
+                    <span class="user-name" [innerHtml]="user.id ? user.id : user.reg_name | safeHtml"></span>
+                    <button type="button" class="follow-btn" (click)="onTab('edit')" *ngIf="updateRole">
+                        <i class="material-icons">settings</i> <span>{{ 'mypage.update' | translate }}</span>
+                    </button>
+                </div>
+                <div class="intro user-no" *ngIf="updateRole">
+                    <span>fi: code {{user.user_no}}</span>
+                </div>
+
+                <div class="slug pointer" [routerLink]="['/usr/' + user.slug]">
+                    <span [innerHtml]="env.url + '/usr/' + user.slug | safeHtml"></span>
+                </div>
+                <div class="intro" *ngIf="user.self_intro && user.self_intro !== null">
+                    <span title="{{user.self_intro}}">{{user.self_intro}}</span>
+                </div>
+                <div class="hashtag">
+                    <ng-container  *ngFor="let hashtag of user.hashTags; let i = index">
+                        <span *ngIf="i <= 10" [routerLink]="['/reviews/all']" [queryParams]="{hashtag:hashtag.hash_tag}" title="{{hashtag.hash_tag}}">{{hashtag.hash_tag}}</span>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="filter-type d-flex flex-row justify-content-center reviews"
+                 [ngClass]="{'active' : filterType === 'reviews'}" (click)="onTab('reviews')">
+                <div class="icon">
+
+                </div>
+                <div class="filter d-flex flex-column">
+                    <span>{{user.number_of_reviews}}</span>
+                    <span class="icon-label">{{ 'mypage.reviews' | translate }}</span>
+                </div>
+            </div>
+            <div class="filter-type d-flex flex-row justify-content-center likes"
+                 [ngClass]="{'active' : filterType === 'likes'}" (click)="onTab('likes')">
+                <div class="icon">
+                </div>
+                <div class="filter d-flex flex-column">
+                    <span>{{user.number_of_likes}}</span>
+                    <span class="icon-label">{{ 'mypage.likes' | translate }}</span>
+                </div>
+            </div>
+            <div class="filter-type d-flex flex-row justify-content-center try"
+                 [ngClass]="{'active' : filterType === 'try-free'}" (click)="onTab('try-free')">
+                <div class="icon">
+                </div>
+                <div class="filter d-flex flex-column">
+                    <span>{{user.number_of_try_free}}</span>
+                    <span class="icon-label">{{ 'mypage.try_free' | translate }}</span>
+                </div>
+            </div>
+            <div class="filter-type d-flex flex-row justify-content-center followers"
+                 [ngClass]="{'active' : filterType === 'followers'}" (click)="onTab('followers')">
+                <div class="icon">
+                </div>
+                <div class="filter d-flex flex-column">
+                    <span>{{user.number_of_followers}}</span>
+                    <span class="icon-label">{{ 'mypage.followers' | translate }}</span>
+                </div>
+            </div>
+            <div class="filter-type d-flex flex-row justify-content-center followings"
+                 [ngClass]="{'active' : filterType === 'followings'}" (click)="onTab('followings')">
+                <div class="icon">
+                </div>
+                <div class="filter d-flex flex-column">
+                    <span>{{user.number_of_followings}}</span>
+                    <span class="icon-label">{{ 'mypage.followings' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

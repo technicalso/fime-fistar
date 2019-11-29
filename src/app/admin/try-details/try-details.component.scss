@@ -1,0 +1,64 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-try {
+    padding-bottom: 50px;
+    ::ng-deep {
+        .tag-list {
+            width: 100%;
+        }
+
+        .mat-radio-button {
+            margin-right: 10px;
+        }
+
+        .mat-form-field-infix {
+            padding-top: 0!important;
+            border-top: 0!important;
+        }
+
+        .calendar-control {
+            max-width: 210px;
+            position: relative;
+            .mat-datepicker-toggle {
+                position: absolute;
+                right: -2px;
+                top: -2px;
+            }
+
+            .form-control {
+                width: 100%;
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                color: #495057;
+                background-color: #fff;
+                background-clip: padding-box;
+                border: 1px solid #ced4da;
+                border-radius: .25rem;
+            }
+        }
+
+        .radio-group-type {
+            .radio-button {
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+.try-event-container{
+    .select-type, .start-date, .end-date, .qualify{
+        display: flex;
+    }
+    .left{
+        width: 150px;
+    }
+    input:focus{
+        outline: 0 !important;
+    }
+    .mat-form-field{
+        width: 300px;
+    }
+}

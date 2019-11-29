@@ -1,0 +1,48 @@
+<div class="admin-try-dialog">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading" *ngIf="!hashtag.hash_seq">Add Hashtag</div>
+            <div class="admin-heading" *ngIf="hashtag.hash_seq">Edit Hashtag</div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate class="review-form">
+        <div class="brand-container">
+            <div class="brand-content">
+                <div class="form-group">
+                    <label>Hashtag</label>
+                    <input
+                        type="text"
+                        placeholder="Enter hashtag"
+                        class="form-control"
+                        [(ngModel)]="hashtag.hash_tag"
+                        formControlName="name"
+                    />
+                    <div
+                        *ngIf="
+                            form.controls.name.invalid &&
+                            (form.controls.name.dirty ||
+                                form.controls.name.touched)
+                        "
+                        class="text-danger"
+                    >
+                        <div *ngIf="form.controls.name.errors.required">
+                            Please enter hashtag name
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-default mr-1" (click)="close()" >
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" (click)="onSave()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

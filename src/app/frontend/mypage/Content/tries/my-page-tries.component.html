@@ -1,0 +1,187 @@
+<div class="tries">
+    <div class="container tries-header">
+        <div class="filter-section">
+            <div class="item" [ngClass]="{'active': activeTab == 0}" (click)="setTab(0)">
+                <div class="btn-circle" [ngClass]="{'active': activeTab == 0}">
+                    <div class="img"></div>
+                </div>
+                <div class="title">Tất cả</div>
+            </div>
+            <div class="item" [ngClass]="{'active': activeTab == 1}" (click)="setTab(1)">
+                <div class="btn-circle-img" [ngClass]="{'active': activeTab == 1}">
+                    <img src="/assets/icons/try_inprogress.png" />
+                </div>
+                <div class="title">Đang diễn ra</div>
+            </div>
+            <div class="item" [ngClass]="{'active': activeTab == 2}" (click)="setTab(2)">
+                <div class="btn-circle-img" [ngClass]="{'active': activeTab == 2}">
+                    <img src="/assets/icons/try_coming.png" />
+                </div>
+                <div class="title">Sắp diễn ra</div>
+            </div>
+            <div class="item" [ngClass]="{'active': activeTab == 3}" (click)="setTab(3)">
+                <div class="btn-circle-img" [ngClass]="{'active': activeTab == 3}">
+                    <img src="/assets/icons/try_end.png" />
+                </div>
+                <div class="title">Đã kết thúc</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-wrap">
+        <ngx-masonry [options]="myOptions" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="1000"
+                     (scrolled)="onScroll()">
+            <ngxMasonryItem class="masonry-item" *ngFor="let try of tries; let i = index;" data-id="{{ try.cntnts_no }}">
+                <h2 class="post-header" title="{{ try.name }}" routerLink="/tries/{{try.slug}}"
+                    [ngStyle]="{
+                        'color': renderColor(try.time_color_code),
+                        'background-color': renderColor(try.time_color_code) == '#fff' ? '#f14c7f' : '#fff'
+                    }">
+                    {{ try.cntnts_nm }}
+                </h2>
+                <div class="post-body">
+                    <div class="img-wrapper">
+                        <img class="main-img" [src]="try.file.stre_file_nm ? env.rootHost + try.file.file_cours + '/' + try.file.stre_file_nm : env.rootHost + try.file.file_cours"
+                             alt="Review image" *ngIf="try.resource_type == 1 && try.file.file_cours" routerLink="/tries/{{try.slug}}">
+                        <img class="main-img" [src]="'/assets/images/noimage.jpg'"
+                             alt="Review image" *ngIf="try.resource_type == 1 && !try.file.file_cours" routerLink="/tries/{{try.slug}}">
+                        <video class="main-img" *ngIf="try.resource_type == 3" controls muted="true" style="height: 220px">
+                            <source [src]="env.rootHost + try.file.file_cours"
+                                    type="video/mp4">
+                            <source [src]="env.rootHost + try.file.file_cours"
+                                    type="video/ogg">
+                            <source [src]="env.rootHost + try.file.file_cours"
+                                    type="video/webm">
+                        </video>
+                        <!--<iframe class="main-img" style="height: 220px" [src]="(try.file.file_cours + '?autoplay=1&mute=1&loop=1&controls=0&showinfo=0' | safe)"-->
+                        <!--*ngIf="try.resource_type == 2"></iframe>-->
+                        <img class="main-img" [src]="'https://img.youtube.com/vi/' + try.video_id + '/0.jpg'"
+                             alt="Review image" *ngIf="try.resource_type == 2" routerLink="/tries/{{try.slug}}">
+                        <ng-container *ngIf="try.count_down_type == 0">
+                            <div class="title coming-soon pointer" routerLink="/tries/{{try.slug}}" *ngIf="!try.goods_txt; else custom_text">
+                                <p>Mở sau</p>
+                                <div class="count-down-time coming-soon">
+                                    <div class="tick">{{try.days}}
+                                        <div class="desc">Ngày</div>
+                                    </div>
+                                    <div class="tick">{{try.hours}}
+                                        <div class="desc">Giờ</div>
+                                    </div>
+                                    <div class="tick">{{try.minutes}}
+                                        <div class="desc">Phút</div>
+                                    </div>
+                                    <div class="tick">{{try.seconds}}
+                                        <div class="desc">Giây</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template #custom_text>
+                                <div class="title coming-soon pointer" routerLink="/tries/{{try.slug}}" >
+                                    <p>{{try.goods_txt}}</p>
+                                </div>
+                            </ng-template>
+
+                        </ng-container>
+
+                        <ng-container *ngIf="try.count_down_type == 1">
+                            <div class="title inprogress pointer" routerLink="/tries/{{try.slug}}">
+                                <span>Kết thúc sau</span>
+                                <div class="count-down-time">
+                                    <div class="tick" title="Ngày">{{try.days}}
+                                    </div>
+                                    <div class="tick" title="Giờ">{{try.hours}}
+                                    </div>
+                                    <div class="tick" title="Phút">{{try.minutes}}
+                                    </div>
+                                    <div class="tick" title="Giây">{{try.seconds}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="price pointer" *ngIf="try.count_down_type == 1" routerLink="/tries/{{try.slug}}">
+                                <div class="sale-price" *ngIf="try.event_knd_code != 398002">
+                                    {{try.event_pc ? (try.event_pc | currency: '': '': '1.0') : '0'}}
+                                    đồng</div>
+                                <div class="sale-price" *ngIf="try.event_knd_code == 398002">0 đồng</div>
+                                <div class="origin-price" *ngIf="try.goods_pc">{{try.goods_pc}} đồng</div>
+                            </div>
+
+                            <a href="{{try.link_url}}" class="btn-cart" target="_blank">
+                                <img src="/assets/icons/cart.png" />
+                            </a>
+                            <a class="btn-try display-none" *ngIf="try.is_joined && try.event_knd_code == 398002" routerLink="/tries/{{try.slug}}">
+                                <span>Đã đăng ký</span>
+                            </a>
+                            <a class="btn-try" [appAuth] *ngIf="!try.is_joined && try.event_knd_code == 398002" (action)="apply(try)">
+                                <span *ngIf="try.event_knd_code == 398002">Đăng ký miễn phí</span>
+                            </a>
+                        </ng-container>
+
+                        <ng-container *ngIf="try.count_down_type == 2" >
+                            <div class="title done pointer" routerLink="/tries/{{try.slug}}">
+                                Đã kết thúc
+                            </div>
+                            <a href="{{try.link_url}}" class="btn-cart pointer" target="_blank">
+                                <img src="/assets/icons/cart.png" />
+                            </a>
+                        </ng-container>
+                    </div>
+                    <div class="try-total" *ngIf="try.count_down_type == 1">
+                        <div class="total-header">Số lượng sản phẩm / Số lượt đăng kí</div>
+                        <div class="total-content">
+                            {{try.event_trgter_co}} / {{try.total_apply}}
+                        </div>
+                    </div>
+                    <div class="delivery-block" *ngIf="try.count_down_type == 1">
+                        <div class="action-btn"  *ngIf="try.slctn_at == 'Y'" routerLink="/tries/{{try.slug}}">
+                            <i class="material-icons">stars</i>
+                            <span class="winner-text">Winner</span>
+                        </div>
+                        <div class="action-btn" *ngIf="try.dlvy_dt" (click)="openDelivery(try)">
+                            <i class="material-icons">local_shipping</i>
+                            <span class="winner-text">Delivery</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="post-footer-content">
+                        <div class="action-block">
+                            <button class="action-btn" [ngClass]="{'active': try.is_liked == 1}" [appAuth] (action)="toggleLikeReview(try.cntnts_no, i)">
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                            </button>
+                            <div class="likes">
+                                <span class="number-of-like" (click)="usersLikeDialog(try.cntnts_no, 'try')">{{ try.likes | numberlike }}</span>
+                            </div>
+                            <div class="user-likes">
+                                <div *ngFor="let user of try.users_liked; let i = index">
+                                    <div class="circle-avt" *ngIf="i < 3">
+                                        <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/user.png'" alt=""
+                                             title="{{user.reg_name}}" [ngClass]="{'hidden': i > 1}"
+                                             class="user-avt pointer" routerLink="/usr/{{user.slug}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-block winner-create-review" *ngIf="try.slctn_dt">
+                            <button class="action-btn" routerLink="/reviews/create/{{try.cntnts_no}}" title="Write winner review">
+                                <div class="icon"></div>
+                            </button>
+                        </div>
+                        <div class="action-block">
+                            <button class="action-btn right" routerLink="/tries/{{try.slug}}">
+                                <i class="fa fa-comment-o" aria-hidden="true"></i>
+                            </button>
+                            <div class="likes">
+                                <span class="number-of-like">{{ try.comments | numberlike }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </ngxMasonryItem>
+        </ngx-masonry>
+        <div class="divider"></div>
+    </div>
+    <div class="loading-block" *ngIf="isLoading">
+        <img src="assets/images/loading.gif" alt="loading">
+    </div>
+</div>

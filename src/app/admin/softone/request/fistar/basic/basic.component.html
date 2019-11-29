@@ -1,0 +1,459 @@
+<div class="admin-request-fistar-basic">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div>
+                REQUEST > <b>fistar</b>
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/request/fistar"><i
+                        class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "User No" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.uid}} class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Name" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.fullname}} class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "ID" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" class="form-control" value={{data.id}} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Email" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" class="form-control" value={{data.email}}
+                                    placeholder="Enter url" name="target_url" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Phone" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" value={{data.phone}} class="form-control"
+                                    placeholder="Enter url" name="target_url" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Access control </label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <mat-checkbox [disabled]="'true'" class="px-3" color="primary">Active
+                                </mat-checkbox>
+                                <mat-checkbox [disabled]="'true'" class="px-3" color="primary">Allow Comment
+                                </mat-checkbox>
+                                <mat-checkbox [disabled]="'true'" class="px-3" color="primary">Allow Review
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Role </label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <mat-checkbox [disabled]="'true'" class="px-3" color="primary">fimer
+                                </mat-checkbox>
+                                <mat-checkbox [disabled]="'true'" class="px-3" color="primary">fistar
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Address</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <textarea type="text" [readonly]="true" class="form-control" maxlength="255"
+                                        rows="4" name="description">{{data.address}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Profile Photo</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <ngx-avatar style="float: left;margin-right: 20px;"
+                                        [src]="commonService.getImageLink(data.picture,'fistars','original')"
+                                        size="100">
+                                    </ngx-avatar>
+                                    <div class="name-fistar">
+                                        <b>
+                                            <h1>{{data.fullname}}</h1>
+                                        </b>
+                                        <p>{{data.id}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Gender" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [value]="data.gender?.cd_label" [readonly]="true"
+                                    class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Date of birth" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="date" [readonly]="true" [value]="data.dob" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Location" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" [readonly]="true" [value]="data.location?.cd_label"
+                                    class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Bank account" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Bank name</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" [value]="data.bank_name" [readonly]="true"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="">Bank Branch</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" [value]="data.bank_branch" [readonly]="true"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Account name</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" [value]="data.bank_account_name" [readonly]="true"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="">Account Number</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" [value]="data.bank_account_number" [readonly]="true"
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Swift code</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" [value]="data.bank_swift_code" [readonly]="true"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="col-md-6">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            Keywords
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    {{cdId.length+'/12'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="row">
+                                    <ng-container *ngFor="let keyword of keywords">
+                                        <mat-checkbox [disabled]="'true'" class="px-3" color="primary"
+                                            *ngIf="cdId.indexOf(keyword.cd_id) === -1">{{keyword.cd_label}}
+                                        </mat-checkbox>
+                                        <mat-checkbox [disabled]="'true'" class="px-3" color="primary"
+                                            *ngIf="cdId.indexOf(keyword.cd_id) !== -1" [checked]=true>
+                                            {{keyword.cd_label}}
+                                        </mat-checkbox>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Introduction</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <textarea type="text" [readonly]="true" class="form-control" maxlength="255"
+                                        rows="4" [value]="data.self_intro" name="description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngFor="let item of data.channels">
+                        <ng-container *ngIf="item.sns_id==2">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Facebook</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_follower==null">0</h3>
+                                            <h3 *ngIf="item.usn_follower!=null">{{item.usn_follower}}</h3>
+                                            <p>Followers</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_like==null">0</h3>
+                                            <h3 *ngIf="item.usn_like!=null">{{item.usn_like}}</h3>
+                                            <p>Like</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_comment==null">0</h3>
+                                            <h3 *ngIf="item.usn_comment!=null">{{item.usn_comment}}</h3>
+                                            <p>Commnets</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_share==null">0</h3>
+                                            <h3 *ngIf="item.usn_share!=null">{{item.usn_share}}</h3>
+                                            <p>Shares</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_view==null">0</h3>
+                                            <h3 *ngIf="item.usn_view!=null">{{item.usn_view}}</h3>
+                                            <p>Views</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-md-3">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group" >
+                                        <input type="text" style="cursor:pointer;" [readonly]="true" (click)="openNewWindown(item.sns_url)" value={{item.sns_url}}
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.sns_id==3">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Youtube</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_follower==null">0</h3>
+                                            <h3 *ngIf="item.usn_follower!=null">{{nFormatter(item.usn_follower,0)}}</h3>
+                                            <p>Followers</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_like==null">0</h3>
+                                            <h3 *ngIf="item.usn_like!=null">{{nFormatter(item.usn_like,0)}}</h3>
+                                            <p>Like</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_comment==null">0</h3>
+                                            <h3 *ngIf="item.usn_comment!=null">{{nFormatter(item.usn_comment,0)}}</h3>
+                                            <p>Commnets</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_share==null">0</h3>
+                                            <h3 *ngIf="item.usn_share!=null">{{nFormatter(item.usn_share,0)}}</h3>
+                                            <p>Shares</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_view==null">0</h3>
+                                            <h3 *ngIf="item.usn_view!=null">{{nFormatter(item.usn_view,0)}}</h3>
+                                            <p>Views</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" style="cursor:pointer;" [readonly]="true" (click)="openNewWindown(item.sns_url)" value={{item.sns_url}}
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.sns_id==4">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Instagram</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_follower==null">0</h3>
+                                            <h3 *ngIf="item.usn_follower!=null">{{nFormatter(item.usn_follower,0)}}</h3>
+                                            <p>Followers</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_like==null">0</h3>
+                                            <h3 *ngIf="item.usn_like!=null">{{nFormatter(item.usn_like,0)}}</h3>
+                                            <p>Like</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_comment==null">0</h3>
+                                            <h3 *ngIf="item.usn_comment!=null">{{nFormatter(item.usn_comment,0)}}</h3>
+                                            <p>Commnets</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_share==null">0</h3>
+                                            <h3 *ngIf="item.usn_share!=null">{{nFormatter(item.usn_share,0)}}</h3>
+                                            <p>Shares</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 *ngIf="item.usn_view==null">0</h3>
+                                            <h3 *ngIf="item.usn_view!=null">{{nFormatter(item.usn_view,0)}}</h3>
+                                            <p>Views</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" style="cursor:pointer;" [readonly]="true" (click)="openNewWindown(item.sns_url)" value={{item.sns_url}}
+                                            class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" [swal]="rejectSwal" (confirm)="accessRequest(3)">
+                <span> {{ "Reject" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" [swal]="confirmSwal" (confirm)="accessRequest(2)">
+                <span> {{ "Approve" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<swal #confirmSwal text="Are you sure to approve?" type="question" [showCancelButton]="true" [focusCancel]="true">
+</swal>
+<swal #rejectSwal text="Are you sure to reject?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>

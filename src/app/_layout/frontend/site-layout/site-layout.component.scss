@@ -1,0 +1,122 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+.support-action {
+    position: fixed;
+    top: 90%;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    z-index: 10000;
+    .new-btn {
+        margin-bottom: 10px;
+        line-height: 1;
+        background-color: #f14c7f;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 50%;
+        border: none;
+        outline: none;
+        width: 60px;
+        height: 60px;
+        i {
+            font-size: 20px;
+        }
+    }
+    .go-to-top-btn {
+        background-color: #dddddd;
+        color: #666666;
+        line-height: 1;
+        cursor: pointer;
+        border-radius: 50%;
+        border: none;
+        outline: none;
+        width: 52px;
+        height: 52px;
+        i {
+            font-size: 20px;
+        }
+    }
+}
+
+@media (min-width: 1281px) and (max-width: 1919px) {
+    .support-action {
+        .new-btn {
+            width: 40px;
+            height: 40px;
+            i {
+                font-size: 18px;
+            }
+        }
+        .go-to-top-btn {
+            width: 40px;
+            height: 40px;
+            i {
+                font-size: 18px;
+            }
+        }
+    }
+}
+
+@include small-desktop {
+    .support-action {
+        right: 15px;
+        .new-btn {
+            width: 40px;
+            height: 40px;
+            i {
+                font-size: 18px;
+            }
+        }
+        .go-to-top-btn {
+            width: 40px;
+            height: 40px;
+            i {
+                font-size: 18px;
+            }
+        }
+    }
+}
+
+@include tablet {
+    .support-action {
+        right: 15px;
+        .new-btn {
+            width: 30px;
+            height: 30px;
+            i {
+                font-size: 10px;
+            }
+        }
+        .go-to-top-btn {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            i {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+@include phone {
+    .support-action {
+        right: 15px;
+        .new-btn {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            i {
+                font-size: 10px;
+            }
+        }
+        .go-to-top-btn {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            i {
+                font-size: 12px;
+            }
+        }
+    }
+}

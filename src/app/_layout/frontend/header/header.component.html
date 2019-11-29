@@ -1,0 +1,362 @@
+<header>
+    <div class="top-header">
+        <div class="main-wrap">
+            <div class="container">
+                <div class="header-menu">
+                    <div class="mobile-search-block">
+                        <div class="search-block">
+                            <button class="search-btn" type="button" (click)="openSearchForm()">
+                                <i class="material-icons">
+                                    search
+                                </i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="socials-block">
+                        <div class="circle-icon">
+                            <a href="https://www.facebook.com/Fime.vn/" target="_blank" class="social-item"
+                               title="Facebook">
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="circle-icon">
+                            <a href="//youtube.com" target="_blank" class="social-item" title="Youtube">
+                                <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="circle-icon">
+                            <a href="https://www.instagram.com/fime.vn/" target="_blank" class="social-item"
+                               title="Instagram">
+                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="logo-block">
+                        <a routerLink="/" class="logo" title="{{ 'home_page' | translate}}">
+                            <img src="/assets/images/logo.png" alt="{{ 'logo' | translate }}">
+                        </a>
+                    </div>
+                    <div class="header-menu-right">
+                        <div class="actions-block">
+                            <div class="search-site">
+                                <form id="searchForm">
+                                    <button type="button" class="circle-icon" (click)="search()">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
+                                    <input type="text" name="keyWord" class="search-input"
+                                           [ngClass]="{'active': searchValue !== null && searchValue.length > 0}"
+                                           (keypress)="onKeyPress($event)"
+                                           [(ngModel)]="searchValue"
+                                           #searchInput>
+                                </form>
+                            </div>
+                            <div class="auth-block" *ngIf="!user.user_no">
+                                <a [routerLink]="['/login']" class="auth-link">
+                                    <span class="auth-btn">{{ 'login' | translate }}</span>
+                                </a>
+                                <a [routerLink]="['/register']" class="auth-link">
+                                    <span class="auth-btn">{{ 'register' | translate }}</span>
+                                </a>
+                            </div>
+                            <div class="auth-user pointer" *ngIf="user.user_no" dropdown>
+                                <span class="user-name" [matMenuTriggerFor]="authUserMenu">{{user.id ? user.id : user.reg_name}}</span>
+                                <button mat-icon-button [matMenuTriggerFor]="authUserMenu">
+                                    <i class="material-icons">
+                                        arrow_drop_down
+                                    </i>
+                                </button>
+                                <mat-menu #authUserMenu="matMenu">
+                                    <button mat-menu-item routerLink="/usr/{{user.slug}}">
+                                        <span>My Page</span>
+                                    </button>
+                                    <button mat-menu-item (click)="logout()">
+                                        <span>Logout</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+                        <div class="menu-block">
+                            <button mat-icon-button [matMenuTriggerFor]="headerNavMenu" class="laptop-menu">
+                                <i class="material-icons">
+                                    menu
+                                </i>
+                            </button>
+                            <mat-menu #headerNavMenu="matMenu" class="navbar-nav">
+                                <button class="nav-item user-info" mat-menu-item routerLink="/usr/{{user.slug}}"
+                                        *ngIf="user.user_no">
+                                    <div class="user-avt">
+                                        <img [src]="env.rootHost + user.pic" *ngIf="user.pic !== null; else noAvatar">
+                                        <ng-template #noAvatar>
+                                            <img [src]="defaultAvatar">
+                                        </ng-template>
+                                    </div>
+                                    <span>{{user.id ? user.id : user.reg_name}}</span>
+                                </button>
+
+                                <button mat-menu-item class="nav-item" (click)="user.new_tries = 0" routerLink="/tries"
+                                        [ngClass]="{'active' : activeMenu === 'tries'}">
+                                    Try free
+                                    <span class="badge" *ngIf="user.new_tries > 9">9+</span>
+                                    <span class="badge"
+                                          *ngIf="user.new_tries <= 9  && user.new_tries != 0"> {{user.new_tries}}</span>
+                                </button>
+                                <button mat-menu-item class="nav-item" (click)="toggleSubMenu()"
+                                        [ngClass]="{'active' : activeMenu === 'reviews'}"
+                                        [matMenuTriggerFor]="reviewsMenu">
+                                    Reviews
+                                    <span class="badge" *ngIf="user.new_reviews > 9">9+</span>
+                                    <span class="badge"
+                                          *ngIf="user.new_reviews <= 9 && user.new_reviews != 0"> {{user.new_reviews}}</span>
+                                </button>
+
+                                <button mat-menu-item class="nav-item" routerLink="/fimers"
+                                        [ngClass]="{'active' : activeMenu === 'fimers'}">
+                                    Fimers
+                                </button>
+
+                                <button mat-menu-item class="nav-item" routerLink="/tips"
+                                        [ngClass]="{'active' : activeMenu === 'tips'}">
+                                    Tips
+                                </button>
+
+<!--                                <button mat-menu-item class="nav-item" routerLink="/blogs"-->
+<!--                                        [ngClass]="{'active' : activeMenu === 'blogs'}">-->
+<!--                                    Blogs-->
+<!--                                </button>-->
+
+                                <button mat-menu-item class="nav-item" routerLink="/faqs"
+                                        [ngClass]="{'active' : activeMenu === 'faqs'}">
+                                    Faqs
+                                </button>
+                                <button class="nav-item" mat-menu-item routerLink="/notifications"
+                                        *ngIf="user.user_no"
+                                        [ngClass]="{'active' : activeMenu === 'notifications'}">
+                                    Notifications
+                                    <span class="badge" *ngIf="notificationNumber">{{notificationNumber}}</span>
+                                </button>
+
+                                <button class="nav-item" mat-menu-item (click)="logout()" *ngIf="user.user_no">
+                                    Logout
+                                </button>
+
+                                <button class="nav-item" mat-menu-item [routerLink]="['/login']" *ngIf="!user.user_no">
+                                    {{ 'login' | translate }}
+                                </button>
+                            </mat-menu>
+                            <mat-menu #reviewsMenu="matMenu">
+                                <button mat-menu-item (click)="user.new_reviews = 0" routerLink="/reviews">
+                                    <span>All</span>
+                                </button>
+                                <button mat-menu-item *ngFor="let category of categories"
+                                        (click)="user.new_reviews = 0"
+                                        routerLink="/reviews/{{category.slug}}">
+                                    <span>{{category.code_nm}}</span>
+                                </button>
+                            </mat-menu>
+                            <button class="mobile-menu" (click)="toggleMenu()">
+                                <i class="material-icons" id="openMenu">
+                                    menu
+                                </i>
+                            </button>
+                            <div class="mobile-menu-container" [ngStyle]="{'display': isToggleMenu ? 'block' : 'none'}">
+                                <div class="opacity-layer"></div>
+                                <div class="mobile-menu-layer" [ngStyle]="{'width': isToggleMenu ? '80%' : '0'}"
+                                     appClickOutside (clickOutSide)="toggleMenu()">
+                                    <div class="navbar-nav">
+                                        <div class="user-info pointer" *ngIf="user.user_no" [routerLink]="['/usr/' + user.slug]" (click)="toggleMenu()">
+                                            <div class="top">
+                                                <div class="user-avt" *ngIf="(!checkUndefined(user.pic) && user.pic !== null); else noAvatar">
+                                                    <img [src]="env.rootHost + user.pic">
+                                                </div>
+                                                <ng-template #noAvatar>
+                                                    <div class="user-avt">
+                                                        <img [src]="defaultAvatar">
+                                                    </div>
+                                                </ng-template>
+                                            </div>
+                                            <div class="bottom">
+                                                <div class="name">
+                                                    <span class="user-name">{{user.id ? user.id : user.reg_name}}</span>
+                                                </div>
+                                                <div class="slug pointer" [routerLink]="['/usr/' + user.slug]">
+                                                    <span>{{env.url + '/usr/' + user.slug}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="action">
+                                            <button mat-menu-item class="nav-item" (click)="resetUserTry()"
+                                                    routerLink="/tries"
+                                                    [ngClass]="{'active' : activeMenu === 'tries'}">
+                                                Try free
+                                                <span class="badge" *ngIf="user.new_tries > 9">9+</span>
+                                                <span class="badge"
+                                                      *ngIf="user.new_tries <= 9  && user.new_tries != 0"> {{user.new_tries}}</span>
+                                            </button>
+                                            <button mat-menu-item class="nav-item"
+                                                    (click)="resetUserReview()" routerLink="/reviews"
+                                                    [ngClass]="{'active' : activeMenu === 'reviews'}">
+                                                Reviews
+                                                <span class="badge" *ngIf="user.new_reviews > 9">9+</span>
+                                                <span class="badge"
+                                                      *ngIf="user.new_reviews <= 9 && user.new_reviews != 0"> {{user.new_reviews}}</span>
+                                            </button>
+                                            <div class="mobile-submenu">
+                                                <button mat-menu-item class="nav-item" *ngFor="let category of categories"
+                                                        (click)="resetUserReview()"
+                                                        routerLink="/reviews/{{category.slug}}">
+                                                    <span>{{category.code_nm}}</span>
+                                                </button>
+                                            </div>
+
+                                            <button mat-menu-item class="nav-item" routerLink="/fimers" (click)="toggleMenu()"
+                                                    [ngClass]="{'active' : activeMenu === 'fimers'}">
+                                                Fimers
+                                            </button>
+
+                                            <button mat-menu-item class="nav-item" routerLink="/tips" (click)="toggleMenu()"
+                                                    [ngClass]="{'active' : activeMenu === 'tips'}">
+                                                Tips
+                                            </button>
+
+<!--                                            <button mat-menu-item class="nav-item" routerLink="/blogs" (click)="toggleMenu()"-->
+<!--                                                    [ngClass]="{'active' : activeMenu === 'blogs'}">-->
+<!--                                                Blogs-->
+<!--                                            </button>-->
+
+                                            <button mat-menu-item class="nav-item" routerLink="/faqs" (click)="toggleMenu()"
+                                                    [ngClass]="{'active' : activeMenu === 'faqs'}">
+                                                Faqs
+                                            </button>
+
+                                            <button class="nav-item" mat-menu-item [routerLink]="['/usr/' + user.slug]" (click)="toggleMenu()"
+                                                    *ngIf="user.user_no"
+                                                    [ngClass]="{'active' : activeMenu === 'usr'}">
+                                                My page
+                                                <span class="badge" *ngIf="notificationNumber">{{notificationNumber}}</span>
+                                            </button>
+                                            <button class="nav-item" mat-menu-item routerLink="/notifications" (click)="toggleMenu()"
+                                                    *ngIf="user.user_no"
+                                                    [ngClass]="{'active' : activeMenu === 'notifications'}">
+                                                Notifications
+                                                <span class="badge" *ngIf="notificationNumber">{{notificationNumber}}</span>
+                                            </button>
+
+                                            <button class="nav-item" mat-menu-item (click)="logout()" *ngIf="user.user_no">
+                                                Logout
+                                            </button>
+
+                                            <button class="nav-item" mat-menu-item [routerLink]="['/login']" (click)="toggleMenu()"
+                                                    *ngIf="!user.user_no">
+                                                {{ 'login' | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container collapse mobile-search-box" id="mobileSearchForm">
+                <div class="mobile-actions-block">
+                    <!--<div class="user-avt" *ngIf="user.user_no" routerLink="/usr/{{user.slug}}">
+                        <img [src]="env.rootHost + user.pic" *ngIf="user.pic !== null; else noAvatar">
+                        <ng-template #noAvatar>
+                            <img [src]="defaultAvatar">
+                        </ng-template>
+                    </div>-->
+                    <div class="search-site">
+                        <form id="searchFormMobile">
+                            <button type="button" class="circle-icon" (click)="searchData()">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                            <input type="text" name="keyWord" class="search-input"
+                                   [ngClass]="{'active': searchValue !== null && searchValue.length > 0}"
+                                   (keypress)="onKeyPress($event)"
+                                   [(ngModel)]="searchValue">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand">
+        <div class="main-wrap" [ngClass]="{'show': isToggleMenu}">
+            <div class="main-menu">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" (click)="user.new_tries = 0" routerLink="/tries"
+                               [ngClass]="{'active' : activeMenu === 'tries'}">Try free</a>
+                            <span class="badge" *ngIf="user.new_tries > 9">9+</span>
+                            <span class="badge"
+                                  *ngIf="user.new_tries <= 9  && user.new_tries != 0"> {{user.new_tries}}</span>
+                        </li>
+                        <li class="nav-item dropdown" (click)="toggleSubMenu()">
+                            <div class="btn-group nav-link pointer">
+                                <span [ngClass]="{'active' : activeMenu === 'reviews'}" routerLink="/reviews/all">Reviews</span>
+                                <button id="button-basic" class="dropdown-toggle review-link" mat-icon-button
+                                        [ngClass]="{'active' : activeMenu === 'reviews'}">
+                                    <i class="material-icons" [matMenuTriggerFor]="reviewMenu">
+                                        arrow_drop_down
+                                    </i>
+                                </button>
+                                <mat-menu #reviewMenu="matMenu">
+                                    <button mat-menu-item (click)="user.new_reviews = 0" routerLink="/reviews">
+                                        <span>All</span>
+                                    </button>
+                                    <button mat-menu-item *ngFor="let category of categories"
+                                            (click)="user.new_reviews = 0"
+                                            routerLink="/reviews/{{category.slug}}">
+                                        <span>{{category.code_nm}}</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                            <span class="badge" *ngIf="user.new_reviews > 9">9+</span>
+                            <span class="badge"
+                                  *ngIf="user.new_reviews <= 9 && user.new_reviews != 0"> {{user.new_reviews}}</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/fimers" [ngClass]="{'active' : activeMenu === 'fimers'}"
+                            >Fimers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/tips"
+                               [ngClass]="{'active' : activeMenu === 'tips'}">Tips</a>
+                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" routerLink="/blogs"-->
+<!--                               [ngClass]="{'active' : activeMenu === 'blogs'}">Blogs</a>-->
+<!--                        </li>-->
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/faqs"
+                               [ngClass]="{'active' : activeMenu === 'faqs'}">FAQ</a>
+                        </li>
+                        <li class="nav-item" *ngIf="user.user_no">
+                            <a class="nav-link" routerLink="/usr/{{user.slug}}"
+                               [ngClass]="{'active' : activeMenu === 'usr' && user.slug === crrUserSlug}">
+                                <img src="/assets/icons/user-icon.png">
+                                My page
+                            </a>
+                        </li>
+                        <li class="nav-item" *ngIf="user.user_no">
+                            <a class="nav-link" routerLink="/notifications"
+                               [ngClass]="{'active' : activeMenu === 'notifications'}">
+                                <img src="/assets/icons/bell-icon.png">
+                                Notifications
+                            </a>
+                            <span class="badge" *ngIf="notificationNumber">{{notificationNumber}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

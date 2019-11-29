@@ -1,0 +1,15 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-faq-category {
+  .action{
+    i{
+      cursor: pointer;
+      margin-right: 15px;
+      color: #b0b0b0;
+      font-size: 21px;
+      margin-top: 6px;
+    }
+  }
+}

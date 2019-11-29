@@ -1,0 +1,605 @@
+<div class="app-admin-campaign-edit">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading">
+                CAMPAIGN > CREATE CAMPAIGN
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/campaign"><i
+                        class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Partner <span style="color: red">(*)</span></label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <select class='form-control' formControlName="p_id" [(ngModel)]="form.value.p_id">
+                                <option *ngFor="let item of partners" [value]="item.pid">{{item.pm_name}}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="form.controls.p_id.invalid && (isSubmitted|| form.controls.p_id.touched)"
+                            class="text-danger marginTop">
+                            <div *ngIf="form.controls.p_id.errors.required">
+                                Partner is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row marginTop10">
+                    <div class="col-md-3">
+                        <label>Campaign name<span style="color: red">(*)</span></label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="cp_name" name="name" />
+                        </div>
+                        <div *ngIf="form.controls.cp_name.invalid && (isSubmitted|| form.controls.cp_name.touched)"
+                            class="text-danger marginTop">
+                            <div *ngIf="form.controls.cp_name.errors.required">
+                                Campaign name is required
+                            </div>
+                            <div *ngIf="form.controls.cp_name.errors.maxlength" class="text-danger">
+                                Campaign name less than 191 character
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row marginTop10">
+                    <div class="col-md-3">
+                        <label>Text Color</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <select class='form-control' formControlName="cp_text_color"
+                                [(ngModel)]="form.value.cp_text_color">
+                                <option *ngFor="let item of colors" [value]="item.CODE">{{item.CODE_NM}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row marginTop10">
+                    <div class="col-md-3">
+                        <label>Output Text</label>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-radio-group name="radio_cp_output_text" [(ngModel)]="cpOutputText"
+                            (change)="checkCpOutputText()" formControlName="radio_cp_output_text">
+                            <div class="row output-text">
+                                <div class="col-md-6">
+                                    <mat-radio-button name="radio_cp_output_text" [value]="1" color="primary">
+                                        Coundown</mat-radio-button>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-radio-button name="radio_cp_output_text" [value]="2" color="primary">
+                                        Customer text</mat-radio-button>
+                                </div>
+                            </div>
+
+                        </mat-radio-group>
+                    </div>
+                    <!-- <div class="col-md-2">
+                        <div class="form-group">
+                            <label><input type="radio" class="form-control" value="1" name="cp_output_text" />Coundown</label>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label><input type="radio" (change)="checkInputCustomerText()" class="form-control" value="2" name="cp_output_text" />Customer
+                                text</label>
+                        </div>
+                    </div> -->
+                    <div class="col-md-5" *ngIf="isInputCustomerText">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="cp_output_text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row marginTop10">
+                    <div class="col-md-3">
+                        <label>Short Description</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <textarea name="" formControlName="cp_short_description" class="form-control" f id=""
+                                cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row marginTop10">
+                    <div class="col-md-3">
+                        <label>Description <span style="color: red">(*)</span></label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <ck-editor formControlName="cp_description" skin="moono-lisa" language="en"
+                                [fullPage]="true" name="description"></ck-editor>
+                        </div>
+                        <div *ngIf="form.controls.cp_description.invalid && (isSubmitted|| form.controls.cp_description.touched)"
+                            class="text-danger marginTop">
+                            <div *ngIf="form.controls.cp_description.errors.required">
+                                Description is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row marginTop10">
+                    <div class="col-md-3">
+                        <label>Hashtag</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="name" formControlName="cp_hashtag" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Disabled</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="switch">
+                                <input (click)="setState(checkedstate ? 0 : 1)" type="checkbox"
+                                    [checked]="checkedstate == 1">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Brand<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <!-- <input type="text" class="form-control" formControlName="cp_brand" name="name" /> -->
+                                <select class='form-control' formControlName="cp_brand"
+                                    [(ngModel)]="form.value.cp_brand">
+                                    <option value="{{item['CODE']}}" *ngFor="let item of brands">
+                                        {{item['CODE_NM']}}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="form.controls.cp_brand.invalid && (isSubmitted|| form.controls.cp_brand.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_brand.errors.required">
+                                    Brand is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Category<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <select class='form-control' formControlName="cp_category"
+                                    [(ngModel)]="form.value.cp_category">
+                                    <option value="{{item['cd_id']}}" *ngFor="let item of dataBlind.category">
+                                        {{item['cd_label']}}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="form.controls.cp_category.invalid && (isSubmitted|| form.controls.cp_category.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_category.errors.required">
+                                    Category is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Model</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="cp_model" />
+                            </div>
+                            <div *ngIf="form.controls.cp_model.invalid && (isSubmitted|| form.controls.cp_model.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_model.errors.maxlength">
+                                    Model less than 255 character
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Product url</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="cp_product_url" name="name"
+                                    (change)="validUrl()" />
+                            </div>
+                            <!-- <div *ngIf="form.controls.cp_product_url.invalid && (isSubmitted|| form.controls.cp_product_url.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_product_url.errors.required">
+                                    Product url is required
+                                </div>
+                            </div>
+                            <div *ngIf="this.form.controls.cp_product_url.dirty && !commonService.validUrl(this.form.controls.cp_product_url.value, '')"
+                                class="text-danger marginTop">URL is invalid</div> -->
+                        </div>
+                    </div>
+
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Type<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label><input type="radio" [checked]="form.value.cp_type == 0" class="form-control"
+                                        name="type" (click)="setType(0)" />Free</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label><input type="radio" [checked]="form.value.cp_type == 1" class="form-control"
+                                        name="type" (click)="setType(1)" />Paid</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Price</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="cp_product_price" name="name"
+                                    (keypress)="numberOnly($event)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Sale price</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="cp_campaign_price" name="name"
+                                    (keypress)="numberOnly($event)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Period<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group period">
+                                <div class="from">
+                                    <input placeholder="Date Time:" formControlName="cp_period_start"
+                                        [owlDateTimeTrigger]="start_date" [(ngModel)]="cpDate.cp_period_start"
+                                        class="form-control" [owlDateTime]="start_date">
+                                    <owl-date-time #start_date></owl-date-time>
+                                    <!-- <div *ngIf="form.controls.period_from.invalid && (form.controls.period_from.dirty || form.controls.period_from.touched)"
+                                        class="text-danger">
+                                        <div *ngIf="form.controls.period_from.errors.required">
+                                            Period is required
+                                        </div>
+                                    </div> -->
+                                </div>
+                                &nbsp;~&nbsp;
+                                <div class="to">
+                                    <input placeholder="Date Time:" formControlName="cp_period_end"
+                                        [owlDateTimeTrigger]="end_date" [(ngModel)]="cpDate.cp_period_end"
+                                        class="form-control" [owlDateTime]="end_date">
+                                    <owl-date-time #end_date></owl-date-time>
+                                    <!-- <div *ngIf="form.controls.period_to.invalid && (form.controls.period_to.dirty || form.controls.period_to.touched)"
+                                            class="text-danger">
+                                        <div *ngIf="form.controls.period_to.errors.required">
+                                            Period is required
+                                        </div>
+                                    </div> -->
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Select keyword<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-9 flex">
+                            <div *ngFor="let item of dataBlind.keyWord" class="itemcheck_groub">
+                                <label class="itemcheck">
+                                    <input type="checkbox" (click)="pushKeyWord(item['cd_id'], $event)"
+                                        [checked]="item['checked']">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label>{{item['cd_label']}}</label>
+                            </div>
+                            <!-- <div *ngIf="form.controls.keywords.invalid && (isSubmitted|| form.controls.keywords.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.keywords.errors.required">
+                                    Keyword is required
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-3">
+                            <label>Join Max Count<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="cp_total_free"
+                                    (keypress)="numberOnly($event)" />
+                            </div>
+                            <div *ngIf="form.controls.cp_total_free.invalid && (isSubmitted|| form.controls.cp_total_free.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_total_free.errors.required">
+                                    Join Max Count is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Recruitment fiStar<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" maxlength="10"
+                                    formControlName="cp_total_influencer" (keypress)="numberOnly($event)" />
+                            </div>
+                            <div *ngIf="form.controls.cp_total_influencer.invalid && (isSubmitted|| form.controls.cp_total_influencer.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_total_influencer.errors.required">
+                                    Recruitment fiStar is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Delivery start date<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <!-- <input type="text" formControlName="cp_delivery_start_date" class="form-control" /> -->
+                                <mat-form-field>
+                                    <mat-datepicker-toggle [for]="delivery_start_date" matSuffix>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #delivery_start_date type="datetime" openOnFocus="true"
+                                        timeInterval="5"></mat-datepicker>
+                                    <input matInput class="form-control"
+                                        (ngModelChange)="handleChangeDate($event, 'cp_delivery_start_date')"
+                                        formControlName="cp_delivery_start_date" [matDatepicker]="delivery_start_date"
+                                        required autocomplete="false" placeholder="From">
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="form.controls.cp_delivery_start_date.invalid && (isSubmitted|| form.controls.cp_delivery_start_date.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_delivery_start_date.errors.required">
+                                    Delivery start date is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Delivery end date<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" style="margin-bottom: 0.5rem;">
+                                <!-- <input type="text" class="form-control" formControlName="cp_delivery_end_date" /> -->
+                                <mat-form-field>
+                                    <mat-datepicker-toggle [for]="delivery_end_date" matSuffix></mat-datepicker-toggle>
+                                    <mat-datepicker #delivery_end_date type="datetime" openOnFocus="true"
+                                        timeInterval="5"></mat-datepicker>
+                                    <input matInput class="form-control"
+                                        (ngModelChange)="handleChangeDate($event, 'cp_delivery_end_date')"
+                                        formControlName="cp_delivery_end_date" [matDatepicker]="delivery_end_date"
+                                        required autocomplete="false" placeholder="To">
+                                </mat-form-field>
+                                <div *ngIf="(form.controls.cp_delivery_end_date.invalid && (isSubmitted|| form.controls.cp_delivery_end_date.touched)) || (isSubmitted && isErrDeliveryDate)"
+                                    class="text-danger marginTop">
+                                    <div
+                                        *ngIf="!isErrDeliveryDate && form.controls.cp_delivery_end_date.errors.required">
+                                        Delivery end date is required
+                                    </div>
+                                    <div *ngIf="isErrDeliveryDate && isSubmitted" class="text-danger"
+                                        style="width: 102%;">
+                                        Delivery start date greater than Delivery end date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Main image<span style="color: red">(*)</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <app-softone-resource #resource
+                                [resource]="{ change_type: 'deny', url: null, resource_type: '1', image_url: null, image_fistar_url:null }"
+                                [resizeToWidth]="1920" [aspectRatio]="4/4" (ouputItem)="getImageMain($event)"
+                                [needToCrop]="false">
+                            </app-softone-resource>
+                            <div class="form-group groub_item">
+                            </div>
+                            <div *ngIf="form.controls.cp_main_image.invalid && (isSubmitted|| form.controls.cp_main_image.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_main_image.errors.required">
+                                    Main image is required
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Main image <span style="color:red">(*)</span></label><br>
+                            <label>(image size : 670px x 470px)</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <app-admin-resource #resource
+                                    [resource]="{ change_type: 'deny', url: null, resource_type: '1', image_url: null, image_fistar_url:null }"
+                                    [resizeToWidth]="1920" [aspectRatio]="19/6" (ouputItem)="getImageMain($event)">
+                                </app-admin-resource>
+                            </div>
+                            <div *ngIf="form.controls.cp_main_image.invalid && (isSubmitted|| form.controls.cp_main_image.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_main_image.errors.required">
+                                    Main image is required
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Images</label><br>
+                            <label for="">(image size : 720px x 1280px)</label>
+                        </div>
+                        <div class="col-md-9">
+                            <!-- <app-softone-resource #resource
+                                [resource]="{ change_type: 'deny', url: null, resource_type: '1', image_url: null, image_fistar_url:null }"
+                                [resizeToWidth]="1920" [aspectRatio]="4/4" (ouputItem)="getImages($event)"
+                                [needToCrop]="false">
+                            </app-softone-resource> -->
+                            <!-- <app-softone-resource #resource
+                                [resource]="{ change_type: 'deny', url: null, resource_type: '1', image_url: null, fistar_images_url: [] }"
+                                [resizeToWidth]="1920" [aspectRatio]="3/4" (outputMultiItem)="getImages($event)"
+                                [multiple]="true" [needToCrop]="false">
+                            </app-softone-resource>
+                            <div class="form-group groub_item">
+
+                            </div>
+                            
+                            <div *ngIf="form.controls.cp_attachment_url.invalid && (isSubmitted|| form.controls.cp_attachment_url.touched)"
+                                class="text-danger marginTop">
+                                <div *ngIf="form.controls.cp_attachment_url.errors.required">
+                                    Images is required
+                                </div>
+                            </div> -->
+
+                            <div class="form-group">
+                                <app-admin-multiple-images-softone #images [images]="{ data: dataImage}"
+                                    [resizeToWidth]="720" [aspectRatio]="1 / 1"></app-admin-multiple-images-softone>
+                                <!-- <div *ngIf="isSubmitted && invalidImages"
+                                     class="text-danger">
+                                    Choose at least one image
+                                </div> -->
+                            </div>
+                            <!-- <div *ngIf="isSubmitted"
+                            class="text-danger marginTop">
+                            <div *ngIf="this.imagesAdd.imagesBase64 ===  undefined || this.imagesAdd.imagesBase64.length == 0">
+                                Images is required
+                            </div>
+                            </div>  -->
+                        </div>
+                    </div>
+
+                    <div class="row marginTop10">
+                        <div class="col-md-3">
+                            <label>Images Description</label>
+                        </div>
+                        <div class="col-md-9">
+                            <app-softone-resource #resource
+                                [resource]="{ change_type: 'deny', url: null, resource_type: '1', image_url: null, image_fistar_url:null }"
+                                [resizeToWidth]="1920" [aspectRatio]="3/4" (ouputItem)="getImageDescription($event)"
+                                [needToCrop]="false">
+                            </app-softone-resource>
+                            <!-- <div *ngIf="form.controls.cp_image.invalid && (isSubmitted|| form.controls.cp_image.touched)"
+                                class="text-danger marginTop" style="margin-top: 4px">
+                                <div *ngIf="form.controls.cp_image.errors.required">
+                                    Images is required
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row mt-4">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-9">
+                            <div class="row align-items-center" *ngFor="let fistar of fistarsChannel">
+                                <div class="col-sm-6">
+                                    <div class="avatar">
+                                        <img [src]="commonService.getImageLink(fistar.item.avatar, 'fistars', 'thumbnail')"
+                                            width="100%" height="100%">
+                                    </div>
+                                    {{fistar.item.name}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <select (change)="changeSNS($event, fistar)" [value]="fistar.sns"
+                                        class="form-control">
+                                        <option value={{fistar.sns}}>{{fistar.sns_name}}</option>
+                                        <option value={{item}} *ngFor="let item of channelBox[fistar.item.uid]">
+                                            {{getChannelName(item)}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">{{fistar.sns_cost}} VND</div>
+                                <div class="col-sm-2" (click)="removeFistar(fistar)">[x]</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="col-md-9">
+                            <button type="button" class="btn btn-info" (click)="openModal(template)"><i
+                                    class="fas fa-search"></i> FiStar Search</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-3">Estimated promotion cost for {{fistarsChannel.length}} fiStar</div>
+                        <div class="col-sm-3">{{countTotalFee()}}</div>
+                        <div class="col-sm-3">VND</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/campaign">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> cancel</span>
+            </button>
+            <button class="btn btn-primary mr-1" (click)="save()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> save </span>
+            </button>
+        </div>
+    </form>
+
+    <ng-template #template>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Fistar Search</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <admin-campaign-fistar-search (update)="matchFistar($event)"></admin-campaign-fistar-search>
+        </div>
+    </ng-template>
+</div>

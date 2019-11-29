@@ -1,0 +1,59 @@
+<div class="admin-try-dialog">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">Delivery info</div>
+            <div class="btn-dialog-close" (click)="close()">
+                <fa name="times-circle" size="2x"></fa>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate class="review-form">
+        <div class="brand-container">
+            <div class="brand-content">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="userTry.dlvy_dt" [matDatepicker]="dlvy_compt_dt" placeholder="Choose a date" formControlName="dlvy_compt_dt">
+                        <mat-datepicker-toggle matSuffix [for]="dlvy_compt_dt"></mat-datepicker-toggle>
+                        <mat-datepicker #dlvy_compt_dt></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <label>Shipping Company</label>
+
+                    <ng-select [items]="shippings" [(ngModel)]="userTry.dlvy_cmpny_code" bindValue="code" bindLabel="code_nm"
+                                formControlName="dlvy_cmpny_code" name="dlvy_cmpny_code" [virtualScroll]="true">
+                        <ng-template ng-option-tmp let-item="item" let-index="index">
+                            <span>{{ item.code_nm }}</span>
+                        </ng-template>
+                    </ng-select>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+
+                    <ng-select [items]="statuses" [(ngModel)]="userTry.dlvy_mth_code" bindValue="code" bindLabel="code_nm"
+                                formControlName="dlvy_mth_code" name="dlvy_mth_code" [virtualScroll]="true">
+                        <ng-template ng-option-tmp let-item="item" let-index="index">
+                            <span>{{ item.code_nm }}</span>
+                        </ng-template>
+                    </ng-select>
+                </div>
+
+                <div class="form-group">
+                    <label>Invoice</label>
+                    <input class="form-control" [(ngModel)]="userTry.invc_no" formControlName="invc_no"/>
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <a (click)="close()" class="btn-hero btn-cancel">Cancel</a>
+            <button
+                    class="btn-hero btn-danger"
+                    [disabled]="!form.valid"
+                    (click)="onSave()"
+            >
+                Save
+            </button>
+        </div>
+    </form>
+</div>

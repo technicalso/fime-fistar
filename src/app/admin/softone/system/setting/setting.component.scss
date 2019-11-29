@@ -1,0 +1,54 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.admin-system-setting {
+    // // ngx-datatable{
+    // //     ngx-datatable-column{
+    // //         text-align: center !important;
+    // //     }
+    // // }
+    // .ngx-datatable .datatable-body .datatable-body-row > div {
+    //     align-items: center !important;
+    //  }
+    .multi-action {
+        margin-top: 30px;
+    }
+    .action{
+        i{
+            cursor: pointer;
+            margin-right: 15px;
+            color: #b0b0b0;
+            font-size: 20px;
+            margin-top: 6px;
+        }
+    }
+    .btn {
+        i {
+            font-size: 20px;
+        }
+    }
+    .main-at {
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+    }
+    .item-custom-left {
+        display: flex;
+        align-items: center;
+        label {
+            margin: 0;
+        }
+    }
+    .main-form {
+        .main-form-custom {
+            border:1px solid #e2e2e2;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+    }
+    .customer-button {
+        padding: 7px 25px;
+    }
+    
+}

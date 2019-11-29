@@ -1,0 +1,247 @@
+<div class="app-admin-system-code">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                SYSTEM > CODE
+            </div>
+        </div>
+    </div>
+    <mat-card class="search-control">
+        <form [formGroup]="formSearch">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <div class="none-label">
+                            <mat-form-field class="full-width">
+                                <input matInput formControlName="name">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>Main Code</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select formControlName="mainCode">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option *ngFor="let item of searchCode" [value]="item.cdg_id">{{item.cdg_name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label>State</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <mat-select formControlName="state">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value="1">Enable</mat-option>
+                                    <mat-option value="0">Disable</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2" style="margin-top: 30px;">
+                    <div class="pull-right">
+                        <button class="btn btn-primary mr-1" (click)="search()"><i
+                                class="material-icons align-text-bottom">
+                                search
+                            </i> <span>Search</span></button>
+                        <button class="btn btn-default mr-1" (click)="resetFormSearch()"><i
+                                class="material-icons align-text-bottom">
+                                replay
+                            </i> <span>Reset</span></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </mat-card>
+    <br>
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" (click)="openModal(sub,'add_sub')">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Sub code Add</span>
+            </button>
+            <button class="btn btn-primary float-right" (click)="openModal(main,'add_main')" style="margin-right: 10px">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span> Main code Add</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="table">
+        <h5>{{data.total_page}} Total</h5>
+        <table *ngIf="data.total_page!=0;else listEmpty">
+            <tr *ngFor="let item of data.header">
+                <th *ngFor="let it of item" [attr.colspan]="it.col" [attr.rowspan]="it.row">
+                    {{it.value}}
+                </th>
+            </tr>
+            <ng-container *ngFor="let item of data.list">
+                <tr *ngFor="let it of item.content[0].title; let i = index">
+                    <td>{{it.index }}</td>
+                    <td [attr.rowspan]="item.content[0].title.length" *ngIf="it.cdg_name!=''"><a style="cursor:pointer" (click)="openModal(main,'edit',item.main_code)">{{it.cdg_name}}</a>
+                    </td>
+                    <td>
+                        <img *ngIf="it.cd_active_icon" [src]="convertShowImage(it.cd_active_icon)"
+                            [alt]="it.cd_active_icon" class="img-icon">
+                    </td>
+                    <td> <img *ngIf="it.cd_inactive_icon" [src]="convertShowImage(it.cd_inactive_icon)"
+                            [alt]="it.cd_inactive_icon" class="img-icon">
+                    </td>
+                    <td>{{it.cd_label}}</td>
+                    <td *ngIf="it.date_code; else HaveDate">{{it.date_code}}</td>
+                    <ng-template #HaveDate>
+                        <td >{{it.created_at}}</td>
+                    </ng-template>
+                    <td *ngIf="it.cd_state == 0">Disabled</td>
+                    <td *ngIf="it.cd_state == 1">Enabled</td>
+                    <td *ngIf="it.cd_state == null"></td>
+                    <td>
+                        <button class='control edit' (click)="openModal(sub,'editSub',it)"><i
+                                class="fas fa-pen"></i></button>
+                        <button class='control delete' (click)="delete(it.cd_id)"><i
+                                class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+            </ng-container>
+        </table>
+        <div class="pagination-table">
+            <ul *ngIf="pager" class="pagination mt-4 text-right">
+                <li [ngClass]="{disabled:pager['currentPage'] === 1}">
+                    <a (click)="choosepage(pager.currentPage - 1)">
+                        Pre
+                    </a>
+                </li>
+                <li *ngFor="let page of pager['pages']" [ngClass]="{active:pager['currentPage'] === page}">
+                    <a (click)="choosepage(page)">{{page}}</a>
+                </li>
+                <li [ngClass]="{disabled:pager['currentPage'] === pager['totalPages']}">
+                    <a (click)="choosepage(pager['currentPage'] + 1)">
+                        <!-- <i class="fa fa-angle-right"></i> -->
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ng-template #listEmpty>
+            <table>
+                <tr *ngFor="let item of data.header">
+                    <th *ngFor="let it of item" [attr.colspan]="it.col" [attr.rowspan]="it.row">
+                        {{it.value}}
+                    </th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td (click)="openModal(main,'edit',valueMainCode)">{{valueMainCode.cdg_name}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class='control edit' (click)="openModal(sub,'add_sub')"><i
+                                class="fas fa-pen"></i></button>
+                        <button class='control delete' [swal]="deleteSwal"
+                            (confirm)="deleteMainCode(valueMainCode.cdg_id)"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </ng-template>
+    </div>
+</div>
+
+
+
+<ng-template #main>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{titleMainCode}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formMainCode">
+            <div class="form-group">
+                <label>Main Code:</label>
+                <input type="text" formControlName="cdg_name" class="form-control" id="uname" name="uname" required>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Code status:</label>
+                <select class="form-control" formControlName="cdg_state">
+                    <option value="1">Enable</option>
+                    <option value="0">Disable</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-default" (click)="modalRef.hide()"
+                style="margin-right: 10px">Cancel</button>
+            <button type="submit" class="btn btn-primary" (click)="addData(actionMainCode)"
+                [disabled]="!formMainCode.valid">Save</button>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #sub>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{titleSubCode}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formSubCode" class="was-validated">
+            <div class="form-group">
+                <label>Main Code:</label>
+                <select formControlName='mainCode' class="form-control" id="">
+                    <option *ngFor="let item of searchCode" [value]="item.cdg_id">{{item.cdg_name}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Sub Code:</label>
+                <input type="text" formControlName='subCode' class="form-control" id="uname"
+                    placeholder="Enter Sub Code">
+            </div>
+            <div class="form-group">
+                <label>Code Status:</label>
+                <select formControlName="codeStatus" class="form-control">
+                    <option value="1">Enable</option>
+                    <option value="0">Disable</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Image Active:</label>
+                <input type="file" #image accept="image/*" (change)="setcpImage($event,'active')">
+            </div>
+            <div class="form-group">
+                <label>Image Inactive:</label>
+                <input type="file" #image accept="image/*" (change)="setcpImage($event,'inactive')">
+            </div>
+            <button type="submit" class="btn btn-default" (click)="modalRef.hide()"
+                style="margin-right: 10px">Cancel</button>
+            <button type="submit" class="btn btn-primary" (click)="createSubCode()" [disabled]="!formSubCode.valid"
+                *ngIf="actionSubCode!=='edit'">Save</button>
+            <button type="submit" class="btn btn-primary" (click)="updateCode()" [disabled]="!formSubCode.valid"
+                *ngIf="actionSubCode === 'edit'">Save</button>
+        </form>
+    </div>
+
+</ng-template>
+<swal #deleteSwal text="Are you sure to delete this main code?" type="question" [showCancelButton]="true"
+    [focusCancel]="true">
+</swal>

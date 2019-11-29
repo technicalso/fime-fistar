@@ -1,0 +1,90 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.resource {
+  .mat-radio-button {
+    margin-right: 15px;
+  }
+
+  .image-crop-container {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+  }
+
+  .banner_img {
+    margin-bottom: 20px;
+    img {
+      width: 150px;
+    }
+
+  }
+
+  mat-card-subtitle {
+    .select-img {
+      display: none;
+    }
+  }
+
+  mat-card-content {
+    clear: both;
+  }
+  .resource-img {
+    &:hover img {
+      opacity: 0.3;
+    }
+
+    img {
+      opacity: 1;
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: .5s ease;
+      backface-visibility: hidden;
+    }
+
+    .middle {
+      transition: .5s ease;
+      opacity: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      text-align: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover .middle {
+      opacity: 1;
+    }
+
+    .overlay-action {
+      height: 100%;
+      background: none !important;
+      position: relative;
+
+      mat-card-actions {
+        position: relative;
+        top: 75%;
+
+        .mat-button {
+          margin: 0;
+          padding: 0;
+          min-width: 32px;
+        }
+
+      }
+    }
+
+    &.default {
+      .overlay-action {
+        mat-card-actions {
+          top: 85%;
+        }
+      }
+    }
+  }
+}

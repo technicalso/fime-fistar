@@ -1,0 +1,25 @@
+<div class="dialog">
+    <div class="users" (scroll)='scrolled($event)'>
+        <div class="user" *ngFor="let user of users">
+            <div class="user-block pointer" (click)="goToUserProfle(user.slug)">
+                <img [src]="user.pic ? env.rootHost + user.pic : '/assets/images/user.png'"
+                     alt="{{user.reg_name}}" class="user-avt" >
+                <div class="user-info">
+                    <span class="user-name">{{user.id ? user.id : user.reg_name }}</span>
+                </div>
+            </div>
+            <button type="button" class="follow-btn" [ngClass]="{'active': user.followed == 1}"
+                    [appAuth] (action)="toggleFollowFimer(user)" *ngIf="crrUserNo !== user.user_no">
+                <ng-container *ngIf="user.followed == 1; else other">
+                    <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
+                    <i class="material-icons">done</i>
+                </ng-container>
+                <ng-template #other>
+                    <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span>
+                    <i class="material-icons">add</i>
+                </ng-template>
+
+            </button>
+        </div>
+    </div>
+</div>

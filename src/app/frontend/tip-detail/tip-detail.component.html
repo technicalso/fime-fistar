@@ -1,0 +1,395 @@
+<div class="tip-detail container">
+    <div class="wrap" *ngIf="tip && !isLoading">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 left-col ">
+                <div class="tip-content">
+                    <div class="covers">
+                        <div class="img">
+                            <carousel [interval]="intervalTime" class="carousel">
+                                <slide class="banner" *ngIf="tip.cover_img1">
+                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img1.replace('_TMB','')">
+                                </slide>
+                                <slide *ngIf="tip.cover_img2">
+                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img2.replace('_TMB','')">
+                                </slide>
+                                <slide *ngIf="tip.cover_img3">
+                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img3.replace('_TMB','')">
+                                </slide>
+                                <slide *ngIf="tip.cover_img4">
+                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img4.replace('_TMB','')">
+                                </slide>
+                            </carousel>
+                        </div>
+                        <div class="opacity">
+                            <div class="bg-opacity"></div>
+                            <div class="content">
+                                <div class="subject">
+                                    {{tip.subject}}
+                                </div>
+                                <div class="action">
+                                    <div class="left">
+                                        <i class="material-icons align-text-bottom">
+                                            visibility
+                                        </i>
+                                        <span>{{tip.views}} / {{tip.time}} {{tip.timeUnit | translate}} {{'ago' | translate}}</span>
+                                    </div>
+
+                                    <div class="share" (click)="shareTipLink()">
+                                        <i class="material-icons align-text-bottom">
+                                            share
+                                        </i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body mb-4 pb-2">
+                        <div class="head">{{tip.tips_desc_head}}</div>
+                        <div class="body">{{tip.tips_desc_body}}</div>
+                    </div>
+                    <div class="content1 border-bottom  mb-4 pb-2" *ngIf="tip.cont1_head">
+                        <div class="head">{{tip.cont1_head}}</div>
+                        <div class="body">
+                            <a class="img" [href]="tip.cont1_link_url" *ngIf="tip.cont1_link_url && tip.cont1_type == 'P'" target="_blank">
+                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont1_photo.replace('_TMB','')" *ngIf="tip.cont1_photo">
+                            </a>
+                            <div class="video" *ngIf="tip.cont1_type == 'S'">
+                                <video class="video" *ngIf="tip.cont1_movie" controls>
+                                    <source [src]="env.rootHost + tip.mov_url + '/' + tip.cont1_movie | safe">
+                                </video>
+                                <iframe class="youtube-frame" *ngIf="tip.cont1_link_url && !tip.cont1_movie"
+                                        [src]="generateVideoURL(tip.cont1_link_url) | safe"
+                                        frameborder="0"></iframe>
+                            </div>
+                            <div class="img" *ngIf="!tip.cont1_link_url">
+                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont1_photo.replace('_TMB','')" *ngIf="tip.cont1_type == 'P' && tip.cont1_photo">
+                            </div>
+                            <div class="content-head font-size: 13px;">{{tip.caption_text}}</div>
+                            <div class="link mb-3 mt-1 ">
+                                <a [href]="tip.source_site_url" target="_blank">
+                                    <span class="mr-2 c-red">{{tip.source_site_name}}</span><span>{{tip.source_site_url}}</span>
+                                </a>
+                            </div>
+                            <div class="content-body font-size: 13px;">{{tip.cont1_body}}</div>
+                        </div>
+                    </div>
+                    <div class="try-free mt-2 border-bottom  mb-4 pb-2" *ngIf="tip.tries && tip.tries.length > 0">
+                        <div class="head">Try Free</div>
+                        <div class="content-head">
+                            <div class="left-col">
+                                <button class="see-all-btn" routerLink="/tries">
+                                    {{ 'see_all' | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="right-col">
+                            <div class="product-container">
+                                <div class="product-slideshow">
+                                    <carousel [interval]="intervalTime" (activeSlideChange)="changeProduct($event)"
+                                              class="carousel">
+                                        <slide *ngFor="let product of products;let i = index" class="banner">
+                                            <a [routerLink]="['/tries/' + product.slug]">
+                                                <img class="banner-img"
+                                                     [src]="product.file.stre_file_nm ? env.rootHost + product.file.file_cours + '/'
+                                                 + product.file.stre_file_nm : env.rootHost + product.file.file_cours"
+                                                     alt="Review image" *ngIf="product.resource_type == 1">
+                                                <video class="banner-img" *ngIf="product.resource_type == 3" muted
+                                                       controls>
+                                                    <source [src]="env.rootHost + product.file.file_cours"
+                                                            type="video/mp4">
+                                                    <source [src]="env.rootHost + product.file.file_cours"
+                                                            type="video/ogg">
+                                                    <source [src]="env.rootHost + product.file.file_cours"
+                                                            type="video/webm">
+                                                </video>
+                                                <iframe class="banner-img"
+                                                        [src]="(env.rootHost + product.file.file_cours + '?autoplay=1&mute=1&loop=1&controls=0&showinfo=0' | safe)"
+                                                        *ngIf="product.resource_type == 2"></iframe>
+                                            </a>
+                                        </slide>
+                                    </carousel>
+                                </div>
+                                <div class="production-info">
+                                    <h1 class="product-name"
+                                        [routerLink]="['/tries/' + currentProduct.slug]">{{currentProduct.cntnts_nm}}</h1>
+                                    <div class="try-expired-time">
+                                        <div class="expired-label-container">
+                                            <span class="expired-label" *ngIf="this.count_down_type == 0">Mở sau</span>
+                                            <span class="expired-label" *ngIf="this.count_down_type == 1">Kết thúc sau</span>
+                                            <span class="expired-label" *ngIf="this.count_down_type == 2">Đã kết thúc</span>
+                                        </div>
+                                        <div class="expired-time" *ngIf="this.count_down_type !== 2">
+                                            <div class="time-block">
+                                                <div class="count-down-value"><span>{{ days }}</span></div>
+                                                <span class="count-down-unit">{{ 'days' | translate }}</span>
+                                            </div>
+                                            <div class="time-block">
+                                                <div class="count-down-value"><span>{{ hours }}</span></div>
+                                                <span class="count-down-unit">{{ 'hours' | translate }}</span>
+                                            </div>
+                                            <div class="time-block">
+                                                <div class="count-down-value"><span>{{ minutes }}</span></div>
+                                                <span class="count-down-unit">{{ 'minutes' | translate }}</span>
+                                            </div>
+                                            <div class="time-block">
+                                                <div class="count-down-value"><span>{{ seconds }}</span></div>
+                                                <span class="count-down-unit">{{ 'seconds' | translate }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-number">
+                                    <span class="product-number-label">{{ 'number_of_products' | translate }}
+                                        / {{ 'number_of_registrations' | translate }}</span>
+                                        <span class="product-number-value">{{ currentProduct.event_trgter_co }} / {{
+                                            currentProduct.total_apply }}
+                                    </span>
+                                    </div>
+                                    <div class="product-price">
+                                    <span class="sale-price" *ngIf="currentProduct.event_pc">
+                                        {{ currentProduct.event_pc | formatnumber }} VND
+                                    </span>
+                                        <span class="sale-price" *ngIf="!currentProduct.event_pc">
+                                        -,- VND
+                                    </span>
+                                        <span class="original-price" *ngIf="currentProduct.goods_pc">
+                                        {{ currentProduct.goods_pc | formatnumber }} VND
+                                    </span>
+                                    </div>
+                                    <div class="action-block">
+                                        <div class="list-users-liked">
+                                            <ng-container *ngFor="let user of currentProduct.users_liked; let i = index;">
+                                                <div class="circle-avt"
+                                                     [ngClass]="{'need-to-hide': i > 1}" *ngIf="i < 3">
+                                                    <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/user.png'"
+                                                         alt="" title="{{user.reg_name}}" class="user-avt pointer" *ngIf="i < 4"
+                                                         routerLink="/usr/{{user.slug}}">
+                                                </div>
+                                            </ng-container>
+                                            <span class="number-of-likes" *ngIf="currentProduct.likes > 0" (click)="usersLikeDialog(currentProduct.cntnts_no, 'try')">{{
+                                                currentProduct.likes | numberlike}}</span>
+                                        </div>
+                                        <div class="action">
+                                            <button class="like-btn" [ngClass]="{'active': currentProduct.is_liked}"
+                                                    [appAuth] (action)="toggleLikeTry(currentProduct)">{{
+                                                'like' | translate }}</button>
+                                            <button [disabled]="currentProduct.isExpired" *ngIf="!currentProduct.is_joined"
+                                                    [appAuth] (action)="apply(currentProduct)" class="join-btn">{{ 'join' |
+                                                translate }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content2 border-bottom  mb-4 pb-2" *ngIf="tip.cont2_head">
+                        <div class="head">{{tip.cont2_head}}</div>
+                        <div class="body">
+                            <a [href]="tip.cont2_link_url" class="img" *ngIf="tip.cont2_link_url && tip.cont2_type == 'P'" target="_blank">
+                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont2_photo.replace('_TMB','')" *ngIf="tip.cont2_type == 'P' && tip.cont2_photo">
+                            </a>
+                            <div class="video" *ngIf="tip.cont2_type == 'S'">
+                                <video class="video" *ngIf="tip.cont2_movie" controls>
+                                    <source [src]="env.rootHost + tip.mov_url + '/' + tip.cont2_movie | safe">
+                                </video>
+                                <iframe class="youtube-frame" *ngIf="tip.cont2_link_url && !tip.cont2_movie"
+                                        [src]="generateVideoURL(tip.cont2_link_url) | safe"
+                                        frameborder="0"></iframe>
+                            </div>
+                            <div class="img" *ngIf="!tip.cont2_link_url">
+                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont2_photo.replace('_TMB','')" *ngIf="tip.cont2_type == 'P' && tip.cont2_photo">
+                            </div>
+                            <div class="content-head font-size: 13px;">{{tip.caption_text2}}</div>
+                            <div class="link mb-3 mt-1 font-size: 13px;">
+                                <a [href]="tip.source_site_url2" target="_blank">
+                                    <span class="mr-2 c-red">{{tip.source_site_name2}}</span><span>{{tip.source_site_url2}}</span>
+                                </a>
+                            </div>
+                            <div class="content-body font-size: 13px;">{{tip.cont2_body}}</div>
+                        </div>
+                    </div>
+                    <div class="reviews border-bottom  mb-4 pb-2" *ngIf="tip.reviews && tip.reviews.length > 0">
+                        <div class="head">
+                            <span>Reviews</span>
+                        </div>
+                        <div class="content-head">
+                            <div *ngFor="let review of reviews; let i = index;" class="review">
+                                <div class="background">
+                                    <div class="img" [routerLink]="['/reviews/detail/' + review.slug]">
+                                        <img class="main-img" [src]="review.images ? env.rootHost + review.images : 'https://via.placeholder.com/900'"
+                                             alt="Review image">
+                                    </div>
+                                    <div class="likes">
+                                        <button class="action-btn" [ngClass]="{'active': review.is_liked == 1}" [appAuth]
+                                                (action)="toggleLikeReview(review.review_no, i)">
+                                            <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                        </button>
+                                        <span class="number-of-like" (click)="usersLikeDialog(review.review_no, 'review')">{{ review.like_number | numberlike }}</span>
+                                    </div>
+                                </div>
+                                <div class="user-block pointer">
+                                    <img [src]="review.author_avatar ? env.rootHost + review.author_avatar : '/assets/images/user.png'"
+                                         alt="" class="user-avt" routerLink="/usr/{{review.author_slug}}">
+                                    <div class="user-info">
+                                        <span class="user-name" routerLink="/usr/{{review.author_slug}}">{{ review.author_name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hot-fimers  mb-4 pb-2" *ngIf="hotFimers && hotFimers.length ">
+                        <div class="head">
+                            <span>Hot Fimers</span>
+                        </div>
+                        <div class="content-head">
+                            <div class="fimer-item" *ngFor="let item of hotFimers; let i = index;">
+                                <div class="user-block">
+                                    <div class="avt-block pointer" routerLink="/usr/{{item.slug}}">
+                                        <img *ngIf="item.pic; else orderAvatar" [src]="env.rootHost + item.pic" alt=""
+                                             class="user-avt">
+                                        <ng-template #orderAvatar>
+                                            <img [src]="defaultUserAvatar" alt="" class="user-avt">
+                                        </ng-template>
+                                        <div class="fimer-rank"
+                                             [ngClass]="{'first': i == 0, 'second': i==1, 'third': i==2}">
+                                            <span>#{{i + 1}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="user-info pointer" routerLink="/usr/{{item.slug}}">
+                                        <span class="user-name">{{item.reg_name}}</span>
+                                        <span class="number-of-follows"
+                                              *ngIf="item.number_of_followers > 1; else other_number_of_followers">{{item.number_of_followers}}
+                                            {{ 'fimers.info.followers' | translate }}</span>
+                                        <ng-template #other_number_of_followers>
+                                        <span class="number-of-follows">{{item.number_of_followers}} {{
+                                            'fimers.info.follower' | translate }}</span>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <button type="button" class="follow-btn" [ngClass]="{'active': item.followed == 1}"
+                                        *ngIf="user.user_no != item.user_no"
+                                        [appAuth] (action)="toggleFollowFimer(item.user_no)">
+                                    <ng-container *ngIf="item.followed != 1">
+                                        <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span> <i
+                                            class="material-icons">add</i>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.followed == 1">
+                                        <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
+                                        <i class="material-icons">done</i>
+                                    </ng-container>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="top-hashtag mt-2 font-size: 13px; mb-4 pb-2">
+                        <div class="top-hashtag-wrap">
+                            <div class="head">
+                                <h1 class="title">{{ 'top_hashtag' | translate }}</h1>
+                            </div>
+                            <div class="content-head">
+                                <div class="list-hashtag">
+                                    <button class="hashtag" [routerLink]="['/reviews/all']" [queryParams]="{hashtag: item.name}" *ngFor="let item of hashtags; let i = index;">
+                                        <img src="/assets/icons/crown-golden-icon.png" alt="icon" *ngIf="i == 0">
+                                        <img src="/assets/icons/crown-silver-icon.png" alt="icon" *ngIf="i == 1">
+                                        <img src="/assets/icons/crown-bronze-icon.png" alt="icon" *ngIf="i == 2">
+                                        <ng-container *ngIf="i > 2">
+                                            {{i + 1}}.
+                                        </ng-container>
+                                        {{ item.name }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-lg-4 col-md-12 right-col">
+                <div class="sponsors" *ngIf="mainAd.target_url">
+                    <a class="sponsor" href="//{{mainAd.target_url}}" target="_blank">
+                        <span class="label">{{ 'sponsored' | translate }}</span>
+                        <img [src]="mainAd.url ? env.rootHost + mainAd.url : 'https://via.placeholder.com/900'" alt="mainAd.name">
+                    </a>
+                </div>
+                <div class="aside-list" *ngIf="listTip.length > 0">
+                    <header class="top-read">
+                        <span>{{ 'top_news_read' | translate }}</span>
+                    </header>
+                    <div class="post-list-block">
+                        <a [routerLink]="['/tips/' + item.slug]" class="post-item" *ngFor="let item of listTip; let i = index;">
+                            <div class="image-container">
+                                <img class="post-img image-zoom" [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                     alt="Review image" *ngIf="item.resource_type == 1">
+                                <video class="post-img" *ngIf="item.resource_type == 3">
+                                    <source [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                            type="video/mp4">
+                                    <source [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                            type="video/ogg">
+                                    <source [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                            type="video/webm">
+                                </video>
+                                <img class="post-img" [src]="'https://img.youtube.com/vi/' + item.video_id + '/0.jpg'"
+                                     alt="Review image" *ngIf="item.resource_type == 2">
+                            </div>
+                            <h2 class="post-title">
+                                {{item.title}}
+                            </h2>
+                        </a>
+                    </div>
+                </div>
+                <div class="top-interactive-block" *ngIf="topFimers.length > 0">
+                    <div class="fimer-rank-title">
+                        <h2 class="title">
+                            {{ 'fimer_ranking' | translate }}
+                        </h2>
+                    </div>
+                    <div class="top-interactive">
+                        <h3 class="top-interactive-title">
+                            {{ 'top_interactive' | translate }}
+                        </h3>
+                        <div class="list-fimers">
+                            <div class="fimer" *ngFor="let fimer of topFimers; let i = index;" [ngClass]="{ 'last' : i==2 }">
+                                <div class="avt-block pointer" routerLink="/usr/{{fimer.slug}}">
+                                    <img [src]="fimer.avatar ? env.rootHost + fimer.avatar : 'assets/images/user.png'"
+                                         class="avatar" alt="avatar">
+                                    <div class="fimer-rank" [ngClass]="{'first': i == 0, 'second': i==1, 'third': i==2}">
+                                        <span>#{{i + 1}}</span>
+                                    </div>
+                                </div>
+                                <div class="user-info">
+                                    <h2 class="user-name pointer" routerLink="/usr/{{fimer.slug}}">
+                                        {{ fimer.reg_name }}
+                                    </h2>
+                                    <p class="follows pointer" routerLink="/usr/{{fimer.slug}}/followers">
+                                        {{ fimer.follows | numberlike}} {{ 'follower' | translate }}
+                                    </p>
+                                </div>
+                                <div class="action-btn">
+                                    <button type="button" class="follow-btn" [ngClass]="{'active': fimer.followed == 1}"
+                                            [appAuth] (action)="toggleFollowFimer(fimer.user_no)">
+                                        <ng-container *ngIf="fimer.followed == 0">
+                                            <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span>
+                                            <i class="material-icons">add</i>
+                                        </ng-container>
+                                        <ng-container *ngIf="fimer.followed == 1">
+                                            <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
+                                            <i class="material-icons">done</i>
+                                        </ng-container>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sponsors" *ngIf="otherAds.length > 0">
+                    <a class="sponsor" href="//{{item.target_url}}" target="_blank" *ngFor="let item of otherAds; let i = index;">
+                        <span class="label">{{ 'sponsored' | translate }}</span>
+                        <img [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'" alt="logo">
+                    </a>
+                </div>
+            </div>-->
+        </div>
+    </div>
+
+    <div class="loading-block" *ngIf="isLoading">
+        <img src="assets/images/loading.gif" alt="loading">
+    </div>
+</div>

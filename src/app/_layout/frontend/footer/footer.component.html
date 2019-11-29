@@ -1,0 +1,83 @@
+<footer>
+    <div class="container">
+        <div class="footer-wrap">
+            <div class="left-col">
+                <div class="logo-block">
+                    <a href="#" class="logo" title="{{ 'home_page' | translate}}">
+                        <img src="/assets/images/logo.png" alt="{{ 'logo' | translate }}">
+                    </a>
+                </div>
+                <div class="socials-block">
+                    <div class="circle-icon">
+                        <a href="https://www.facebook.com/Fime.vn/" target="_blank" class="social-item" title="Facebook">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="circle-icon">
+                        <a href="//youtube.com" target="_blank" class="social-item" title="Youtube">
+                            <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="circle-icon">
+                        <a href="https://www.instagram.com/fime.vn/" target="_blank" class="social-item" title="Instagram">
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="right-col">
+                <nav class="navbar">
+                    <div class="footer-top-menu">
+                        <ul class="footer-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/tries">Try free</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/reviews">Review</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/fimers">Fimers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/tips">Tips</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="/faqs">FAQ</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="shop-info" *ngIf="setting.company">
+                    <div class="line">
+                        <div class="info-block">
+                            <span class="info-title">Công ty</span>:
+                            <span class="info-detail">{{ setting.company }}</span>
+                        </div>
+                        <div class="info-block">
+                            <span class="info-title">Địa chỉ</span>:
+                            <span class="info-detail">{{ setting.address }}</span>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="info-block">
+                            <span class="info-title">Email</span>:
+                            <a class="email-info" href="mailto:{{ setting.email }}">{{ setting.email }}</a>
+                        </div>
+                        <div class="info-block">
+                            <span class="info-title">Mã số thuế</span>:
+                            <span class="info-detail">{{ setting.business_licence }}</span>
+                        </div>
+                        <div class="info-block">
+                            <span class="info-title">Số điện thoại</span>:
+                            <a class="email-info" href="tel:{{ setting.tel }}">{{ setting.tel }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop-policy">
+                    <a routerLink="/privacy-policy" class="policy-item">{{ 'privacy_policy' | translate }}</a>
+                    <a routerLink="/service-term" class="policy-item">{{ 'service_term' | translate }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

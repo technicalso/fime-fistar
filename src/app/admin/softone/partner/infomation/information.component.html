@@ -1,0 +1,301 @@
+<div class="app-admin-partner-info">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading" style="text-transform: unset !important">
+                PARTNER > {{ "Company Information" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/partner"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <app-admin-partner-tab></app-admin-partner-tab><br>
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Company Logo" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <ngx-avatar
+                                    [src]="commonService.getImageLink(partner.pc_image,commonService.IMAGE_TYPE.PARTNERS,commonService.IMAGE_SIZE.MEDIUM)"
+                                    size=100></ngx-avatar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="file" class="form-control" (change)="fileEvent($event)"
+                                    formControlName="image" placeholder="Enter name" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Company name" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="partner.pc_name"
+                                    formControlName="pc_name">
+                                <div *ngIf="form.controls.pc_name.invalid&&activeForm" class="text-danger">
+                                    Company name is required
+                                </div>
+                                <div *ngIf="partner.pc_name.length>191&&activeForm" class="text-danger">
+                                    Length cannot be greater than 191 characters
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Type of business</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+
+                                <select class="form-control" [(ngModel)]="partner.pc_tob" formControlName="pc_tob"
+                                    name="pc_tob">
+                                    <option *ngFor="let item of partnerTob" value={{item.value}}>{{item.name}}</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Company contact</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" onkeydown="javascript: return event.keyCode == 69 ? false : true"
+                                    class="form-control" [(ngModel)]="partner.pc_phone" formControlName="pc_phone">
+                                <div *ngIf="form.controls.pc_phone.invalid&&activeForm" class="text-danger">
+                                    Company contact is required
+                                </div>
+                                <div *ngIf="partner.pc_phone>999999999999999 && partner.pc_phone!=null && partner.pc_phone!='' &&activeForm"
+                                    class="text-danger">
+                                    The company contact field is maximum 15 characters
+                                </div>
+                                <div *ngIf="partner.pc_phone<100000000&& partner.pc_phone!=null && partner.pc_phone!='' &&activeForm"
+                                    class="text-danger">
+                                    The company contact field is min 9 characters
+                                </div>
+
+                                <div *ngIf="partner.pc_phone<0 &&activeForm" class="text-danger">
+                                    incorrect value
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Company Address" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="partner.pc_address"
+                                    formControlName="pc_address">
+                                <div *ngIf="form.controls.pc_address.invalid&&activeForm" class="text-danger">
+                                    Company Address is required
+                                </div>
+                                <div *ngIf="partner.pc_address.length>191&&activeForm" class="text-danger">
+                                    Length cannot be greater than 191 characters
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Company Brand" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <!-- <input type="text" class="form-control" [(ngModel)]="partner.pc_brand"
+                                formControlName="pc_brand">
+                            <div *ngIf="form.controls.pc_brand.invalid&&activeForm" class="text-danger">
+                                Company Brand is required
+                            </div>
+                            <div *ngIf="partner.pc_brand.length>191&&activeForm" class="text-danger">
+                                Length cannot be greater than 191 characters
+                            </div> -->
+
+                            <select class="form-control" [(ngModel)]="partner.pc_brand" formControlName="pc_brand"
+                                    name="pc_brand">
+                                    <option *ngFor="let item of brands" value={{item.CODE}}>{{item.CODE_NM}}</option>
+                                </select>
+
+                        </div>
+                    </div>
+                    <br>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Keywords" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div>
+                                    {{cdId.length}}/12
+                                </div>
+                                <div class="row">
+                                    <ng-container *ngFor="let keyword of keywords">
+                                        <mat-checkbox class="px-3" color="primary"
+                                            *ngIf="cdId.indexOf(keyword.cd_id) === -1"
+                                            (click)="onSelect(keyword.cd_id)">{{keyword.cd_label}}
+                                        </mat-checkbox>
+                                        <mat-checkbox class="px-3" color="primary"
+                                            *ngIf="cdId.indexOf(keyword.cd_id) !== -1" (click)="unSelect(keyword.cd_id)"
+                                            [checked]=true>{{keyword.cd_label}}
+                                        </mat-checkbox>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div *ngIf="cdId.length==0&&changeKeyword==true" class="text-danger mb-4">Please choose the
+                                keywords</div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Introduction" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" placeholder="Enter introduction"
+                                    [(ngModel)]="partner.pc_introduction" formControlName="pc_introduction"></textarea>
+                                <div *ngIf="form.controls.pc_introduction.invalid&&activeForm" class="text-danger">
+                                    Introduction is required
+                                </div>
+                                <div *ngIf="partner.pc_introduction.length>191&&activeForm" class="text-danger">
+                                    Length cannot be greater than 191 characters
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Facebook " | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="facebook"
+                                    formControlName="facebook" placeholder="" (change)="changeSNS($event, 2)">
+                            </div>
+                            <div class="text-danger">URL is invalid</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Youtube " | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="youtube" formControlName="google"
+                                    placeholder="" (change)="changeSNS($event, 3)">
+                            </div>
+                            <div class="text-danger">URL is invalid</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Instagram " | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="instagram"
+                                    formControlName="instagram" placeholder="" (change)="changeSNS($event, 4)">
+                            </div>
+                            <div class="text-danger">URL is invalid</div>
+                        </div>
+                    </div>
+                    <!-- <ng-container *ngFor="let item of partner.channel; index as i">
+                        <ng-container *ngIf="item.sns_id==2">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>{{ "Facebook " | translate }}</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" [(ngModel)]="item.url"
+                                            formControlName="facebook" placeholder=""
+                                            (change)="changeSNS($event, item.sns_id)">
+                                    </div>
+                                    <div *ngIf="errorSns[item.sns_id] == 'invalid'" class="text-danger">URL is invalid</div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="item.sns_id==3">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>{{ "Youtube " | translate }}</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" [(ngModel)]="item.url"
+                                            formControlName="google" placeholder=""
+                                            (change)="changeSNS($event, item.sns_id)">
+                                    </div>
+                                    <div *ngIf="errorSns[item.sns_id] == 'invalid'" class="text-danger">URL is invalid</div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="item.sns_id==4">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>{{ "Instagram " | translate }}</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" [(ngModel)]="item.url"
+                                            formControlName="instagram" placeholder=""
+                                            (change)="changeSNS($event, item.sns_id)">
+                                    </div>
+                                    <div *ngIf="errorSns[item.sns_id] == 'invalid'" class="text-danger">URL is invalid</div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/partner">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+
+            <button class="btn btn-primary mr-1" (click)="updateBasicPartner()"
+                [disabled]="(!form.dirty && !changeKeyword) || (!form.dirty && cdId.length ==0)">
+
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+
+</div>

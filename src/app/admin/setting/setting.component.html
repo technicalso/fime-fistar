@@ -1,0 +1,207 @@
+<div class="component-admin-setting">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">
+                Settings
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>{{company.display_name}}</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Enter company name"
+                                   [(ngModel)]="company.value"
+                                   formControlName="company" name="company"/>
+                            <div *ngIf="form.controls.company.invalid && (form.controls.company.dirty || form.controls.company.touched)"
+                                 class="text-danger">
+                                <div *ngIf="form.controls.company.errors.required">
+                                    Company name is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>{{email.display_name}}</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Enter email" [(ngModel)]="email.value"
+                                   formControlName="email" name="email"/>
+                            <div *ngIf="form.controls.email.invalid && (form.controls.email.dirty || form.controls.email.touched)"
+                                 class="text-danger">
+                                <div *ngIf="form.controls.email.errors.required">
+                                    Email is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>{{tel.display_name}}</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Enter tel" [(ngModel)]="tel.value"
+                                   formControlName="tel" name="tel"/>
+                            <div *ngIf="form.controls.tel.invalid && (form.controls.tel.dirty || form.controls.tel.touched)"
+                                 class="text-danger">
+                                <div *ngIf="form.controls.tel.errors.required">
+                                    Tel is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>{{business_licence.display_name}}</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Enter business licence" [(ngModel)]="business_licence.value"
+                                   formControlName="business_licence" name="business_licence"/>
+                            <div *ngIf="form.controls.business_licence.invalid && (form.controls.business_licence.dirty || form.controls.business_licence.touched)"
+                                 class="text-danger">
+                                <div *ngIf="form.controls.business_licence.errors.required">
+                                    Business licence is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>{{address.display_name}}</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Enter address"
+                                   [(ngModel)]="address.value"
+                                   formControlName="address" name="address"/>
+                            <div *ngIf="form.controls.address.invalid && (form.controls.address.dirty || form.controls.address.touched)"
+                                 class="text-danger">
+                                <div *ngIf="form.controls.address.errors.required">
+                                    Address is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>{{try_info.display_name}}</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Enter try info"
+                                   [(ngModel)]="try_info.value"
+                                   formControlName="try_info" name="try_info"/>
+                            <div *ngIf="form.controls.try_info.invalid && (form.controls.try_info.dirty || form.controls.try_info.touched)"
+                                 class="text-danger">
+                                <div *ngIf="form.controls.try_info.errors.required">
+                                    Try info is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>{{review_layout_option.display_name}}</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-select [(value)]="review_layout_option.value">
+                                    <mat-option value=1>Option 1</mat-option>
+                                    <mat-option value=2>Option 2</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4 mb-2">
+                    <div class="col-md-12 heading">
+                        Points Setting
+                    </div>
+                </div>
+
+                <div class="row" *ngFor="let point of form.get('points').controls; let i=index" [formGroup]="point">
+                    <div class="col-md-3">
+                        <label>{{points_data[i].code_nm}}</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="refrn_info"
+                                   [ngModel]="points_data[i].refrn_info"/>
+                            <input type="hidden" class="form-control" formControlName="code"
+                                   [ngModel]="points_data[i].code"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4 mb-2">
+                    <div class="col-md-12 heading">
+                        Text Output Color Setting
+                    </div>
+                </div>
+
+                <div class="row" *ngFor="let color of form.get('text_colors').controls; let i=index" [formGroup]="color">
+                    <div class="col-md-3">
+                        <label>{{colors_data[i].code}}</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="code_nm"
+                                   [ngModel]="colors_data[i].code_nm"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="form.get('text_colors').controls.length < 3">
+                    <div class="col-md-3">
+                        <label>400003</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="custom_color"
+                                   [(ngModel)]="custom_color"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" [disabled]="!form.valid" (click)="onSave()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+    <button class="btn btn-primary mr-1" (click)="createSitemap()">
+        <span>Make Sitemap</span>
+    </button>
+    <a class="ml-3" href="https://fime.vn/sitemap.xml" *ngIf="updateSitemap" target="_blank">fime.vn/sitemap.xml</a>
+</div>
+

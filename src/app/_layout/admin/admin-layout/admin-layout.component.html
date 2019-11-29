@@ -1,0 +1,6 @@
+<div class="admin-page">
+    <app-admin-sidebar *ngIf="!isLoading && showSidebar" [user]="user" class="admin-sidebar"></app-admin-sidebar>
+    <div class="main-container admin" *ngIf="!isLoading" [ngClass]="{'auth': user.user_no}">
+        <router-outlet></router-outlet>
+    </div>
+</div>

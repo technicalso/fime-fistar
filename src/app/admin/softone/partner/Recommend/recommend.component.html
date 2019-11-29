@@ -1,0 +1,150 @@
+<div class="app-admin-partner-recommend">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading" style="text-transform: unset !important">
+                PARTNER > fiStar Recommend
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/partner"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <app-admin-partner-tab></app-admin-partner-tab><br>
+    <div class="row" style="display: none">
+        <div class="col-10">
+
+        </div>
+        <div class="col-1">
+            <button class="btn btn-default" style="margin-left: 135px;" [swal]="deleteSwal" (confirm)="onDeleteMulti()">
+                <i class="material-icons align-text-bottom">
+                    delete
+                </i> <span>Delete</span>
+            </button>
+        </div>
+
+    </div>
+
+    <ngx-datatable #myTable class="material" [rows]="data" [columnMode]="'force'" [headerHeight]="50"
+        [footerHeight]="50" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)'
+        [selected]="selected" [rowHeight]="'auto'" [count]="data.length" [limit]="10">
+        <ngx-datatable-column [frozenLeft]="false" [width]="50" [sortable]="false" [canAutoResize]="false"
+            [draggable]="false" [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="ID" [width]="1" prop="cp_id" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Campaign Information" [width]="300" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <img class="img" [src]="commonService.getCampaignThumb(row)" style="float:left;margin-right: 10px;" />
+                <p>{{row.cp_name}}</p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="States" [width]="100" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <label *ngIf="row.cp_status==59">Matching</label>
+                <label *ngIf="row.cp_status==60">On-going</label>
+                <label *ngIf="row.cp_status==61">Ready</label>
+                <label *ngIf="row.cp_status==62">Closed</label>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Matching Keywords" [width]="500" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p class="wf-key text-primary" [id]="'keyword_match_'+row.cp_id">
+                    <ng-container *ngFor="let k of row.keyword_match">
+                        #{{k}}
+                    </ng-container>
+                </p>
+                <p class="text-danger mb-2" [id]="'keyword_match_ai_'+row.cp_id">
+                    <ng-container *ngFor="let k of row.keyword_match_ai">
+                        #{{k}}
+                    </ng-container>
+                </p>
+                <div class="row">
+                    <ng-container *ngFor="let item of row.recomend_result;">
+                        <div class="img-name">
+                            <!-- <img class="img"
+                                src="https://phonelumi.com/wp-content/uploads/2017/01/Hinh-anh-girl-xinh-lam-hinh-nen-cho-iphone-7-25.jpg"
+                                style="float:left;margin-right: 20px" /> -->
+                            <div style="float:left;margin-right: 20px" (click)="showKeyword(row, item)" [class]="'influencer_item influencer_item_'+row.cp_id"  [id]="'influencer_item_'+row.cp_id+'_'+item.uid">
+                                <img class="img"
+                                    [src]="commonService.getImageLink(item.picture,commonService.IMAGE_TYPE.FISTARS,commonService.IMAGE_SIZE.MEDIUM)" />
+                                <span>{{item.fullname}}</span>
+                            </div>
+
+                        </div>
+                    </ng-container>
+                </div>
+
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Match Count" [width]="150" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <!-- <ng-container *ngFor="let item of row.recommendeds;index as i" >
+                    <label for="" *ngIf="item.is_recommended==1 && i==0">finished</label>
+                </ng-container> -->
+
+                <!-- anh dep trai d m -->
+                <!-- <ng-container *ngFor="let item of row.recommendeds;index as i">
+                    <label for="" *ngIf="row.cp_status==62 && i==0">finished</label>
+                </ng-container>
+
+                <ng-container *ngFor="let item of row.recommendeds;index as i">
+                    <button type="button" class="btn btn-info" (click)="changeStatus(row.arrIdOneRecommend)"
+                        *ngIf="item.is_recommended==0 && i==0 && row.cp_status==59">Recommend</button>
+                </ng-container>
+
+                <ng-container *ngFor="let item of row.recommendeds;index as i">
+                    <b *ngIf="i==0 && row.cp_status==60 || i==0 && row.cp_status==61">{{item.match_count}}</b>
+                </ng-container> -->
+                <!-- anh dep trai dm -->
+                <b  [id]="'keyword_match_count_'+row.cp_id">{{row.keyword_match.length + row.keyword_match_ai.length}}</b>
+            </ng-template>
+        </ngx-datatable-column>
+        <!-- <ngx-datatable-column name="ID" [width]="1" prop="id" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Campaign Information" [width]="300" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <img class="img" [src]="'https://sohanews.sohacdn.com/zoom/640_360/2017/photo1494461886764-1494461888395-0-27-314-533-crop-1494461961948.jpg'" style="float:left;margin-right: 10px;" />
+                <p>{{row.campaign_info}}</p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="State" [width]="100" prop="states" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Matching Keywords" [width]="500" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p class="wf-key text-primary">{{row.keyword}}</p>
+                <p class="text-danger mb-2">{{row.keyword_down}}</p>
+                <div class="row">
+                       <div class="img-name">
+                            <img class="img"  src="https://phonelumi.com/wp-content/uploads/2017/01/Hinh-anh-girl-xinh-lam-hinh-nen-cho-iphone-7-25.jpg" style="float:left;margin-right: 20px" />
+                            <span>Gianna.jun</span>
+                       </div>
+                       <div class="img-name">
+                            <img class="img"  src="http://streaming1.danviet.vn/upload/4-2016/images/2016-11-15/147920124972293-1.jpg" style="float:left;margin-right: 20px" />
+                            <span>Gianna.jun</span>
+                       </div>
+                       <div class="img-name">
+                            <img class="img" src="http://thuvienanhdep.net/wp-content/uploads/2015/11/nhung-hinh-anh-girl-xinh-dang-yeu-va-de-thuong-nhat-tren-facebook-4.jpg" style="float:left;margin-right: 20px"  />
+                            <span>Gianna.jun</span>
+                       </div>
+                       <div class="img-name">
+                            <img class="img"  src="https://talkpro.edu.vn/wp-content/uploads/2017/11/avatar-girl-xinh-nhat-ban.jpg" style="float:left;margin-right: 20px" />
+                            <span>Gianna.jun</span>
+                       </div>
+                       <div class="img-name">
+                            <img class="img"  src="https://hinhanhdep.org/wp-content/uploads/2016/08/xem-anh-girl-xinh.jpg" style="float:left;margin-right: 20px" />
+                            <span>Gianna.jun</span>
+                       </div>
+                       
+                </div>
+                
+            </ng-template>
+        </ngx-datatable-column> -->
+        <!-- <ngx-datatable-column name="Campaign Information" [width]="150" [canAutoResize]="true">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span class="text-center">{{row.recommend}}</span>
+                </ng-template>
+            </ngx-datatable-column> -->
+    </ngx-datatable>
+</div>
+
+<swal #deleteSwal text="Are you sure to delete recommend?" type="question" [showCancelButton]="true"
+    [focusCancel]="true"></swal>

@@ -1,0 +1,107 @@
+<div class="blogs">
+    <div class="container">
+        <section class="blog" *ngIf="blogs.length > 0">
+                <div class="blog-wrap">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-12 blog-body">
+                            <div class="inner-body">
+                                <div class="video-block">
+                                    <div class="img-container">
+                                        <img class="video" [src]="mainblog.url ? env.rootHost + mainblog.url : 'https://via.placeholder.com/900'"
+                                             alt="Review image" *ngIf="mainblog.resource_type == 1">
+                                        <video class="video" *ngIf="mainblog.resource_type == 3" muted
+                                               controls>
+                                            <source [src]="mainblog.url ? env.rootHost + mainblog.url : 'https://via.placeholder.com/900'"
+                                                    type="video/mp4">
+                                            <source [src]="mainblog.url ? env.rootHost + mainblog.url : 'https://via.placeholder.com/900'"
+                                                    type="video/ogg">
+                                            <source [src]="mainblog.url ? env.rootHost + mainblog.url : 'https://via.placeholder.com/900'"
+                                                    type="video/webm">
+                                        </video>
+                                        <iframe class="video" [src]="mainblog.url ? (mainblog.url + '?autoplay=0&mute=1&loop=1&controls=0&showinfo=0' | safe)
+                                        : ('https://via.placeholder.com/900' | safe)"
+                                                *ngIf="mainblog.resource_type == 2"></iframe>
+                                    </div>
+                                </div>
+                                <div class="video-list-block">
+                                    <div class="video-content">
+                                        <a class="video-title" [routerLink]="['/blogs/' + mainblog.slug]">{{ mainblog.title }}</a>
+                                        <p class="time">
+                                            {{ mainblog.time }} {{ mainblog.timeUnit | translate }} {{ 'ago' | translate }}
+                                        </p>
+                                        <p class="video-description" [innerHtml]="mainblog.short_description | safeHtml">
+                                        </p>
+                                    </div>
+                                    <div class="video-list">
+                                        <div class="video-list-item" *ngFor="let item of subblogs">
+                                            <span class="video-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></span>
+                                            <a class="video-title" [routerLink]="['/blogs/' + item.slug]">{{item.title}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blog-list">
+                                <div class="blog-item" *ngFor="let blog of blogs; let i = index;">
+                                    <div class="video-block">
+                                    <div class="img-container">
+                                        <img class="video" [src]="blog.url ? env.rootHost + blog.url : 'https://via.placeholder.com/900'"
+                                             alt="Review image" *ngIf="blog.resource_type == 1">
+                                        <video class="video" *ngIf="blog.resource_type == 3" mute
+                                               controls>
+                                            <source [src]="blog.url ? env.rootHost + blog.url : 'https://via.placeholder.com/900'"
+                                                    type="video/mp4">
+                                            <source [src]="blog.url ? env.rootHost + blog.url : 'https://via.placeholder.com/900'"
+                                                    type="video/ogg">
+                                            <source [src]="blog.url ? env.rootHost + blog.url : 'https://via.placeholder.com/900'"
+                                                    type="video/webm">
+                                        </video>
+                                        <iframe class="video" [src]="blog.url ? (blog.url + '?autoplay=0&mute=1&loop=1&controls=0&showinfo=0' | safe)
+                                        : ('https://via.placeholder.com/900' | safe)"
+                                                *ngIf="blog.resource_type == 2"></iframe>
+                                    </div>
+                                    </div>
+                                    <div class="blog-content">
+                                            <a class="video-title" [routerLink]="['/blogs/' + blog.slug]">{{ blog.title }}</a>
+                                            <p class="time">
+                                                {{ blog.time }} {{ blog.timeUnit | translate }} {{ 'ago' | translate }}
+                                            </p>
+                                            <p class="video-description" [innerHtml]="blog.short_description | safeHtml">
+                                            </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="load-more-container" *ngIf="canLoadMore">
+                                <button class="btn btn-default see-more" (click)="getblogs()">{{ 'see_more' | translate }}</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-4 aside-list">
+                            <header class="top-read">
+                                <span>{{ 'top_news_read' | translate }}</span>
+                            </header>
+                            <div class="post-list-block">
+                                <a [routerLink]="['/blogs/' + item.slug]" class="post-item" *ngFor="let item of listblog; let i = index;">
+                                    <div class="image-container">
+                                        <img class="post-img" [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                             alt="Review image" *ngIf="item.resource_type == 1">
+                                        <video class="post-img" *ngIf="item.resource_type == 3" muted>
+                                            <source [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                                    type="video/mp4">
+                                            <source [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                                    type="video/ogg">
+                                            <source [src]="item.url ? env.rootHost + item.url : 'https://via.placeholder.com/900'"
+                                                    type="video/webm">
+                                        </video>
+                                        <img class="post-img" [src]="'https://img.youtube.com/vi/' + item.video_id + '/0.jpg'"
+                                             alt="Review image" *ngIf="item.resource_type == 2">
+                                    </div>
+                                    <h2 class="post-title">
+                                        {{item.title}}
+                                    </h2>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </div>
+</div>

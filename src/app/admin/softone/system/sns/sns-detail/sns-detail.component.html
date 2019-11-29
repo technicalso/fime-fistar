@@ -1,0 +1,74 @@
+<div class="app-admin-system-sns-detail">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                SYSTEM > SNS CHANNEL > {{snsName}}
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-default" routerLink="/admin/system/sns"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+        </div>
+    </div>
+
+    <br>
+    <div class="row">
+        <div class="col" style="text-transform: uppercase;font-weight: bold;">
+            {{snsName}} API
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" (click)="openModal(main)">
+                <i class="material-icons align-text-bottom">add</i>
+                <span>Add Permission</span>
+            </button>
+        </div>
+    </div>
+    <table>
+        <tr>
+            <th *ngFor="let item of data.title">
+                {{item}}
+            </th>
+        </tr>
+        <tr *ngFor="let item of data.list;index as i">
+            <td>{{i +1}}</td>
+            <td>{{item['permission_name']}}</td>
+            <td>{{item['permission_alias']}}</td>
+            <td>{{item['description']}}</td>
+        </tr>
+
+    </table>
+</div>
+
+<ng-template #main>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Permission</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formAddPermission">
+            <div class="form-group">
+                <label>Permission Name:</label>
+                <input type="text" formControlName="permission_name" class="form-control" id="permission_name" name="permission_name"
+                    required>
+            </div>
+            <div class="form-group">
+                <label>Permission Alias:</label>
+                <input type="text" formControlName="permission_alias" class="form-control" id="permission_alias"
+                    name="permission_alias" required>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea name="description" id="description" class="form-control" formControlName="description"
+                    cols="30" rows="10">
+                </textarea>
+            </div>
+            <button type="button" class="btn btn-default" (click)="modalRef.hide()"
+                style="margin-right: 10px">Cancel</button>
+            <button type="submit" class="btn btn-primary" (click)="addPermission(actionMainCode)"
+                [disabled]="!formAddPermission.valid">Save</button>
+        </form>
+    </div>
+</ng-template>

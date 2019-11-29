@@ -1,0 +1,538 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+@import "~scss/css3-mixins";
+
+.fimers {
+  padding: 50px 0;
+  font-family: 'Roboto-Regular';
+  .fimers-wrap {
+    .fimers-header {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 50px;
+      .filter-row {
+        display: flex;
+        .title{
+          font-size: 12px;
+          font-weight: 400 !important;
+        }
+        .fimers-title {
+          font-size: 30px;
+          text-transform: uppercase;
+          line-height: 1;
+          color: #222;
+          margin: 0 50px 0 0;
+        }
+        .fimers-type {
+          display: flex;
+          .filter {
+            text-align: center;
+            margin: 0 10px;
+            cursor: pointer;
+            width: 80px;
+            span {
+              color: #999999;
+              font-size: 12px;
+              line-height: 18px;
+              display: block;
+              margin-top: 5px;
+            }
+            &.active,
+            &:hover {
+              span {
+                color: #222222;
+              }
+              .btn-circle {
+                margin-bottom: 5px;
+                background: #8e4cf0;
+                /* Old browsers */
+                background: -moz-linear-gradient(top, #8e4cf0 0%, #f05082 100%);
+                /* FF3.6-15 */
+                background: -webkit-linear-gradient(top, #8e4cf0 0%, #f05082 100%);
+                /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(to bottom, #8e4cf0 0%, #f05082 100%);
+                /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8e4cf0', endColorstr='#f05082', GradientType=0);
+                /* IE6-9 */
+                .btn-circle-1 {
+                  .btn-child-circle {
+                    .img {
+                      width: 20px;
+                      height: 20px;
+                      background-size: 100%;
+                      background-repeat: no-repeat;
+                      &.all {
+                        background-image: url("~assets/icons/_iconAll_Others_active.png");
+                      }
+                      &.weekly {
+                        background-image: url("~assets/icons/_iconTopUser_active.png");
+                      }
+                      &.monthly {
+                        background-image: url("~assets/icons/_iconTopUser_active.png");
+                      }
+                      &.new_member {
+                        background-image: url("~assets/icons/_iconNewbie_active.png");
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            .btn-circle {
+              padding: 2px;
+              width: 62px;
+              height: 62px;
+              border-radius: 50%;
+              margin: auto;
+              .btn-circle-1 {
+                background-color: #fff;
+                border-radius: 100%;
+                width: 100%;
+                height: 100%;
+                padding: 1px;
+                .btn-child-circle {
+                  border-radius: 100%;
+                  width: 100%;
+                  height: 100%;
+                  border: 1px solid #ddd;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  .img {
+                    width: 20px;
+                    height: 20px;
+                    background-size: 100%;
+                    background-repeat: no-repeat;
+                    &.all {
+                      background-image: url("~assets/icons/_iconAll_Others_inactive.png");
+                    }
+                    &.weekly {
+                      background-image: url("~assets/icons/_iconTopUser_inactive.png");
+                    }
+                    &.monthly {
+                      background-image: url("~assets/icons/_iconTopUser_inactive.png");
+                    }
+                    &.new_member {
+                      background-image: url("~assets/icons/_iconNewbie_inactive.png");
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .right-col {
+        .type-btn {
+          text-transform: uppercase;
+          background-color: #fff;
+          border: 1px solid #222;
+          color: #222;
+          font-size: 16px;
+          padding: 6px 16px 3px;
+          border-radius: 20px;
+          cursor: pointer;
+          margin-right: 20px;
+          transition: all 500ms;
+          &:hover {
+            background-color: #222;
+            color: #fff;
+          }
+        }
+        .see-all-btn {
+          text-transform: none;
+          padding: 5px 16px 3px;
+          i {
+            padding-left: 5px;
+          }
+        }
+        .type-btn.active {
+          background-color: #222;
+          color: #fff;
+        }
+      }
+    }
+    .fimers-body {
+      padding-left: 15px;
+      .loading-block {
+        text-align: center;
+        margin-top: 0px;
+        img {
+          width: 50px;
+          height: 50px;
+        }
+      }
+      .fimers-body-col {
+        width: calc(50% - 25px);
+        margin-bottom: 25px;
+      }
+      .fimers-body-col:nth-child(2n) {
+        margin-right: 0;
+      }
+      .fimers-post {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        .fimer-header {
+          align-items: center;
+          margin-bottom: 20px;
+          display: flex;
+          justify-content: space-between;
+          .user-block {
+            .avt-block {
+              margin-right: 15px;
+              position: relative;
+              width: 60px;
+              height: 60px;
+              cursor: pointer;
+              &:before {
+                content: "";
+                display: block;
+                padding-top: 100%;
+                /* initial ratio of 1:1*/
+              }
+              .user-avt {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 50%;
+              }
+              .fimer-rank {
+                position: absolute;
+                right: 0px;
+                bottom: 0;
+                min-width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                text-align: center;
+                background-color: #333333;
+                line-height: 22px;
+                span {
+                  font-family: 'Roboto-Regular';
+                  font-size: 12px;
+                  color: #fff;
+                  font-weight: 600;
+                }
+              }
+              .fimer-rank.fimer-rank-1 {
+                background-color: #ffcc00;
+                span {
+                  color: #333333;
+                }
+              }
+              .fimer-rank.fimer-rank-2 {
+                background-color: #e1e1e1;
+                span {
+                  color: #333333;
+                }
+              }
+              .fimer-rank.fimer-rank-3 {
+                background-color: #ff9933;
+              }
+            }
+            .user-name {
+              cursor: pointer;
+              font-family: 'Roboto-Regular';
+              font-size: 14px;
+              font-weight: 600;
+            }
+          }
+          .follow-btn {
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            color: #f14c7f;
+            font-size: 12px;
+            padding: 0 5px 0 5px;
+            border: 1px solid #f14c7f;
+            border-radius: 20px;
+            cursor: pointer;
+            height: 25px;
+            width: 85px;
+            transition: all 500ms;
+            span {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              width: 80px;
+              display: block;
+            }
+            .material-icons {
+              font-size: 16px;
+            }
+            &:hover {
+              background-color: #f14c7f;
+              color: #fff;
+            }
+          }
+          .follow-btn.active {
+            background-color: #f14c7f !important;
+            color: #fff !important;
+            width: 100px;
+            &:hover {
+              background-color: #fff;
+              color: #f14c7f;
+            }
+          }
+          .fimer-info {
+            flex-direction: column;
+            display: flex;
+            width: 100%;
+            .user-name {
+              cursor: pointer;
+              font-family: 'Roboto-Regular';
+              font-size: 14px;
+              font-weight: 600;
+            }
+            .col-info {
+              margin-top: 5px;
+              text-align: left;
+              list-style: none;
+              float: left;
+              margin: 0;
+              display: flex;
+              flex-direction: row;
+              div.info {
+                float: left;
+                cursor: pointer;
+                span {
+                  font-size: 12px;
+                  margin: 0;
+                  color: #999999;
+                  text-transform: lowercase;
+                }
+              }
+              div.border {
+                margin: 0 15px;
+                border: 0!important;
+                border-left: 1px solid #dee2e6!important;
+              }
+            }
+          }
+        }
+        .reviews {
+          display: flex;
+          flex-flow: row wrap;
+          justify-content: flex-start;
+          .content {
+            padding: 0 15px;
+          }
+          .col-img:first-child {
+            margin-left: 0;
+          }
+          .col-img {
+            cursor: pointer;
+            border-radius: 5px;
+            width: 19%;
+            margin-left: 1%;
+            position: relative;
+            outline: none;
+            &:before {
+              content: "";
+              display: block;
+              padding-top: 100%;
+              /* initial ratio of 1:1*/
+            }
+            img {
+              position: absolute;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              right: 0;
+              border-radius: 5px;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              border: 1px solid #cccccc;
+            }
+            &.no_reviews {
+              .col-img {
+                cursor: default;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .fimers {
+    .fimers-wrap {
+      .fimers-body {
+        .fimers-body-col {
+          &.col-md-6 {
+            width: 100%;
+            max-width: 100%;
+            flex: unset;
+          }
+        }
+        .fimers-post {
+          .reviews {
+            .col-img {
+              height: 90px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include tablet {
+  .fimers {
+    padding: 30px 0;
+
+    .fimers-wrap {
+      .fimers-header {
+        margin-bottom: 25px;
+      }
+      .fimers-body {
+        .fimers-body-col {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+        .fimers-post {
+          .fimer-header {
+            position: relative;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+            .fimer-info {
+              width: 50%;
+              padding: 10px 0;
+              .col-info {
+                line-height: 1;
+                div.info {
+                  span {
+                    display: inline-block;
+                    text-align: center;
+                    line-height: 14px;
+                  }
+                }
+              }
+              .user-name {
+                line-height: 1;
+                span {
+                  width: 80%;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  display: inline-block;
+                }
+              }
+            }
+            .fimer-follow {
+              position: absolute;
+              top: 0px;
+              right: 0;
+            }
+            .user-block {
+              .avt-block {
+                width: 48px;
+                height: 48px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .fimers .fimers-wrap .fimers-body .fimers-post .fimer-header .follow-btn:hover {
+    background-color: #fff;
+    color: #f14c7f;
+  }
+}
+
+@include phone {
+  .fimers {
+    padding: 20px 10px;
+
+    .fimers-wrap {
+      .fimers-header {
+        margin-bottom: 25px;
+        .filter-row {
+          .fimers-type {
+            flex-wrap: wrap;
+            .filter {
+              width: 50px;
+              margin: 0 5px;
+              .btn-circle {
+                width: 48px;
+                height: 48px;
+              }
+            }
+          }
+        }
+      }
+      .fimers-body {
+        padding-left: 0;
+        .fimers-body-col {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+        .fimers-post {
+          .fimer-header {
+            position: relative;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+            .fimer-info {
+              width: 50%;
+              padding: 10px 0;
+              .col-info {
+                line-height: 1;
+                div.info {
+                  span {
+                    display: inline-block;
+                    text-align: center;
+                    line-height: 14px;
+                  }
+                }
+              }
+              .user-name {
+                line-height: 1;
+                span {
+                  width: 80%;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  display: inline-block;
+                }
+              }
+            }
+            .fimer-follow {
+              position: absolute;
+              top: 0;
+              right: 0;
+            }
+            .user-block {
+              .avt-block {
+                margin-right: 10px;
+                width: 48px;
+                height: 48px;
+              }
+            }
+          }
+          .reviews {
+            .col-img {
+              height: unset;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .fimers .fimers-wrap .fimers-body .fimers-post .fimer-header .follow-btn:hover {
+    background-color: #fff;
+    color: #f14c7f;
+  }
+}

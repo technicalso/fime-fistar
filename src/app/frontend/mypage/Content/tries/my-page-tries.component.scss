@@ -1,0 +1,43 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.tries {
+  padding: 0;
+
+  .tries-header {
+    display: none;
+  }
+
+  .main-wrap {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+
+    .masonry-item {
+      width: calc(33.33% - 50px);
+      margin-bottom: 50px;
+    }
+  }
+}
+
+@include tablet {
+  .tries {
+    .main-wrap {
+      .masonry-item {
+        width: calc(50% - 20px);
+      }
+    }
+  }
+}
+
+@include phone {
+  .tries {
+    .main-wrap {
+      .masonry-item {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

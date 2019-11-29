@@ -1,0 +1,135 @@
+<div class="component-admin-ad">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading" *ngIf="!adId">
+                {{ "create_ad" | translate }}
+            </div>
+            <div class="admin-heading" *ngIf="adId">
+                {{ "edit_ad" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/ads"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "name" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter name" [(ngModel)]="ad.name"
+                                    formControlName="name" name="name" />
+                                <div *ngIf="form.controls.name.invalid && (form.controls.name.dirty || form.controls.name.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="form.controls.name.errors.required">
+                                        {{ "name_required" | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "description" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" placeholder="Enter description" [(ngModel)]="ad.description"
+                                    formControlName="name" name="name"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "url" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="{{ 'enter_url' | translate }}"
+                                    [(ngModel)]="ad.target_url" formControlName="target_url" name="target_url" />
+                                <div *ngIf="form.controls.target_url.invalid && (form.controls.target_url.dirty || form.controls.target_url.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="form.controls.target_url.errors.required">
+                                        {{ "target_url_required" | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Target type</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <select class='form-control' [(ngModel)]="ad.target_type" formControlName="target_type" name="target_type">
+                                    <option value="_blank">_blank</option>
+                                    <option value="_self">_self</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "order" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <select class='form-control' [(ngModel)]="ad.order" formControlName="order" name="order">
+                                    <option *ngFor="let item of arrayOrder(100);let i = index;">{{i}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "show_on_frontend" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <ui-switch size="small" formControlName="show_on_frontend" [(ngModel)]="ad.show_on_frontend"
+                                           color="#FF65B1"></ui-switch>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Cover image</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <app-admin-resource #resource [resource]="{ url: ad.url, resource_type: ad.resource_type }"
+                                    [resizeToWidth]="400" [aspectRatio]="40/23"></app-admin-resource>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/ads">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" [disabled]="!form.valid"
+                    (click)="save()">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

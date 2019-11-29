@@ -1,0 +1,281 @@
+<div class="app-admin-campaign">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                Campaign
+            </div>
+        </div>
+    </div>
+    <mat-card class="search-control">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Campaign</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select (selectionChange)="getCampainDetail($event.value)"
+                                [(value)]="dataBlind.campainID">
+                                <mat-option value="">All</mat-option>
+                                <mat-option value="campaign_name">Campaign title</mat-option>
+                                <mat-option value="company_name">Company title</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Keyword</label>
+                <div class="none-label">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="" [(ngModel)]="dataBlind.input_field_title" #titleInput
+                            (keyup)="getFieldTitle(titleInput.value)" (keydown)="onKeydown($event)">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Brand</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select (selectionChange)="getBrandDetails($event.value)" [(value)]="dataBlind.brandID">
+                                <mat-option value="">All</mat-option>
+                                <mat-option *ngFor="let item of dataBlind.brands" [value]="item['cd_id']">
+                                    {{item['cd_label']}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Category</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select (selectionChange)="getCategoryDetails($event.value)"
+                                [(value)]="dataBlind.categoryID">
+                                <mat-option value="">All</mat-option>
+                                <mat-option *ngFor="let item of dataBlind.category" [value]="item['cd_id']">
+                                    {{item['cd_label']}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Type</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select (selectionChange)="getTypeDetail($event.value)" [(value)]="dataBlind.typeID">
+                                <mat-option value="">All</mat-option>
+                                <mat-option value="0">Free</mat-option>
+                                <mat-option value="1">Paid</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Channel</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select (selectionChange)="getChannelDetails($event.value)"
+                                [(value)]="dataBlind.channelID">
+                                <mat-option value="">All</mat-option>
+                                <mat-option *ngFor="let item of dataBlind.channels" [value]="item['sns_id']">
+                                    {{item['sns_name']}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Campaign Try Period</label>
+                    <mat-form-field>
+                        <mat-datepicker-toggle [for]="period_from" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #period_from type="datetime" openOnFocus="true" timeInterval="5">
+                        </mat-datepicker>
+                        <input matInput class="form-control" [(ngModel)]="dataBlind.period.start"
+                            [matDatepicker]="period_from" autocomplete="false" placeholder="From" readonly>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <mat-form-field style="margin-top: 30px">
+                        <mat-datepicker-toggle [for]="period_to" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #period_to type="datetime" openOnFocus="true" timeInterval="5"></mat-datepicker>
+                        <input matInput class="form-control" [(ngModel)]="dataBlind.period.end"
+                            [matDatepicker]="period_to" (ngModelChange)="handleChangeEndDate()" autocomplete="false" placeholder="To" readonly>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>Campaign status</label>
+                    <div style="margin-top:20px" class="groub">
+                        <div>
+                            <input id="all" name="active" type="checkbox" class="campain_state1 px-3" color="primary"
+                                (click)="campainStatus('', $event)">All
+                        </div>
+                        <div>
+                            <input name="active" type="checkbox" class="campain_state px-3" color="primary"
+                                (click)="campainStatus(59, $event)">Matching
+                        </div>
+                        <div>
+                            <input name="active" type="checkbox" class="campain_state px-3" color="primary"
+                                (click)="campainStatus(60, $event)">Ready
+                        </div>
+                        <div>
+                            <input name="active" type="checkbox" class="campain_state px-3" color="primary"
+                                (click)="campainStatus(61, $event)">On-going
+                        </div>
+                        <div>
+                            <input name="active" type="checkbox" class="campain_state px-3" color="primary"
+                                (click)="campainStatus(62, $event)">Closed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" style="margin-top: 30px;">
+                <div class="pull-right">
+                    <button class="btn btn-primary mr-1" (click)="search()"><i class="material-icons align-text-bottom">
+                            search
+                        </i> <span>Search</span></button>
+                    <button class="btn btn-default mr-1" (click)="reset()"><i class="material-icons align-text-bottom">
+                            replay
+                        </i> <span>Reset</span></button>
+                    <button class="btn btn-default mr-1" (click)="dowloadCSV()"><i
+                            class="material-icons align-text-bottom">
+                            get_app
+                        </i> <span>Excel</span></button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+
+    <div class="row" style="margin: 1rem 0">
+        <div class="col">
+            <p>{{ dataPost.arrayDelete.length }} Selected/ {{totalItem}} Total</p>
+        </div>
+        <div class="col">
+
+            <button class="btn btn-primary float-right" routerLink="/admin/campaign/add">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+            <button class="btn btn-primary float-right" style="margin-right:10px"
+                [disabled]="dataPost.arrayDelete.length ==0" (click)="deleteItem()">
+                <i class="material-icons align-text-bottom">
+                    delete
+                </i> <span>Delete</span>
+            </button>
+        </div>
+    </div>
+    <app-data-table (outputShowModal)="viewModal($event)" (outputCheck)="getItem($event)" [items]="data.list"
+        [headers]="data.header" [pageSize]="10" [isCheckItem]="true" [isCheckItemRadio]="true" [showPage]="true"
+        (outputPage)="getParams($event)" [currentPage]="data.page" (outputReloadData)="reloadDataFromChild($event)"
+        [totalPage]="data.total_page"></app-data-table>
+</div>
+
+<!-- <app-review-payment [dataHistory]="dataHistoryReview" [isHistoryCampaign]="true" [title]="'titleReviewPayment'"
+    *ngIf="showHistoryPayment" (closeP)="close($event)"></app-review-payment> -->
+
+<div class="modal-history">
+    <div class="modal-custom" *ngIf="showHistoryPayment">
+        <div class="modal-content">
+            <div class="m-head">
+                <p>Review History</p>
+                <span class="close" (click)="close()">&times;</span>
+            </div>
+            <div class="m-des">
+                <h3>{{ nameHistoryCampaign }}</h3>
+                <h4>{{ titleHistoryCampaign }}</h4>
+
+            </div>
+            <div class="m-body">
+                <!-- <div class="step">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td width="33%">
+
+                                    Step 1
+                                </td>
+                                <td width="33%">
+                                    Step 2
+                                </td>
+                                <td width="33%">
+                                    Step 3
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Ready
+                                </td>
+                                <td>
+                                    Request to check
+                                </td>
+                                <td>
+                                    Completed
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> -->
+
+                <div class="record">
+                    <table>
+                        <tbody>
+                            <tr *ngFor="let item of dataHistoryReview">
+                                <td class="first">
+                                    {{item['description']}}
+                                </td>
+                                <td>
+                                    {{item['created_at']}}<br>
+                                    <!-- {{item['updated_at']}} -->
+                                </td>
+                                <td>
+                                    <label *ngIf="item['user']==null">
+                                        <label *ngIf="item['type']!=null">
+                                            <label *ngIf="item['type']==0">
+                                                <b>{{item['partner']}}</b>
+                                            </label>
+                                            <label *ngIf="item['type']==1">
+                                                <b>{{item['influencer']}}</b>
+                                            </label>
+                                            <label *ngIf="item['type']==2">
+                                                <b>Administrator</b>
+                                            </label>
+                                        </label>
+                                        <label *ngIf="item['type']==null">
+                                            <b>Administrator</b>
+                                        </label>
+
+                                    </label>
+                                    <label *ngIf="item['user']!=null">
+                                        <b>{{item['user']}}</b>
+                                    </label>
+                                    {{item['fistar_status']}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

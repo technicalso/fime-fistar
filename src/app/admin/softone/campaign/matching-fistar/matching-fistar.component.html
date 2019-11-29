@@ -1,0 +1,60 @@
+<div class="app-admin-campaign-matching-fistar">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading">
+                {{ "Campaign > Matching fiStar" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/campaign"><i
+                        class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <app-admin-campaign-tab [tryId]="cpData.cp_try_id"></app-admin-campaign-tab><br>
+    <div class="row">
+        <button class="btn btn-default">{{statusCampain}}</button>&nbsp;<span
+            style="margin-top: 7px ">{{titleCapaign}}</span>
+    </div><br>
+    <div class="row search">
+        <table class="table table-bordered">
+            <tbody>
+                <tr style="vertical-align: middle;">
+                    <td (click)="search('all', 0)" [ngClass]="{'active-bg': activeItem== 0}">Recruitment {{cruiment}}</td>
+                    <td (click)="search('request', 1)" [ngClass]="{'active-bg': activeItem== 1}">Request
+                        {{count['request']}}</td>
+                    <td (click)="search('rejected', 2)" [ngClass]="{'active-bg': activeItem== 2}">Rejected
+                        {{count['rejected']}}</td>
+                    <td (click)="search('recommend', 3)" [ngClass]="{'active-bg': activeItem== 3}">Recommend
+                        {{count['recommend']}}</td>
+                    <td (click)="search('apply',4)" [ngClass]="{'active-bg': activeItem== 4}">Apply {{count['apply']}}
+                    </td>
+                    <td (click)="search('matched', 5)" [ngClass]="{'active-bg': activeItem==5}">Matched
+                        {{count['matched']}}</td>
+                    <td>
+                        <h3>{{(cpData.total_cost_selected != undefined && cpData.total_cost_selected.estimated_cost != undefined) ? commonService.formatMoney(cpData.total_cost_selected.estimated_cost):0}}</h3>
+                        <p>Expected cost</p>
+                        <p>(based on completion of matching)</p>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col">
+                <p>{{ data.list.length }} Total</p>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" [disabled]="dataPost.arrayDelete.length == 0" (click)="deleteItem()" style="margin-right:10px">
+                <i class="material-icons align-text-bottom">
+                    delete
+                </i> <span>delete</span>
+            </button>
+        </div>
+    </div>
+    <app-data-table (outputTab)="opentab($event)" (outputCheck)="getItem($event)" [items]="data.list" [headers]="data.header"
+        [pageSize]="data.list.length" [isCheckItem]="true" [isCheckItemRadio]="true" [showPage]="false"
+        [currentPage]="data.page" [totalPage]="data.total_page" (outputOption)="updateStatus($event)" (outputSns)="updateStatusSns($event)" ></app-data-table>
+</div>

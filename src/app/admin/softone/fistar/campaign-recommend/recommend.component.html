@@ -1,0 +1,142 @@
+<div class="app-admin-fistar-recommend">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+             
+            <div class="admin-heading" >
+                {{ "sns channel" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/fistar"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+            </div>
+            <app-admin-fistar-tab></app-admin-fistar-tab><br>
+            <!-- <div class="admin-heading" *ngIf="!bannerId">
+                <ngx-avatar  src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Midu_-_Summer_2012_%28Explored_1_-_May_24th%29_cropped.jpg/260px-Midu_-_Summer_2012_%28Explored_1_-_May_24th%29_cropped.jpg" size="100"></ngx-avatar>
+                <div>
+                    <b><h4>Gianna.jun</h4></b>
+                    <p>jun, hi-hyun</p>
+                </div>
+                
+
+            </div>
+
+            <div>
+                <h1>VND 1500k</h1>
+
+            </div> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+                <ngx-avatar  src="{{url}}" size="100"></ngx-avatar>
+        </div>
+        <div class="col-md-3">
+            <h1>Gianna.jun</h1>
+            <p>jun,Ji-hyun</p>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <form  novalidate>
+                    <mat-checkbox  name="fimer" class="px-3"
+                    color="primary" [checked]="true">skin care
+                    </mat-checkbox>
+                    <mat-checkbox  name="fistar" class="px-3" color="primary">
+                        Sun-care
+                    </mat-checkbox>
+                    
+                    <mat-checkbox  name="fistar" class="px-3"
+                                    color="primary" [checked]="true">Base Make-ups
+                    </mat-checkbox>
+                    
+                    <mat-checkbox  name="fimer" class="px-3"
+                                    color="primary">Color make-ups
+                    </mat-checkbox>
+                    <mat-checkbox  name="fistar" class="px-3"
+                                    color="primary" [checked]="true">cleaning
+                    </mat-checkbox>
+
+                    
+                    <mat-checkbox  name="fimer" class="px-3"
+                                    color="primary">marks
+                    </mat-checkbox>
+                    
+                    <mat-checkbox  name="fistar" class="px-3"
+                                    color="primary"> Perfume
+                    </mat-checkbox>
+                    
+                    <mat-checkbox  name="fimer" class="px-3"
+                                    color="primary">Hair care
+                    </mat-checkbox>
+                    <mat-checkbox  name="fistar" class="px-3"
+                                    color="primary">Hair styling
+                    </mat-checkbox>
+                    
+                    <mat-checkbox  name="fimer" class="px-3"
+                                    color="primary">Body care
+                    </mat-checkbox>
+                    <mat-checkbox  name="fistar" class="px-3"
+                                    color="primary">nails
+                    </mat-checkbox>
+                    
+                    <mat-checkbox  name="fistar" class="px-3"
+                    color="primary" [checked]="true">Beauty accessoiries
+                    </mat-checkbox>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-8" >
+            <div class="row list-avatar">
+                <div class="col-md-2">
+                    <ngx-avatar  src="{{url}}" size="100"></ngx-avatar><br>
+                    <p>text</p>
+                </div>
+                <div class="col-md-2">
+                    <ngx-avatar  src="{{url}}" size="100"></ngx-avatar><br>
+                    <p>text</p>
+                </div>
+                <div class="col-md-2">
+                    <ngx-avatar  src="{{url}}" size="100"></ngx-avatar><br>
+                    <p>text</p>
+                </div>
+                <div class="col-md-2">
+                    <ngx-avatar  src="{{url}}" size="100"></ngx-avatar><br>
+                    <p>text</p>
+                </div>
+                <div class="col-md-2">
+                    <ngx-avatar  src="{{url}}" size="100"></ngx-avatar><br>
+                    <p>text</p>
+                </div>
+            </div>
+               
+        </div>
+    </div>
+
+    <ngx-datatable #myTable class="material" [rows]="fistars" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+    [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"  [selected]="selected"
+    [rowHeight]="'auto'" [count]="fistars.length" [limit]="3">
+        <ngx-datatable-column name="Id" prop="id" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column [frozenLeft]="true" [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+        [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false"></ngx-datatable-column>
+
+        <ngx-datatable-column >
+            <ng-template let-column="column"  ngx-datatable-header-template>
+                Partner
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                    <img class="img" [src]="env.rootHost + row.url" /> | {{row.facebook}} 
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Product Brand" prop="name" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="On-going-campaign" prop="status" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Recommend" prop="status" [sortable]="false"></ngx-datatable-column>
+    </ngx-datatable>
+    
+
+</div>

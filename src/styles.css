@@ -1,0 +1,297 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~ngx-toastr/toastr.css";
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+html {
+    height: 100%;
+}
+
+body, app-root, .mat-card {
+    display: block;
+    font-family: 'Roboto-Regular' !important;
+}
+
+
+.push-right .main-container {
+    left: 75px !important;
+}
+
+.push-right #sidebar {
+    left: -250px;
+}
+
+.push-right #sidebar-normal {
+    left: 0px !important;
+}
+
+.mat-menu-item {
+    height: 32px !important;
+    line-height: 32px !important;
+    font-weight: 600;
+}
+
+.nav-item.mat-menu-item.active {
+    color: #f14c7f !important;
+}
+
+.nav-item.mat-menu-item .badge {
+    position: absolute;
+    top: 1px;
+    border: 1px solid #f14c7f;
+    background: #f14c7f;
+    font-size: 10px;
+    border-radius: 50%;
+    color: #fff;
+}
+
+.nav-item.mat-menu-item .badge:hover {
+    background-color: #fff;
+    color: #f14c7f;
+    border-color: #f14c7f;
+}
+
+.mat-menu-item.nav-item {
+    width: 250px !important;
+    text-transform: uppercase;
+}
+
+.nav-item.user-info {
+    margin-bottom: 20px;
+    height: 50px !important;
+    display: flex !important;
+}
+
+.nav-item.user-info .user-avt {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.nav-item.user-info .user-avt img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.number-of-like, .number-of-likes, .number_of_like {
+    cursor: pointer !important;
+}
+
+.number-of-like:hover, .number-of-likes:hover, .number_of_like:hover {
+    color: #f14c7f !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+@media (min-width: 1024px) {
+    .modal-dialog {
+        max-width: 500px;
+        margin: 9rem auto;
+    }
+}
+
+#loading-bar-spinner {
+    display: none !important;
+}
+
+mat-chip-list i {
+    cursor: pointer;
+}
+
+.cdk-overlay-container {
+    z-index: 1200 !important;
+}
+
+
+.admin .btn.btn-primary {
+    background-color: #20a8d8 !important;
+    border-color: #20a8d8 !important;
+}
+
+.admin .btn.btn-outline-primary {
+    border-color: #20a8d8 !important;
+}
+
+.admin .btn i {
+    font-size: 20px;
+}
+
+.admin ngx-datatable .icon, .admin ngx-datatable i {
+    color: #717171 !important;
+    font-size: 20px !important;
+}
+
+.admin ngx-datatable .mat-chip-list-wrapper, .admin ngx-datatable .mat-checkbox-layout {
+    margin: 0;
+}
+
+.admin ngx-datatable .datatable-body-cell-label span {
+    word-break: break-word;
+}
+
+.admin ngx-datatable .datatable-body-cell-label .mat-icon-button .mat-button-wrapper .mat-icon {
+    vertical-align: top !important;
+}
+
+.datatable-action-button.mat-menu-item{
+    font-weight: 400;
+    text-decoration: none;
+}
+.datatable-action-button.mat-menu-item:hover{
+    color: #555;
+}
+
+.datatable-action-button.mat-menu-item .material-icons {
+    font-size: 16px;
+    margin: 6px 5px 0 0;
+}
+.datatable-action-button.mat-menu-item span{
+    font-size: 14px;
+}
+.admin ngx-datatable .datatable-header-cell-label{
+    font-size: 14px;
+}
+
+.admin ngx-datatable .datatable-body-cell-label span {
+    font-size: 13px !important;
+    display: block;
+}
+
+.admin ngx-datatable .datatable-body-cell-label .datatable-checkbox input{
+    margin: 0 10px 0 0;
+}
+
+.admin .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell .mat-icon-no-color{
+    color: rgba(0,0,0,.54) !important;
+}
+
+.admin .search-control, .admin .btn{
+    font-size: 14px;
+}
+
+.tip-detail .try-free .carousel-indicators{
+    bottom: -30px;
+    left: 0;
+    right: unset;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+
+.tip-detail .carousel-indicators li.active,
+.home .tip .carousel-indicators li.active,
+.tip-detail .carousel-indicators li:hover,
+.home .tip .tip-detail .carousel-indicators li:focus,
+.tips .carousel-indicators li.active,
+.home .tip .carousel-indicators li.active,
+.tips .carousel-indicators li:hover,
+.home .tip .carousel-indicators li:hover,
+.tips .carousel-indicators li:focus,
+.home .tip .carousel-indicators li:focus{
+        background-color: #f14c7f;
+}
+
+.tip-detail .carousel-control-prev-icon,
+.home .tip .carousel-control-prev-icon,
+.tips .carousel-control-prev-icon
+.home .tip .carousel-control-prev-icon
+{
+    background-image: url(/assets/icons/chevron-left-icon.png);
+    cursor: pointer;
+}
+.tip-detail .carousel-control-next-icon,
+.home .tip .carousel-control-next-icon,
+.tips .carousel-control-next-icon,
+.home .tip .carousel-control-next-icon {
+    background-image: url(/assets/icons/chevron-right-icon.png);
+    cursor: pointer;
+}
+.tip-detail .carousel-indicators li,
+.home .tip .carousel-indicators li,
+.tips .carousel-indicators li ,
+.home .tip .carousel-indicators li {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 20px;
+    background-color: #b7b7b7;
+    cursor: pointer;
+}
+.tip-detail .try-free .carousel-control-prev {
+    top: unset;
+    padding: 4px 4px;
+    background-color: #e1e1e1;
+    bottom: -30px;
+    left: unset;
+    right: 70px;
+    cursor: pointer;
+    width: 42px;
+}
+.tip-detail .try-free .carousel-control-next {
+    top: unset;
+    padding: 4px 4px;
+    background-color: #e1e1e1;
+    bottom: -30px;
+    left: unset;
+    right: 0;
+    cursor: pointer;
+    width: 42px;
+}
+.tip-detail .try-free .carousel-control-next span, .tip-detail .try-free .carousel-control-prev span
+{
+    width: 10px;
+    height: 10px;
+
+}
+
+.carousel-control-next, .carousel-control-prev{
+    cursor: pointer !important;
+}
+
+.users td.mat-cell:last-of-type, .users td.mat-footer-cell:last-of-type, .users th.mat-header-cell:last-of-type{
+    width: 150px !important;
+}
+
+.page-limit{
+    position: absolute;
+    bottom: 15px;
+    left: 200px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.54);
+    z-index: 999;
+}
+.component-admin-try{
+    position: relative;
+}

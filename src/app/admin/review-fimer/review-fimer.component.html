@@ -1,0 +1,85 @@
+<div class="component-admin-review">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">
+                {{ 'Fimers' | translate }}
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-3">
+                <label>Config manually</label>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <ui-switch size="small" [(ngModel)]="settings['config_manually'].value" (change)="changeConfig($event)" color="#FF65B1"></ui-switch>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label>Position on Review</label>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <div class="form-group">
+                        <select class='form-control' (change)="changePosition()" [(ngModel)]="settings['position'].value" name="position">
+                            <option *ngFor="let item of arrayOrder(100);let i = index;">{{i}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="settings['config_manually'].value">
+        <div class="row" *ngIf="hotFimers.length < 3">
+            <div class="col-md-4">
+                <label>Search Fimer</label>
+                <div>
+                    <input [(ngModel)]="term" [typeaheadAsync]="true" [typeahead]="fimers" (typeaheadOnSelect)="selectFimer($event)"
+                        [typeaheadOptionsLimit]="10" typeaheadOptionField="reg_name" placeholder="Please search fimer with name"
+                        class="form-control">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Position Fimer</label>
+                <div>
+                    <select class='form-control' [(ngModel)]="positionSelectedUser" name="position">
+                        <option *ngFor="let item of arrayOrder(3);let i = index;">{{i + 1}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <mat-chip-list class="add-fimer">
+                    <button class="btn btn-primary mr-1" (click)="addFimer()">Add Fimer</button>
+                </mat-chip-list>
+            </div>
+        </div>
+        <ngx-datatable #myTable class="material" [rows]="hotFimers" [columnMode]="'force'" [headerHeight]="50"
+            [footerHeight]="50" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)'
+            [selected]="selected" [rowHeight]="'auto'" [count]="hotFimers.length" [limit]="10" >
+            <ngx-datatable-column name="ID" prop="user_no"></ngx-datatable-column>
+            <ngx-datatable-column name="Avatar" [sortable]="false" [headerClass]="'text-center'" [cellClass]="'text-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <img [src]="env.rootHost + row.pic" width="40" *ngIf="row.pic"/>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Name" prop="reg_name"></ngx-datatable-column>
+            <ngx-datatable-column name="Phone" prop="home_tel"></ngx-datatable-column>
+            <ngx-datatable-column name="Position" prop="position" [headerClass]="'text-center'" [cellClass]="'text-center'"></ngx-datatable-column>
+            <ngx-datatable-column [width]="100" name="Action" [sortable]="false" [canAutoResize]="false" [resizeable]="false" [headerClass]="'text-center'" [cellClass]="'text-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template class="d-flex justify-content-center">
+                    <mat-chip-list class="action">
+                        <i class="material-icons pointer" title="{{ 'delete' | translate }}" [swal]="deleteSwal"
+                           (confirm)="onDelete(row)">delete
+                        </i>
+                    </mat-chip-list>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>
+
+<swal #deleteSwal text="Are you sure to delete this user?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>

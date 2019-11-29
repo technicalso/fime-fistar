@@ -1,0 +1,51 @@
+<div class="reviews">
+    <ngx-masonry [options]="myOptions" class="masonry" infiniteScroll [infiniteScrollDistance]="2"
+                 [infiniteScrollThrottle]="1000" (scrolled)="onScroll()">
+        <ngxMasonryItem class="masonry-item review-cart" *ngFor="let item of reviews">
+            <div class="header">
+                <div class="cover">
+                    <div class="fime-pick" *ngIf="item.cntnts_no != null">
+                        <p>FIME'S</p>
+                        <p>PICK</p>
+                    </div>
+                    <img *ngIf="item.files && item.files.length > 0" [src]="item.files && item.files[0].stre_file_nm ? env.rootHost + item.files[0].file_cours + '/' + item.files[0].stre_file_nm : env.rootHost + item.files[0].FILE_COURS"
+                         [routerLink]="['/reviews/detail/' + item.slug]">
+                </div>
+            </div>
+            <div class="body">
+                <div class="title">
+                    <div class="name" title="item.name" [routerLink]="['/reviews/detail/' + item.slug]">{{item.goods_nm}}</div>
+                    <div class="time">
+                        {{ item.time }} {{ item.timeUnit | translate }} {{ 'ago' | translate }}
+                    </div>
+                </div>
+                <div class="description">{{item.review_short}}</div>
+                <div class="action" [routerLink]="['/reviews/detail/' + item.slug]">{{'see_more' | translate}}</div>
+            </div>
+            <div class="footer">
+                <div class="icons">
+                    <div class="action-block">
+                        <div class="action-btn" [ngClass]="{'active': item.is_liked == 1}" [appAuth]
+                             (action)="toggleLikeReview(item)">
+                            <i class="fa fa-heart-o" aria-hidden="true"></i>
+                        </div>
+                        <div class="action-btn" [routerLink]="['/reviews/detail/' + item.slug]">
+                            <i class="fa fa-comment-o" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="action-block">
+                        <div class="action-btn right">
+                            <i class="material-icons" [appAuth] (action)="shareLink(item.slug)">share</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="number_of_like" (click)="usersLikeDialog(item.review_no, 'review')">
+                    <span>{{ item.like_number | numberlike }} {{ '_like' | translate }}</span>
+                </div>
+            </div>
+        </ngxMasonryItem>
+    </ngx-masonry>
+    <div class="loading-block" *ngIf="isLoading">
+        <img src="assets/images/loading.gif" alt="loading">
+    </div>
+</div>

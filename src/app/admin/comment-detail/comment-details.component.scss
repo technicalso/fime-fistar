@@ -1,0 +1,9 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-comment {
+    .comment-title {
+        font-size: 20px;
+    }
+}

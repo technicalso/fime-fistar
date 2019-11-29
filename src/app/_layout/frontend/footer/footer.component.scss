@@ -1,0 +1,239 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+footer {
+  border-top: 3px solid #bbbbbb;
+  font-family: 'Roboto-Regular';
+  font-size: 100%;
+  padding: 40px 0;
+
+  .footer-wrap {
+    display: flex;
+
+    .left-col {
+      width: 20%;
+
+      .logo-block {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .socials-block {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+
+        .circle-icon {
+          background-color: #222;
+          border-radius: 50%;
+          margin-left: 10px;
+          width: 34px;
+          height: 34px;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 300ms;
+
+          &:hover {
+            background-color: #f0f0f0;
+
+            .social-item {
+              color: #999;
+            }
+          }
+
+          .social-item {
+            vertical-align: center;
+            color: #fff;
+            font-size: 20px;
+          }
+        }
+      }
+
+    }
+    .right-col {
+      width: 80%;
+
+      .navbar {
+        padding: 0;
+      }
+
+      .footer-top-menu {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        .footer-nav {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+
+          .nav-item {
+            display: inline-block;
+            margin-right: 40px;
+
+            .nav-link {
+              line-height: 1;
+              text-transform: uppercase;
+              color: #222;
+              padding: 0;
+              transition: color 300ms;
+              font-weight: 600;
+
+              &:hover {
+                color: #999999;
+              }
+            }
+          }
+        }
+      }
+
+      .shop-info {
+        //Roboto-Regular
+        font-family: 'Roboto-Regular';
+        font-size: 14px;
+
+        .line {
+          display: flex;
+          width: 100%;
+
+          .info-block {
+            display: inline-block;
+            margin-right: 20px;
+
+            span, a {
+              color: #222;
+              font-size: 13px;
+              font-weight: normal;
+              text-transform: capitalize;
+            }
+
+            span.email-info {
+              text-transform: none  ;
+            }
+          }
+        }
+      }
+
+      .shop-policy {
+        .policy-item {
+          display: inline-block;
+          margin-right: 20px;
+          color: #222;
+          font-size: 13px;
+          font-weight: normal;
+          text-transform: capitalize;
+          border-right: 1px solid #222;
+          padding-right: 20px;
+          line-height: 15px;
+
+          &:last-child {
+            border-right: none;
+            padding-right: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include tablet {
+  footer {
+    padding: 20px 0;
+
+    .footer-wrap {
+      display: block;
+
+      .left-col {
+        width: 100%;
+      }
+
+      .right-col {
+        width: 100%;
+
+        .footer-top-menu {
+          margin-top: 15px;
+          margin-bottom: 15px;
+
+          .footer-nav {
+            display: block;
+
+            .nav-item {
+              margin-right: 20px;
+            }
+          }
+        }
+
+        .shop-info {
+
+          .line {
+            display: block;
+
+            .info-block {
+              display: block;
+              line-height: 1;
+              margin-bottom: 10px;
+
+              span {
+                line-height: 1.125;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include phone {
+  footer {
+    padding: 20px 0;
+
+    .footer-wrap {
+      display: block;
+
+      .left-col {
+        width: 100%;
+      }
+
+      .right-col {
+        width: 100%;
+
+        .footer-top-menu {
+          margin-top: 15px;
+          margin-bottom: 15px;
+
+          .footer-nav {
+            display: block;
+
+            .nav-item {
+              margin-right: 20px;
+
+              .nav-link {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+
+        .shop-info {
+
+          .line {
+            display: block;
+
+            .info-block {
+              display: block;
+              line-height: 1;
+              margin-bottom: 10px;
+
+              span {
+                line-height: 1.125;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

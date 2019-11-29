@@ -1,0 +1,20 @@
+<div class="faqs">
+    <div class="container">
+        <div class="wrap">
+            <div class="tabs">
+                <button type="button" class="type-btn" [ngClass]="{'active': category.code == currentTabCode}"
+                        *ngFor="let category of categories; let i = index;"
+                        (click)="changeTab(category.code)">
+                    {{ category.code_dc }}
+                </button>
+            </div>
+            <div class="content">
+                <accordion>
+                    <accordion-group heading="{{ faq.title }}" *ngFor="let faq of faqs; let i = index;">
+                        <div [innerHtml]="faq.content | safeHtml"></div>
+                    </accordion-group>
+                </accordion>
+            </div>
+        </div>
+    </div>
+</div>

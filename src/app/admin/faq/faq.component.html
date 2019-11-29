@@ -1,0 +1,146 @@
+<div class="component-admin-faq component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                {{ 'faqs' | translate }}
+            </div>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" routerLink="/admin/faqs/add">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+        </div>
+    </div>
+    <mat-card class="search-control">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label>FAQ title</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="" [(ngModel)]="filter.name">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Display</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select [(ngModel)]="filter.is_approved">
+                                <mat-option value="null">All</mat-option>
+                                <mat-option value="1">Approved</mat-option>
+                                <mat-option value="0">Disapproved</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="form-group">
+                    <label>FAQ type</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select [(ngModel)]="filter.category_id">
+                                <mat-option value="null">All</mat-option>
+                                <mat-option *ngFor="let category of faq_categories" value="{{category.code}}">
+                                    {{ category.code_nm | translate }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-5 d-flex justify-content-center flex-column align-items-end">
+                <div class="pull-right">
+                    <button class="btn btn-primary mr-1" (click)="onSearch()"><i class="material-icons align-text-bottom">
+                        search
+                    </i> <span>Search</span></button>
+                    <button class="btn btn-default" (click)="onReset()"><i class="material-icons align-text-bottom">
+                        replay
+                    </i> <span>Reset</span></button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+    <div class="multi-action d-flex justify-content-end" *ngIf="selected.length > 0">
+        <button class="btn btn-primary mr-1" [swal]="disableSwal" *ngIf="showDeactivate" (confirm)="onToggleMulti(false)">
+            <i class="material-icons align-text-bottom">
+                visibility_off
+            </i> <span> Disapprove</span>
+        </button>
+        <button class="btn btn-primary mr-1" [swal]="enableSwal" *ngIf="showActive" (confirm)="onToggleMulti(true)">
+            <i class="material-icons align-text-bottom">
+                visibility
+            </i> <span> Approve</span>
+        </button>
+        <button class="btn btn-default mr-1" [swal]="deleteSwal" *ngIf="showDelete" (confirm)="onDeleteMulti()">
+            <i class="material-icons align-text-bottom">
+                delete
+            </i> <span>Delete</span>
+        </button>
+    </div>
+    <ngx-datatable #myTable class="material" [rows]="faqs" [columnMode]="'force'" [headerHeight]="50"
+                   [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)' [selected]="selected"
+                   [footerHeight]="50" [rowHeight]="'auto'" [count]="faqs.length" [limit]="pageSize">
+        <ngx-datatable-column [frozenLeft]="true" [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="ID" prop="cntnts_no" [maxWidth]="70" [headerClass]="'text-center'" [cellClass]="'text-center'"></ngx-datatable-column>
+        <ngx-datatable-column name="Title" prop="title"></ngx-datatable-column>
+        <ngx-datatable-column name="Type" prop="category_name" [maxWidth]="120" [headerClass]="'text-center'" [cellClass]="'text-center'">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span>{{ row.category_name | translate }}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status" prop="is_approved" [maxWidth]="120" [headerClass]="'text-center'" [cellClass]="'text-center'">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span>{{row.is_approved == 'Y' ? "Approved" : "Disapproved" }}</span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'" [cellClass]="'text-center'">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-icon-button [matMenuTriggerFor]="userActions">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #userActions="matMenu">
+                    <a mat-menu-item  [routerLink]="['/admin/faqs/edit', row.cntnts_no]" class="datatable-action-button">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </a>
+                    <button mat-menu-item [swal]="disableSwal" *ngIf="row.is_approved == 'Y'" (confirm)="onToggle([row], false)" class="datatable-action-button">
+                        <mat-icon>visibility_off</mat-icon>
+                        <span>Disable</span>
+                    </button>
+                    <button mat-menu-item [swal]="enableSwal" *ngIf="row.is_approved != 'Y'" (confirm)="onToggle([row], true)" class="datatable-action-button">
+                        <mat-icon>visibility</mat-icon>
+                        <span>Enable</span>
+                    </button>
+                    <button mat-menu-item [swal]="deleteSwal" (confirm)="onDelete([row])" class="datatable-action-button">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+
+<swal #deleteSwal text="Are you sure to delete this FAQ?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #enableSwal text="Are you sure to approve this FAQ?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #disableSwal text="Are you sure to disapprove this FAQ?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>

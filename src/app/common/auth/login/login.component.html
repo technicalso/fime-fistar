@@ -1,0 +1,55 @@
+<div id="loginMasterWrap">
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="login-body">
+                <div class="login-content">
+                    <div class="form-content">
+                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                            <div class="form-control-group mb-20">
+                                <label class="label" for="email">{{ "username_email" | translate}}:</label>
+                                <input type="email" id="email" class="form-control input-full-width" [(ngModel)]="model.email"
+                                       formControlName="email" name="email" placeholder="{{ 'username_email' | translate }}"
+                                       [ngClass]="{ 'is-invalid': submitted && form.email.errors }">
+                                <div *ngIf="submitted && form.email.errors" class="email-valid">
+                                    <small class="form-text text-muted" *ngIf="form.email.errors.required">{{ 'email_empty' | translate}}</small>
+                                    <small class="form-text text-muted" *ngIf="form.email.errors.email">{{ 'email_invalid' | translate}}</small>
+                                    <small class="form-text text-muted" id="emailHelp">{{ 'email_existed' | translate}}</small>
+                                </div>
+                            </div>
+                            <div class="form-control-group mb-20">
+                                <label class="label" for="password">{{ 'password' | translate}}:</label>
+                                <input type="password" id="password" class="form-control input-full-width" [(ngModel)]="model.password"
+                                       formControlName="password" name="password" placeholder="{{ 'password' | translate}}"
+                                       [ngClass]="{ 'is-invalid': submitted && form.password.errors }">
+                                <div *ngIf="submitted && form.password.errors">
+                                    <small class="form-text text-muted" *ngIf="form.password.errors.required">{{ 'password_empty' | translate}}</small>
+                                    <small class="form-text text-muted" *ngIf="form.password.errors.minlength">{{ 'password__minimum_length' | translate}}</small>
+                                </div>
+                            </div>
+                            <div class="error-hint" *ngIf="wrongAuthInfo">
+                                <span> <i class="fa fa-info-circle" aria-hidden="true"></i> {{ 'wrong_auth_information' | translate}}</span>
+                            </div>
+                            <div class="error-hint" *ngIf="inActiveAccount">
+                                <span> <i class="fa fa-info-circle" aria-hidden="true"></i> {{ 'inactive_account' | translate}}</span>
+                            </div>
+                            <div class="form-control-group login-action">
+                                <span class="forgot-password-link"><a [routerLink]="['/forgot-password']">{{ 'forgot_password' | translate}}</a></span>
+                                <button type="submit" class="login-btn" aria-disabled="false" tabindex="0"> {{ 'login' | translate}} </button>
+                            </div>
+                            <div class="divider">
+                                <span>{{ 'or' | translate }}</span>
+                            </div>
+                            <div class="form-control-group">
+                                <div class="socials" (click)="loginWithFacebook()">
+                                    <span class="social-link">
+                                        {{ 'login_by_facebook' | translate}}
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

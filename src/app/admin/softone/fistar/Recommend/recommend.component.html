@@ -1,0 +1,111 @@
+<div class="app-admin-fistar-recommend">
+
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading">
+                FISTART > RECOMMEND
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/fistar"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <app-admin-fistar-tab></app-admin-fistar-tab><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <ngx-avatar
+                src={{commonService.getImageLink(fistar.picture,commonService.IMAGE_TYPE.FISTARS,commonService.IMAGE_SIZE.ORIGINAL)}}
+                size="100"></ngx-avatar>
+        </div>
+        <div class="col-2">
+            <h4>{{fistar.fullname}}</h4>
+            <p>{{fistar.id}}</p>
+        </div>
+        <div class="col-md-8">
+            <ng-container *ngFor="let keyword of keywords">
+                <mat-checkbox class="px-3" color="primary" *ngIf="cdId.indexOf(keyword.cd_id) === -1"
+                    (click)="onSelect(keyword.cd_id)">{{keyword.cd_label}}
+                </mat-checkbox>
+                <mat-checkbox class="px-3" color="primary" *ngIf="cdId.indexOf(keyword.cd_id) !== -1"
+                    (click)="unSelect(keyword.cd_id)" [checked]=true>{{keyword.cd_label}}
+                </mat-checkbox>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="wf-box-group">
+        <h4>Facebook recent post’s image keyword</h4>
+        <div class="row">
+            <div class="col-md-2" *ngFor="let item of listImage">
+                <div class="box-item">
+                    <div class="card">
+                        <img [src]="commonService.getImageLink(item.image,'analysis/'+id,'NONE')" class="card-img-top"
+                            alt="...">
+                        <div class="card-body">
+                            <div class="tags-box">
+                                <ng-container *ngFor="let image of item.pass_keyword.split(',')">
+                                    #{{image}}
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <ngx-datatable [scrollbarH]="false" #myTable class="material" [rows]="listRecommend" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
+        [selected]="selected" [rowHeight]="'auto'" [count]="listRecommend.length" [limit]="3">
+        <ngx-datatable-column [frozenLeft]="false" [width]="50" [sortable]="false" [canAutoResize]="false"
+            [draggable]="false" [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="ID" prop="cp_id" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Campaign Information" [width]="200" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <img class="img"
+                    [src]="commonService.getCampaignThumb({cp_main_image: row.cp_main_image, cp_main_image_type: row.cp_main_image_type, cp_video_thumb: row.cp_video_thumb})"
+                    style="float:left;margin-right: 10px;" />
+                <p>{{row.cp_name}}</p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="States" [width]="200" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <label *ngIf="row.cp_status==59">matching</label>
+                <label *ngIf="row.cp_status==60">on-going</label>
+                <label *ngIf="row.cp_status==61">ready</label>
+                <label *ngIf="row.cp_status==62">closed</label>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Matching Keywords" [width]="200" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p>
+                    <ng-container *ngFor="let item of row.keyword_match.split(',')">
+                        <a href="" style="margin-right:5px;color: blue">#{{item}}</a> 
+                    </ng-container>
+                </p>
+                <p>
+                    <ng-container *ngFor="let item of row.keyword_ai_match.split(',')">
+                       <a href="" style="margin-right:5px;color:red">#{{item}}</a> 
+                    </ng-container>
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Match Count" [width]="150" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <!-- <label *ngIf="row.is_recommended==1">finished</label>
+                <button class="btn btn-info" (click)="changeStatus(row.id)"
+                    *ngIf="row.is_recommended==0">recommend</button> -->
+                <label>{{row.match_count}}</label>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

@@ -1,0 +1,18 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-notification {
+  .multi-action {
+    margin-top: 15px;
+  }
+}
+
+.action{
+  i{
+    margin-right: 15px;
+    color: #b0b0b0;
+    font-size: 21px;
+    margin-top: 3px;
+  }
+}

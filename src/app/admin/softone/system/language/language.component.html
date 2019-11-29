@@ -1,0 +1,213 @@
+<div class="app-admin-system-language">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                SYSTEM > LANGUAGE
+            </div>
+        </div>
+    </div>
+    <mat-card class="search-control">
+        <form [formGroup]="formSearch">
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Code</label>
+                        <div>
+                            <select class="select-c" formControlName="filter">
+                                <option value="uicode">Uicode</option>
+                                <option value="unit_code">Unit code</option>
+                                <option value="unit_code_content">Unit Code Content</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <div class="none-label" style="margin-top: 30px">
+                            <input class="input-c" formControlName="keyword">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Registered language</label>
+                        <div>
+                            <select class="select-c text-uppercase" formControlName="language">
+                                <option value="all">
+                                    All</option>
+                                <option class="text-uppercase" *ngFor="let item of dataLang" [value]="item.lang_id">
+                                    {{item.lang_code}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="form-group">
+                        <label class="font-weight-bold">State</label>
+                        <div>
+                            <select class="select-c" formControlName="state">
+                                <option value="all">
+                                    All</option>
+                                <option value="1">Enable</option>
+                                <option value="0">Disable</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2" style="margin-top: 30px;">
+                    <div class="pull-right">
+                        <button class="btn btn-primary mr-1" (click)="search(1)"><i
+                                class="material-icons align-text-bottom">
+                                search
+                            </i> <span>Search</span></button>
+                        <button class="btn btn-default mr-1" (click)="reset()"><i
+                                class="material-icons align-text-bottom">
+                                replay
+                            </i> <span>Reset</span></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </mat-card>
+    <br>
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" (click)="openModal(unit_code,'add_')">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Unit code Add</span>
+            </button>
+
+            <button class="btn btn-primary float-right" (click)="openModal(ui_code,'add')" style="margin-right: 10px">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Ui code Add</span>
+            </button>
+
+        </div>
+    </div>
+    <div class="table">
+        <h5>{{total_item}} Total</h5>
+        <table>
+            <tr class="text-center">
+                <th *ngFor="let item of header; let i = index" [ngClass]="{'border-right':  i + 1 === header.length }">
+                    {{item}}
+                </th>
+            </tr>
+            <tr *ngFor="let item of data;let i = index" [ngClass]="{'border-bottom':  i + 1 === data.length }">
+                <td>{{i + 1}}</td>
+                <td class="center-td border-bottom" *ngIf="item.index == 0" [attr.rowspan]="item.rowspan"><a
+                        (click)="openModal(ui_code,'editUI',item.uic_id)">{{item.uic}}</a></td>
+                <td>{{item.unc}}</td>
+                <td>{{item.uncContents}}</td>
+                <td class="text-uppercase">{{item.lang}}</td>
+                <td>{{ item.state == 1 ? 'Enable' : 'Disabled'}}</td>
+                <td class="border-right ">
+                    <div class="btn-group">
+                        <button class='control edit' (click)="openModal(unit_code,'editUIC',item)"><i
+                                class="fas fa-pen"></i></button>
+                        <button class='control delete' (click)="delete(item.unc_id)"><i
+                                class="fas fa-trash-alt"></i></button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <ul *ngIf="pager && pager['pages']?.length > 0" class="pagination mt-4 text-right">
+            <li [ngClass]="{disabled:pager['currentPage'] === 1}">
+                <a (click)="choosepage(pager.currentPage - 1)">
+                    Pre
+                </a>
+            </li>
+            <li *ngFor="let page of pager['pages']" [ngClass]="{active:pager['currentPage'] === page}">
+                <a (click)="choosepage(page)">{{page}}</a>
+            </li>
+            <li [ngClass]="{disabled:pager['currentPage'] === pager['totalPages']}">
+                <a (click)="choosepage(pager['currentPage'] + 1)">
+                    <!-- <i class="fa fa-angle-right"></i> -->
+                    Next
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+
+<ng-template #ui_code>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{ ideditUI ? 'Edit' : 'Create' }} UI Code</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formUICode" class="was-validated">
+            <div class="form-group">
+                <label>LC Name:</label>
+                <input type="text" class="form-control" id="uname" formControlName="uic_code">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Code status:</label>
+                <select class="form-control" formControlName="status">
+                    <option [value]="1">Enable</option>
+                    <option [value]="0">Disable</option>
+                </select>
+            </div>
+
+            <button (click)="modalRef.hide()" class="btn btn-default" style="margin-right: 10px">Cancel</button>
+            <button [disabled]="!formUICode.valid" type="submit" class="btn btn-primary"
+                (click)="createUICode()">Save</button>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #unit_code>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{ statusEdit ? 'Edit' : 'Create' }} Unit Code</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formUnitCode" class="was-validated">
+            <div class="form-group">
+                <label>UI Code:</label>
+                <select class="form-control" id="uiCode" formControlName="uiCode">
+                    <option *ngFor="let item of uiCodes" [value]="item.uic_id">{{item.uic_code}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Unit Code:</label>
+                <input type="text" class="form-control" id="uiCode" formControlName="unitCode">
+                <!-- <select class="form-control" id="uiCode" formControlName="unitCode">
+                    <option *ngFor="let item of unitCodes" [value]="item.unc_id">{{item.unc_code}}</option>
+                </select> -->
+            </div>
+
+            <div class="form-group lang">
+                <label>Unit Code Contents:</label>
+                <ng-container>
+                    <ng-container *ngFor="let item of dataLang">
+                        <p><span>{{item.lang_code}}</span> : {{subLang[item.lang_code]}}</p>
+                        <textarea maxlength="255" class="form-control" data-lang="{{item.lang_id}}" cols="30" rows="10"
+                            [id]="item.lang_id + '_lang'">{{item.unc_content}}</textarea>
+                    </ng-container>
+                </ng-container>
+
+
+            </div>
+            <button type="submit" class="btn btn-default" (click)="modalRef.hide()"
+                style="margin-right: 10px">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!formUnitCode.valid"
+                (click)="saveUnitCode()">Save</button>
+        </form>
+    </div>
+
+</ng-template>

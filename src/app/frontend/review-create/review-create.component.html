@@ -1,0 +1,96 @@
+<div class="review-create">
+    <div class="loading-block" *ngIf="isLoading">
+        <img src="assets/images/loading.gif" alt="loading">
+    </div>
+
+    <div class="wrap" *ngIf="!isLoading">
+        <div class="header">
+            <h1 class="title" *ngIf="!isUpdate()">
+                {{ 'edit_review' | translate }}
+            </h1>
+            <h1 class="title" *ngIf="isUpdate()">
+                {{ 'write_review' | translate }}
+            </h1>
+        </div>
+        <form class="content" [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+            <div class="left-col">
+                <div class="form-group">
+                    <label for="name">{{ 'product_name' | translate }}</label>
+                    <div *ngIf="try_item">
+                        <input type="text" class="form-control" id="name" placeholder="{{ 'enter_product_name' | translate }}"
+                        [ngClass]="{'has-error': hasError(form, form.name)}" [(ngModel)]="review.goods_nm"
+                        formControlName="name">
+                    </div>
+                    <div *ngIf="!try_item">
+                            <input type="text" class="form-control" id="name" placeholder="{{ 'enter_product_name' | translate }}"
+                            [ngClass]="{'has-error': hasError(form, form.name)}" [(ngModel)]="review.goods_nm"
+                            formControlName="name">
+                    </div>
+                    <small *ngIf="form.name.errors != null  && form.name.touched" id="nameHelp" class="form-text text-muted">{{
+                        'please_enter_product_name' | translate }}</small>
+                </div>
+                <div class="form-group">
+                    <label for="category">{{ 'category' | translate}}</label>
+                    <select [ngClass]="{'has-error': hasError(form, form.category_id)}" id="category"
+                            class="form-control" [(ngModel)]="review.goods_cl_code" formControlName="category_id">
+                        <option value="">{{ 'choose_category' | translate }}</option>
+                        <option value="{{ category.code }}" *ngFor="let category of categories">{{ category.code_nm }}</option>
+                    </select>
+                    <small *ngIf="form.category_id.errors && form.category_id.touched" id="categoryHelp" class="form-text text-muted">{{
+                        'please_choose_category' | translate }}</small>
+                </div>
+                <div class="form-group">
+                    <label for="shortDescription">{{ 'short_description' | translate }}</label>
+                    <textarea [ngClass]="{'has-error': hasError(form, form.short_description)}"
+                              class="form-control shortDescription" id="shortDescription" maxlength="200" placeholder="{{ 'enter_short_description' | translate }}"
+                              [(ngModel)]="review.review_short" formControlName="short_description">
+                    </textarea>
+                    <small *ngIf="form.short_description.errors && form.short_description.touched" id="shortDescriptionHelp"
+                           class="form-text text-muted">{{ 'please_enter_short_description' | translate }}</small>
+                </div>
+                <div class="form-group">
+                    <div class="form-header">
+                        <label for="images">{{ 'image' | translate }}</label>
+                        <span>({{ 'maximum_images' | translate }})</span>
+                    </div>
+                    <app-admin-multiple-images-custom id="images" #images [images]="{ data: review.files}"
+                                                      [resizeToWidth]="500" [aspectRatio]="54 / 40" *ngIf="!isUpdate()">
+                    </app-admin-multiple-images-custom>
+                    <app-admin-multiple-images-custom id="images" #images [images]="{ data: null}" [resizeToWidth]="500"
+                                                      [aspectRatio]="54 / 40" *ngIf="isUpdate()">
+                    </app-admin-multiple-images-custom>
+                    <small *ngIf="submitted && !isHaveImage" id="imagesHelp" class="form-text text-muted">{{
+                        'please_choose_image' | translate }}</small>
+                </div>
+                <span class="guide-link" (click)="showGuideDialog()">{{ "guide_to_choose_image" | translate }}</span>
+            </div>
+            <div class="right-col">
+                <div class="form-group">
+                    <label for="description">{{ 'content' | translate }}</label>
+                    <ck-editor skin="moono-lisa" language="en" [fullPage]="true" id="description" formControlName="description"
+                               name="description" [(ngModel)]="review.review_dc">
+                    </ck-editor>
+                    <small *ngIf="form.description.errors && form.description.touched" id="descriptionHelp" class="form-text text-muted">{{
+                        'please_enter_content' | translate }}</small>
+                </div>
+                <div class="form-footer">
+                    <div class="form-group">
+                        <label class="container">{{ 'user_agree_terms' | translate }} <a routerLink="/privacy-policy">{{ 'terms' |
+                            translate }}</a>.
+                            <input type="checkbox" formControlName="term">
+                            <span class="checkmark"></span>
+                        </label>
+                        <small *ngIf="form.term.errors" id="agreeHelp" class="form-text text-muted">{{ 'please_agree' |
+                            translate }}</small>
+                    </div>
+                    <button [disabled]="reviewForm.invalid" type="submit" class="btn btn-default post-btn" *ngIf="isUpdate(); else update">{{
+                        'post_review' | translate }}</button>
+                    <ng-template #update>
+                        <button [disabled]="reviewForm.invalid" type="submit" class="btn btn-default post-btn">{{
+                            'update_review' | translate }}</button>
+                    </ng-template>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

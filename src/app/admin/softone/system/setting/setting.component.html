@@ -1,0 +1,279 @@
+<div class="admin-system-setting">
+    <form class="main-form" [formGroup]="form" novalidate>
+
+        <div class="row">
+            <H4>System > Setting</H4>
+        </div>
+        <hr>
+        <ng-container>
+            <!-- <p style="color:red">Scheduler task</p> -->
+            <!-- <div class="row align-items-center">
+                    <div class="col-2">
+                        <label>Crawl Review Data </label>
+                    </div>
+                    <div class="col-5">
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                <select class="form-control" id="sel1">
+                                    <option>all</option>
+                                </select>
+                            </div>
+                            <div class="col-1">at</div>
+                            <div class="col-5">
+                                <select class="form-control" id="sel1">
+                                    <option>all</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 align-items-center">
+                    <div class="col-2">
+                        <label>Crawl SNS Channel Data </label>
+                    </div>
+                    <div class="col-5">
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                <select class="form-control" id="sel1">
+                                    <option>all</option>
+                                </select>
+                            </div>
+                            <div class="col-1">at</div>
+                            <div class="col-5">
+                                <select class="form-control" id="sel1">
+                                    <option>all</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            <!-- <div class="row mt-3 align-items-center">
+                    <div class="col-2">
+                        <label>Analytic keyword (image AI) </label>
+                    </div>
+                    <div class="col-5">
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                <select class="form-control" id="sel1">
+                                    <option>all</option>
+                                </select>
+                            </div>
+                            <div class="col-1">at</div>
+                            <div class="col-5">
+                                <select class="form-control" id="sel1">
+                                    <option>all</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+            <div class="main-form-custom">
+
+                <p class="mt-4 " style="color:red">Matching keyword/recommend</p>
+                <div class="mt4 row">
+                    <div class="col-2 item-custom-left">
+                        <label>The keyword match rate to be able to recommend</label>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+
+                            <mat-form-field class="w-100">
+                                <input matInput [(ngModel)]="data.job_image_ai_rate_pass" name="job_image_ai_rate_pass" [min]="0"
+                                    [max]="100" formControlName="job_image_ai_rate_pass">
+                            </mat-form-field>
+
+                        </div>
+
+                        <div *ngIf="form.controls.job_image_ai_rate_pass.invalid && (form.controls.job_image_ai_rate_pass.dirty || form.controls.job_image_ai_rate_pass.touched)"
+                            class="text-danger">
+                            <div *ngIf="form.controls.job_image_ai_rate_pass.errors.required">
+                                The keyword match is required
+                            </div>
+                            <div *ngIf="form.controls.job_image_ai_rate_pass.errors.max">
+                                The keyword match is maximum 100 value
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="main-at">
+                        <label>%</label>
+                    </div>
+                </div>
+
+                <div class="mt4 row">
+                    <div class="col-2 item-custom-left">
+                        <label>Analytic keyword (Image AI)</label>
+                    </div>
+                    <div class="col-2 pr-0">
+                        <div class="form-group">
+                            <mat-form-field class="p-0 w-100">
+                                <mat-select [(value)]="data.job_image_ai_schedule"
+                                    [(ngModel)]="data.job_image_ai_schedule" formControlName="job_image_ai_schedule"
+                                    name="job_image_ai_schedule" (selectionChange)="changeTime($event)">
+
+                                    <mat-option *ngFor="let time of methodTime" [value]="time.value" >
+                                        {{time.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="form.controls.job_image_ai_schedule.invalid && (form.controls.job_image_ai_schedule.dirty || form.controls.job_image_ai_schedule.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.job_image_ai_schedule.errors.required">
+                                    The Analytic keyword is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-at">
+                        <label>at</label>
+                    </div>
+                    <div class="col-2 pl-0">
+                        <div class="form-group">
+                            <mat-form-field class="p-0 w-100">
+                                <mat-select [(value)]="data.job_image_ai_schedule_time"
+                                    [(ngModel)]="data.job_image_ai_schedule_time"
+                                    formControlName="job_image_ai_schedule_time" name="job_image_ai_schedule_time">
+                                    <mat-option *ngFor="let time of timeHours" [value]="time.value" >
+                                        {{time.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt4 row">
+                    <div class="col-2 item-custom-left">
+                        <label>Lately</label>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+
+                            <mat-form-field class="w-100">
+                                <input matInput [(ngModel)]="data.job_image_ai_recent_photo"
+                                    name="job_image_ai_recent_photo" formControlName="job_image_ai_recent_photo">
+                            </mat-form-field>
+                            <div *ngIf="form.controls.job_image_ai_recent_photo.invalid && (form.controls.job_image_ai_recent_photo.dirty || form.controls.job_image_ai_recent_photo.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.job_image_ai_recent_photo.errors.required">
+                                    The lately feild is required
+                                </div>                           
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt4 row">
+                    <div class="col-2 item-custom-left">
+                        <label>Matching</label>
+                    </div>
+                    <div class="col-2 pr-0">
+                        <div class="form-group">
+                            <mat-form-field class="p-0 w-100">
+                                <mat-select [(value)]="data.job_matching_schedule"
+                                    [(ngModel)]="data.job_matching_schedule" formControlName="job_matching_schedule"
+                                    name="job_matching_schedule" (selectionChange)="changeTimeMatching($event)">
+
+                                    <mat-option *ngFor="let time of methodTime" [value]="time.value">
+                                        {{time.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="form.controls.job_matching_schedule.invalid && (form.controls.job_matching_schedule.dirty || form.controls.job_matching_schedule.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.job_matching_schedule.errors.required">
+                                    The Matching is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-at">
+                        <label>at</label>
+                    </div>
+                    <div class="col-2 pl-0">
+                        <div class="form-group">
+                            <mat-form-field class="p-0 w-100">
+                                <mat-select [(value)]="data.job_matching_schedule_time"
+                                    [(ngModel)]="data.job_matching_schedule_time"
+                                    formControlName="job_matching_schedule_time" name="job_matching_schedule_time">
+                                    <mat-option *ngFor="let time of timeHoursMatching" [value]="time.value">
+                                        {{time.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="main-at">
+                        <button type="button" class="btn btn-primary mb-3" (click)="runNow()">now</button>
+                    </div>
+                </div>
+                <div class="mt4 row">
+                    <div class="col-2 item-custom-left">
+                        <label>Thread</label>
+                    </div>
+                    <div class="col-2 pr-0">
+                        <div class="form-group">
+
+                            <mat-form-field class="w-100">
+                                <input matInput [(ngModel)]="data.job_fistar_on_thread" name="job_fistar_on_thread"
+                                    formControlName="job_fistar_on_thread">
+                            </mat-form-field>
+                            <div *ngIf="form.controls.job_fistar_on_thread.invalid && (form.controls.job_fistar_on_thread.dirty || form.controls.job_fistar_on_thread.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.job_fistar_on_thread.errors.required">
+                                    The on thread feild is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-at">
+                        <label>/</label>
+                    </div>
+                    <div class="col-2 pl-0">
+                        <div class="form-group">
+
+                            <mat-form-field class="w-100">
+                                <input matInput [(ngModel)]="data.job_thread" name="job_thread"
+                                    formControlName="job_thread">
+                            </mat-form-field>
+                            <div *ngIf="form.controls.job_thread.invalid && (form.controls.job_thread.dirty || form.controls.job_thread.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.job_thread.errors.required">
+                                    The thread feild is required
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <!-- <p class="mt-4 " style="color:red">Crawl setup</p>
+                            <div class="mt4 row">
+                                <div class="col-2">
+                                    <p>Facebook cookie</p>
+                                    <label for="">(Enter each cookied in each line.please update cookied week)</label>
+                                </div>
+                                <div class="col-8">
+                                    <textarea name="" id="" cols="100%" rows="10" class="w-100"></textarea>
+                                    <p><a href="">How to get the facebook cookied?</a></p>
+                                </div>
+                            </div> -->
+
+            </div>
+
+
+            <div class="row m-0">
+                <!-- <div class="col-2"></div> -->
+                <div class="col-12 justify-content-end d-flex p-0">
+                    <button type="button" class="btn btn-primary customer-button" (click)="update()">Save</button>
+                </div>
+            </div>
+        </ng-container>
+
+    </form>
+</div>

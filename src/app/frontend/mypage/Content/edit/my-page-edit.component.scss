@@ -1,0 +1,221 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.edit {
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  margin: 0 auto;
+
+  .text-muted {
+    color: #cc0000 !important;
+  }
+
+  .header {
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+
+    span {
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
+  .body {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .edit-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+
+      & > div {
+        width: 48%;
+      }
+
+      .content {
+        margin-top: 10px;
+
+        .user-avt {
+          position: relative;
+          width: 115px;
+          height: 115px;
+          cursor: pointer;
+          margin: 0 auto;
+
+          img.avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 2;
+          }
+
+          .update-img{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0,0,0,.5);
+            border-radius: 100%;
+            display:  flex;
+            justify-content: center;
+            align-items:  center;
+            flex-direction: column;
+            z-index: 1;
+            cursor: pointer;
+            margin-bottom: 0;
+
+            .select-img{
+              display: none;
+            }
+
+            i{
+              color: #fff;
+              font-size: 22px;
+            }
+
+            span{
+              color: #fff;
+              font-size: 10px;
+            }
+          }
+
+          &:hover{
+            img.avatar {
+              z-index: 1;
+            }
+            .update-img{
+              z-index: 2;
+            }
+          }
+        }
+
+
+        > input {
+          width: 100%;
+          border-radius: 7px;
+          border: 1px solid #ddd;
+          padding: 8px 10px;
+          font-size: 12px;
+        }
+
+        > textarea {
+          min-height: 115px;
+          width: 100%;
+          border-radius: 7px;
+          border: 1px solid #ddd;
+          padding: 5px 10px;
+          resize: none;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .link-fb-btn {
+      border: none;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 35px;
+      padding: 6px 10px;
+      background-color: #3b5998;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-weight: bold;
+
+      &.linked {
+        background-color: #f0f0f0;
+        color: #999;
+      }
+
+      &.not-link {
+      }
+    }
+  }
+
+  .footer {
+    margin-top: 30px;
+    display: flex;
+
+    .follow-btn {
+      background-color: #f14c7f;
+      align-items: center;
+      font-size: 14px;
+      padding: 5px 25px;
+      border: 1px solid #f14c7f;
+      border-radius: 20px;
+      cursor: pointer;
+      justify-content: center;
+      margin: 0 auto;
+
+      span {
+        color: #ffffff;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+@include phone {
+  .edit {
+    .header {
+      margin-bottom: 20px;
+    }
+    .body {
+      .edit-row {
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+        .avatar {
+          width: 100%;
+          .user-avt {
+            margin: 0 auto;
+          }
+        }
+        .message {
+          width: 100%;
+          .content {
+            padding: 0;
+          }
+        }
+        .account {
+          width: 100%;
+          .content {
+            padding: 0;
+          }
+        }
+        .phone {
+          margin-top: 10px;
+          width: 100%;
+          .content {
+            padding: 0;
+          }
+        }
+
+        .link-fb {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+    }
+    .footer {
+      margin-top: 10px;
+
+      .follow-btn {
+        width: 100%;
+      }
+    }
+  }
+}

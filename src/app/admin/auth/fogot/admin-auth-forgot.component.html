@@ -1,0 +1,43 @@
+<div class="admin-auth d-flex justify-content-center align-middle">
+    <mat-card class="example-card">
+        <mat-card-header class="d-flex justify-content-center align-middle">
+            <mat-card-title class="d-flex justify-content-center align-middle flex-column">
+                <div class="logo">
+                    <img style="width: 100%" src="assets/images/Netpower.png">
+                </div>
+                <h3 class="welcome">Forgot password</h3>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div id="loginMasterWrap">
+                <div class="login-wrapper">
+                    <div class="login-container">
+                        <div class="login-body">
+                            <div class="login-content">
+                                <div class="form-content">
+                                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                        <div class="form-control-group mb-20">
+                                            <label class="label" for="email">Email:</label>
+                                            <input type="email" id="email" class="form-control input-full-width" [(ngModel)]="model.email"
+                                                   formControlName="email" name="email" placeholder="Email"
+                                                   [ngClass]="{ 'is-invalid': submitted && form.email.errors }">
+                                            <div *ngIf="submitted && form.email.errors" class="email-valid">
+                                                <small class="form-text text-muted" *ngIf="form.email.errors.required">Email is empty</small>
+                                                <small class="form-text text-muted" *ngIf="form.email.errors.email">Email is invalid</small>
+                                                <small class="form-text text-muted" id="emailHelp">This email is existed</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-control-group login-action">
+                                            <span class="forgot-password-link"><a [routerLink]="['/admin/login']">Back to login page</a></span>
+                                            <button type="submit" class="btn btn-primary" aria-disabled="false" tabindex="0"> Confirm </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

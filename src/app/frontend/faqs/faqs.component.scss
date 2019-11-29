@@ -1,0 +1,60 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.faqs {
+  font-family: 'Roboto-Regular';
+  padding: 50px 0;
+
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+
+    .type-btn {
+      text-transform: uppercase;
+      background-color: #fff;
+      border: 1px solid #222;
+      color: #222;
+      font-size: 13px;
+      padding: 6px 16px;
+      border-radius: 35px;
+      cursor: pointer;
+      margin-right: 20px;
+      margin-bottom: 15px;
+      transition: all 500ms;
+      &:hover {
+        background-color: #222;
+        color: #fff;
+      }
+    }
+    .type-btn.active {
+      background-color: #222;
+      color: #fff;
+    }
+  }
+
+  .content {
+    border-top: 2px solid #222;
+  }
+}
+
+@include tablet {
+  .faqs {
+    padding: 20px 0;
+
+    .tabs {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@include phone {
+  .faqs {
+    padding: 20px 0;
+
+    .tabs {
+      margin-bottom: 0;
+    }
+  }
+}

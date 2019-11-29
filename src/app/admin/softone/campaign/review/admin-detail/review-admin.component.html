@@ -1,0 +1,166 @@
+<div class="admin-campaign-review-component">
+    <div class="row bt">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading">
+                Campaign > Admin Review
+            </div>
+
+            <div>
+                <button class="btn btn-default" (click)="goBack()"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+
+    <app-admin-campaign-tab [tryId]="''"></app-admin-campaign-tab><br>
+
+    <div class="row mb-3">
+        <div class="col">
+            <button class="btn btn-default">
+                {{ campaignData.cp_status == 59 ? 'Matching' : 
+                    campaignData.cp_status == 60 ? 'Ready' :
+                    campaignData.cp_status == 61 ? 'On-Going' :
+                    campaignData.cp_status == 62 ? 'Closed' : ''
+                }}</button>&nbsp;
+            <span style="margin-top: 7px ">{{ campaignData.cp_name}}</span>
+        </div>
+    </div>
+    <ng-container *ngIf="action == 'detail'">
+        <div class="row title bt">
+            <div class="col-md-2">
+                <label>Channel: </label>
+                <strong>&nbsp;&nbsp;{{reviewData.sns.sns_name}}</strong>
+            </div>
+            <div class="col-md-2">
+                <label>Category: </label>
+                <strong>&nbsp;&nbsp;{{reviewData.category.cd_label}}</strong>
+            </div>
+        </div>
+        <hr />
+        <div class="row title-date bt">
+            <div class="col-md-12">
+                <label class="date">{{reviewData.created_at}}</label>
+                <span for="" class="title-big"><b>{{reviewData.m_ch_title}}</b></span>
+            </div>
+
+        </div>
+        <div class="row bt">
+            <div class="col-12">
+                <div class="content-review">{{reviewData.m_ch_content}}</div>
+            </div>
+        </div>
+        <div class="row bt" *ngIf="review_status==105">
+            <div class="col-12">
+                <div class="url-review">
+                    <a href={{reviewData.m_ch_url}} [target]="'_blank'">{{reviewData.m_ch_url}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-right">
+
+                <button class="btn btn-default mr-2" (click)="addReview()">Add Review</button>
+
+                <button class="btn btn-default mr-2" (click)="gotoEdit()">Modify</button>
+                <ng-container *ngIf="review_status==104;else elseBlock">
+                    <button class="btn btn-primary " (click)="statusToCheck(reviewData.id)">Request to Check</button>
+                </ng-container>
+                <ng-template #elseBlock>
+                    <ng-container *ngIf="review_status==103;else elseLink">
+                        <button class="btn btn-success mr-2"
+                            (click)="approveReview(reviewData.id,reviewData.rv_status)">Approve reviews</button>
+                        <button class="btn btn-success " (click)="statusToModify(reviewData.id)">Request to
+                            modify</button>
+                    </ng-container>
+                    <ng-template #elseLink>
+                        <button *ngIf="reviewData.sns_id==1" (click)="goToLinkUrl()" class="btn btn-primary float-right"
+                            style="margin-right:10px">
+                            <span>Fime Review</span>
+                        </button>
+                        <button *ngIf="reviewData.sns_id==2" (click)="goToLinkUrl()" class="btn btn-primary float-right"
+                            style="margin-right:10px">
+                            <span>Facebook Review</span>
+                        </button>
+                        <button *ngIf=" reviewData.sns_id==3" (click)="goToLinkUrl()" class="btn btn-primary float-right"
+                            style="margin-right:10px">
+                            <span>Youtube Review</span>
+                        </button>
+                        <button *ngIf="reviewData.sns_id==4" (click)="goToLinkUrl()" class="btn btn-primary float-right"
+                            style="margin-right:10px">
+                            <span>Instagram Review</span>
+                        </button>
+                    </ng-template>
+                </ng-template>
+
+            </div>
+        </div>
+        <br /><br /><br /><br />
+    </ng-container>
+    <ng-container *ngIf="action == 'add' || action == 'update'">
+        <form class="mb-5" [formGroup]="formControl">
+            <div class="row title bt">
+                <div class="col-md-2">
+                    <label>Channel: </label>
+                    <ng-container *ngIf="action=='update'">
+                        <select class="form-control" formControlName="sns_id" [attr.disabled]="true">
+                            <option value={{i.sns_id}} *ngFor="let i of channels">{{i.sns_name}}</option>
+                        </select>
+                    </ng-container>
+                    <ng-container *ngIf="action=='add'">
+                        <select class="form-control" formControlName="sns_id">
+                            <option value={{i.sns_id}} *ngFor="let i of channels">{{i.sns_name}}</option>
+                        </select>
+                    </ng-container>
+                    <span class="text-danger" *ngIf="showError && formControl.controls.sns_id.invalid">Channel is
+                        required</span>
+                </div>
+                <div class="col-md-2">
+                    <label>Category: </label>
+                    <select class="form-control" formControlName="m_ch_category">
+                        <option value={{i.cd_id}} *ngFor="let i of categories">{{i.cd_label}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="showError && formControl.controls.m_ch_category.invalid">Category
+                        is required</span>
+                </div>
+            </div>
+            <hr />
+            <div class="row title-date bt">
+                <div class="col-md-12">
+                    <input class="form-control mb-3" placeholder="Title" formControlName="m_ch_title" />
+                    <span class="text-danger" *ngIf="showError && formControl.controls.m_ch_title.invalid">Title is
+                        required</span>
+                </div>
+
+            </div>
+            <div class="row bt">
+                <div class="col-12">
+                    <!-- <ck-editor  skin="moono-lisa" language="en" [fullPage]="true" formControlName="m_ch_content"
+                        name="description"></ck-editor> -->
+                    <!-- <ck-editor [(ngModel)]="reviewData.m_ch_content" formControlName="m_ch_content" 
+                                skin="moono-lisa" language="en" [fullPage]="true" name="m_ch_content"></ck-editor> -->
+                    <textarea class="form-control mb-3" [(ngModel)]="reviewData.m_ch_content"
+                        formControlName="m_ch_content"></textarea>
+                    <span class="text-danger" *ngIf="showError && formControl.controls.m_ch_content.invalid">Content is
+                        required</span>
+                </div>
+            </div>
+            <div class="row mt-3" *ngIf="review_status==105">
+                <div class="col-12">
+                    <input class="form-control mb-3" [(ngModel)]="reviewData.m_ch_url" placeholder="URL review"
+                        formControlName="m_ch_url" />
+                    <span class="text-danger"
+                        *ngIf="(showError && formControl.controls.m_ch_url.invalid) || (showError && !commonService.validUrl(formControl.controls.m_ch_url.value, formControl.controls.sns_id.value))">URL
+                        is invalid</span>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-right">
+                    <button class="btn btn-default mr-2" onclick="window.history.back()">Cancel</button>
+                    <button class="btn btn-primary" (click)="save()" [disabled]="!formControl.dirty">Save</button>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</div>

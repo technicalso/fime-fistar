@@ -1,0 +1,85 @@
+<div class="app-admin-system-account-access" *ngIf="data">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            
+            <div class="admin-heading" *ngIf="!bannerId">
+                {{ "create_banner" | translate }}
+            </div>
+            <div class="admin-heading" *ngIf="bannerId">
+                {{ "edit_banner" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/banner-fistar"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>name</td>
+                <td>{{data.REG_NAME}}</td>
+            </tr>
+            <tr>
+                <td>Access</td>
+                <td>{{data.roles[0].name}}</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>{{data.CELLPHONE}}</td>
+            </tr>
+            <tr>
+                <td>User No</td>
+                <td>{{data.USER_NO}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{data.EMAIL}}</td>
+            </tr>
+
+            <tr>
+                <td>last Login</td>
+                <td>{{data.LAST_LOGIN_DT}}</td>
+            </tr>
+            <tr>
+                <td>State</td>
+                <td>
+                    <input type="radio" name="display" checked> Enable
+                    <input type="radio" name="display"  style="margin-left: 50px;"> Disable
+                </td>
+            </tr>
+            <tr>
+                <td>Access Manager</td>
+                <td>
+                    <p><input type="checkbox" name="display" checked> All Managerment</p><br>
+                    <p *ngFor="let item of managerment" id="hl{{item.id}}">
+                        <label for="pr{{item.id}}" (change)="checkAllInput($event)">
+                            <input 
+                            type="radio" 
+                            [value]="item.id" 
+                            id="pr{{item.id}}" 
+                            name="pr"
+                            [checked] = "data.roles[0].id === item.id"
+                            > {{item.name}}
+                        </label>
+                        <label *ngFor="let it of item.permissions" for="sub{{item.id}}{{it.id}}">
+                            <input 
+                            type="checkbox" 
+                            name="display"  
+                            [value]="it.id" 
+                            id="sub{{item.id}}{{it.id}}"
+                            [checked] = "it.check"
+                            (change) = "getCheckBox($event)"
+                            >{{it.name}}
+                        </label>
+                    </p>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td><button (click)="updateAccess()">Update Access</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

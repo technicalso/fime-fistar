@@ -1,0 +1,9 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-review {
+    .review-title {
+        font-size: 20px;
+    }
+}

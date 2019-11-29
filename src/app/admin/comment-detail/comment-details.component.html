@@ -1,0 +1,20 @@
+<div class="component-admin-comment">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">
+                {{ "comment_detail" | translate }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="comment-title-block">
+                <h1 class="comment-title">Comment content</h1>
+                <p>{{comment.content}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="actions d-flex justify-content-end col-md-8">
+        <button type="button" (click)="back()" class="btn-hero btn-cancel">{{ "back" | translate }}</button>
+    </div>
+</div>

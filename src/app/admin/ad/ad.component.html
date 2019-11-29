@@ -1,0 +1,74 @@
+<div class="component-admin-ad component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                Ads
+            </div>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right"  routerLink="/admin/ads/add">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+        </div>
+    </div>
+    <ngx-datatable #myTable class="material" [rows]="ads" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+                   [count]="total" [offset]="pageIndex-1" [limit]="pageSize" [externalPaging]="true" (page)='setPage($event)'
+                    [rowHeight]="'auto'">
+        <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
+        <ngx-datatable-column name="Description" prop="description"></ngx-datatable-column>
+        <ngx-datatable-column name="Ad URL">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <a href="{{row.target_url}}" target="_blank">{{row.target_url}}</a>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Show" [headerClass]="'text-center'" [cellClass]="'text-center'" [width]="100" [sortable]="false" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span>{{row.show_on_frontend == true ? "Yes" : "No" }}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Order" [headerClass]="'text-center'" [cellClass]="'text-center'" [width]="100" [sortable]="false" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span>{{row.order}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Url/Image">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <a class="link" [href]= "row.url" *ngIf="row.is_youtube" target="_blank">Link</a>
+                <img class="img" [src]="env.rootHost + row.url" *ngIf="!row.is_youtube" target="_blank" />
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Views" prop="view_cnt"></ngx-datatable-column>
+        <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'" [cellClass]="'text-center'">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-icon-button [matMenuTriggerFor]="userActions">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #userActions="matMenu">
+                    <a mat-menu-item routerLink="/admin/ads/edit/{{row.id}}" class="datatable-action-button">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </a>
+                    <button mat-menu-item [swal]="deleteSwal" (confirm)="onDelete(row)" class="datatable-action-button">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+
+<swal #enableSwal text="Are you sure to enable ads?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #disableSwal text="Are you sure to disable ads?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #deleteSwal text="Are you sure to delete ads?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>

@@ -1,0 +1,215 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.follow {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+
+  .users {
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+
+    .masonry{
+      width: 800px;
+    }
+
+    .user{
+      width: 390px;
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 4px 10px;
+      margin-bottom: 20px;
+
+      .left{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .user-avt{
+          width: 80px;
+          height: 80px;
+          cursor: pointer;
+
+          img{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+
+        .user-info{
+          margin-left: 10px;
+          .user-name{
+            cursor: pointer;
+            font-size: 16px;
+            color: #363636;
+            font-weight: bold;
+          }
+          .number-of-followers{
+            font-size: 14px;
+          }
+        }
+      ;
+
+      }
+
+      .right{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .follow-btn {
+          background-color: #fff;
+          display: flex;
+          align-items: center;
+          color: #f14c7f;
+          font-size: 12px;
+          padding: 0px 5px 0 10px;
+          border: 1px solid #f14c7f;
+          border-radius: 20px;
+          cursor: pointer;
+          height: 24px;
+          width: 88px;
+          position: absolute;
+          right: 15px;
+          top: 23px;
+          transition: all 500ms;
+          span {
+            padding-right: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 80px;
+            display: block;
+          }
+          .material-icons {
+            font-size: 12px;
+          }
+          &:hover {
+            background-color: #f14c7f;
+            color: #fff;
+          }
+        }
+        .follow-btn.active {
+          background-color: #f14c7f;
+          color: #fff;
+          &:hover {
+            background-color: #fff;
+            color: #f14c7f;
+          }
+        }
+      }
+    }
+  }
+
+  .unfollow {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    padding: 0px 10px;
+    border: 1px solid #dddddd;
+    border-radius: 20px;
+    cursor: pointer;
+    height: 30px;
+    transition: all 500ms;
+    justify-content: center;
+    flex-direction: row;
+
+    i.material-icons {
+      margin-right: 5px;
+      font-size: 20px;
+    }
+
+    span {
+      color: #2a2a2a;
+    }
+
+    &:hover {
+      border-color: #f14c7f;
+
+      span, i.material-icons {
+        color: #f14c7f;
+      }
+    }
+  }
+}
+
+@include tablet {
+  .follow {
+    .users {
+      .masonry {
+        width: 700px !important;
+        .masonry-item {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .follow .unfollow:hover span, .follow .unfollow:hover i.material-icons {
+    color: #2a2a2a;
+  }
+
+  .follow .unfollow:hover {
+    border-color: #ddd;
+  }
+}
+
+
+@include phone {
+  .follow {
+    padding: 0;
+    .users {
+      width: 100% !important;
+      .masonry {
+        width: 100% !important;
+        .masonry-item {
+          width: 100%;
+          margin-bottom: 20px;
+          .left {
+            .user-avt {
+              width: 50px;
+              height: 70px;
+              img {
+                width: 50px;
+                height: 50px;
+                margin-top: 10px;
+              }
+            }
+            .user-info {
+              .user-name {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 90px;
+                font-size: 14px;
+              }
+            }
+          }
+          .right {
+            .unfollow {
+              padding: 0 5px;
+              height: unset;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .follow .unfollow:hover span, .follow .unfollow:hover i.material-icons {
+    color: #2a2a2a;
+  }
+
+  .follow .unfollow:hover {
+    border-color: #ddd;
+  }
+}

@@ -1,0 +1,368 @@
+<div class="app-admin-sns">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading">
+                {{ "sns channel" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/fistar"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <app-admin-fistar-tab></app-admin-fistar-tab><br>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngFor="let item of fistar.channels;index as i">
+        <form [formGroup]="formFime" *ngIf="item.sns_id==1">
+            <div class="row">
+                <ngx-avatar [src]="commonService.getImageLink(fistar.picture,'fistars','original')" size="100">
+                </ngx-avatar>
+                <div class="name-fistar" style="top:auto">
+                    <b>
+                        <h4>{{fistar.fullname}}</h4>
+                    </b>
+                    <p>{{fistar.id}}</p>
+                    <h1>{{this.totalMoney.toLocaleString()}} VND</h1>
+                    <button class="btn btn-primary" (click)="lgModal.show()">Find fiStar- similar VND</button>
+                </div>
+
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-3">
+                    Fime
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input [(ngModel)]="item.cost" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0 }"  formControlName="costFime" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-top: 10px"><b>VND</b></div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="text" value="0" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-top: 10px"><b>VND</b></div>
+            </div>
+            <div class="row" *ngIf="item.cost==null">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-9">
+                    <label style="color: red">Cost is require</label>
+                </div>
+
+            </div>
+            <div class="row" *ngIf="item.cost<0">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-9">
+                    <label style="color: red">Do not enter a negative number </label>
+                </div>
+
+            </div>
+        </form>
+
+        <form *ngIf="item.sns_id==2" [formGroup]="formFacebook">
+
+            <div class="row">
+                <div class="col-md-3">
+                    Facebook
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_follower ? commonService.parseLargeNum(item.usn_follower): '-'}}</h4>
+                    <p>Flowers</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_like ? commonService.parseLargeNum(item.usn_like) : '-'}}</h4>
+                    <p>Reactions</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_comment ? commonService.parseLargeNum(item.usn_comment) : '-'}}</h4>
+                    <p>Comments</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_share ? commonService.parseLargeNum(item.usn_share) : '-'}}</h4>
+                    <p>Shares</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_view ? commonService.parseLargeNum(item.usn_view) : '-'}}</h4>
+                    <p>Views</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="item.sns_url" formControlName="urlFacebook"
+                            class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="item.sns_url==''">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-9">
+                    <label style="color: red">Url Facebook is required </label>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input [(ngModel)]="item.cost" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0 }"  formControlName="costFacebook"
+                            class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-top: 10px"><b>VND</b></div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input value="0" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-top: 10px"><b>VND</b></div>
+            </div>
+
+            <div class="row" *ngIf="checkSNSData('Facebook')">
+                    <div class="col-md-3">
+    
+                    </div>
+                    <div class="col-md-9">
+                        <label style="color: red">{{checkSNSData('Facebook')}}</label>
+                    </div>
+    
+                </div>
+        </form>
+
+        <form *ngIf="item.sns_id==3" [formGroup]="formYoutube">
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    Youtube
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_follower ? commonService.parseLargeNum(item.usn_follower): '-'}}</h4>
+                    <p>Flowers</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_like ? commonService.parseLargeNum(item.usn_like) : '-'}}</h4>
+                    <p>Reactions</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_comment ? commonService.parseLargeNum(item.usn_comment) : '-'}}</h4>
+                    <p>Comments</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_share ? commonService.parseLargeNum(item.usn_share) : '-'}}</h4>
+                    <p>Shares</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_view ? commonService.parseLargeNum(item.usn_view) : '-'}}</h4>
+                    <p>Views</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="item.sns_url" formControlName="urlYoutube" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input [(ngModel)]="item.cost" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0 }"  formControlName="costYoutube"
+                            class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-top: 10px"><b>VND</b></div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="text" value="0" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-top: 10px"><b>VND</b></div>
+            </div>
+            <div class="row" *ngIf="checkSNSData('Youtube')">
+                    <div class="col-md-3">
+    
+                    </div>
+                    <div class="col-md-9">
+                        <label style="color: red">{{checkSNSData('Youtube')}}</label>
+                    </div>
+    
+                </div>
+        </form>
+
+        <form *ngIf="item.sns_id==4" [formGroup]="formIstagram">
+
+            <div class="row">
+                <div class="col-md-3">
+                    Instagram
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_follower ? commonService.parseLargeNum(item.usn_follower): '-'}}</h4>
+                    <p>Flowers</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_like ? commonService.parseLargeNum(item.usn_like) : '-'}}</h4>
+                    <p>Reactions</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_comment ? commonService.parseLargeNum(item.usn_comment) : '-'}}</h4>
+                    <p>Comments</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_share ? commonService.parseLargeNum(item.usn_share) : '-'}}</h4>
+                    <p>Shares</p>
+                </div>
+                <div class="col-md-1">
+                    <h4>{{item.usn_view ? commonService.parseLargeNum(item.usn_view) : '-'}}</h4>
+                    <p>Views</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="item.sns_url" formControlName="urlIstagram"
+                            class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input [(ngModel)]="item.cost" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0 }"  formControlName="costIstagram"
+                            class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-top: 10px"><b>VND</b></div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="text" value="" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-top: 10px"><b>VND</b></div>
+            </div>
+            <div class="row" *ngIf="checkSNSData('Istagram')">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-9">
+                    <label style="color: red">{{checkSNSData('Istagram')}}</label>
+                </div>
+
+            </div>
+
+        </form>
+    </ng-container>
+
+
+    <div class="actions d-flex justify-content-end col-md-10 mb-5">
+        <button class="btn btn-default mr-1" routerLink="/admin/fistar">
+            <i class="material-icons align-text-bottom">
+                cancel
+            </i> <span> {{ "cancel" | translate }}</span>
+        </button>
+        <button class="btn btn-primary mr-1" (click)="updateChannels()"
+            [disabled]="!formFime.valid || !formFacebook.valid || !formYoutube.valid || !formIstagram.valid ||  numberNegative || checkSNSData('Facebook') || checkSNSData('Youtube') || checkSNSData('Istagram')">
+            <i class="material-icons align-text-bottom">
+                save
+            </i> <span> {{ "save" | translate }}</span>
+        </button>
+    </div>
+    <!-- model find sistar similar -->
+    <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="dialog-sizes-name1">
+        <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 90%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="dialog-sizes-name1" class="modal-title pull-left">Find fistar - similar
+                        VND{{numberNegative}}</h4>
+                    <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Photo</th>
+                                <th>Gender</th>
+                                <th>Age</th>
+                                <th>Location</th>
+                                <th>Scrap</th>
+                                <th>Followers</th>
+                                <th colspan="4">Channel(Postting Fare VND)</th>
+                                <th>Total Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of fiSimilar">
+                                <td (click)="lgModal.hide(); goToDetail(item)" style="cursor: pointer;">
+                                    {{item.fullname}}</td>
+                                <td (click)="goToDetail(item)">
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden;">
+                                        <img style="object-fit: cover; width: 100%"
+                                            src="{{commonService.getImageLink(item.picture, 'fistars', 'thumbnail')}}" />
+                                    </div>
+                                </td>
+                                <td>{{item.gender.cd_label}}</td>
+                                <td>{{getAge(item.dob)}}</td>
+                                <td>{{item.location.cd_label}}</td>
+                                <td>{{item.scraps_count}}</td>
+                                <td>{{item.totalFollower}}</td>
+                                <ng-container *ngFor="let i of [1,2,3,4]">
+                                    <td>
+                                        <div [innerHTML]="getCostChannel(item.channels, i)"></div>
+                                    </td>
+                                </ng-container>
+
+                                <td>VND {{sumCost(item.channels)}}K</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

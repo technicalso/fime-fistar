@@ -1,0 +1,225 @@
+<div class="modal-custom">
+    <div class="modal-content" [formGroup]="form">
+        <div class="m-head">
+            <p>Payment management</p>
+            <span class="close" (click)="close()">&times;</span>
+        </div>
+        <div class="m-body">
+            <div class="step" *ngIf="data&&typeShowData=='fistar'">
+                <p class="title">Fistar Information</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="first">
+                                User no
+                            </td>
+                            <td>
+                                {{data['data']['uid']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Name
+                            </td>
+                            <td>
+                                {{data['data']['fullname']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Review Channel
+                            </td>
+                            <td>
+                                <p *ngFor="let item of data['data']['channels']">
+                                    <span *ngIf="sns_id == item['sns_id']">
+                                        {{item['sns_id'] == 1 ? 'Fime' : 
+                                            item['sns_id'] == 2 ? 'Facebook' :
+                                             item['sns_id'] == 3 ? 'Youtube' : 'Instagram'
+                                    }}/{{item['cost']}}VND</span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Campaign Name
+                            </td>
+                            <td>
+                                {{campain['name']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Brand
+                            </td>
+                            <td>
+                                {{campain['brand']}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="step" *ngIf="data&&typeShowData=='partner'">
+                <p class="title">Partner infomation</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="first">
+                                User no
+                            </td>
+                            <td>
+                                {{data['pid']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Company Name
+                            </td>
+                            <td>
+                                {{data['pc_name']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Manager Name
+                            </td>
+                            <td>
+                                {{data['pm_name']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Campaign Name
+                            </td>
+                            <td>
+                                {{data['cp_name']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Brand
+                            </td>
+                            <td>
+                                {{data['cp_brand']}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="step">
+                <p class="title">
+                    {{ typeShowData == 'fistar' ? 'Register withdrawal details' : 'Register deposit details
+                    ' }}
+                </p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="first">
+                                Pay Code
+                            </td>
+                            <td>
+                                <input type="text" formControlName="pay_code" placeholder="Pay code">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="first">
+                                Deposit date
+                            </td>
+                            <td>
+                                <input type="date" formControlName="payed_date" placeholder="Payed date">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first">
+                                Name
+                            </td>
+                            <td>
+                                <input type="text" formControlName="deposit_name" placeholder="Deposit name">
+                            </td>
+                        </tr>
+                        <tr *ngIf="isShowInfoBank">
+                            <p class="title">
+                                Bank account
+                            </p>
+                        </tr>
+                        <tr *ngIf="isShowInfoBank">
+                            <td class="first">
+                                Bank name
+                            </td>
+                            <td>
+                                <div class="groub disabled-class">
+                                    <input type="text"
+                                        placeholder="{{data['data']['bank_account_number']&&data['data']['bank_account_number']!=null ? data['data']['bank_account_number'] : 'Bank account number (No data)'}}"
+                                        disabled>
+                                    <input type="text"
+                                        placeholder="{{data['data']['bank_account_name']&&data['data']['bank_account_name']!=null ? data['data']['bank_account_name'] : 'Bank account name (No data)'}}"
+                                        disabled>
+                                </div>
+                            </td>
+
+                        </tr>
+
+
+                        <tr *ngIf="isShowInfoBank">
+                            <td class="first">
+                                Bank Branch
+                            </td>
+                            <td>
+                                <div class="groub disabled-class">
+                                    <input type="text"
+                                        placeholder="{{data['data']['bank_name']&&data['data']['bank_name']!=null ? data['data']['bank_name'] : 'Bank name (No data)'}}"
+                                        disabled>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        <tr *ngIf="isShowInfoBank">
+                            <td class="first">
+                                Account number
+                            </td>
+                            <td>
+                                <div class="groub disabled-class">
+                                    <input type="text"
+                                        placeholder="{{data['data']['bank_branch']&&data['data']['bank_branch']!=null ? data['data']['bank_branch'] : 'Bank branch (No data)'}}"
+                                        disabled>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr *ngIf="isShowInfoBank">
+                            <td class="first">
+                                SWIFT code
+                            </td>
+                            <td>
+                                <input class="disabled-class" type="text"
+                                    placeholder="{{data['data']['bank_swift_code']&&data['data']['bank_swift_code']!=null ? data['data']['bank_swift_code'] : 'Bank swift code (No data)'}}"
+                                    disabled>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="first">
+                                Price
+                            </td>
+                            <td>
+                                <div class="groub">
+                                    <input type="text" formControlName="price" placeholder="Price">
+                                    <label>VND</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="m-foot">
+            <button class="btn btn-default" (click)="close()">Cancel</button>
+            <button class="btn btn-primary" (click)="save()" [disabled]="!form.valid">
+                {{ buttonSubmit != 0 ? 'Modify' : 'Save' }}</button>
+        </div>
+    </div>
+</div>

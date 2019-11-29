@@ -1,0 +1,68 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.my-page {
+  padding: 50px 0;
+
+  .main-wrap {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  .my-header{
+    width: 100%;
+  }
+
+  .content{
+    max-width: 1320px;
+    margin: 0 auto;
+    padding-top: 50px;
+
+    &.edit{
+      padding-top: 0;
+    }
+
+    .loading-block {
+      text-align: center;
+      margin-top: 50px;
+
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+}
+
+.loading-block {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@include tablet {
+  .my-page {
+    padding: 50px 10px;
+    .content {
+      padding-top: 20px;
+      padding-left: 30px;
+    }
+  }
+}
+
+@include phone {
+  .my-page {
+    padding: 20px 10px;
+    .content {
+      padding: 10px;
+    }
+    .container {
+      padding: 0;
+    }
+  }
+}

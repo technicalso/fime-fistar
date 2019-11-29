@@ -1,0 +1,33 @@
+<div class="app-admin-partner-tab">
+    <nav mat-tab-nav-bar>
+        <ng-container *ngFor="let link of navLinks">
+            <ng-container *ngIf="!link.disable">
+                <ng-container *ngIf="!link.target && link.target != '_blank'">
+                    <a mat-tab-link
+                    [routerLink]="link.link"
+                    routerLinkActive #rla="routerLinkActive"
+                    [active]="rla.isActive">
+                    {{link.label}}
+                    </a>
+                </ng-container>
+                <ng-container *ngIf="link.target && link.target == '_blank'">
+                    <a
+                        class="mat-tab-link"
+                        [target]="'_blank'"
+                        [routerLink]="link.link">
+                        {{link.label}}
+                    </a>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="link.disable">
+                    
+                <a mat-tab-link>
+                    {{link.label}}
+                </a>
+                    
+                </ng-container>
+        </ng-container>
+    </nav>
+    <router-outlet></router-outlet>
+</div>
+

@@ -1,0 +1,109 @@
+<div class="app-admin-campaign-information-add" [formGroup]="formvalue">
+    <div class="row bt">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading">
+                {{ "Campaign > fistar add review" | translate }}
+            </div>
+
+            <div>
+                <button class="btn btn-default" (click)="backToList()"><i class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+
+    <app-admin-campaign-tab [tryId]="''"></app-admin-campaign-tab><br>
+
+    <div class="row bt">
+        <button class="btn btn-default">
+            {{ data['detailAll']['cp_status'] == 59 ? 'Matching' : 
+                data['detailAll']['cp_status'] == 60 ? 'Ready' :
+                data['detailAll']['cp_status'] == 61 ? 'On-Going' :
+                data['detailAll']['cp_status'] == 62 ? 'Closed' : ''
+            }}</button>&nbsp;
+        <span style="margin-top: 7px ">{{ data['detailAll']['cp_name']}}</span>
+    </div><br>
+    <div class="row bt">
+        <div class="col-12">
+            <input style="width: 100%" type="text" formControlName="m_ch_title">
+            <div *ngIf="formvalue.controls.m_ch_title.errors?.required && formvalue.controls.m_ch_title.touched"
+                class="text-danger">
+                <div>
+                    Title is required
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="staticEmail" class="col-sm-1 col-form-label">Channel</label>
+        <div class="col-sm-2">
+            <select class="form-control" formControlName="sns_id">
+                <ng-container *ngFor="let item of dataBlind.channels">
+                    <option [value]="item['sns_id']"   *ngIf="item['sns_state']==1">{{item['sns_name']}}</option>
+                </ng-container>
+                
+
+            </select>
+        </div>
+        <div class="col-sm-2"></div>
+        <label for="staticEmail" class="col-sm-1 col-form-label">Category</label>
+        <div class="col-sm-2">
+            <select class="form-control" formControlName="m_ch_category">
+                <option [value]="item['cd_id']" *ngFor="let item of dataBlind.category">{{item['cd_label']}}</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="row bt">
+        <div class="col-12">
+            <div class="form-group">
+                <ck-editor skin="moono-lisa" formControlName="m_ch_content" language="en" [fullPage]="true"
+                    name="description"></ck-editor>
+                <div *ngIf="formvalue.controls.m_ch_content.errors?.required && formvalue.controls.m_ch_content.touched"
+                    class="text-danger">
+                    <div>
+                        Content is required
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row bt">
+        <div class="col-12">
+            <div class="form-group" >
+                <textarea name="" id="" formControlName="m_ch_url" style="width:100%; height: 55px;" rows="2"
+                    placeholder="Enter Url"></textarea>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row bt">
+        <div class="col-12">
+            <button [disabled]="!formvalue.valid" class="btn btn-primary float-right" (click)="addData()"
+                style="margin-right:10px">
+                <span>Save</span>
+            </button>
+            <button class="btn btn-default float-right" (click)="goBack()" style="margin-right:10px">
+                <span>Cancel</span>
+            </button>
+        </div>
+    </div>
+    <br>
+    <!-- <div class="row" *ngIf="rv_status == 105">
+        <div class="col-md-9">
+            <button class="btn btn-default float-right" style="margin-right:10px">
+                <span (click)="save()">Modify</span>
+            </button>
+        </div>
+    </div> -->
+</div>

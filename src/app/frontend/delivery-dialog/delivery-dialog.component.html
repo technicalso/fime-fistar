@@ -1,0 +1,41 @@
+<div class="delivery-dialog">
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">Thông tin giao hàng</div>
+            <div class="btn-dialog-close" (click)="close()">
+                <fa name="times-circle" size="2x"></fa>
+            </div>
+        </div>
+    </div>
+    <div class="loading-block" *ngIf="isLoading">
+        <img src="assets/images/loading.gif" alt="loading">
+    </div>
+    <div class="confirmation-container">
+        <div class="confirmation-content">
+            <div class="form-group">
+                <div class="user-info">
+                    <div class="form-group">
+                        <strong><label>Địa chỉ</label></strong>
+                        <div>{{delivery.dlvy_addr}}</div>
+                    </div>
+                    <div class="form-group">
+                        <strong><label>Công ty vận chuyển</label></strong>
+                        <div>{{ delivery.dlvy_cmpny_code}}</div>
+                    </div>
+                    <div class="form-group">
+                        <strong><label>Mã vận đơn</label></strong>
+                        <div>{{delivery.invc_no }}</div>
+                    </div>
+                    <div class="form-group">
+                        <strong><label>Trạng thái vận chuyển</label></strong>
+                        <div>{{ delivery.dlvy_mth_code }}</div>
+                    </div>
+                    <div class="form-group">
+                        <strong><label>Ngày gửi sản phẩm</label></strong>
+                        <div>{{delivery.dlvy_dt}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

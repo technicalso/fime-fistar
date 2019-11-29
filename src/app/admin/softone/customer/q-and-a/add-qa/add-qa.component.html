@@ -1,0 +1,118 @@
+<div class="app-admin-customer-add-qa">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+
+            <div class="admin-heading" *ngIf="!bannerId">
+                {{ "create_banner" | translate }}
+            </div>
+            <div class="admin-heading" *ngIf="bannerId">
+                {{ "answer_qa" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/customer/qa"><i
+                        class="material-icons align-text-bottom">
+                        arrow_back
+                    </i> <span>Back</span></button>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Title" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="title"
+                                    [attr.disabled]="bannerId" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Type/Category" | translate }}</label>
+                        </div>
+                        <div class="col-md-9" *ngIf="!bannerId">
+                            <!-- <label for="">Partner/Join Process</label> -->
+                            <select formControlName="type">
+                                <option [value]="">Type</option>
+                                <option [value]="0">Partner</option>
+                                <option [value]="1">Influencer </option>
+                            </select>
+                            <select *ngIf="categories" formControlName="category">
+                                <option value="categories">Categories</option>
+                                <ng-container *ngFor="let item of categories">
+                                    <option [value]="item.cd_id">{{item.cd_label}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="error.type" class='error'>choose value type</div>
+                            <div *ngIf="error.category" class='error'>choose value category</div>
+                        </div>
+                        <div div class="col-md-9" *ngIf="bannerId">
+                            <label for="">
+                                <span *ngIf="form.value.type == 0">Partner</span>
+                                <span *ngIf="form.value.type == 1">Influencer</span>
+                                <span *ngIf="form.value.type != 0 && form.value.type != 1">Type</span>
+                                /
+                                <ng-container *ngFor="let item of categories">
+                                    <span *ngIf="item.cd_id == form.value.category">{{item.cd_label}}</span>
+                                </ng-container>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="!bannerId">
+                        <div class="col-md-3">
+                            <label>{{ "State" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="state">
+                                    <input type="radio" id="state" [value]="1" formControlName="state">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Question" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" rows="4" formControlName="question"
+                                    [attr.disabled]="bannerId"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Answer" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" rows="4" formControlName="answer"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/customer/qa">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" (click)="save()" [disabled]="!form.valid">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

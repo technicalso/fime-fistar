@@ -1,0 +1,223 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+@import "~scss/reset";
+
+#loginMasterWrap {
+  font-size: 13px;
+  font-family: 'Roboto-Regular';
+  max-width: 600px;
+  margin: 25px auto;
+
+  .login-wrapper {
+
+    .login-container {
+      box-shadow: none;
+      background: #fff;
+
+      .login-body {
+        display: flex;
+        width: 100%;
+        flex: 1;
+        overflow: auto;
+        position: relative;
+
+        .login-content {
+          display: block;
+          margin: auto;
+          width: 100%;
+          line-height: 1.5;
+          padding: 0 25px;
+
+          .form-header {
+            .title {
+              text-align: center;
+              margin-bottom: 28px;
+              font-size: 28px;
+              color: #181818;
+              font-weight: 600;
+            }
+          }
+
+          .form-content {
+
+            form {
+              width: 100%;
+              line-height: 1.25;
+              font-weight: 400;
+              color: $text_color;
+
+              .label {
+                color: #222;
+                font-weight: 600;
+                display: block;
+                margin-bottom: 10px;
+              }
+
+              .input-full-width {
+                font-size: 13px;
+                font-family: 'Roboto-Regular';
+                outline: none;
+                border-radius: 3px;
+                padding: 11px 16px;
+                width: 100%;
+                background-color: #ffffff;
+                border: 1px solid #ddd;
+                line-height: 1.15;
+                color: #222;
+              }
+
+              input.input-full-width:focus {
+                outline: 0;
+                background-color: #fff;
+                border-color: #0099ff;
+              }
+
+              .is-invalid {
+                border-color: $error_color;
+              }
+
+              .form-control-group {
+
+                p {
+                  text-align: center;
+                  color: #000;
+                }
+
+                .socials {
+                  cursor: pointer;
+                  text-align: center;
+                  background-color: #4267b2;
+                  font-weight: 600;
+                  padding: 12px 0;
+                  border-radius: 35px;
+
+                  &:hover {
+                    background-color: #036;
+                  }
+                }
+
+                span.social-link {
+                  color: #fff;
+                  font-family: 'Roboto-Regular';
+                  text-transform: uppercase;
+                  cursor: pointer;
+                  font-size: 12px;
+                }
+
+                a.login-link {
+                  color: #a4abb3;
+                  font-weight: bolder;
+                }
+              }
+
+              #emailHelp {
+                display: none;
+              }
+
+              small {
+                margin-top: 4px;
+                font-size: 12px;
+                line-height: 1.5;
+                color: $error_color !important;
+              }
+
+              .error-hint {
+                margin-bottom: 15px;
+
+                span {
+                  color: $error_color;
+                }
+              }
+
+              .login-action {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+
+                .login-btn {
+                  font-size: 12px;
+                  text-transform: uppercase;
+                  outline: none;
+                  cursor: pointer;
+                  border-radius: 35px;
+                  font-weight: 600;
+                  padding: 7px 15px 5px;
+                  color: #fff;
+                  background-color: #f14c7f;
+                  border-color: transparent;
+                  box-shadow: none;
+
+                  &:hover {
+                    background-color: #0099ff;
+                  }
+                }
+
+                .forgot-password-link {
+                  display: block;
+                  text-align: right;
+                  a {
+                    text-decoration: underline;
+                    color: #0099ff;
+                    font-weight: bolder;
+                  }
+                }
+
+              }
+
+              .divider {
+                text-align: center;
+                position: relative;
+                margin-bottom: 20px;
+
+                &:before {
+                  content: '';
+                  position: absolute;
+                  bottom: 6px;
+                  left: 0;
+                  width: 100%;
+                  height: 1px;
+                  background-color: #999;
+                  z-index: 10;
+                }
+
+                span {
+                  font-family: 'Roboto-Regular';
+                  color: #999999;
+                  position: relative;
+                  padding: 0 10px;
+                  background-color: #fff;
+                  z-index: 20;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mb-32 {
+  margin-bottom: 25px;
+}
+
+@include phone {
+  #loginMasterWrap {
+    background-color: #fff;
+
+    .login-wrapper {
+      padding: 0;
+
+      .login-container {
+        height: auto;
+        border: none;
+      }
+    }
+  }
+}

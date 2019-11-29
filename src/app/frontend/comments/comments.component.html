@@ -1,0 +1,102 @@
+<div class="comments">
+    <div class="header">
+        <h1>{{ 'comment' | translate }}</h1>
+        <span class="comment-number">{{ numberComments | formatnumber }}</span>
+    </div>
+    <div class="new-comment">
+        <div class="left-avt">
+            <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/avatar.jpg'" alt="avt" class="avatar">
+        </div>
+        <div class="right-col">
+            <form [formGroup]="commentForm" class="comment-form" (submit)="postComment()">
+            <input name="comment"
+                      class="text-comment"
+                      formControlName="comment"
+                      [(ngModel)]="comment"
+                      id="comment"
+                      multiple=""
+                      [disabled]="isSaving"
+                      placeholder="{{ 'write_comment' | translate }}"/>
+                <button type="submit" class="submit-comment" [appAuth] (action)="postComment()" [disabled]="form.invalid">
+                    {{ 'post_comment' | translate }}
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="list-comments">
+        <div class="comment-item" *ngFor="let comment of listComments; let i = index;">
+            <div class="left-avt">
+                <img [src]="comment.author_avatar ? env.rootHost + comment.author_avatar : 'assets/images/avatar.jpg'"
+                     alt="avt" class="avatar pointer" routerLink="/usr/{{comment.author_slug}}">
+            </div>
+            <div class="right-col">
+                <div class="comment-info">
+                    <div class="comment-header">
+                        <div class="left">
+                            <a routerLink="/usr/{{comment.author_slug}}" class="user-name" [innerHtml]="comment.author_ds ? comment.author_ds : comment.author | safeHtml"></a>
+                            <span class="comment-time">{{ comment.time }} {{ comment.timeUnit | translate }} {{ 'ago' | translate }}</span>
+                        </div>
+                        <div class="right" *ngIf="comment.user_no == user.user_no">
+                            <i class="fa fa-trash-o" aria-hidden="true" [swal]="deleteSwal" (confirm)="deleteComment(comment.id, objectType, i)"></i>
+                        </div>
+                    </div>
+                    <p class="comment-content" [innerHTML]="comment.content | safeHtml">
+                    </p>
+                    <button class="reply-btn" [appAuth] (action)="showReply(i)">{{ 'reply' | translate }}</button>
+                </div>
+                <div class="right-col">
+                    <div class="comment-item" *ngFor="let reply of comment.replies; let j = index;">
+                        <div class="left-avt">
+                            <img [src]="reply.author_avatar ? env.rootHost + reply.author_avatar : 'assets/images/avatar.jpg'"
+                                 alt="avt" class="avatar pointer" routerLink="/usr/{{reply.author_slug}}">
+                        </div>
+                        <div class="right-col">
+                            <div class="comment-info">
+                                <div class="comment-header">
+                                    <div class="left">
+                                        <a routerLink="/usr/{{reply.author_slug}}" class="user-name" [innerHtml]="reply.author_ds ? reply.author_ds : reply.author | safeHtml"></a>
+                                        <span class="comment-time">{{ reply.time }} {{ reply.timeUnit | translate }} {{ 'ago' | translate }}</span>
+                                    </div>
+                                    <div class="right" *ngIf="reply.user_no == user.user_no">
+                                        <i class="fa fa-trash-o" aria-hidden="true" [swal]="deleteSwal" (confirm)="deleteReply(reply.id, objectType, i, j)"></i>
+                                    </div>
+                                </div>
+                                <p class="comment-content" [innerHTML]="reply.content | safeHtml">
+                                </p>
+                                <button class="reply-btn" [appAuth]
+                                        (action)="showReplyOfAnother(i, reply.author, reply.author_ds, reply.author_slug, reply.created_by)">
+                                    {{ 'reply' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="load-more-comments" *ngIf="comment.count > 0">
+                        <!--<img src="assets/images/loading.gif" alt="loading">-->
+                        <button class="load-comments-btn" (click)="loadMoreReply(comment.id, i)">{{ 'load_more' | translate }}</button>
+                    </div>
+                </div>
+                <form class="reply-form" id="replyForm{{i}}" (submit)="postReply(i, comment.id)">
+                    <input type="text" class="reply" placeholder="{{ 'write_reply' | translate }}" value="">
+                    <button type="submit" class="submit-reply">
+                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                    </button>
+                    <div class="reference-user" style="display: none">
+                        <span class="reference-name"></span>
+                        <button class="remove-btn" (click)="remove($event, i)">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <input type="hidden" name="slug">
+                    <input type="hidden" name="id" value="{{comment.created_by}}">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="load-more-comments" *ngIf="loadMore">
+        <!--<img src="assets/images/loading.gif" alt="loading" style="display: none">-->
+        <button class="load-comments-btn" (click)="loadMoreComment()">{{ 'load_more' | translate }}</button>
+    </div>
+</div>
+
+<swal #deleteSwal text="{{ 'delete_comment_confirm' | translate }}" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>

@@ -1,0 +1,249 @@
+<div class="component-admin-review component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
+    <div class="row">
+        <div class="col-12">
+            <div class="admin-heading">
+                {{ 'reviews' | translate }}
+            </div>
+        </div>
+    </div>
+    <mat-card class="search-control">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label>Title</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="" [(ngModel)]="filter.name">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Category</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select [(ngModel)]="filter.category_id">
+                                <mat-option value="null">All</mat-option>
+                                <mat-option *ngFor="let category of categories"
+                                            value="{{category.code}}">{{category.code_nm}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Display</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select [(ngModel)]="filter.is_disabled">
+                                <mat-option value="null">All</mat-option>
+                                <mat-option value="Y">Active</mat-option>
+                                <mat-option value="N">Close</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Type</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <mat-select [(ngModel)]="filter.type">
+                                <mat-option value="null">All</mat-option>
+                                <mat-option value="1">Popular</mat-option>
+                                <mat-option value="0">Normal</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label>Period</label>
+                    <div>
+                        <mat-form-field class="half-width">
+                            <input matInput [matDatepicker]="from" placeholder="From" [(ngModel)]="filter.from"
+                                   [max]="filter.to">
+                            <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                            <mat-datepicker #from></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="half-width">
+                            <input matInput [matDatepicker]="to" placeholder="To" [(ngModel)]="filter.to"
+                                   [min]="filter.from">
+                            <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                            <mat-datepicker #to></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                    <div class="form-group">
+                        <label>Author</label>
+                        <div>
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="" [(ngModel)]="filter.reg_name">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            <div class="col-8 d-flex justify-content-end" style="height: 36px;">
+                <button class="btn btn-primary mr-1" (click)="onSearch()"><i class="material-icons align-text-bottom">
+                    search
+                </i> <span>Search</span></button>
+                <button class="btn btn-default" (click)="onReset()"><i class="material-icons align-text-bottom">
+                    replay
+                </i> <span>Reset</span></button>
+            </div>
+        </div>
+    </mat-card>
+    <div class="multi-action" *ngIf="selected.length > 0">
+        <div class="col-12 d-flex justify-content-end">
+            <button class="btn btn-primary mr-1" [swal]="disableSwal" *ngIf="showDeactivate" (confirm)="onToggleMulti(false)">
+                <i class="material-icons align-text-bottom">
+                    visibility_off
+                </i> <span> Disable</span>
+            </button>
+            <button class="btn btn-primary mr-1" [swal]="enableSwal" *ngIf="showActive" (confirm)="onToggleMulti(true)">
+                <i class="material-icons align-text-bottom">
+                    visibility
+                </i> <span> Enable</span>
+            </button>
+            <button class="btn btn-default mr-1" [swal]="deleteSwal" *ngIf="showDelete" (confirm)="onDeleteMulti()">
+                <i class="material-icons align-text-bottom">
+                    delete
+                </i> <span>Delete</span>
+            </button>
+            <button class="btn btn-primary mr-1" [swal]="normalSwal" *ngIf="showNormal" (confirm)="onTogglePopularMulti(false)">
+                <i class="material-icons align-text-bottom">
+                    thumb_down
+                </i> <span> Normal</span>
+            </button>
+            <button class="btn btn-primary mr-1" [swal]="popularSwal" *ngIf="showPopular" (confirm)="onTogglePopularMulti(true)">
+                <i class="material-icons align-text-bottom">
+                    thumb_down
+                </i> <span> Popular</span>
+            </button>
+        </div>
+    </div>
+    <ngx-datatable #myTable class="material" [rows]="reviews" [columnMode]="'force'" [headerHeight]="50"
+                   [footerHeight]="50"
+                   [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)'
+                   [selected]="selected"
+                   [rowHeight]="'auto'" [count]="totalReviews" [limit]="pageSize"
+                   [offset]="pageIndex-1"
+                   [externalPaging]="true" (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+        <ngx-datatable-column [frozenLeft]="true" [width]="50" [sortable]="false" [canAutoResize]="false"
+                              [draggable]="false"
+                              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true" [cellClass]="'text-center d-flex justify-content-center'"
+                              [headerClass]="'text-center d-flex justify-content-center'">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="ID" prop="review_no" [width]="70" [canAutoResize]="false" [resizeable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Thumbnail" prop="main_image" [canAutoResize]="false" [resizeable]="false" class="thumbnail-col">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="thumbnail-container">
+                    <img class="review-thumbnail" [src]="env.rootHost + row.main_image.file_cours + '/' + row.main_image.stre_file_nm"/>
+                    <div class="zoom-thumbnail">
+                        <img class="review-thumbnail-zoom" [src]="env.rootHost + row.main_image.file_cours + '/' + row.main_image.stre_file_nm"/>
+                    </div>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Title" prop="goods_nm">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span (click)="getReviewsDetail(row.slug)" style="cursor: pointer"> {{row.goods_nm}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Author" prop="reg_name"></ngx-datatable-column>
+        <ngx-datatable-column name="Category" prop="code_nm" [width]="100" [canAutoResize]="false" [resizeable]="false" [headerClass]="'text-center'" [cellClass]="'text-center'"
+        ></ngx-datatable-column>
+        <ngx-datatable-column name="Comments" prop="comment_number" [headerClass]="'text-center'" [cellClass]="'text-center'" [width]="100" [canAutoResize]="false"
+                              [resizeable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Likes" prop="like_number" [headerClass]="'text-center'" [cellClass]="'text-center'" [width]="80" [canAutoResize]="false" [resizeable]="false"
+                              [sortable]="false"></ngx-datatable-column>
+
+        <ngx-datatable-column name="Popular" prop="conts_seq" [headerClass]="'text-center'" [cellClass]="'text-center'" [width]="80" [canAutoResize]="false" [resizeable]="false"
+                              [sortable]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span>{{row.conts_seq ? "Yes" : "No" }}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status" prop="expsr_at" [width]="100" [canAutoResize]="false" [resizeable]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span *ngIf="row.expsr_at == 'Y'">Enable</span>
+                <span *ngIf="row.expsr_at == 'N'">Disabled</span>
+                <span *ngIf="row.expsr_at == 'P'">Pendding</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Views" prop="view_cnt" [resizeable]="false" [width]="80"></ngx-datatable-column>
+        <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'" [cellClass]="'text-center'">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-icon-button [matMenuTriggerFor]="userActions">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #userActions="matMenu">
+                    <a mat-menu-item [routerLink]="['/admin/comments/review', row.review_no]" class="datatable-action-button">
+                        <mat-icon>mode_comment</mat-icon>
+                        <span>Comments</span>
+                    </a>
+                    <a mat-menu-item (click)="openReviewDetail(env.webUrl + '/reviews/detail/' + row.slug)" class="datatable-action-button">
+                        <mat-icon>open_in_new</mat-icon>
+                        <span>View</span>
+                    </a>
+
+                    <button mat-menu-item [swal]="normalSwal"
+                            *ngIf="row.conts_seq" (confirm)="onTogglePopular([row], false)" class="datatable-action-button">
+                        <mat-icon>thumb_down</mat-icon>
+                        <span>Normal</span>
+                    </button>
+                    <button mat-menu-item [swal]="popularSwal"
+                            *ngIf="!row.conts_seq" (confirm)="onTogglePopular([row], true)" class="datatable-action-button">
+                        <mat-icon>thumb_up</mat-icon>
+                        <span>Popular</span>
+                    </button>
+
+                    <button mat-menu-item [swal]="disableSwal"
+                            *ngIf="row.expsr_at !== 'N'" (confirm)="onToggle([row], false)" class="datatable-action-button">
+                        <mat-icon>visibility_off</mat-icon>
+                        <span>Disable</span>
+                    </button>
+                    <button mat-menu-item [swal]="enableSwal"
+                            *ngIf="row.expsr_at !== 'Y'" (confirm)="onToggle([row], true)" class="datatable-action-button">
+                        <mat-icon>visibility</mat-icon>
+                        <span>Enable</span>
+                    </button>
+                    <button mat-menu-item [swal]="deleteSwal" (confirm)="onDelete([row])" class="datatable-action-button">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+
+<swal #deleteSwal text="Are you sure to delete this review?" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>
+<swal #enableSwal text="Are you sure to approve this review?" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>
+<swal #disableSwal text="Are you sure to disapprove this review?" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>
+<swal #popularSwal text="Are you sure to popular this review?" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>
+<swal #normalSwal text="Are you sure to normalize this review?" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>

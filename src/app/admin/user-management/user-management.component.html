@@ -1,0 +1,203 @@
+<div class="component-admin-users component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                <p>{{ 'admin.users.title' | translate}}</p>
+            </div>
+        </div>
+
+        <div class="col">
+            <button class="btn btn-primary float-right" routerLink="/admin/user/add">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+        </div>
+    </div>
+
+    <div>
+        <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+            <mat-tab label="Fimers"></mat-tab>
+            <mat-tab label="Administrators"></mat-tab>
+        </mat-tab-group>
+
+        <mat-card class="filter-group">
+            <label class="example-margin">Search</label>
+            <mat-card-content>
+                <mat-form-field class="px-3">
+                    <mat-select [(ngModel)]="filterSelected">
+                        <mat-option *ngFor="let option of filterOptions"
+                                    [value]="option.id">{{ option.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="px-3">
+                    <input matInput [(ngModel)]="filtervalue">
+                </mat-form-field>
+
+                <div class="checkbox-container px-3">
+                    <mat-checkbox class="px-3" [(ngModel)]="activedCheckbox" color="primary">Actived</mat-checkbox>
+                    <mat-checkbox class="px-3" [(ngModel)]="deletedCheckbox" color="primary">Deleted</mat-checkbox>
+                    <mat-checkbox class="px-3" [(ngModel)]="allowComment" color="primary">Comment</mat-checkbox>
+                    <mat-checkbox class="px-3" [(ngModel)]="allowReview" color="primary">Review</mat-checkbox>
+                </div>
+
+                <button class="btn btn-primary mr-1 float-right" (click)="search()"><i class="material-icons align-text-bottom">
+                    search
+                </i> <span>Search</span></button>
+            </mat-card-content>
+        </mat-card>
+
+        <ngx-datatable
+                class="material users-table"
+                [rows]="users"
+                [columnMode]="'force'"
+                [headerHeight]="50"
+                [footerHeight]="50"
+                [rowHeight]="'auto'"
+                [externalPaging]="true"
+                [count]="page.totalElements"
+                [offset]="page.pageNumber"
+                [limit]="pageSize"
+                (page)='setPage($event)'
+                [selectAllRowsOnPage]="false"
+                (select)='onSelect($event)'
+                [selected]="selected"
+                [scrollbarH]="false"
+                (sort)="onSort($event)"
+        >
+            <ngx-datatable-column name="user_no" prop="user_no" [width]="180" [canAutoResize]="false" [resizeable]="false">
+                <ng-template ngx-datatable-header-template>
+                    <span>User No</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="reg_name" prop="reg_name">
+                <ng-template ngx-datatable-header-template>
+                    <span>Full Name</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="id" prop="id">
+                <ng-template ngx-datatable-header-template>
+                    <span>Display name</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="cellphone" prop="cellphone" >
+                <ng-template ngx-datatable-header-template>
+                    <span>Phone</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="email" prop="email">
+                <ng-template ngx-datatable-header-template>
+                    <span>Email</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="home_addr1" prop="home_addr1">
+                <ng-template ngx-datatable-header-template>
+                    <span>Address</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="last_login_dt" prop="last_login_dt" [maxWidth]="120">
+                <ng-template ngx-datatable-header-template>
+                    <span>Last Login</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="total_point" prop="total_point" [maxWidth]="120" >
+                <ng-template ngx-datatable-header-template>
+                    <span>Point</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span class="pointer" (click)="pointsDialog(row)">{{row.total_point}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Reviews" prop="reviews" [maxWidth]="120">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span>{{row.reviews }}</span>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="Permission" [maxWidth]="100">
+                <ng-template ngx-datatable-header-template>
+                    <span>Permission</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div class="d-flex flex-column justify-content-between">
+                        <div class="active d-flex flex-row justify-content-between">
+                            <mat-checkbox [swal]="inactiveUserSwal" *ngIf="row.active" color="primary"
+                                          [(ngModel)]="row.active" (confirm)="activeUser([row], 0)">Active
+                            </mat-checkbox>
+                            <mat-checkbox [swal]="activeUserSwal" *ngIf="!row.active" color="primary"
+                                          [(ngModel)]="row.active" (confirm)="activeUser([row], 1)">Active
+                            </mat-checkbox>
+                        </div>
+                        <div class="comment d-flex flex-row justify-content-between">
+                            <mat-checkbox [(ngModel)]="row.allow_comment" color="primary"
+                                          [swal]="donotallowCommentUserSwal" *ngIf="row.allow_comment"
+                                          (confirm)="allowUserComment([row], 0)">Comment
+                            </mat-checkbox>
+                            <mat-checkbox [(ngModel)]="row.allow_comment" color="primary"
+                                          [swal]="allowCommentUserSwal" *ngIf="!row.allow_comment"
+                                          (confirm)="allowUserComment([row], 1)">Comment
+                            </mat-checkbox>
+                        </div>
+                        <div class="review d-flex flex-row justify-content-between">
+                            <mat-checkbox [(ngModel)]="row.allow_review" color="primary"
+                                          [swal]="donotallowReviewUserSwal" *ngIf="row.allow_review"
+                                          (confirm)="allowUserReview([row], 0)">Review
+                            </mat-checkbox>
+                            <mat-checkbox [(ngModel)]="row.allow_review" color="primary"
+                                          [swal]="allowReviewUserSwal" *ngIf="!row.allow_review"
+                                          (confirm)="allowUserReview([row], 1)">Review
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'" [cellClass]="'text-center'">
+                <ng-template ngx-datatable-header-template>
+                    <span>Action</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button mat-icon-button [matMenuTriggerFor]="userActions">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #userActions="matMenu">
+                        <a mat-menu-item routerLink="/admin/user/edit/{{row.user_no}}" class="datatable-action-button">
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                        </a>
+                        <button mat-menu-item [swal]="deleteSwal" (confirm)="onDelete(row)" class="datatable-action-button">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                        </button>
+                    </mat-menu>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>
+
+<swal #activeUserSwal text="Are you sure to active user?" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>
+<swal #inactiveUserSwal text="Are you sure to inactive user?" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>
+
+<swal #donotallowCommentUserSwal text="Do you want to turn off this user's comments?" type="question"
+      [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #allowCommentUserSwal text="Do you want to turn on this user's comments?" type="question"
+      [showCancelButton]="true" [focusCancel]="true"></swal>
+
+<swal #donotallowReviewUserSwal text="Do you want to turn off this user's reviews?" type="question"
+      [showCancelButton]="true" [focusCancel]="true"></swal>
+<swal #allowReviewUserSwal text="Do you want to turn on this user's reviews?" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>
+
+<swal #deleteSwal text="Are you sure to delete user?" type="question" [showCancelButton]="true"
+      [focusCancel]="true"></swal>

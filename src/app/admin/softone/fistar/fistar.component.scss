@@ -1,0 +1,40 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.component-admin-fistar {
+    .multi-action {
+        margin-top: 30px;
+    }
+    .action{
+        i{
+            cursor: pointer;
+            margin-right: 15px;
+            color: #b0b0b0;
+            font-size: 20px;
+            margin-top: 6px;
+        }
+    }
+    .btn {
+        i {
+            font-size: 20px;
+        }
+    }
+    .search-control{
+        .row{
+           .col-2{
+               .form-group{
+                   .none-label{
+                       margin-top: 30px;
+                   }
+               }
+           }
+        }
+    }
+    
+
+}
+
+
+// -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+//   filter: grayscale(100%);

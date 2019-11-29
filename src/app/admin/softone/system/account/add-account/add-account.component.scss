@@ -1,0 +1,33 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.filter-group{
+  margin-top: 30px;
+}
+.checkbox-container{
+  display: inline-block;
+  position: relative;
+  text-align: left;
+}
+.action{
+  i{
+    margin-right: 10px;
+    color: #b0b0b0;
+    font-size: 20px;
+    margin-top: 3px;
+  }
+}
+.btn {
+  i {
+    font-size: 20px;
+  }
+}
+
+.permissions p.permissions-item {
+  padding-left: 2rem;
+}
+
+mat-radio-group {
+  text-transform: uppercase
+}

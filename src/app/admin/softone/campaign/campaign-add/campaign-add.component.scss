@@ -1,0 +1,251 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+@import "~scss/custom";
+
+.app-admin-campaign-edit {
+  padding-bottom: 50px;
+
+  .banner_img {
+    margin-bottom: 20px;
+
+    img {
+      width: 150px;
+    }
+  }
+
+  ::ng-deep {
+    angular-file-uploader {
+      .container {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .afu-upload-btn {
+        display: none;
+      }
+
+      .afu-valid-file {
+        margin: 0;
+      }
+
+      &.afu-select-btn:focus,
+      &.afu-select-btn:active,
+      &.afu-select-btn:hover,
+      .afu-select-btn {
+        background-image: -webkit-gradient(linear, left top, right top, from($gradient_left), to($gradient_right)) !important;
+        background-image: linear-gradient(to right, $gradient_left, $gradient_right) !important;
+        -webkit-box-shadow: 0 0 0 0 $gradient_left, 0 0 0 0 $gradient_right !important;
+        box-shadow: 0 0 0 0 $gradient_left, 0 0 0 0 $gradient_right !important;
+        border-radius: .375rem;
+        text-shadow: none;
+        border: none;
+        line-height: calc((1rem * 1.25) + 4px);
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .marginTop {
+    margin-top: -15px;
+  }
+  .marginTop10 {
+    margin-top: 10px;
+  }
+
+  .calendar-control {
+    max-width: 210px;
+    position: relative;
+
+    .mat-datepicker-toggle {
+      position: absolute;
+      right: -2px;
+      top: -2px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+    }
+  }
+
+  .period {
+    display: flex;
+
+    .mat-form-field {
+      margin-right: 20px;
+    }
+  }
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.itemcheck_groub {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.itemcheck {
+  margin-right: 70px;
+  position: relative;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: -12px;
+    left: 0;
+    height: 28px;
+    width: 28px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 6px;
+  }
+
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  input:checked~.checkmark:after {
+    display: block;
+  }
+
+  .checkmark:after {
+    left: 12px;
+    top: -5px;
+    width: 10px;
+    height: 25px;
+    border: solid purple;
+    border-width: 0 4px 4px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
+
+.groub_item {
+  display: flex;
+  flex-direction: column;
+
+  div {
+    display: flex;
+    list-style: none;
+
+    label {
+      margin: 1rem;
+      input{
+        margin-left: 3px;
+      }
+    }
+  }
+
+  .item_child {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ebebeb;
+
+    input {
+      width: 100%;
+      border: 1px solid #ebebeb;
+    }
+  }
+}
+.navbar{
+  margin-bottom: 1rem;
+  .collapse{
+      .navbar-nav{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+      }
+  }
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.output-text {
+  min-height: 54px;
+}
+
+.modal.show .modal-dialog {
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
+  max-width: 80%;
+}

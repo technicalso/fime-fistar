@@ -1,0 +1,19 @@
+@import "~scss/mixins";
+@import "~scss/variables";
+@import "~scss/font_imports";
+
+.action{
+  i{
+    margin-right: 10px;
+    color: #b0b0b0;
+    font-size: 20px;
+    margin-top: 3px;
+  }
+  .btn {
+    i {
+      font-size: 20px;
+    }
+  }
+}
+
+
