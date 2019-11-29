@@ -6,7 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import * as _ from 'lodash';
 import {Subject} from 'rxjs';
 import {ImageCroppedEvent} from 'ngx-image-cropper';
-import {FileUploader, FileSelectDirective} from 'ng2-file-upload/ng2-file-upload';
+import {FileUploader, FileSelectDirective} from 'ng2-file-upload';
 
 const URL = environment.host + '/uploads';
 
