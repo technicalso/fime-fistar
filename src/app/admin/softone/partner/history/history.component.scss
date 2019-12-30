@@ -2,7 +2,7 @@
 @import "~scss/variables";
 @import "~scss/font_imports";
 
-.app-admin-partner {
+.app-admin-partner-history {
     .multi-action {
         margin-top: 30px;
     }
@@ -20,15 +20,248 @@
             font-size: 20px;
         }
     }
-    .search-control{
-        .row{
-           .col-2{
-               .form-group{
-                   .none-label{
-                       margin-top: 30px;
-                   }
-               }
-           }
-        }
+
+
+
+
+}
+
+.label_footer_tab{
+    label{
+        margin-right: 20px; 
     }
 }
+
+
+.wf-content-state  {
+    .title-state {
+        h4 {
+            font-size: 18px;
+            color: #787878;
+            font-weight: bold;
+            padding: 15px 0;
+        }
+    }
+    .step-state {
+        .list-step {
+            display: flex;
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+
+            .item-step {
+                width: 25%;
+                text-align: center;
+                background: #f5f5f5;
+                padding: 15px 0;
+                border-right: 1px solid #e1e1e1;
+                position: relative;
+
+              
+            }
+            .step-4 {
+                position: relative;
+                background: #BFBFBF;
+            }
+            .step-3 {
+                position: relative;
+                background: #D8D8D8;
+                &:before {
+                    border-bottom: 27px solid transparent;
+                    border-top: 27px solid transparent;
+                    border-left: 25px solid #D8D8D8;
+                    top: 0;
+                    z-index: 1;
+                    content: " ";
+                    height: 0;
+                    right: -25px;
+                    position: absolute;
+                    width: 0;
+                }
+            }
+            .step-2 {
+                position: relative;
+                background: #F2F2F2;
+                &:before {
+                    border-bottom:27px solid transparent;
+                    border-top: 27px solid transparent;
+                    border-left: 25px solid #F2F2F2;
+                    top: 0;
+                    z-index: 1;
+                    content: " ";
+                    height: 0;
+                    right: -25px;
+                    position: absolute;
+                    width: 0;
+                }
+            }
+            .step-1 {
+                position: relative;
+                background: #FBFBFB;
+                &:before {
+                    border-bottom:27px solid transparent;
+                    border-top: 27px solid transparent;
+                    border-left: 25px solid #FBFBFB;
+                    top: 0;
+                    z-index: 1;
+                    content: " ";
+                    height: 0;
+                    right: -25px;
+                    position: absolute;
+                    width: 0;
+                }
+            }
+        }
+
+        .wf-list-status {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            border: 1px solid #e1e1e1;
+
+            .item-status {
+                width: 25%;
+                border-right: 1px solid #e1e1e1;
+                padding: 15px 0;
+                text-align: center;
+            }
+        }
+    }
+    .wf-gr-btn {
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+            margin-left: 10px;
+            padding: 0 10px;
+            background: #e1e1e1;
+            color: #787878;
+            font-size: 14px;
+            border-radius: 7px;
+        }
+    }
+
+    .content-history {
+     .table {
+         td {
+             vertical-align: inherit;
+             text-align: center;
+         }
+     }
+    }
+
+    .content-matched {
+        .item {
+            display: flex;
+            border: 1px solid #e1e1e1;
+            align-items: center;
+            
+            &:nth-child(2n) {
+                border-top: 0;
+            }
+
+            .left {
+                width: 33%;
+             text-align: center;
+             border-right: 1px solid #e1e1e1;
+             height: 100%;
+             padding: 44px 0;
+             background: #f2f2f2;
+         
+
+             .text {
+                 font-size: 16px;
+             }
+
+            }
+
+            .right {
+                width: 67%;
+                padding: 0 20px;
+                display: flex;
+                align-items: center;
+
+                .img-thumnail {
+                    width: 25%;
+
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    .image {
+                        img{
+                            width: 100px;
+                            height: 100px;
+                            border-radius: 50%
+                        }
+                    }
+
+                    .star-user {
+                        padding: 3px 5px;
+                        border-radius: 20px;
+                        width: 90px;
+                        margin: 0 5px;
+                        margin-top: 4px;
+                        background: #808080;
+                        i{
+                            color: #FFFF00;
+                        }
+                    }
+                }
+
+                .user-name {
+                    width: 75%;
+
+                    .name {
+                        color: #000;
+                        font-size: 24px;
+                        font-weight: bold;
+                        i{
+                            color: #F2C0D8;
+                        }
+                    }
+                    .old-address {
+                        font-size: 16px;
+                        font-weight: 400;
+                        color: #787878;
+                    }
+
+                    .solical-follow  {
+                        margin-top: 20px;
+                        justify-content: flex-start;
+
+                        .item-solical {
+                            margin-right: 20px;
+                            font-size: 16px;
+
+                            span {
+                                color: #000;
+                                font-weight: 500;
+                            }
+
+                            .fa-facebook-f {
+                                color: #4266b1 !important;
+                            }
+
+                            .fa-youtube {
+                                color: #f50004 !important;
+                            }
+
+                            .fa-instagram {
+                                color: #f06e23 !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .modal-dialog .modal-content {
+        padding: 20px;
+        overflow-y: scroll;
+        height: 100vh;
+    }
+}
+
+
+
+

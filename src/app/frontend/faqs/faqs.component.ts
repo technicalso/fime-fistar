@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Restangular} from 'ngx-restangular';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from '../../../environments/environment';
-import { MetaService } from '@ngx-meta/core';
 
 @Component({
     selector: 'app-faqs',
@@ -20,8 +18,7 @@ export class FaqsComponent implements OnInit {
 
     constructor(private api: Restangular,
                 private router: Router,
-                private route: ActivatedRoute,
-                public meta: MetaService) {
+                private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -29,9 +26,6 @@ export class FaqsComponent implements OnInit {
         this.categories = [];
         this.loadedData = [];
         this.getCategories();
-        this.meta.setTitle('fi:me / Faqs');
-        this.meta.setTag('og:title', 'fi:me / Faqs');
-        this.meta.setTag('og:url', environment.url + '/faqs');
     }
 
     getCategories() {

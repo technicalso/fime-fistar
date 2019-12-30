@@ -8,7 +8,6 @@ import * as moment from 'moment';
 import {ShareFacebookService} from '../../../services/share-facebook.service';
 import {UsersLikeDialogComponent} from '../users-like-dialog/users-like-dialog.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import { MetaService } from '@ngx-meta/core';
 
 @Component({
     selector: 'app-reviews',
@@ -50,7 +49,6 @@ export class ReviewsComponent implements OnInit {
                 private route: ActivatedRoute,
                 private shareFacebookService: ShareFacebookService,
                 public modalService: BsModalService,
-                public meta: MetaService,
                 @Inject(PLATFORM_ID) private platformId: Object) {
     }
 
@@ -96,10 +94,6 @@ export class ReviewsComponent implements OnInit {
         this.getTopInteractiveFimers();
         this.getAdvertisements();
         this.getCategories();
-
-        this.meta.setTitle('fi:me / Reviews');
-        this.meta.setTag('og:title', 'fi:me / Reviews');
-        this.meta.setTag('og:url', environment.url + 'reviews/' + this.slug);
     }
 
     formatCreatedTime(reviews) {

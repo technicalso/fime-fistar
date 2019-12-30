@@ -1,0 +1,128 @@
+<div class="admin-banner-fistar">
+    <div class="row">
+        <div class="col">
+            <div class="admin-heading">
+                BANNER SLIDER
+            </div>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-right" (click)="deleteMany()">
+                <i class="material-icons align-text-bottom">
+                    delete
+                </i> <span>Delete</span>
+            </button>
+            &nbsp; &nbsp;
+            <button class="btn btn-primary float-right" style="margin-right:10px;"
+                routerLink="/admin/banner-fistar/add">
+                <i class="material-icons align-text-bottom">
+                    add
+                </i> <span>Add</span>
+            </button>
+        </div>
+    </div>
+    <div class="multi-action d-flex justify-content-end" *ngIf="selected.length > 0">
+        <button class="btn btn-primary mr-1" [swal]="disableSwal" *ngIf="showDeactivate"
+            (confirm)="onToggleMulti(true)">
+            <i class="material-icons align-text-bottom">
+                visibility_off
+            </i> <span> Disable</span>
+        </button>
+
+        <button class="btn btn-primary mr-1" [swal]="enableSwal" *ngIf="showActive" (confirm)="onToggleMulti(false)">
+            <i class="material-icons align-text-bottom">
+                visibility
+            </i> <span> Enable</span>
+        </button>
+
+        <button class="btn btn-default mr-1" [swal]="deleteSwal" *ngIf="showDelete" (confirm)="onDeleteMulti()">
+            <i class="material-icons align-text-bottom">
+                delete
+            </i> <span>Delete</span>
+        </button>
+    </div>
+    <ngx-datatable [scrollbarH]="false" #myTable class="material" [rows]="banners.data" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
+        (select)='onSelect($event)' [selected]="selected" [rowHeight]="'auto'" [externalPaging]="true"
+        [count]="banners.total" [offset]="filter.page - 1" [limit]="filter.per_page" (page)="setPage($event)">
+        <ngx-datatable-column [frozenLeft]="false" [width]="50" [sortable]="false" [canAutoResize]="false"
+            [draggable]="false" [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="ID" prop="sbid" [width]="50"></ngx-datatable-column>
+        <ngx-datatable-column name="Cover" [canAutoResize]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <img class="img" [src]="commonService.getImageLink(row.sb_cover, 'banners', 'thumbnail')" width="300"
+                    *ngIf="row.sb_cover_type==1" />
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span style="cursor: pointer;"
+                    routerLink="/admin/banner-fistar/edit/{{row.sbid}}">{{row.sb_name}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Button text 1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span style="cursor: pointer;" routerLink="/admin/banner-fistar/edit/{{row.sbid}}"
+                    target="_blank">{{row.button_one}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Button text 2">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span style="cursor: pointer;" routerLink="/admin/banner-fistar/edit/{{row.sbid}}"
+                    target="_blank">{{row.button_two}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Period" [canAutoResize]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{(row.sb_period_start != '0000-00-00 00:00:00' && row.sb_period_start ) ? row.sb_period_start : ''}}
+                {{(row.sb_period_end && row.sb_period_end != '0000-00-00 00:00:00') ? '~ '+ row.sb_period_end : ''}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="URL">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <a href={{row.image_url}} target="_blank">Link</a>
+                <!--<a href={{row.link_button_one}} target="_blank">Link 1</a> &nbsp; &nbsp;-->
+                <!--<a href={{row.link_button_two}} target="_blank">Link 2</a>-->
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'"
+            [cellClass]="'text-center'">>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-icon-button [matMenuTriggerFor]="userActions">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #userActions="matMenu" overlapTrigger="false">
+                    <span (mouseleave)="closeMyMenu()">
+                        <button mat-menu-item routerLink="/admin/banner-fistar/edit/{{row.sbid}}"
+                            class="datatable-action-button">
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                        </button>
+                        <button mat-menu-item class="datatable-action-button" *ngIf="row.sb_state==1" (click)="changeStatus(row.sbid)">
+                            <mat-icon>visibility_off</mat-icon>
+                            <span>Disable</span>
+                        </button>
+                        <button mat-menu-item class="datatable-action-button" *ngIf="row.sb_state==0" (click)="changeStatus(row.sbid)">
+                            <mat-icon>visibility</mat-icon>
+                            <span>Enable</span>
+                        </button>
+                        <button mat-menu-item [swal]="deleteSwal" (confirm)="deleteBanner([row.sbid])"
+                            class="datatable-action-button">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                        </button>
+                    </span>
+
+                </mat-menu>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+
+<swal #enableSwal text="Are you sure to enable banner?" type="question" [showCancelButton]="true" [focusCancel]="true">
+</swal>
+<swal #disableSwal text="Are you sure to disable banner?" type="question" [showCancelButton]="true"
+    [focusCancel]="true"></swal>
+<swal #deleteSwal text="Are you sure to delete banner?" type="question" [showCancelButton]="true" [focusCancel]="true">
+</swal>

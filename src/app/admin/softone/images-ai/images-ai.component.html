@@ -63,7 +63,7 @@
                             </mat-datepicker>
                             <input matInput class="form-control" [(ngModel)]="dataBlind.period.end"
                                 name="dataBlind.period.end" [matDatepicker]="period_to"
-                                (ngModelChange)="handleChangeEndDate()" autocomplete="false" placeholder="To"
+                                (ngModelChange)="handleChangeEndDate($event)" autocomplete="false" placeholder="To"
                                 readonly>
                         </mat-form-field>
 
@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-3" style="margin-top: 30px;">
                     <div class="pull-right">
-                        <button class="btn btn-primary mr-1" [disabled]="activeClick == false"
+                        <button class="btn btn-primary mr-1" [disabled]="activeClick == false || activeClick == 'false'"
                             (click)="onSubmit()"><i class="material-icons align-text-bottom">
                                 search
                             </i> <span>Search</span></button>

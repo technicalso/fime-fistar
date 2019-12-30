@@ -31,6 +31,7 @@ export class AdminCategoryDialogComponent implements OnInit {
     public type = 0;
     public activeImages = '';
     public inactiveImages = '';
+    public isSubmitted = false;
 
     constructor(
         private api: Restangular,
@@ -62,6 +63,10 @@ export class AdminCategoryDialogComponent implements OnInit {
     }
 
     onSave() {
+        this.isSubmitted = true;
+        if (this.activeImages === '' || this.inactiveImages === '' || this.form.invalid) {
+            return 0;
+        }
         if (this.inactiveImages !== '') {
             this.category.additional_inactive = this.inactiveImages;
         }

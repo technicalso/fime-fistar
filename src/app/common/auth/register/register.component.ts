@@ -26,13 +26,10 @@ export class RegisterComponent implements OnInit {
     public model: any;
     public isEmailExisted = false;
     public isDisplayNameExisted = false;
-    public isInvalidUserName = false;
     public isVerifyAccount = false;
     private identity_id: any;
     public user: any;
     public isSaving = false;
-    public inActiveAccount = false;
-    public wrongAuthInfo = false;
 
     constructor(private api: Restangular,
                 private router: Router,
@@ -74,8 +71,7 @@ export class RegisterComponent implements OnInit {
             name: '',
             email: '',
             password: '',
-            rePassword: '',
-            displayName: ''
+            rePassword: ''
         };
         if (this.identity_id !== undefined) {
             this.isVerifyAccount = true;
@@ -84,7 +80,7 @@ export class RegisterComponent implements OnInit {
 
         this.registerForm = this.formBuilder.group({
             fullName: ['', Validators.required],
-            displayName: ['', [Validators.required]],
+            displayName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]],
             rePassword: ['', Validators.required],
@@ -116,8 +112,6 @@ export class RegisterComponent implements OnInit {
         this.isSaving = true;
         this.isDisplayNameExisted = false;
         this.isEmailExisted = false;
-        this.wrongAuthInfo = false;
-        this.inActiveAccount = false;
         const self = this;
         self.api.all('/auth/register').customPOST(data).subscribe(res => {
             this.isSaving = false;
@@ -197,16 +191,6 @@ export class RegisterComponent implements OnInit {
             .subscribe((res: any) => {
                 self.isSaving = false;
                 const result = res.result;
-                if (result.error) {
-                    self.wrongAuthInfo = false;
-                    self.inActiveAccount = false;
-                    if (result.errorCode === 1) {
-                        self.wrongAuthInfo = true;
-                    } else if (result.errorCode === 2 ) {
-                        self.inActiveAccount = true;
-                    }
-                    return;
-                }
                 if (result.identity_id) {
                     self.ngZone.run(() => self.router.navigate(['/register', result.identity_id.user_no])).then();
                 }
@@ -224,25 +208,15 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/']);
     }
 
-    checkUserName() {
-        const regex = /^[a-zA-Z0-9_]+$/;
-        if (!regex.test(this.model.displayName)) {
-            this.isInvalidUserName = true;
-        } else {
-            this.isInvalidUserName = false;
-        }
-    }
-
     onSubmit() {
         const self = this;
         this.submitted = true;
         this.checkPasswords(this.registerForm);
-        this.checkUserName();
         if (!this.agreeTerm) {
             return;
         }
         // Stop here if form is invalid
-        if (this.registerForm.invalid || this.notSame || this.isInvalidUserName) {
+        if (this.registerForm.invalid || this.notSame) {
             return;
         } else {
             // Register new account

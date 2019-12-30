@@ -9,8 +9,8 @@
             </div>
             <div>
                 <button class="btn btn-default" routerLink="/admin/ads"><i class="material-icons align-text-bottom">
-                    arrow_back
-                </i> <span>Back</span></button>
+                        arrow_back
+                    </i> <span>Back</span></button>
             </div>
         </div>
     </div>
@@ -41,8 +41,8 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <textarea type="text" class="form-control" placeholder="Enter description" [(ngModel)]="ad.description"
-                                    formControlName="name" name="name"></textarea>
+                                <textarea type="text" class="form-control" placeholder="Enter description"
+                                    [(ngModel)]="ad.description" formControlName="name" name="name"></textarea>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,8 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <select class='form-control' [(ngModel)]="ad.target_type" formControlName="target_type" name="target_type">
+                                <select class='form-control' [(ngModel)]="ad.target_type" formControlName="target_type"
+                                    name="target_type">
                                     <option value="_blank">_blank</option>
                                     <option value="_self">_self</option>
                                 </select>
@@ -85,7 +86,8 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <select class='form-control' [(ngModel)]="ad.order" formControlName="order" name="order">
+                                <select class='form-control' [(ngModel)]="ad.order" formControlName="order"
+                                    name="order">
                                     <option *ngFor="let item of arrayOrder(100);let i = index;">{{i}}</option>
                                 </select>
                             </div>
@@ -98,8 +100,8 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <ui-switch size="small" formControlName="show_on_frontend" [(ngModel)]="ad.show_on_frontend"
-                                           color="#FF65B1"></ui-switch>
+                                <ui-switch size="small" formControlName="show_on_frontend"
+                                    [(ngModel)]="ad.show_on_frontend" color="#FF65B1"></ui-switch>
                             </div>
                         </div>
                     </div>
@@ -110,8 +112,9 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <app-admin-resource #resource [resource]="{ url: ad.url, resource_type: ad.resource_type }"
-                                    [resizeToWidth]="400" [aspectRatio]="40/23"></app-admin-resource>
+                                <app-admin-resource #resource
+                                    [resource]="{ url: ad.url, resource_type: ad.resource_type }" [resizeToWidth]="400"
+                                    [aspectRatio]="40/23"></app-admin-resource>
                             </div>
                         </div>
                     </div>
@@ -124,8 +127,7 @@
                     cancel
                 </i> <span> {{ "cancel" | translate }}</span>
             </button>
-            <button class="btn btn-primary mr-1" [disabled]="!form.valid"
-                    (click)="save()">
+            <button class="btn btn-primary mr-1" [disabled]="!form.valid" (click)="save()">
                 <i class="material-icons align-text-bottom">
                     save
                 </i> <span> {{ "save" | translate }}</span>

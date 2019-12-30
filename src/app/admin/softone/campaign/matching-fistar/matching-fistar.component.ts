@@ -133,7 +133,7 @@ export class AdminCampaignMatchingStatusComponent implements OnInit {
         public activeRoute: ActivatedRoute,
         private campaginService: HttpClientAdminService,
         private toa: ToastrService,
-        public commonService: CommonService,
+        private commonService: CommonService,
     ) {
 
     }

@@ -38,7 +38,7 @@ export class AdminRequestFartnerComponent implements OnInit {
         private router: Router,
         private toast: ToastrService,
         private requestPartner: RequestPartnerService,
-        public commonService: CommonService,
+        private commonService: CommonService,
     ) {
 
     }

@@ -1,12 +1,9 @@
 <div class="component-admin-review">
     <div class="row">
-        <div class="col-8">
+        <div class="col-12">
             <div class="admin-heading">
                 {{ "review_detail" | translate }}
             </div>
-        </div>
-        <div class="col-4 pull-right">
-            <a class="btn btn-primary mr-1" [routerLink]="['/admin/reviews/edit', review.review_no]" (click)="close()">Edit</a>
         </div>
     </div>
     <div class="row">
@@ -16,29 +13,16 @@
                 <p class="review-title">{{review.goods_nm}}</p>
             </div>
             <div class="review-body">
+                <label>Short Description</label>
+                <p>{{review.review_short}}</p>
+            </div>
+            <div class="review-body">
                 <label>Description</label>
                 <p [innerHtml]="review.review_dc | safeHtml"></p>
-            </div>
-            <div class="review-footer">
-                <label>Images</label>
-                <!-- <div class="review-images" *ngFor="let image of images; let i = index;">
-                    <img [src]="env.rootHost + image.thumbnail" alt="product" class="other-image"
-                        >
-                </div> -->
-                <div class="review-images">
-                    <div class="images" *ngFor="let image of review.files; let i = index;">
-                        <img width="200px" height="200px"
-                            [src]="env.rootHost + review.files[i].FILE_COURS + '/' + review.files[i].STRE_FILE_NM"
-                            alt="product" class="other-image">
-                    </div>
-                </div>
-
-
             </div>
         </div>
     </div>
     <div class="actions d-flex justify-content-end col-md-8">
-        <!-- <a routerLink="/admin/reviews" class="btn-hero btn-cancel">{{ "back" | translate }}</a> -->
-        <button (click)="close()" class="btn-hero btn-cancel">{{ "back" | translate }}</button>
+        <a routerLink="/admin/reviews" class="btn-hero btn-cancel">{{ "back" | translate }}</a>
     </div>
 </div>

@@ -29,10 +29,14 @@
     </div>
 
     <div class="main-wrap">
-        <ngx-masonry [options]="myOptions"  infiniteScroll [infiniteScrollDistance]="1" [scrollWindow]="true" [infiniteScrollThrottle]="1000"
+        <ngx-masonry [options]="myOptions" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="1000"
                      (scrolled)="onScroll()">
             <ngxMasonryItem class="masonry-item" *ngFor="let try of tries; let i = index;" data-id="{{ try.cntnts_no }}">
-                <h2 class="post-header" title="{{ try.name }}" routerLink="/tries/{{try.slug}}">
+                <h2 class="post-header" title="{{ try.name }}" routerLink="/tries/{{try.slug}}"
+                    [ngStyle]="{
+                        'color': renderColor(try.time_color_code),
+                        'background-color': renderColor(try.time_color_code) == '#fff' ? '#f14c7f' : '#fff'
+                    }">
                     {{ try.cntnts_nm }}
                 </h2>
                 <div class="post-body">
@@ -58,27 +62,19 @@
                         <ng-container *ngIf="try.count_down_type == 0">
                             <div class="title coming-soon pointer" routerLink="/tries/{{try.slug}}"
                                  *ngIf="!try.goods_txt || try.remaining_time_to_open < timeToShowCountdown; else custom_text">
-                                <p>Sẽ mở sau</p>
+                                <p>Mở sau</p>
                                 <div class="count-down-time coming-soon">
-                                    <div class="custom-tick">
-                                        <div class="tick">{{try.days}}
-                                        </div>
-                                        <div class="desc">ngày</div>
+                                    <div class="tick">{{try.days}}
+                                        <div class="desc">Ngày</div>
                                     </div>
-                                    <div class="custom-tick">
-                                        <div class="tick">{{try.hours}}
-                                        </div>
-                                        <div class="desc">giờ</div>
+                                    <div class="tick">{{try.hours}}
+                                        <div class="desc">Giờ</div>
                                     </div>
-                                    <div class="custom-tick">
-                                        <div class="tick">{{try.minutes}}
-                                        </div>
-                                        <div class="desc">phút</div>
+                                    <div class="tick">{{try.minutes}}
+                                        <div class="desc">Phút</div>
                                     </div>
-                                    <div class="custom-tick">
-                                        <div class="tick">{{try.seconds}}
-                                        </div>
-                                        <div class="desc">giây</div>
+                                    <div class="tick">{{try.seconds}}
+                                        <div class="desc">Giây</div>
                                     </div>
                                 </div>
                             </div>
@@ -91,40 +87,28 @@
                         </ng-container>
 
                         <ng-container *ngIf="try.count_down_type == 1">
-                            <div class="title custom-title coming-soon pointer" routerLink="/tries/{{try.slug}}">
-                                <p>Thời gian còn lại</p>
-                                <div class="count-down-time coming-soon">
-                                    <div class="custom-tick">
-                                        <div class="tick">{{try.days}}
-                                        </div>
-                                        <div class="desc">ngày</div>
+                            <div class="title inprogress pointer" routerLink="/tries/{{try.slug}}">
+                                <span>Kết thúc sau</span>
+                                <div class="count-down-time">
+                                    <div class="tick" title="Ngày">{{try.days}}
                                     </div>
-                                    <div class="custom-tick">
-                                        <div class="tick">{{try.hours}}
-                                        </div>
-                                        <div class="desc">giờ</div>
+                                    <div class="tick" title="Giờ">{{try.hours}}
                                     </div>
-                                    <div class="custom-tick">
-                                        <div class="tick">{{try.minutes}}
-                                        </div>
-                                        <div class="desc">phút</div>
+                                    <div class="tick" title="Phút">{{try.minutes}}
                                     </div>
-                                    <div class="custom-tick">
-                                        <div class="tick">{{try.seconds}}
-                                        </div>
-                                        <div class="desc">giây</div>
+                                    <div class="tick" title="Giây">{{try.seconds}}
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="price pointer" *ngIf="try.count_down_type == 1" routerLink="/tries/{{try.slug}}">
+                            <div class="price pointer" *ngIf="try.count_down_type == 1" routerLink="/tries/{{try.slug}}">
                                 <div class="sale-price" *ngIf="try.event_knd_code != 398002">
                                     {{try.event_pc ? (try.event_pc | currency: '': '': '1.0') : '0'}}
                                     đồng</div>
                                 <div class="sale-price" *ngIf="try.event_knd_code == 398002">0 đồng</div>
                                 <div class="origin-price" *ngIf="try.goods_pc">{{try.goods_pc | currency: '': '': '1.0'}} đồng</div>
-                            </div> -->
+                            </div>
 
-                            <a href="{{try.link_url}}" class="btn-cart btn-icon-buy" target="_blank" *ngIf="try.event_knd_code == 398002">
+                            <a href="{{try.link_url}}" class="btn-cart" target="_blank" *ngIf="try.event_knd_code == 398002">
                                 <img src="/assets/icons/cart.png" />
                             </a>
                             <span class="btn-cart" *ngIf="try.event_knd_code != 398002" [appAuth] (action)="apply(try)">
@@ -133,7 +117,7 @@
                             <a class="btn-try" *ngIf="try.is_joined && try.event_knd_code == 398002" routerLink="/tries/{{try.slug}}">
                                 <span>Đã đăng ký</span>
                             </a>
-                            <a class="btn-try btn-signup" [appAuth] *ngIf="!try.is_joined && try.event_knd_code == 398002" (action)="apply(try)">
+                            <a class="btn-try" [appAuth] *ngIf="!try.is_joined && try.event_knd_code == 398002" (action)="apply(try)">
                                 <span *ngIf="try.event_knd_code == 398002">Đăng ký miễn phí</span>
                             </a>
                         </ng-container>
@@ -142,7 +126,7 @@
                             <div class="title done pointer" routerLink="/tries/{{try.slug}}">
                                 Đã kết thúc
                             </div>
-                            <a href="{{try.link_url}}" class="btn-cart pointer" target="_blank" *ngIf="try.event_knd_code == 398002" style="display: none;">
+                            <a href="{{try.link_url}}" class="btn-cart pointer" target="_blank" *ngIf="try.event_knd_code == 398002">
                                 <img src="/assets/icons/cart.png" />
                             </a>
                             <span class="btn-cart" *ngIf="try.event_knd_code != 398002" [appAuth] (action)="apply(try)">
@@ -170,19 +154,16 @@
                 <div class="post-footer">
                     <div class="post-footer-content">
                         <div class="action-block">
-                            <button class="action-btn active" *ngIf="try.is_liked == 1" [appAuth] (action)="toggleLikeReview(try.cntnts_no, i)">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                            </button>
-                            <button class="action-btn active" *ngIf="try.is_liked == 0" [appAuth] (action)="toggleLikeReview(try.cntnts_no, i)">
+                            <button class="action-btn" [ngClass]="{'active': try.is_liked == 1}" [appAuth] (action)="toggleLikeReview(try.cntnts_no, i)">
                                 <i class="fa fa-heart-o" aria-hidden="true"></i>
                             </button>
                             <div class="likes">
                                 <span class="number-of-like" (click)="usersLikeDialog(try.cntnts_no, 'try')">{{ try.likes | numberlike }}</span>
                             </div>
                             <div class="user-likes">
-                                <div [style.z-index]="6-i" *ngFor="let user of try.users_liked; let i = index">
-                                    <div class="circle-avt" *ngIf="i < 6">
-                                        <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/avatar.jpg'" alt="{{user.id ? user.id : user.reg_name}}"
+                                <div *ngFor="let user of try.users_liked; let i = index">
+                                    <div class="circle-avt" *ngIf="i < 3">
+                                        <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/user.png'" alt="{{user.id ? user.id : user.reg_name}}"
                                              title="{{user.id ? user.id : user.reg_name}}" [ngClass]="{'hidden': i > 1}"
                                              class="user-avt pointer" routerLink="/usr/{{user.slug}}">
                                     </div>
@@ -196,12 +177,7 @@
                         </div>
                         <div class="action-block">
                             <button class="action-btn right" routerLink="/tries/{{try.slug}}">
-                                <i class="fa fa-comment-o" aria-hidden="true" style="-webkit-transform: rotateY(180deg);
-                                -moz-transform: rotateY(180deg);
-                                -o-transform: rotateY(180deg);
-                                -ms-transform: rotateY(180deg);
-                                transform: rotateY(180deg);">
-                                </i>
+                                <i class="fa fa-comment-o" aria-hidden="true"></i>
                             </button>
                             <div class="likes">
                                 <span class="number-of-like">{{ try.comments | numberlike }}</span>

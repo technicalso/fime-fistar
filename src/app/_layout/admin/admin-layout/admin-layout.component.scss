@@ -28,4 +28,27 @@
     margin-bottom: 20px;
 }
 
-
+.admin-page{
+    margin-top: 100px;
+}
+.fistar-header {
+    padding: 10px;
+    padding-left: 40px;
+    background: #e2e2e2;
+    margin: -20px -20px 20px -40px;
+    font-size: 15px;
+    strong{
+        color: #06a1ff;
+    }
+    button{
+        background: #06a1ff;
+        color: #FFF;
+        border: 0;
+        border-radius: 30px;
+        padding: 5px 20px;
+        font-size: 15px;
+        &:hover{
+            background: #ff069a;
+        }
+    }
+}

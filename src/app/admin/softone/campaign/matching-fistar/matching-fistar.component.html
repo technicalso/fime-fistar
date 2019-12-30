@@ -21,7 +21,7 @@
         <table class="table table-bordered">
             <tbody>
                 <tr style="vertical-align: middle;">
-                    <td (click)="search('all', 0)" [ngClass]="{'active-bg': activeItem== 0}">Recruitment {{cruiment}}</td>
+                    <td (click)="search('all')" [ngClass]="{'active-bg': activeItem== 0}">Recruitment {{cruiment}}</td>
                     <td (click)="search('request', 1)" [ngClass]="{'active-bg': activeItem== 1}">Request
                         {{count['request']}}</td>
                     <td (click)="search('rejected', 2)" [ngClass]="{'active-bg': activeItem== 2}">Rejected

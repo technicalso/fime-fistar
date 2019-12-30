@@ -223,7 +223,9 @@ export class AdminBannerFistarDetailsComponent implements OnInit {
             },(err)=>{
                 this.error = err;
                 console.log(this.error);
-                this.toast.error(this.error.error.message);
+                // this.toast.error(this.error.error.message);
+                this.toast.error('size image too large');
+                this.router.navigate(['/admin/banner-fistar/edit/'+this.bannerId]);
             });
         }
         else

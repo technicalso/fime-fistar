@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
     public loginForm: FormGroup;
     public submitted = false;
     public wrongAuthInfo = false;
-    public inActiveAccount = false;
     public model: any;
     private lastPath: any;
     private redirectUrl = '/';
@@ -96,13 +95,7 @@ export class LoginComponent implements OnInit {
                 const responseData = res.result;
                 // Wrong email or password, show error
                 if (responseData.error) {
-                    self.wrongAuthInfo = false;
-                    self.inActiveAccount = false;
-                    if (responseData.errorCode === 1) {
-                        self.wrongAuthInfo = true;
-                    } else if (responseData.errorCode === 2 ) {
-                        self.inActiveAccount = true;
-                    }
+                    self.wrongAuthInfo = true;
                     return;
                 } else {
                     // Login successfully
@@ -154,16 +147,6 @@ export class LoginComponent implements OnInit {
             .subscribe((res: any) => {
                 self.isSaving = false;
                 const result = res.result;
-                if (result.error) {
-                    self.wrongAuthInfo = false;
-                    self.inActiveAccount = false;
-                    if (result.errorCode === 1) {
-                        self.wrongAuthInfo = true;
-                    } else if (result.errorCode === 2 ) {
-                        self.inActiveAccount = true;
-                    }
-                    return;
-                }
                 if (result.access_token) {
                     self.storeAccessTokenIntoCookie(result.access_token, result.expires_in, result.user);
                 } else if (result.user && result.user.user_no) {

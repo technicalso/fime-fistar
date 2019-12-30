@@ -1,9 +1,4 @@
 <div class="component-admin-try">
-    <select (change)="changePageLimit($event.target.value)" class="page-limit">
-        <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == pageSize">
-            {{option.value}} per page
-        </option>
-    </select>
     <div class="row">
         <div class="col-12 d-flex justify-content-between">
             <div class="admin-heading">
@@ -11,8 +6,8 @@
             </div>
             <div>
                 <button class="btn btn-default" routerLink="/admin/try"><i class="material-icons align-text-bottom">
-                        arrow_back
-                    </i> <span>Back</span></button>
+                    arrow_back
+                </i> <span>Back</span></button>
             </div>
         </div>
     </div>
@@ -40,9 +35,9 @@
                     <div>
                         <mat-form-field class="full-width">
                             <mat-select [(ngModel)]="filter.is_selected">
-                                <mat-option value="null">All</mat-option>
-                                <mat-option value="0">Selected</mat-option>
-                                <mat-option value="1">Un-Selected</mat-option>
+                                <mat-option value="-1">All</mat-option>
+                                <mat-option value="1">Selected</mat-option>
+                                <mat-option value="0">Un-Selected</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -50,37 +45,29 @@
             </div>
             <div class="col-7">
                 <div class="pull-right">
-                    <button class="btn btn-primary mr-1" (click)="onSearch()"><i
-                            class="material-icons align-text-bottom">
-                            search
-                        </i> <span>Search</span></button>
-                    <button class="btn btn-default mr-1" (click)="onReset()"><i
-                            class="material-icons align-text-bottom">
-                            replay
-                        </i> <span>Reset</span></button>
-                    <button class="btn btn-default" (click)="onDownload()" *ngIf="tries && tries.length > 0"><i
-                            class="material-icons align-text-bottom">
-                            save_alt
-                        </i> <span>Excel</span></button>
+                    <button class="btn btn-primary mr-1" (click)="onSearch()"><i class="material-icons align-text-bottom">
+                        search
+                    </i> <span>Search</span></button>
+                    <button class="btn btn-default mr-1" (click)="onReset()"><i class="material-icons align-text-bottom">
+                        replay
+                    </i> <span>Reset</span></button>
+                    <button class="btn btn-default" (click)="onDownload()" *ngIf="tries && tries.length > 0"><i class="material-icons align-text-bottom">
+                        save_alt
+                    </i> <span>Excel</span></button>
                 </div>
             </div>
         </div>
     </mat-card>
 
-    <ngx-datatable #myTable class="material" [rows]="tries" [columnMode]="'force'" [headerHeight]="50"
-        [footerHeight]="50" [count]="total" [offset]="pageIndex-1" [limit]="pageSize" [externalPaging]="true"
-        (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)" [rowHeight]="'auto'">
-        <ngx-datatable-column name="ID" [canAutoResize]="true" [resizeable]="true">
+    <ngx-datatable #myTable class="material" [rows]="tries" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+        [count]="total" [offset]="pageIndex-1" [limit]="pageSize" [externalPaging]="true" (page)='setPage($event)'
+        [externalSorting]="true" (sort)="onSort($event)" [rowHeight]="'auto'" >
+        <ngx-datatable-column name="ID" [canAutoResize]="false" [resizeable]="false">
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <span>{{row.user_no }}</span>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Display Name" prop="id">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                <span>{{row.id }}</span>
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Full Name" prop="reg_name">
+        <ngx-datatable-column name="Name" prop="name">
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <span>{{row.reg_name }}</span>
             </ng-template>
@@ -110,29 +97,21 @@
                 <span>{{row.number_of_reviews }}</span>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Date of review" prop="reviews.writng_dt" [sortable]="false">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                    <a *ngIf="row.reviews" href="https://fime.vn/reviews/detail/{{row.reviews.slug}}" target="_blank" style="color: black;text-decoration: none;font-size: 13px;">{{row.reviews.writng_dt}}</a>
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column [width]="150" name="Action" [sortable]="false" [canAutoResize]="false"
-            [resizeable]="false">
+        <ngx-datatable-column [width]="150" name="Action" [sortable]="false" [canAutoResize]="false" [resizeable]="false">
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <mat-chip-list class="action">
-                    <i class="material-icons" [swal]="unselectSwal" *ngIf="row.slctn_at == 'Y'"
-                        (confirm)="onToggle(row)" title="Un-select">
+                    <i class="material-icons" [swal]="unselectSwal" *ngIf="row.slctn_at == 'Y'" (confirm)="onToggle(row)" title="Un-select">
                         visibility_off
                     </i>
-                    <i class="material-icons" [swal]="selectSwal" *ngIf="row.slctn_at == 'N'" (confirm)="onToggle(row)"
-                        title="Select">
+                    <i class="material-icons" [swal]="selectSwal" *ngIf="row.slctn_at == 'N'" (confirm)="onToggle(row)" title="Select">
                         visibility
                     </i>
                     <i class="material-icons" *ngIf="row.slctn_at == 'Y' && !row.dlvy_dt"
-                        (click)="editDeliveryInfo(row)" title="Delivery Info" style="color: red !important;">
+                       (click)="editDeliveryInfo(row)" title="Delivery Info" style="color: red !important;">
                         local_shipping
                     </i>
-                    <i class="material-icons" *ngIf="row.slctn_at == 'Y' && row.dlvy_dt" (click)="editDeliveryInfo(row)"
-                        title="Delivered" style="color: darkgreen !important;">
+                    <i class="material-icons" *ngIf="row.slctn_at == 'Y' && row.dlvy_dt"
+                       (click)="editDeliveryInfo(row)" title="Delivered" style="color: darkgreen !important;">
                         local_shipping
                     </i>
                 </mat-chip-list>
@@ -141,6 +120,5 @@
     </ngx-datatable>
 </div>
 
-<swal #unselectSwal text="Are you sure to un-select?" type="question" [showCancelButton]="true" [focusCancel]="true">
-</swal>
+<swal #unselectSwal text="Are you sure to un-select?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>
 <swal #selectSwal text="Are you sure to select?" type="question" [showCancelButton]="true" [focusCancel]="true"></swal>

@@ -30,8 +30,6 @@ export class AdminBannerDetailsComponent implements OnInit {
     public required_upload_file_url: boolean;
     public imageChangedEvent: any;
     public imageBase64: any;
-    public invalidMainImage = false;
-    public isSubmitted = false;
 
     constructor(
         private api: Restangular,
@@ -41,6 +39,7 @@ export class AdminBannerDetailsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        console.log("INIT",this.resource, this.banner);
         this.env = environment;
 
         this.activeRoute.params.forEach((params: Params) => {
@@ -74,23 +73,20 @@ export class AdminBannerDetailsComponent implements OnInit {
             .get()
             .subscribe(res => {
                 this.banner = res.result;
-                this.banner.period_from = moment.utc(this.banner.period_from).subtract(1, 'day').toDate();
-                this.banner.period_to = moment.utc(this.banner.period_to).subtract(1, 'day').toDate();
+                this.banner.period_from = moment.utc(this.banner.period_from).toDate();
+                this.banner.period_to = moment.utc(this.banner.period_to).toDate();
             });
     }
 
 
     save() {
-        this.isSubmitted = true;
         if (!this.resource.isChanged) {
             this.onSave();
         } else {
             this.resource.onSave((response) => {
-                if (typeof response === 'undefined' || typeof response.url === 'undefined' || !response.url) {
-                    this.invalidMainImage = true;
-                    return;
-                }
-                this.banner.url = response.url + '/' + response.name;
+                const name = response.name.split('.');
+                const originalName = name[0] + '_ORIGINAL.' + name[1];
+                this.banner.url = response.url + '/' + originalName;
                 this.banner.resource_type = response.resource_type;
                 this.onSave();
             });

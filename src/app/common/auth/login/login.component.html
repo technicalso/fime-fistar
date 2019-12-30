@@ -26,11 +26,8 @@
                                     <small class="form-text text-muted" *ngIf="form.password.errors.minlength">{{ 'password__minimum_length' | translate}}</small>
                                 </div>
                             </div>
-                            <div class="error-hint" *ngIf="wrongAuthInfo">
+                            <div class="error-hint" *ngIf="wrongAuthInfo && submitted">
                                 <span> <i class="fa fa-info-circle" aria-hidden="true"></i> {{ 'wrong_auth_information' | translate}}</span>
-                            </div>
-                            <div class="error-hint" *ngIf="inActiveAccount">
-                                <span> <i class="fa fa-info-circle" aria-hidden="true"></i> {{ 'inactive_account' | translate}}</span>
                             </div>
                             <div class="form-control-group login-action">
                                 <span class="forgot-password-link"><a [routerLink]="['/forgot-password']">{{ 'forgot_password' | translate}}</a></span>

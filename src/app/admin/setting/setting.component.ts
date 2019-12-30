@@ -27,8 +27,6 @@ export class AdminSettingComponent implements OnInit {
     public points: any;
     public points_data = [];
     public colors_data = [];
-    public sitemap: any;
-    public updateSitemap = false;
 
     constructor(
         private api: Restangular,
@@ -191,16 +189,6 @@ export class AdminSettingComponent implements OnInit {
                     );
                 }
             }
-        });
-    }
-
-    createSitemap(){
-        this.updateSitemap = true;
-        this.api.all('sitemap.xml/create').customPOST(this.sitemap).subscribe(res => {
-            // if(res.result) {
-            //     this.sitemap = res.result;
-                this.toast.success('Create sitemap successfully');
-            // }
         });
     }
 }

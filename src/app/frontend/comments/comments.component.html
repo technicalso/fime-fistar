@@ -5,7 +5,7 @@
     </div>
     <div class="new-comment">
         <div class="left-avt">
-            <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/avatar.jpg'" alt="avt" class="avatar">
+            <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/user.png'" alt="avt" class="avatar">
         </div>
         <div class="right-col">
             <form [formGroup]="commentForm" class="comment-form" (submit)="postComment()">
@@ -26,7 +26,7 @@
     <div class="list-comments">
         <div class="comment-item" *ngFor="let comment of listComments; let i = index;">
             <div class="left-avt">
-                <img [src]="comment.author_avatar ? env.rootHost + comment.author_avatar : 'assets/images/avatar.jpg'"
+                <img [src]="comment.author_avatar ? env.rootHost + comment.author_avatar : 'assets/images/user.png'"
                      alt="avt" class="avatar pointer" routerLink="/usr/{{comment.author_slug}}">
             </div>
             <div class="right-col">
@@ -47,7 +47,7 @@
                 <div class="right-col">
                     <div class="comment-item" *ngFor="let reply of comment.replies; let j = index;">
                         <div class="left-avt">
-                            <img [src]="reply.author_avatar ? env.rootHost + reply.author_avatar : 'assets/images/avatar.jpg'"
+                            <img [src]="reply.author_avatar ? env.rootHost + reply.author_avatar : 'assets/images/user.png'"
                                  alt="avt" class="avatar pointer" routerLink="/usr/{{reply.author_slug}}">
                         </div>
                         <div class="right-col">

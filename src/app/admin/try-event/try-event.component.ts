@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-admin-try-event',
@@ -36,7 +37,7 @@ export class AdminTryEventComponent implements OnInit {
     public showDelete = false;
     public showDeactivate = false;
     public showActive = false;
-    public pageLimitOptions = [];
+
     constructor(
         private api: Restangular,
         private toast: ToastrService,
@@ -53,13 +54,6 @@ export class AdminTryEventComponent implements OnInit {
         this.getTries();
         this.getBrands();
         this.getCategories();
-        this.pageLimitOptions = [
-            {value: 5},
-            {value: 10},
-            {value: 20},
-            {value: 25},
-            {value: 50}
-        ];
     }
 
     getBrands() {
@@ -87,6 +81,11 @@ export class AdminTryEventComponent implements OnInit {
                 from: from, to: to
             }).subscribe(res => {
                 this.tries = res.result.data;
+                for (let i = 0; i < this.tries.length; i++) {
+                    this.tries[i].event_bgnde = moment.utc(this.tries[i].event_bgnde);
+                    this.tries[i].event_endde = moment.utc(this.tries[i].event_endde);
+                }
+                this.tries = _.orderBy(this.tries, ['count_down_type'], ['desc']);
                 this.total = res.result.total;
             });
     }
@@ -206,10 +205,5 @@ export class AdminTryEventComponent implements OnInit {
                 window.open(this.env.rootHost + res.result.path, '_blank');
             }
         });
-    }
-
-    changePageLimit(limit: any): void {
-        this.pageSize = limit;
-        this.getTries();
     }
 }

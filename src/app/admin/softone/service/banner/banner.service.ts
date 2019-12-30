@@ -29,6 +29,7 @@ export class BannerService {
   /** GET heroes from the server */
   getBanners (data?){
     let params = new HttpParams();
+    console.log(data)
     if(data){
       if(data.page && data.page>1)
         params = params.append('page', data.page)
@@ -59,3 +60,5 @@ export class BannerService {
   }
  
 }
+
+

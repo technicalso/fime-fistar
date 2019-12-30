@@ -9,13 +9,6 @@
         <div class="brand-container">
             <div class="brand-content">
                 <div class="form-group">
-                    <label>Cover Image</label>
-                    <app-admin-resource #resource [resource]="{ url: brand.file}" [resizeToWidth]="1150" [aspectRatio]="145/19"></app-admin-resource>
-                    <!-- <div *ngIf="isSubmitted && invalidMainImage" class="text-danger">
-                        Cover image is require
-                    </div> -->
-                </div>
-                <div class="form-group">
                     <label>Name</label>
                     <input
                         type="text"
@@ -37,7 +30,6 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
         <div class="modal-actions">
@@ -46,7 +38,7 @@
                     cancel
                 </i> <span> {{ "cancel" | translate }}</span>
             </button>
-            <button class="btn btn-primary mr-1" (click)="save()">
+            <button class="btn btn-primary mr-1" (click)="onSave()">
                 <i class="material-icons align-text-bottom">
                     save
                 </i> <span> {{ "save" | translate }}</span>

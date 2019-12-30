@@ -78,10 +78,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="phone link-fb" *ngIf="!model.sns_id">
+                <div class="phone link-fb">
                     <span class="label">{{"mypage.update_profile_link_with_facebook" | translate}}</span>
                     <div class="content">
-                        <button class="link-fb-btn not-link" (click)="linkToFacebook()">{{ 'link_now' | translate }}</button>
+                        <button class="link-fb-btn linked" *ngIf="model.sns_id" [swal]="unLinkSwal" (confirm)="unlink()">{{ 'unlink' | translate }}</button>
+                        <button class="link-fb-btn not-link" *ngIf="!model.sns_id" (click)="linkToFacebook()">{{ 'link_now' | translate }}</button>
                     </div>
                 </div>
             </div>

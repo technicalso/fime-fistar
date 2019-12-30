@@ -50,7 +50,7 @@ export class AdminFistarCampaignHistoryComponent implements OnInit {
         private fistarService: FistarService,
         private toa: ToastrService,
         private activeRoute: ActivatedRoute,
-        public commonService: CommonService,
+        private commonService: CommonService,
         private campaginService: HttpClientAdminService,
     ) {
 
