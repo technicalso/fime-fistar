@@ -6,14 +6,14 @@ import {
     ViewChild
 } from '@angular/core';
 
-import {Restangular} from 'ngx-restangular';
-import {Router, ActivatedRoute, Params} from '@angular/router';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
-import {TranslateService} from '@ngx-translate/core';
+import { Restangular } from 'ngx-restangular';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
-import {CookieService} from '../../../services/cookie.service';
-import {environment} from '../../../environments/environment';
+import { CookieService } from '../../../services/cookie.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-admin-banner',
@@ -62,6 +62,7 @@ export class AdminNotificationDetailComponent implements OnInit {
         this.api.one('system-notification', this.notificationId)
             .get()
             .subscribe(res => {
+                console.log(res);
                 this.notification = res.result;
             });
     }

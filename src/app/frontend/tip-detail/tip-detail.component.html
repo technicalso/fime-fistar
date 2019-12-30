@@ -7,16 +7,16 @@
                         <div class="img">
                             <carousel [interval]="intervalTime" class="carousel">
                                 <slide class="banner" *ngIf="tip.cover_img1">
-                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img1.replace('_TMB','')">
+                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img1">
                                 </slide>
                                 <slide *ngIf="tip.cover_img2">
-                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img2.replace('_TMB','')">
+                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img2">
                                 </slide>
                                 <slide *ngIf="tip.cover_img3">
-                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img3.replace('_TMB','')">
+                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img3">
                                 </slide>
                                 <slide *ngIf="tip.cover_img4">
-                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img4.replace('_TMB','')">
+                                    <img class="banner-img" [src]="env.rootHost + tip.img_url + '/' + tip.cover_img4">
                                 </slide>
                             </carousel>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="head">{{tip.cont1_head}}</div>
                         <div class="body">
                             <a class="img" [href]="tip.cont1_link_url" *ngIf="tip.cont1_link_url && tip.cont1_type == 'P'" target="_blank">
-                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont1_photo.replace('_TMB','')" *ngIf="tip.cont1_photo">
+                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont1_photo" *ngIf="tip.cont1_photo">
                             </a>
                             <div class="video" *ngIf="tip.cont1_type == 'S'">
                                 <video class="video" *ngIf="tip.cont1_movie" controls>
@@ -62,7 +62,7 @@
                                         frameborder="0"></iframe>
                             </div>
                             <div class="img" *ngIf="!tip.cont1_link_url">
-                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont1_photo.replace('_TMB','')" *ngIf="tip.cont1_type == 'P' && tip.cont1_photo">
+                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont1_photo" *ngIf="tip.cont1_type == 'P' && tip.cont1_photo">
                             </div>
                             <div class="content-head font-size: 13px;">{{tip.caption_text}}</div>
                             <div class="link mb-3 mt-1 ">
@@ -185,7 +185,7 @@
                         <div class="head">{{tip.cont2_head}}</div>
                         <div class="body">
                             <a [href]="tip.cont2_link_url" class="img" *ngIf="tip.cont2_link_url && tip.cont2_type == 'P'" target="_blank">
-                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont2_photo.replace('_TMB','')" *ngIf="tip.cont2_type == 'P' && tip.cont2_photo">
+                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont2_photo" *ngIf="tip.cont2_type == 'P' && tip.cont2_photo">
                             </a>
                             <div class="video" *ngIf="tip.cont2_type == 'S'">
                                 <video class="video" *ngIf="tip.cont2_movie" controls>
@@ -196,7 +196,7 @@
                                         frameborder="0"></iframe>
                             </div>
                             <div class="img" *ngIf="!tip.cont2_link_url">
-                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont2_photo.replace('_TMB','')" *ngIf="tip.cont2_type == 'P' && tip.cont2_photo">
+                                <img class="img" [src]="env.rootHost + tip.img_url + '/' + tip.cont2_photo" *ngIf="tip.cont2_type == 'P' && tip.cont2_photo">
                             </div>
                             <div class="content-head font-size: 13px;">{{tip.caption_text2}}</div>
                             <div class="link mb-3 mt-1 font-size: 13px;">

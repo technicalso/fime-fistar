@@ -16,6 +16,9 @@ export class AdminUserDetailComponent implements OnInit {
     public user: any;
     public form: any;
     public roles: any;
+    public isExistedID = false;
+    public isExistedEmail = false;
+    public isSubmitted = false;
 
     constructor(
         private api: Restangular,
@@ -29,20 +32,25 @@ export class AdminUserDetailComponent implements OnInit {
         this.activeRoute.params.forEach((params: Params) => {
             this.user_no = params['id'];
         });
-        this.user = {};
+        this.user = {
+            active: 1,
+            allow_comment: 1,
+            allow_review: 1,
+            delete: 0,
+            role_id: 2
+        };
         this.form = new FormGroup({
-            user_no: new FormControl({value: this.user.user_no, disabled: true}, [Validators.required]),
+            user_no: new FormControl({value: this.user.user_no, disabled: true}),
             reg_name: new FormControl(this.user.reg_name, [Validators.required]),
             email: new FormControl(this.user.email, [Validators.required]),
-            id: new FormControl(this.user.id, [Validators.required]),
-            slug: new FormControl(this.user.slug, [Validators.required]),
-            cellphone: new FormControl(this.user.cellphone, [Validators.required]),
-            home_addr1: new FormControl(this.user.home_addr1, [Validators.required]),
-            active: new FormControl(this.user.active, [Validators.required]),
-            allow_comment: new FormControl(this.user.allow_comment, [Validators.required]),
-            allow_review: new FormControl(this.user.allow_review, [Validators.required]),
-            delete: new FormControl(this.user.delete, [Validators.required]),
-            userRole: new FormControl(this.user.role_id, [])
+            id: new FormControl(this.user.id, [Validators.required, Validators.pattern('[a-zA-Z0-9_]+')]),
+            cellphone: new FormControl(this.user.cellphone),
+            home_addr1: new FormControl(this.user.home_addr1),
+            active: new FormControl(this.user.active),
+            allow_comment: new FormControl(this.user.allow_comment),
+            allow_review: new FormControl(this.user.allow_review),
+            delete: new FormControl(this.user.delete),
+            userRole: new FormControl(this.user.role_id)
         });
         if (this.user_no) {
             this.getUser();
@@ -57,12 +65,16 @@ export class AdminUserDetailComponent implements OnInit {
             .get()
             .subscribe(res => {
                 this.user = res.result;
-                this.user.deleted = this.user.delete_at === 'N' ? 0 : 1;
+                this.user.delete = this.user.delete_at === 'N' ? 0 : 1;
                 this.user.active = this.user.drmncy_at === 'N' ? 1 : 0;
             });
     }
 
     save() {
+        this.isSubmitted = true;
+        if (this.form.invalid) {
+            return 0;
+        }
         if (this.user_no) {
             this.api.all('admin/user/' + this.user.user_no + '/update').customPOST(this.user).subscribe(res => {
                 if (res.result) {
@@ -73,9 +85,24 @@ export class AdminUserDetailComponent implements OnInit {
         } else {
             this.api.all('admin/user/add').customPOST(this.user).subscribe(res => {
                 if (res.result) {
+                    this.isExistedID = false;
+                    this.isExistedEmail = false;
+                    if (res.result.error) {
+                        switch (res.result.error) {
+                            case 1:
+                                this.isExistedEmail = true;
+                                return;
+                            case 2:
+                                this.isExistedID = true;
+                                return;
+                            default:
+                                this.toast.error('Something went wrong');
+                                return;
+                        }
+                    }
                     this.toast.success('Add user successfully');
                     this.user = res.result;
-                    this.user.deleted = this.user.delete_at === 'N' ? 0 : 1;
+                    this.user.delete = this.user.delete_at === 'N' ? 0 : 1;
                     this.user.active = this.user.drmncy_at === 'N' ? 1 : 0;
                     this.user_no = this.user.user_no;
                 }

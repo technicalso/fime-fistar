@@ -7,8 +7,6 @@ import * as moment from 'moment';
 import {ShareFacebookService} from '../../../services/share-facebook.service';
 import {UsersLikeDialogComponent} from '../users-like-dialog/users-like-dialog.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import { MetaService } from '@ngx-meta/core';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-tip-detail',
@@ -39,7 +37,6 @@ export class TipDetailComponent implements OnInit {
     public isLoading = true;
     public interval: any;
     public reviews: any;
-    public reviewSlug;
     public modalRef: BsModalRef;
     public hotFimers: any;
     public defaultUserAvatar = 'assets/images/user.png';
@@ -53,8 +50,6 @@ export class TipDetailComponent implements OnInit {
                 private route: ActivatedRoute,
                 private facebookService: ShareFacebookService,
                 private elRef: Renderer2,
-                public meta: MetaService,
-                public http: HttpClient,
                 public modalService: BsModalService,
                 @Inject(PLATFORM_ID) private platformId: Object) {
     }
@@ -66,19 +61,8 @@ export class TipDetailComponent implements OnInit {
         }
         this.env = environment;
         this.shareLink = this.env.url + this.route.url;
-        // SHARE META
+        // this.slug = this.route.snapshot.paramMap.get('slug');
         this.tip_id = this.route.snapshot.paramMap.get('id');
-        this.http.get(environment.host + '/tip/' + this.tip_id).subscribe((res: any) => {
-            if (res.result) {
-                const url = environment.url + '/tips/' + this.tip_id;
-                const image = environment.rootHost + res.result.img_url + '/' + res.result.cover_img1;
-                this.meta.setTitle(res.result.subject);
-                this.meta.setTag('og:title', res.result.subject);
-                this.meta.setTag('og:description', res.result.caption_text);
-                this.meta.setTag('og:url', url);
-                this.meta.setTag('og:image', image);
-            }
-        });
         this.tip = {};
         this.listTip = [];
         this.topFimers = [];
@@ -264,8 +248,6 @@ export class TipDetailComponent implements OnInit {
 
     shareTipLink() {
         const href = this.env.url + this.router.url;
-        console.log(href);
-        
         this.facebookService.share(href);
         this.facebookService.response.subscribe(res => {
             return;

@@ -24,6 +24,7 @@ export class AdminSidebarComponent implements OnInit {
     ngOnInit() {
         this.showMenu = '';
         this.pushRightClass = 'push-right';
+        console.log(this.router.url.indexOf('/admin/request/partner'), "ROUTER")
     }
 
     addExpandClass(element: any) {
@@ -42,7 +43,7 @@ export class AdminSidebarComponent implements OnInit {
     onLoggedout() {
         this.cookie.remove('X-Token');
         this.cookie.remove('user');
-        this.router.navigate(['/admin']);
+        this.router.navigate(['/admin/login']);
     }
 
 }

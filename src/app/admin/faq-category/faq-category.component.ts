@@ -19,8 +19,6 @@ export class AdminFaqCategoryComponent implements OnInit {
     public mappingCategories: any;
     public env: any;
     public modalRef: BsModalRef;
-    public pageSize = 10;
-    public pageLimitOptions = [];
 
     constructor(
         private api: Restangular,
@@ -30,19 +28,6 @@ export class AdminFaqCategoryComponent implements OnInit {
 
     ngOnInit() {
         this.env = environment;
-        this.getCategories();
-        this.pageSize = 10;
-        this.pageLimitOptions = [
-            {value: 5},
-            {value: 10},
-            {value: 20},
-            {value: 25},
-            {value: 50}
-        ];
-    }
-
-    changePageLimit(limit: any): void {
-        this.pageSize = limit;
         this.getCategories();
     }
 

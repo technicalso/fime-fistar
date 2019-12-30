@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Restangular } from 'ngx-restangular';
 import { CookieService } from '../../../services/cookie.service';
 // import * as _ from 'lodash';
@@ -8,7 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Subject } from 'rxjs';
-import { AdminResourceComponent } from '../resource/resource.component';
 
 @Component({
     selector: 'app-admin-brand-dialog',
@@ -16,7 +15,6 @@ import { AdminResourceComponent } from '../resource/resource.component';
     styleUrls: ['./brand-dialog.component.scss']
 })
 export class AdminBrandDialogComponent implements OnInit {
-    @ViewChild('resource') public resource: AdminResourceComponent;
     public env: any;
     public form: any;
     public brand: any;
@@ -29,23 +27,11 @@ export class AdminBrandDialogComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.env = environment;
         this.onClose = new Subject();
 
         this.form = new FormGroup({
             name: new FormControl(this.brand.code_nm, [Validators.required])
         });
-    }
-
-    save() {
-        if (!this.resource.isChanged) {
-            this.onSave();
-        } else {
-            this.resource.onSave((response) => {
-                this.brand.file = response.url + '/' + response.name;
-                this.onSave();
-            });
-        }
     }
 
     onSave() {

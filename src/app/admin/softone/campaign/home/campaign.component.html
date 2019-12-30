@@ -116,7 +116,7 @@
                         <mat-datepicker-toggle [for]="period_to" matSuffix></mat-datepicker-toggle>
                         <mat-datepicker #period_to type="datetime" openOnFocus="true" timeInterval="5"></mat-datepicker>
                         <input matInput class="form-control" [(ngModel)]="dataBlind.period.end"
-                            [matDatepicker]="period_to" (ngModelChange)="handleChangeEndDate()" autocomplete="false" placeholder="To" readonly>
+                            [matDatepicker]="period_to" (ngModelChange)="handleChangeEndDate($event)" autocomplete="false" placeholder="To" readonly>
                     </mat-form-field>
                 </div>
             </div>
@@ -187,7 +187,7 @@
     </div>
     <app-data-table (outputShowModal)="viewModal($event)" (outputCheck)="getItem($event)" [items]="data.list"
         [headers]="data.header" [pageSize]="10" [isCheckItem]="true" [isCheckItemRadio]="true" [showPage]="true"
-        (outputPage)="getParams($event)" [currentPage]="data.page" (outputReloadData)="reloadDataFromChild($event)"
+        (outputPage)="getParams($event)" [currentPage]="data.page" (outputSelect)="navigate($event)" (outputReloadData)="reloadDataFromChild($event)"
         [totalPage]="data.total_page"></app-data-table>
 </div>
 

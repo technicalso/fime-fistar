@@ -1,13 +1,4 @@
-<div class="component-admin-users component-admin-try">
-    <select (change)="changePageLimit($event.target.value)" class="page-limit">
-      <option
-        *ngFor="let option of pageLimitOptions"
-        [value]="option.value"
-        [selected]="option.value == pageSize"
-      >
-        {{option.value}} per page
-      </option>
-    </select>
+<div class="component-admin-users">
     <div class="row">
         <div class="col">
             <div class="admin-heading">
@@ -66,13 +57,12 @@
                 [externalPaging]="true"
                 [count]="page.totalElements"
                 [offset]="page.pageNumber"
-                [limit]="pageSize"
+                [limit]="page.size"
                 (page)='setPage($event)'
                 [selectAllRowsOnPage]="false"
                 (select)='onSelect($event)'
                 [selected]="selected"
                 [scrollbarH]="false"
-                (sort)="onSort($event)"
         >
             <ngx-datatable-column name="user_no" prop="user_no" [width]="180" [canAutoResize]="false" [resizeable]="false">
                 <ng-template ngx-datatable-header-template>
@@ -81,15 +71,10 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="reg_name" prop="reg_name">
                 <ng-template ngx-datatable-header-template>
-                    <span>Full Name</span>
+                    <span>Name</span>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="id" prop="id">
-                <ng-template ngx-datatable-header-template>
-                    <span>Display name</span>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="cellphone" prop="cellphone" >
+            <ngx-datatable-column name="cellphone" prop="cellphone" [width]= "150" [canAutoResize]="false" [resizeable]="false">
                 <ng-template ngx-datatable-header-template>
                     <span>Phone</span>
                 </ng-template>
@@ -117,12 +102,6 @@
                     <span class="pointer" (click)="pointsDialog(row)">{{row.total_point}}</span>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Reviews" prop="reviews" [maxWidth]="120">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <span>{{row.reviews }}</span>
-                </ng-template>
-            </ngx-datatable-column>
-        
             <ngx-datatable-column name="Permission" [maxWidth]="100">
                 <ng-template ngx-datatable-header-template>
                     <span>Permission</span>
@@ -169,10 +148,10 @@
                         <mat-icon>more_vert</mat-icon>
                     </button>
                     <mat-menu #userActions="matMenu">
-                        <a mat-menu-item routerLink="/admin/user/edit/{{row.user_no}}" class="datatable-action-button">
+                        <button mat-menu-item routerLink="/admin/user/edit/{{row.user_no}}" class="datatable-action-button">
                             <mat-icon>edit</mat-icon>
                             <span>Edit</span>
-                        </a>
+                        </button>
                         <button mat-menu-item [swal]="deleteSwal" (confirm)="onDelete(row)" class="datatable-action-button">
                             <mat-icon>delete</mat-icon>
                             <span>Delete</span>

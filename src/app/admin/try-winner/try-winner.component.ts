@@ -26,7 +26,7 @@ export class AdminTryWinnerComponent implements OnInit {
     public total: any;
     public filter = {
         name: null,
-        is_selected: 'null'
+        is_selected: '-1'
     };
     public column = 'title';
     public sort = 'asc';
@@ -37,7 +37,7 @@ export class AdminTryWinnerComponent implements OnInit {
     public showDeactivate = false;
     public showActive = false;
     public modalRef: BsModalRef;
-    public pageLimitOptions = [];
+
     constructor(
         private api: Restangular,
         private router: Router,
@@ -60,17 +60,6 @@ export class AdminTryWinnerComponent implements OnInit {
             this.tryId = params['id'];
         });
 
-        this.getTries();
-        this.pageLimitOptions = [
-            {value: 5},
-            {value: 10},
-            {value: 20},
-            {value: 25},
-            {value: 50}
-        ];
-    }
-    changePageLimit(limit: any): void {
-        this.pageSize = limit;
         this.getTries();
     }
 
@@ -148,9 +137,5 @@ export class AdminTryWinnerComponent implements OnInit {
                 window.open(this.env.rootHost + res.result.path, '_blank');
             }
         });
-    }
-
-    openReviewDetail(url) {
-        window.open(url);
     }
 }

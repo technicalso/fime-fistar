@@ -76,7 +76,7 @@ export class AdminCampaignReportComponent implements OnInit {
         private router: Router,
         public activeRoute: ActivatedRoute,
         private campaginService: HttpClientAdminService,
-        public commonService: CommonService,
+        private commonService: CommonService,
     ) {
         this.chart1 = {
             title: 'Engagement',

@@ -10,21 +10,19 @@ import {
     SimpleChanges,
     ViewChild
 } from '@angular/core';
-import { Restangular } from 'ngx-restangular';
-import { CookieService } from '../../../services/cookie.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ReviewService } from '../../../services/review.service';
-import { environment } from '../../../environments/environment';
-import { ShareFacebookService } from '../../../services/share-facebook.service';
-import { SwalComponent } from '@toverux/ngx-sweetalert2';
-import { ToastrService } from 'ngx-toastr';
-import { UsersLikeDialogComponent } from '../users-like-dialog/users-like-dialog.component';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import {Restangular} from 'ngx-restangular';
+import {CookieService} from '../../../services/cookie.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ReviewService} from '../../../services/review.service';
+import {environment} from '../../../environments/environment';
+import {ShareFacebookService} from '../../../services/share-facebook.service';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {ToastrService} from 'ngx-toastr';
+import {UsersLikeDialogComponent} from '../users-like-dialog/users-like-dialog.component';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import * as moment from 'moment';
-import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
-import { DOCUMENT } from '@angular/common';
-import { MetaService } from '@ngx-meta/core';
-import { HttpClient } from '@angular/common/http';
+import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
     selector: 'app-review-detail',
@@ -57,18 +55,15 @@ export class ReviewDetailComponent implements OnInit, AfterViewChecked {
     @ViewChild('mymasonry') private masonry: NgxMasonryComponent;
 
     constructor(private api: Restangular,
-        private cookieService: CookieService,
-        private reviewService: ReviewService,
-        private shareFacebookService: ShareFacebookService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toast: ToastrService,
-        public modalService: BsModalService,
-        public http: HttpClient,
-        public meta: MetaService,
-        @Inject(PLATFORM_ID) private platformId: Object,
-        @Inject(DOCUMENT) private document: Document) {
-
+                private cookieService: CookieService,
+                private reviewService: ReviewService,
+                private shareFacebookService: ShareFacebookService,
+                private router: Router,
+                private route: ActivatedRoute,
+                private toast: ToastrService,
+                public modalService: BsModalService,
+                @Inject(PLATFORM_ID) private platformId: Object,
+                @Inject(DOCUMENT) private document: Document) {
     }
 
     ngOnInit(): void {
@@ -77,33 +72,14 @@ export class ReviewDetailComponent implements OnInit, AfterViewChecked {
         this.reviews = [];
         this.user = this.cookieService.get('user') || {};
         // this.reviewSlug = this.route.snapshot.paramMap.get('slug');
-
-        // SHARE META
         this.route.params.subscribe(params => {
-            if (params.slug !== null && params.slug !== '') {
+            if (params.slug !== null && params.slug  !== '') {
                 this.reviewSlug = params.slug;
-                this.http.get(environment.host + '/reviews/detail/' + this.reviewSlug).subscribe((res: any) => {
-                    if (res.result) {
-                        const url = environment.url + '/reviews/detail/' + this.reviewSlug;
-                        const files = res.result.files[0];
-                        const image = environment.rootHost + files.FILE_COURS + '/' + files.THUMB_FILE_NM;
-                        this.meta.setTitle(res.result.goods_nm);
-                        this.meta.setTag('og:title', res.result.goods_nm);
-                        if (res.result.review_short) {
-                            this.meta.setTag('og:description', res.result.review_short);
-                        } else {
-                            this.meta.setTag('og:description', 'Cộng đồng trải nghiệm miễn phí mỹ phẩm và review, chia sẻ và truyền cảm hứng làm đẹp đến mọi người.');
-                        }
-                        this.meta.setTag('og:url', url);
-                        this.meta.setTag('og:image', image);
-                    }
-                });
-
                 this.isLoading = true;
                 this.page = 1;
                 this.reviews = [];
                 this.reviewService.getReviewDetail(this.reviewSlug);
-                this.reviewService.reviewObser.subscribe((data: any) => {
+                this.reviewService.reviewObser.subscribe(data => {
                     this.isLoading = false;
                     if (data) {
                         this.review = data;
@@ -118,7 +94,7 @@ export class ReviewDetailComponent implements OnInit, AfterViewChecked {
     }
 
     scrollToElement($element): void {
-        $element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        $element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
     }
 
     updateCommentCount(count) {
@@ -153,7 +129,7 @@ export class ReviewDetailComponent implements OnInit, AfterViewChecked {
     }
 
     deleteReview() {
-        this.api.all('reviews/delete').customPOST({ ids: [this.review.review_no] }).subscribe(res => {
+        this.api.all('reviews/delete').customPOST({ids: [this.review.review_no]}).subscribe(res => {
             if (res.result) {
                 this.toast.success('Xóa review thành công');
                 this.router.navigate(['/reviews']);

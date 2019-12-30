@@ -16,8 +16,6 @@ import {TranslateService} from '@ngx-translate/core';
 import {CookieService} from '../../../services/cookie.service';
 import {environment} from '../../../environments/environment';
 import {ImageCroppedEvent} from 'ngx-image-cropper';
-import { Subject } from 'rxjs';
-import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
     selector: 'app-admin-banner',
@@ -28,14 +26,12 @@ export class AdminReviewDetailsComponent implements OnInit {
     public env: any;
     public reviewID: any;
     public review: any;
-    public onClose: Subject<boolean>;
 
     constructor(
         private api: Restangular,
         private cookieService: CookieService,
         private router: Router,
         public activeRoute: ActivatedRoute,
-        public bsModalRef: BsModalRef,
         private toast: ToastrService,
         private translate: TranslateService,
         @Inject(PLATFORM_ID) private platformId: Object
@@ -43,29 +39,25 @@ export class AdminReviewDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.onClose = new Subject();
-        // this.review = {
-        //     name: '',
-        //     description: ''
-        // };
+        this.review = {
+            name: '',
+            description: ''
+        };
 
         this.env = environment;
 
-        // this.activeRoute.params.forEach((params: Params) => {
-        //     this.reviewID = params['id'];
-        // });
+        this.activeRoute.params.forEach((params: Params) => {
+            this.reviewID = params['id'];
+        });
 
-        // this.getReview();
+        this.getReview();
     }
 
-    // getReview() {
-    //     this.api.one('reviews', this.reviewID)
-    //         .get()
-    //         .subscribe(res => {
-    //             this.review = res.result;
-    //         });
-    // }
-    close() {
-        this.bsModalRef.hide();
+    getReview() {
+        this.api.one('reviews', this.reviewID)
+            .get()
+            .subscribe(res => {
+                this.review = res.result;
+            });
     }
 }

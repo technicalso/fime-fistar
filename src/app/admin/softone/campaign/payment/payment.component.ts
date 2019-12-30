@@ -33,7 +33,7 @@ export class AdminCampaignPaymentComponent implements OnInit {
             'Pay Code',
             'Type',
             'Name',
-            'Deposit / withdrawal',
+            'Deposit / withdrawal Account',
             'Name',
             'Deposit / withdrawal price',
             'Campaign',
@@ -61,7 +61,7 @@ export class AdminCampaignPaymentComponent implements OnInit {
         private router: Router,
         public activeRoute: ActivatedRoute,
         private campaginService: HttpClientAdminService,
-        public commonService: CommonService,
+        private commonService: CommonService,
         private toa: ToastrService,
     ) {
 

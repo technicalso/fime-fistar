@@ -28,44 +28,49 @@
                 </div>
                 <div class="form-group img pointer">
                     <div class="active">
-                        <label>
+                        <label for="activeIcon">
                             <span class="pointer">Active Icon: </span>
                             <input class="select-img" type="file" (change)="fileChangeEvent($event, 1)"
-                                   accept=".png, .jpg, .jpeg, .gif">
+                                   accept=".png, .jpg, .jpeg, .gif" id="activeIcon">
 
                             <div class="icon" *ngIf="activeImages != ''; else activeImagesTemp">
                                 <img [src]="env.rootHost + activeImages">
                             </div>
                             <ng-template #activeImagesTemp>
                                 <div class="icon">
-                                    <button class="btn btn-outline-primary" style="padding: 5px">
+                                    <div class="btn btn-outline-primary" style="padding: 5px">
                                         <i class="material-icons align-text-bottom">
                                             cloud_upload
                                         </i> <span> Select</span>
-                                    </button>
+                                    </div>
                                 </div>
                             </ng-template>
                         </label>
-
+                        <div *ngIf="activeImages == '' && isSubmitted">
+                            <span class="error-text">Please choose an image</span>
+                        </div>
                     </div>
                     <div class="inactive">
-                        <label>
+                        <label for="inActiveIcon">
                             <span class="pointer">Inactive Icon: </span>
                             <input class="select-img" type="file" (change)="fileChangeEvent($event, 0)"
-                                   accept=".png, .jpg, .jpeg, .gif">
+                                   accept=".png, .jpg, .jpeg, .gif" id="inActiveIcon">
                             <div class="icon" *ngIf="inactiveImages != ''; else inactiveImagesTemp">
                                 <img [src]="env.rootHost + inactiveImages">
                             </div>
                             <ng-template #inactiveImagesTemp>
                                 <div class="icon">
-                                    <button class="btn btn-outline-primary" style="padding: 5px">
+                                    <div class="btn btn-outline-primary" style="padding: 5px">
                                         <i class="material-icons align-text-bottom">
                                             cloud_upload
                                         </i> <span> Select</span>
-                                    </button>
+                                    </div>
                                 </div>
                             </ng-template>
                         </label>
+                        <div *ngIf="inactiveImages == '' && isSubmitted">
+                            <span class="error-text">Please choose an image</span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,9 @@
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
-import { NgModule, Injectable } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material';
-
-import { HttpClientModule, HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { GoogleChartsModule } from 'angular-google-charts';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -21,26 +21,6 @@ import { LoadingBarHttpModule } from '@ngx-loading-bar/http';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { ToastrModule } from 'ngx-toastr';
-
-import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core';
-import { GoogleChartsModule } from 'angular-google-charts';
-
-export function metaFactory(): MetaLoader {
-    return new MetaStaticLoader({
-        pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
-        pageTitleSeparator: ' - ',
-        applicationName: 'Shine Your Style',
-        defaults: {
-            title: 'Fime',
-            description: 'Cộng đồng trải nghiệm miễn phí mỹ phẩm và review, chia sẻ và truyền cảm hứng làm đẹp đến mọi người.',
-            'og:image': 'https://api-np.fime.vn/data/images/site/logos/logo.jpg',
-            'og:type': 'website',
-            'og:locale': 'en_US',
-            'og:locale:alternate': 'en_US,nl_NL,tr_TR'
-        }
-    });
-}
-
 import {
     BsDropdownModule,
     CollapseModule,
@@ -68,7 +48,6 @@ import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FileUploadModule } from 'ng2-file-upload';
-import { CurrencyMaskModule } from "ng2-currency-mask";
 
 /* Component */
 import { HeaderComponent } from './_layout/frontend/header/header.component';
@@ -167,110 +146,101 @@ import { AdminUpdatePasswordComponent } from './admin/profile/update-password.co
 import { BlogsComponent } from './frontend/blogs/blogs.component';
 import { BlogDetailComponent } from './frontend/blog-detail/blog-detail.component';
 import { DeliveryDialogComponent } from './frontend/delivery-dialog/delivery-dialog.component';
-import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { PointsDialogComponent } from './admin/user-management/points-dialog/points-dialog.component';
 import { GuideUploadDialogComponent } from './frontend/guide-upload-dialog/guide-upload-dialog.component';
-import { Observable } from 'rxjs';
-import {PrivacyPolicyComponent} from './frontend/privacy-policy/privacy-policy.component';
-import {ServiceTermComponent} from './frontend/service-term/service-term.component';
-import { AdminHashtagComponent } from './admin/hashtag/hashtag.component';
-import { AdminHashtagDialogComponent } from './admin/hashtag-dialog/hashtag-dialog.component';
-import { AdminTryEndComponent } from './admin/try-end/try-end.component';
-import { AdminDeliveryComponent } from './admin/delivery/delivery.component';
-import { AdminHotFimerComponent } from './admin/hot-fimer/hot-fimer.component';
-import { AdminReviewEditComponent } from './admin/review-edit/review-edit.component';
+import { PrivacyPolicyComponent } from './frontend/privacy-policy/privacy-policy.component';
+import { ServiceTermComponent } from './frontend/service-term/service-term.component';
 
-// softone dev
-import { AvatarModule } from 'ngx-avatar';
-import { AdminBannerFistarComponent } from './admin/softone/banner-fistar/banner-fistar.component';
+//softone dev
+import { AdminBannerFistarComponent } from './admin/softone/banner-fistar/banner-slider.component';
 import { AdminBannerFistarDetailsComponent } from './admin/softone/banner-fistar-details/banner-fistar-details.component';
-import {SoftoneResourceComponent} from "./admin/softone/resource/resource.component";
-import { AdminRequestFistarComponent } from './admin/softone/request/fistar/fistar.component';
-import { AdminRequestFistarBasicComponent } from './admin/softone/request/fistar/basic/basic.component';
-import { AdminRequestFartnerComponent } from './admin/softone/request/partner/partner.component';
-import { AdminRequestPartnerBasicComponent } from './admin/softone/request/partner/basic/basic.component';
 import { AdminFistarComponent } from './admin/softone/fistar/fistar.component';
 import { AdminFistarAddComponent} from "./admin/softone/fistar/fistar-add/fistar-add.component";
 import { AdminFistarBasicComponent } from './admin/softone/fistar/basic-infomation/basic.component';
 import { AdminFistarInformationComponent } from './admin/softone/fistar/fistar-infomation/fistar-info.component';
-import { AdminFistarCampaignHistoryComponent } from './admin/softone/fistar/campaign-history/campaign-history.component';
-import { AdminFistarCampaignRecommendComponent } from './admin/softone/fistar/campaign-recommend/recommend.component';
-import { AdminFistarRecommendComponent } from './admin/softone/fistar/Recommend/recommend.component';
 import { AdminFistarSNS } from './admin/softone/fistar/sns-channel/sns.component';
-import { AdminImagesAIComponent } from './admin/softone/images-ai/images-ai.component';
+import { AdminFistarCampaignHistoryComponent } from './admin/softone/fistar/campaign-history/campaign-history.component';
+import { AvatarModule } from 'ngx-avatar';
+import { AdminFistarCampaignRecommendComponent } from './admin/softone/fistar/campaign-recommend/recommend.component';
 import { AdminPartnerComponent } from './admin/softone/partner/partner.component';
+
+
+import { AdminPartnerManagerComponent } from './admin/softone/partner/manager/manager.component';
+import { AdminFartnerInformationComponent } from './admin/softone/partner/infomation/information.component';
 import { AdminPartnerAddComponent} from './admin/softone/partner/add/partner-add.component';
 import { AdminPartnerCampaignHistoryComponent } from './admin/softone/partner/history/history.component';
-import { PartnerTabComponent } from './admin/softone/partner/tab/tab.component';
-import { AdminFartnerInformationComponent } from './admin/softone/partner/infomation/information.component';
-import { AdminPartnerManagerComponent } from './admin/softone/partner/manager/manager.component';
-import { AdminPartnerRecommendComponent } from './admin/softone/partner/Recommend/recommend.component';
-import { AdminCampaignTabComponent } from './admin/softone/campaign/tab.component';
 import { AdminCampaignComponent } from './admin/softone/campaign/home/campaign.component';
-import { CampaignAddComponent } from './admin/softone/campaign/campaign-add/campaign-add.component';
-import { AdminCampaignSearchFistarComponent } from './admin/softone/campaign/campaign-add/search-fistar/search-fistar.component';
 import { AdminCampaignEditComponent } from './admin/softone/campaign/campaign-edit/campaign-edit.component';
-import { AdminCampaignListPaymentComponent } from './admin/softone/campaign/list-payment/list-payment.component';
 import { AdminCampaignMatchingStatusComponent } from './admin/softone/campaign/matching-fistar/matching-fistar.component';
-import { AdminCampaignPaymentComponent } from './admin/softone/campaign/payment/payment.component';
-import { AdminCampaignPaymentManagerComponent } from './admin/softone/campaign/payment/manager/manager.component';
-import { AdminCampaignReportComponent } from './admin/softone/campaign/report/report.component';
 import { AdminCampaignReviewComponent } from './admin/softone/campaign/review/review.component';
-import { AdminCampaignPaymentFistarInformationComponent } from './admin/softone/campaign/payment/fistar-information/fistar-information.component';
-import { DataTableComponent } from './admin/shared/data-table/data-table.component';
-import { PaymentInfoComponent } from './admin/softone/campaign/review/payment-info/payment-info.component';
-import { AdminCampaignReviewDmncComponent } from './admin/softone/campaign/review/admin-detail/review-admin.component';
-import { AppChartComponent } from './admin/softone/chart/chart.component';
 import { AdminCampaignReviewDetailComponent } from './admin/softone/campaign/review/details/review-detail.component';
 import { AdminCampaignInformationComponent } from './admin/softone/campaign/review/information/information.component';
-import { AdminCampaignInformationAddComponent } from './admin/softone/campaign/review/information-add/information-add.component';
-import { ReviewPaymentComponent } from './admin/softone/campaign/review/review-payment/review-payment.component';
+import { AdminCampaignReportComponent } from './admin/softone/campaign/report/report.component';
+import { AdminCampaignPaymentComponent } from './admin/softone/campaign/payment/payment.component';
+import { AdminCampaignPaymentManagerComponent } from './admin/softone/campaign/payment/manager/manager.component';
+import { AdminCampaignPaymentFistarInformationComponent } from './admin/softone/campaign/payment/fistar-information/fistar-information.component';
 import { AdminCustomerFQIComponent } from './admin/softone/customer/fqi.component';
 import { AdminCustomerAddFQIComponent } from './admin/softone/customer/add-fiq/add-fiq.component';
 import { AdminCustomerQAComponent } from './admin/softone/customer/q-and-a/q-and-a.component';
 import { AdminCustomerAddQAComponent } from './admin/softone/customer/q-and-a/add-qa/add-qa.component';
 import { AdminCustomerNotificationComponent } from './admin/softone/customer/notification/notification.component';
 import { AdminCustomerAddNotificationComponent } from './admin/softone/customer/notification/add-notification/add-notification.component';
+
 import { AdminSystemCodeComponent } from './admin/softone/system/code.component';
 import { AdminSystemSNSComponent } from './admin/softone/system/sns/sns.component';
 import { AdminSystemSNSDetailComponent } from './admin/softone/system/sns/sns-detail/sns-detail.component';
 import { AdminSystemAccountComponent } from './admin/softone/system/account/account.component';
 import { AdminSystemAccountAccessComponent } from './admin/softone/system/account/access/access.component';
 import { AdminSystemLanguageComponent } from './admin/softone/system/language/language.component';
-import { AdminSystemSettingComponent } from './admin/softone/system/setting/setting.component';
-
+import { AppChartComponent } from './admin/softone/chart/chart.component';
 import { BannerService } from './admin/softone/service/banner/banner.service';
-import { CommonService } from './admin/softone/service/common.service';
 import { RequestFistarService } from './admin/softone/service/request/fistar/fistar.service';
+import { AdminRequestFistarComponent } from './admin/softone/request/fistar/fistar.component';
+import { AdminRequestFistarBasicComponent } from './admin/softone/request/fistar/basic/basic.component';
+import { AdminRequestFartnerComponent } from './admin/softone/request/partner/partner.component';
+import { AdminRequestPartnerBasicComponent } from './admin/softone/request/partner/basic/basic.component';
 import { RequestPartnerService } from './admin/softone/service/request/partner/partner.service';
-import { SoCSVService } from './admin/softone/service/csv/csv.service';
 import { FistarService } from './admin/softone/service/fistar/fistar.service';
-import { FistarTabComponent } from './admin/softone/fistar/tab/tab.component';
-import { HttpClientAdminService } from './admin/shared/service/httpclient.service';
-import {ImageAIService} from './admin/softone/service/image-ai/image-ai.service';
-import { PartnerService } from './admin/softone/service/partner/partner.service';
-import { CampaignService } from './admin/softone/service/campaign/campaign.service';
-import { CSVService } from './admin/shared/service/csv.service';
+import { AdminCampaignListPaymentComponent } from './admin/softone/campaign/list-payment/list-payment.component';
+import { AdminCampaignTabComponent } from './admin/softone/campaign/tab.component';
 import { PagerService } from './admin/shared/service/pager.service';
-import { AccountService } from './admin/softone/service/system/account.service';
+import { HttpClientAdminService } from './admin/shared/service/httpclient.service';
+import { DataTableComponent } from './admin/shared/data-table/data-table.component';
+import { CSVService } from './admin/shared/service/csv.service';
+import { SoCSVService } from './admin/softone/service/csv/csv.service';
+import { PartnerService } from './admin/softone/service/partner/partner.service';
 import {SettingServiceSoftone} from './admin/softone/service/system/setting.service'
+import {ImageAIService} from './admin/softone/service/image-ai/image-ai.service'
+import { ReviewPaymentComponent } from './admin/softone/campaign/review/review-payment/review-payment.component';
+import { PaymentInfoComponent } from './admin/softone/campaign/review/payment-info/payment-info.component';
+import { AdminPartnerRecommendComponent } from './admin/softone/partner/Recommend/recommend.component';
+import { AdminFistarRecommendComponent } from './admin/softone/fistar/Recommend/recommend.component';
+import { CommonService } from './admin/softone/service/common.service';
+import { CampaignService } from './admin/softone/service/campaign/campaign.service';
+import { PartnerTabComponent } from './admin/softone/partner/tab/tab.component';
+import { FistarTabComponent } from './admin/softone/fistar/tab/tab.component';
 import { AddAccountComponent } from './admin/softone/system/account/add-account/add-account.component';
+import { AccountService } from './admin/softone/service/system/account.service';
+import {SoftoneResourceComponent} from "./admin/softone/resource/resource.component";
+import { CampaignAddComponent } from './admin/softone/campaign/campaign-add/campaign-add.component';
+import { LoadingPageComponent } from './loading-page/loading-page.component';
+import { AdminCampaignInformationAddComponent } from './admin/softone/campaign/review/information-add/information-add.component';
+import { AdminCampaignReviewDmncComponent } from './admin/softone/campaign/review/admin-detail/review-admin.component';
+import { AdminImagesAIComponent } from './admin/softone/images-ai/images-ai.component';
+import { AdminSystemSettingComponent } from './admin/softone/system/setting/setting.component';
+import { AdminCampaignSearchFistarComponent } from './admin/softone/campaign/campaign-add/search-fistar/search-fistar.component';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 import {AdminMultipleImagesSoftOneComponent} from "./admin/softone/multiple-images/multiple-images-softone.component.component";
+
 import {AdminResourceDialogImageCropSoftOneComponent} from "./admin/softone/multiple-images/dialog-image-crop-softone.component";
+//-----------------end softone dev------------------------------
 
 
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
-
-@Injectable()
-export class APIInterceptor implements HttpInterceptor {
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const apiReq = req.clone({ url: `https://api-np.fime.vn/api/${req.url}` });
-        return next.handle(apiReq);
-    }
 }
 
 @NgModule({
@@ -368,60 +338,32 @@ export class APIInterceptor implements HttpInterceptor {
         GuideUploadDialogComponent,
         PrivacyPolicyComponent,
         ServiceTermComponent,
-        AdminHashtagComponent,
-        AdminHashtagDialogComponent,
-        AdminTryEndComponent,
-        AdminDeliveryComponent,
-        AdminHotFimerComponent,
-        AdminReviewEditComponent,
 
-        // softone dev
+
+        //soft0ne dev
         AdminBannerFistarComponent,
         AdminBannerFistarDetailsComponent,
-        SoftoneResourceComponent,
-        AdminRequestFistarComponent,
-        AdminRequestFistarBasicComponent,
-        AdminRequestFartnerComponent,
-        AdminRequestPartnerBasicComponent,
         AdminFistarComponent,
         AdminFistarAddComponent,
         AdminFistarBasicComponent,
-        FistarTabComponent,
         AdminFistarInformationComponent,
+        AdminFistarSNS,
         AdminFistarCampaignHistoryComponent,
         AdminFistarCampaignRecommendComponent,
-        AdminFistarRecommendComponent,
-        AdminFistarSNS,
-        AdminImagesAIComponent,
         AdminPartnerComponent,
-        AdminPartnerAddComponent,
-        AdminPartnerCampaignHistoryComponent,
-        PartnerTabComponent,
-        AdminFartnerInformationComponent,
         AdminPartnerManagerComponent,
-        AdminPartnerRecommendComponent,
-        AdminCampaignTabComponent,
+        AdminFartnerInformationComponent,
+        AdminPartnerCampaignHistoryComponent,
         AdminCampaignComponent,
-        CampaignAddComponent,
-        AdminMultipleImagesSoftOneComponent,
-        AdminResourceDialogImageCropSoftOneComponent,
-        AdminCampaignSearchFistarComponent,
         AdminCampaignEditComponent,
-        AdminCampaignListPaymentComponent,
         AdminCampaignMatchingStatusComponent,
-        AdminCampaignPaymentComponent,
-        AdminCampaignPaymentManagerComponent,
-        AdminCampaignReportComponent,
         AdminCampaignReviewComponent,
-        AdminCampaignPaymentFistarInformationComponent,
-        DataTableComponent,
-        PaymentInfoComponent,
-        AdminCampaignReviewDmncComponent,
-        AppChartComponent,
         AdminCampaignReviewDetailComponent,
         AdminCampaignInformationComponent,
-        AdminCampaignInformationAddComponent,
-        ReviewPaymentComponent,
+        AdminCampaignReportComponent,
+        AdminCampaignPaymentComponent,
+        AdminCampaignPaymentManagerComponent,
+        AdminCampaignPaymentFistarInformationComponent,
         AdminCustomerFQIComponent,
         AdminCustomerAddFQIComponent,
         AdminCustomerQAComponent,
@@ -434,8 +376,37 @@ export class APIInterceptor implements HttpInterceptor {
         AdminSystemAccountComponent,
         AdminSystemAccountAccessComponent,
         AdminSystemLanguageComponent,
+        AppChartComponent,
+        AdminRequestFistarComponent,
+        AdminRequestFistarBasicComponent,
+        AdminRequestFartnerComponent,
+        AdminRequestPartnerBasicComponent,
+        AdminCampaignListPaymentComponent,
+        AdminCampaignTabComponent,
+        DataTableComponent,
+        ReviewPaymentComponent,
+        PaymentInfoComponent,
+        ReviewPaymentComponent,
+        AdminPartnerRecommendComponent,
+        AdminFistarRecommendComponent,
+        PartnerTabComponent,
+        FistarTabComponent,
+        AddAccountComponent,
+        SoftoneResourceComponent,
+        CampaignAddComponent,
+        LoadingPageComponent,
+        AdminPartnerAddComponent,
+        AdminCampaignInformationAddComponent,
+        AdminImagesAIComponent,
         AdminSystemSettingComponent,
-        AddAccountComponent
+        AdminCampaignSearchFistarComponent,
+        AdminCampaignReviewDmncComponent,
+        AdminMultipleImagesSoftOneComponent,
+        AdminResourceDialogImageCropSoftOneComponent
+        //end softone dev
+
+
+
     ],
     imports: [
         GoogleChartsModule.forRoot(),
@@ -496,12 +467,10 @@ export class APIInterceptor implements HttpInterceptor {
         BrowserModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
-        MetaModule.forRoot({
-            provide: MetaLoader,
-            useFactory: (metaFactory)
-        }),
-        HttpClientModule,
-        CurrencyMaskModule
+        //softone dev
+        CurrencyMaskModule,
+        //end
+
     ],
     exports: [
         AuthDirective,
@@ -509,20 +478,17 @@ export class APIInterceptor implements HttpInterceptor {
     ],
     providers: [
         // softone dev
-        ImageAIService,
-        BannerService,
-        CommonService,
-        RequestFistarService,
-        RequestPartnerService,
-        SoCSVService,
         FistarService,
-        PartnerService,
-        CampaignService,
-        CSVService,
-        PagerService,
-        AccountService,
+        RequestPartnerService,
+        RequestFistarService,
+        BannerService,
         SettingServiceSoftone,
-        // end softone
+        ImageAIService,
+        CommonService,
+        SoCSVService,
+        CampaignService,
+        PartnerService,
+        //end softone dev
         CookieService,
         PlatformService,
         {
@@ -531,16 +497,18 @@ export class APIInterceptor implements HttpInterceptor {
         },
         AuthService,
         ReviewService,
-        HttpClientAdminService,
         TryService,
         ShareFacebookService,
         NotificationService,
-        SettingService
+        SettingService,
+        PagerService,
+        HttpClientAdminService,
+        CSVService,
+        AccountService,
     ],
     entryComponents: [
         AdminCategoryDialogComponent,
         AdminBrandDialogComponent,
-        AdminHashtagDialogComponent,
         AdminDeliveryDialogComponent,
         DeliveryDialogComponent,
         AdminResourceDialogImageCropComponent,
@@ -549,12 +517,8 @@ export class APIInterceptor implements HttpInterceptor {
         UsersLikeDialogComponent,
         PointsDialogComponent,
         GuideUploadDialogComponent,
-        AdminMultipleImagesComponent
-        
+        AdminResourceDialogImageCropSoftOneComponent
     ],
-    bootstrap: [
-        AppComponent,
-        AdminMultipleImagesComponent
-    ]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -111,7 +111,6 @@ export class ReviewCreateComponent implements OnInit {
         this.submitted = true;
         this.isHaveImage = this.images.isValidData();
         if (!this.isHaveImage) {
-            this.isSaving = false;
             return;
         }
         this.images.onSave(res => {

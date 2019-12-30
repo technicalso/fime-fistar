@@ -11,8 +11,6 @@ import {ToastrService} from 'ngx-toastr';
 import {MatDialog} from '@angular/material';
 import {AdminResourceDialogImageCropComponent} from '../../admin/multiple-images/dialog-image-crop.component';
 import {UsersLikeDialogComponent} from '../users-like-dialog/users-like-dialog.component';
-import { MetaService } from '@ngx-meta/core';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-try-detail',
@@ -28,23 +26,15 @@ export class TryDetailsComponent implements OnInit {
     public isLoading: any;
     public modalRef: BsModalRef;
     public images: [];
-    public reviewSlug;
     public isApplying = false;
-    public accordionComments = '';
-    public accordionFimer = '';
-    public accordionHeading = 'active-btn';
-    public accordionShipping = '';
 
     constructor(private api: Restangular,
                 public modalService: BsModalService,
                 public activeRoute: ActivatedRoute,
                 private tryService: TryService,
                 private router: Router,
-                private route: ActivatedRoute,
                 private toast: ToastrService,
                 private shareFacebookService: ShareFacebookService,
-                public http: HttpClient,
-                public meta: MetaService,
                 public dialogUsersLike: MatDialog,
                 @Inject(PLATFORM_ID) private platformId: Object) {
     }
@@ -55,48 +45,13 @@ export class TryDetailsComponent implements OnInit {
             this.slug = params['slug'];
         });
 
-        // SHARE META
-        this.route.params.subscribe(params => {
-            if (params.slug !== null && params.slug !== '') {
-                this.reviewSlug = params.slug;
-                this.http.get(environment.host + '/tries/slug?slug=' + this.reviewSlug).subscribe((res: any) => {
-                    if (res.result) {
-                        const url = environment.url + '/tries/' + this.reviewSlug;
-                        const files = res.result.files[0];
-                        const image = environment.rootHost + files.file_cours + '/' + files.orginl_file_nm;
-                        this.meta.setTitle(res.result.cntnts_nm);
-                        this.meta.setTag('og:title', res.result.cntnts_nm);
-                        if (res.result.short_description) {
-                            this.meta.setTag('og:description', res.result.short_desc);
-                        } else {
-                            this.meta.setTag('og:description', 'Cộng đồng trải nghiệm miễn phí mỹ phẩm và review, chia sẻ và truyền cảm hứng làm đẹp đến mọi người.');
-                        }
-                        this.meta.setTag('og:url', url);
-                        this.meta.setTag('og:image', image);
-                    }
-                });
-            }
-        });
-
         this.isLoading = true;
         this.tryService.getTryDetail(this.slug);
         this.tryService.tryObserve.subscribe(data => {
             this.isLoading = false;
             if (data) {
                 this.try = data;
-                const tnow = moment();
-                const tstartTime = moment.utc(this.try.event_bgnde);
-                const tendTime = moment.utc(this.try.event_endde);
-                if (tstartTime > tnow) {
-                } else if (tstartTime <= tnow && tendTime > tnow) {
-                } else {
-                    this.images = data.images;
-                    this.accordionComments = '';
-                    this.accordionFimer = 'active-btn';
-                    this.accordionHeading = '';
-                    this.accordionShipping = '';
-                }
-                
+                this.images = data.images;
                 this.countDownTryTime();
             } else {
                 this.router.navigate(['/']);
@@ -121,7 +76,6 @@ export class TryDetailsComponent implements OnInit {
                 remainingTime = moment.duration(endTime.diff(now));
             } else {
                 this.try.count_down_type = 2;
-                
                 return;
             }
 
@@ -220,30 +174,5 @@ export class TryDetailsComponent implements OnInit {
                     );
                 }
             });
-    }
-
-    accordionClick(id){
-        if(id == 'accordionHeading'){
-            this.accordionHeading = 'active-btn';
-            this.accordionComments = '';
-            this.accordionShipping = '';
-            this.accordionFimer = '';
-        }else if(id == 'accordionShipping'){
-            this.accordionHeading = '';
-            this.accordionComments = '';
-            this.accordionShipping = 'active-btn';
-            this.accordionFimer = '';
-        }else if(id == 'accordionComments'){
-            this.accordionHeading = '';
-            this.accordionComments = 'active-btn';
-            this.accordionShipping = '';
-            this.accordionFimer = '';
-        }else if(id == 'accordionFimer'){
-            this.accordionHeading = '';
-            this.accordionComments = '';
-            this.accordionShipping = '';
-            this.accordionFimer = 'active-btn';
-        }
-
     }
 }

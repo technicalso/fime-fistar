@@ -8,7 +8,6 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {isPlatformBrowser} from '@angular/common';
 import {UsersLikeDialogComponent} from '../users-like-dialog/users-like-dialog.component';
 import {ToastrService} from 'ngx-toastr';
-import { MetaService } from '@ngx-meta/core';
 
 @Component({
     selector: 'app-tries',
@@ -26,7 +25,7 @@ export class TriesComponent implements OnInit {
     public interval: any;
     public isLoading: any;
     private timeColorCodes: any;
-    public timeToPreOpen = 240; // Hours
+    public timeToPreOpen = 72; // Hours
     public timeToShowCountdown = 48; // Hours
     public isApplying = false;
 
@@ -39,8 +38,6 @@ export class TriesComponent implements OnInit {
     constructor(private api: Restangular,
                 public modalService: BsModalService,
                 private toast: ToastrService,
-                public meta: MetaService,
-
                 @Inject(PLATFORM_ID) private platformId: Object) {
     }
 
@@ -57,9 +54,6 @@ export class TriesComponent implements OnInit {
         this.timeColorCodes = [];
         this.env = environment;
         this.getColors();
-        this.meta.setTitle("fi:me / Tries");
-        this.meta.setTag('og:title', "fi:me / Tries");
-        this.meta.setTag('og:url', environment.url + "/tries");
     }
 
     getTries() {
