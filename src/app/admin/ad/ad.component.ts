@@ -17,6 +17,10 @@ export class AdminAdsComponent implements OnInit {
     public message: string;
     public ads = [];
     public env: any;
+    public pageIndex = 1;
+    public pageSize: 10;
+    public pageLimitOptions = [];
+    public total: any;
 
     constructor(
         private api: Restangular,
@@ -27,13 +31,31 @@ export class AdminAdsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.pageSize = 10;
         this.env = environment;
+        this.getAds();
+        this.pageLimitOptions = [
+            {value: 5},
+            {value: 10},
+            {value: 20},
+            {value: 25},
+            {value: 50}
+        ];
+    }
+
+    changePageLimit(limit: any): void {
+        this.pageSize = limit;
+        this.getAds();
+    }
+    setPage(pageInfo) {
+        this.pageIndex = pageInfo.offset + 1;
         this.getAds();
     }
 
     getAds() {
-        this.api.all('ads').customGET('').subscribe(res => {
-            this.ads = res.result;
+        this.api.all('ads').customGET('',{page: this.pageIndex,pageSize: this.pageSize}).subscribe(res => {
+            this.ads = res.result.data;
+            this.total = res.result.total;
         });
     }
 

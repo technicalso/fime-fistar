@@ -252,6 +252,14 @@
                                            class="form-control"
                                            [owlDateTime]="start_date">
                                     <owl-date-time #start_date></owl-date-time>
+                                    <!-- <mat-datetimepicker-toggle [for]="start_date"
+                                                           matSuffix></mat-datetimepicker-toggle>
+                                    <mat-datetimepicker #start_date type="datetime" openOnFocus="true"
+                                                    timeInterval="5"></mat-datetimepicker>
+                                    <input matInput class="form-control" formControlName="start_date"
+                                           [(ngModel)]="try.event_bgnde"
+                                           [matDatetimepicker]="start_date" required autocomplete="false"
+                                           [max]="try.start_date"> -->
                                 </label>
                             </div>
                             <div *ngIf="form.controls.start_date.invalid && (form.controls.start_date.dirty || form.controls.start_date.touched)"
@@ -278,6 +286,14 @@
                                            class="form-control"
                                            [owlDateTime]="end_date">
                                     <owl-date-time #end_date></owl-date-time>
+                                    <!-- <mat-datetimepicker-toggle [for]="end_date"
+                                                           matSuffix></mat-datetimepicker-toggle>
+                                    <mat-datetimepicker #end_date type="datetime" openOnFocus="true"
+                                                    timeInterval="5"></mat-datetimepicker>
+                                    <input matInput class="form-control" formControlName="end_date"
+                                           [(ngModel)]="try.event_endde"
+                                           [matDatetimepicker]="end_date" required autocomplete="false"
+                                           [max]="try.end_date"> -->
                                 </label>
                             </div>
                             <div *ngIf="form.controls.end_date.invalid && (form.controls.end_date.dirty || form.controls.end_date.touched)"
@@ -397,6 +413,7 @@
                         <div class="form-group">
                             <app-admin-multiple-images #resourceImgDesc
                                                        [needToCrop]="false"
+                                                       [maxImage]="1"
                                                 [images]="{ data: try.imgDesc }"
                                                 [resizeToWidth]="720" [aspectRatio]="1 / 1"></app-admin-multiple-images>
                         </div>

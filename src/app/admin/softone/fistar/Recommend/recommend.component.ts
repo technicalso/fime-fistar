@@ -34,7 +34,7 @@ export class AdminFistarRecommendComponent implements OnInit {
         private toast: ToastrService,
         private requestFistar: RequestFistarService,
         private activeRoute: ActivatedRoute,
-        private commonService: CommonService,
+        public commonService: CommonService,
         private fistarService: FistarService,
     ) { 
          

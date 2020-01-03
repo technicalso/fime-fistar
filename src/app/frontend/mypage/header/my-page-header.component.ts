@@ -4,7 +4,8 @@ import {environment} from '../../../../environments/environment';
 import {Subject} from 'rxjs';
 import {Router, ActivatedRoute} from '@angular/router';
 import {CookieService} from '../../../../services/cookie.service';
-
+import { MetaService } from '@ngx-meta/core';
+import { HttpClient } from '@angular/common/http';
 @Component({
     selector: 'app-my-page-header',
     templateUrl: './my-page-header.component.html',
@@ -16,7 +17,7 @@ import {CookieService} from '../../../../services/cookie.service';
 export class MyPageHeaderComponent implements OnInit, OnChanges {
     public env: any;
     public isLoading = true;
-
+    public reviewSlug;
     @Input()
     public user: any;
 
@@ -31,12 +32,34 @@ export class MyPageHeaderComponent implements OnInit, OnChanges {
 
     public defaultAvatar = 'assets/images/user.png';
 
-    constructor(private cookieService: CookieService, private api: Restangular, private route: ActivatedRoute) {
+    constructor(private cookieService: CookieService, 
+        private api: Restangular, 
+        private route: ActivatedRoute,
+        public http: HttpClient,
+        public meta: MetaService,
+        ) {
         this.toggleDone = new Subject();
     }
 
     ngOnInit(): void {
         this.env = environment;
+        
+        //SHARE META
+        this.route.params.subscribe(params => {
+            if (params.slug !== null && params.slug !== '') {
+                this.reviewSlug = params.slug;
+                this.http.get(environment.host + '/usr/' + this.reviewSlug).subscribe((res: any) => {
+                    if (res.result) {
+                        const url = environment.url + '/usr/' + this.reviewSlug;
+                        this.meta.setTitle(res.result.id);
+                        this.meta.setTag('og:title', res.result.id);
+                        this.meta.setTag('og:description', res.result.self_intro);
+                        this.meta.setTag('og:url', url);
+                        this.meta.setTag('og:image', environment.rootHost + res.result.pic);
+                    }
+                });
+            }
+        });
     }
 
     ngOnChanges(changes: any) {

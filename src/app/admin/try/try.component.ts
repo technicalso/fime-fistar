@@ -37,7 +37,7 @@ export class AdminTryComponent implements OnInit {
     public showDelete = false;
     public showDeactivate = false;
     public showActive = false;
-
+    public pageLimitOptions = [];
     constructor(
         private api: Restangular,
         private toast: ToastrService,
@@ -55,6 +55,13 @@ export class AdminTryComponent implements OnInit {
         this.getTries();
         this.getBrands();
         this.getCategories();
+        this.pageLimitOptions = [
+            {value: 5},
+            {value: 10},
+            {value: 20},
+            {value: 25},
+            {value: 50}
+        ];
     }
 
     getBrands() {
@@ -84,6 +91,7 @@ export class AdminTryComponent implements OnInit {
             for (let i = 0; i < this.tries.length; i++) {
                 this.tries[i].event_bgnde = moment.utc(this.tries[i].event_bgnde);
                 this.tries[i].event_endde = moment.utc(this.tries[i].event_endde);
+                this.tries[i].view_cnt = parseInt(this.tries[i].view_cnt);
             }
             this.tries = _.orderBy(this.tries, ['count_down_type'], ['desc']);
             this.total = res.result.total;
@@ -205,5 +213,10 @@ export class AdminTryComponent implements OnInit {
                 window.open(this.env.rootHost + res.result.path, '_blank');
             }
         });
+    }
+
+    changePageLimit(limit: any): void {
+        this.pageSize = limit;
+        this.getTries();
     }
 }

@@ -22,20 +22,24 @@ export class UserManagementComponent implements OnInit {
     public selected = [];
 
     public filterOptions = [
-        {'id': 'id', 'name': 'ID'},
         {'id': 'user_no', 'name': 'User No'},
         {'id': 'email', 'name': 'Email'},
         {'id': 'cellphone', 'name': 'Phone'},
-        {'id': 'reg_name', 'name': 'Name'}
+        {'id': 'reg_name', 'name': 'Full Name'},
+        {'id': 'id', 'name': 'Display Name'}
     ];
     public filterSelected = this.filterOptions[1].id;
-
+    public column = 'reviews';
+    public sort = 'desc';
+    public pageIndex = 1;
     public activedCheckbox = true;
     public deletedCheckbox = false;
     public allowComment = true;
     public allowReview = true;
     public filtervalue;
     public modalRef: BsModalRef;
+    public pageSize = 10;
+    public pageLimitOptions = [];
 
     constructor(private api: Restangular,
                 private cookieService: CookieService,
@@ -61,6 +65,18 @@ export class UserManagementComponent implements OnInit {
     ngOnInit() {
         this.env = environment;
         this.setPage({offset: 0});
+        this.pageSize = 10;
+        this.pageLimitOptions = [
+            {value: 5},
+            {value: 10},
+            {value: 20},
+            {value: 25},
+            {value: 50}
+        ];
+    }
+    changePageLimit(limit: any): void {
+        this.pageSize = limit;
+        this.getUsers();
     }
 
     tabChanged($event) {
@@ -86,7 +102,10 @@ export class UserManagementComponent implements OnInit {
             'allowReview': this.allowReview ? 1 : 0,
             'isActive': this.activedCheckbox,
             'isDelete': this.deletedCheckbox,
-            'role': this.userType
+            'role': this.userType,
+            'pageSize': this.pageSize,
+            'column': this.column,
+            'sort': this.sort
         }).subscribe(res => {
             this.page.pageNumber = res.result.current_page - 1;
             this.users = UserManagementComponent.handleData(res.result.data);
@@ -133,6 +152,7 @@ export class UserManagementComponent implements OnInit {
             this.getUsers();
         });
     }
+
     pointsDialog(row) {
         if (row.points && row.points.length) {
             const initialState = {
@@ -143,5 +163,14 @@ export class UserManagementComponent implements OnInit {
                 {initialState}
             );
         }
+    }
+
+    onSort(event) {
+        this.page.pageNumber = 0;
+        this.column = event.sorts[0].prop;
+        this.sort = event.sorts[0].dir;
+        this.pageIndex = 1;
+        this.getUsers();
+        return false;
     }
 }

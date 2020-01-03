@@ -1,4 +1,13 @@
-<div class="component-admin-notification">
+<div class="component-admin-notification component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
     <div class="row">
         <div class="col">
             <div class="admin-heading">
@@ -37,7 +46,7 @@
                    [footerHeight]="50"
                    [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)'
                    [selected]="selected"
-                   [rowHeight]="'auto'" [count]="notifications.length" [limit]="10" >
+                   [rowHeight]="'auto'" [count]="total" [offset]="pageIndex-1" [limit]="pageSize" [externalPaging]="true" (page)='setPage($event)'>
         <ngx-datatable-column [frozenLeft]="true" [width]="50" [sortable]="false" [canAutoResize]="false"
                               [draggable]="false"
                               [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
@@ -61,10 +70,10 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #userActions="matMenu">
-                    <button mat-menu-item routerLink="/admin/notifications/edit/{{row.id}}" class="datatable-action-button">
+                    <a mat-menu-item routerLink="/admin/notifications/edit/{{row.id}}" class="datatable-action-button">
                         <mat-icon>edit</mat-icon>
                         <span>Edit</span>
-                    </button>
+                    </a>
                     <button mat-menu-item [swal]="disableSwal" *ngIf="!row.is_disabled" (confirm)="onToggle([row], true)" class="datatable-action-button">
                         <mat-icon>visibility_off</mat-icon>
                         <span>Disable</span>

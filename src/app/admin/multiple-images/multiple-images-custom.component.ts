@@ -50,7 +50,8 @@ export class AdminMultipleImagesCustomComponent implements OnInit, OnChanges {
             const data = this.images.data;
             const data_length = data.length;
             for (let i = 0; i < data_length; i++) {
-                this.imagesBase64.push(new ImageBase64('', '', this.env.rootHost + data[i].FILE_COURS + '/' + data[i].STRE_FILE_NM));
+                this.imagesBase64.push(new ImageBase64('', '',
+                    this.env.rootHost + data[i].FILE_COURS + '/' + data[i].STRE_FILE_NM, data[i].THUMB_FILE_NM));
             }
         }
         this.cd.detectChanges();
@@ -115,7 +116,7 @@ export class AdminMultipleImagesCustomComponent implements OnInit, OnChanges {
 
 
             if (exifOrientation > 4) {
-                canvas.width = img.height;
+                canvas.width = height;
                 canvas.height = width;
                 canvas.style.width = styleHeight;
                 canvas.style.height = styleWidth;
@@ -218,7 +219,7 @@ export class AdminMultipleImagesCustomComponent implements OnInit, OnChanges {
                 if (item.name) {
                     data.push(item);
                 } else if (item.STRE_FILE_NM) {
-                    data.push({name: item.STRE_FILE_NM, url: item.FILE_COURS});
+                    data.push({name: item.STRE_FILE_NM, url: item.FILE_COURS, thumb_name: item.THUMB_FILE_NM});
                 }
             }
             callback({images: data});

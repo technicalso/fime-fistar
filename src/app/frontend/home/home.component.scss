@@ -1,23 +1,29 @@
 @import "~scss/mixins";
 @import "~scss/variables";
 @import "~scss/font_imports";
+
 .home {
     overflow: hidden;
     font-family: 'Roboto-Regular';
+
     .main-wrap {
         .banner {
             width: 100%;
+
             .banner-wrap {
                 height: 450px;
                 position: relative;
+
                 .carousel {
                     background-color: #000;
+
                     .banner-img {
                         object-fit: cover;
                         margin: 0 auto;
                         height: 450px;
                         width: 100%;
                     }
+
                     .banner-info-wrap {
                         font-family: 'Roboto-Regular';
                         display: flex;
@@ -26,6 +32,7 @@
                         top: 0;
                         height: 450px;
                         width: 600px;
+
                         .banner-info {
                             .banner-title {
                                 font-size: 50px;
@@ -34,12 +41,14 @@
                                 line-height: 1.1;
                                 margin-bottom: 30px;
                             }
+
                             .banner-description {
                                 font-size: 16px;
                                 color: #fff;
                                 line-height: 1.5;
                                 margin-bottom: 30px;
                             }
+
                             .banner-url {
                                 padding: 10px 25px;
                                 border-radius: 30px;
@@ -49,6 +58,7 @@
                                 text-decoration: none;
                                 outline: none;
                                 transition: all 300ms;
+
                                 &:hover {
                                     background-color: #fff;
                                     color: #f14c7f;
@@ -59,75 +69,134 @@
                 }
             }
         }
+
         .try-me {
             font-family: 'Roboto-Regular';
             font-size: 100%;
             padding: 60px 0;
+
             .try-me-wrap {
                 display: flex;
+
                 .left-col {
-                    width: 20%;
+                    width: 30%;
+
                     .try-me-title {
                         font-size: 23px;
                         text-transform: uppercase;
                         line-height: 1;
                         margin-bottom: 20px;
                     }
+
                     .try-me-description {
+                        margin-left: 20px;
                         color: #666;
-                        font-size: 13px;
+                        font-size: 15px;
                         line-height: 1.375;
                         margin-bottom: 20px;
+                        
                     }
-                    .see-all-btn {
-                        text-transform: none;
-                        font-size: 13px;
-                        border: #222 1px solid;
-                        padding: 5px 16px;
-                        border-radius: 20px;
-                        background-color: #fff;
-                        color: #222;
-                        cursor: pointer;
-                        transition: all 500ms;
-                        i {
-                            padding-left: 5px;
+
+                    .product-container{
+                            margin-bottom: 20px;
+                            display: grid;
+                            grid-template-columns: 1fr 2fr;
+                            grid-column-gap: 20px;
+                            grid-row-gap: 5px;
+                            margin: 14px 0px 0px 50px;
+                            border-right: 1px solid #dddddd;
+                            .banner{
+                                filter: brightness(50%);
+                                .banner-img{
+                                    object-fit: cover;
+                                    width: 135px;
+                                    height: 85px;
+                                    border-radius: 5px;
+                                    margin-bottom: 12px;
+                                    transition: transform 0.5s;
+                                }
+                                &:hover{
+                                    // border: 2px solid #f14c7f;
+                                    filter: brightness(100%);
+                                }
+                                &.active {
+                                filter: brightness(100%);
+                                border-color: #f14c7f;
+                            }
+                            }
+                            
                         }
-                        &:hover {
-                            color: #f14c7f;
-                            background-color: #fff;
-                            border: #f14c7f 1px solid;
-                        }
-                    }
                 }
                 .right-col {
-                    width: 80%;
+                    width: 70%;
                     padding-left: 1.5%;
+                    display: flex;
+                    -webkit-box-orient: vertical;
+                    -webkit-box-direction: normal;
+                    flex-direction: column;
+
+                    
+
+                    .btn-more-container{
+                        
+                        .see-all-btn {
+                            text-transform: none;
+                            font-size: 13px;
+                            border: #222 1px solid;
+                            padding: 5px 16px;
+                            border-radius: 20px;
+                            background-color: #fff;
+                            color: #222;
+                            cursor: pointer;
+                            transition: all 500ms;
+                            float: right;
+                            margin-bottom: 20px;
+                            i {
+                                padding-left: 5px;
+                            }
+
+                            &:hover {
+                                background-color: #222;
+                                color: #fff;
+                            }
+                        }
+                    }
                     .product-container {
-                        border: 1px solid #ddd;
-                        border-radius: 10px;
+                        // border: 1px solid #ddd;
+                        // border-radius: 10px;
                         padding: 10px;
                         display: flex;
                         align-items: center;
+                        position: relative;
+
                         .product-slideshow {
                             width: 50%;
                             padding-right: 10px;
-                            position: relative;
-                            .carousel {
-                                .banner-img {
-                                    object-fit: cover;
-                                    outline: none;
-                                    border-radius: 10px;
-                                    margin: 0 auto;
-                                    height: 300px;
-                                    width: 100%;
-                                }
-                            }
+                            .banner-img {
+                                        object-fit: cover;
+                                        outline: none;
+                                        border-radius: 10px;
+                                        margin: 0 auto;
+                                        height: 300px;
+                                        width: 100%;
+                                    }
+                            // .carousel {
+                            //     .banner-img {
+                            //         object-fit: cover;
+                            //         outline: none;
+                            //         border-radius: 10px;
+                            //         margin: 0 auto;
+                            //         height: 300px;
+                            //         width: 100%;
+                            //     }
+                            // }
                         }
+
                         .production-info {
                             width: 50%;
                             padding-left: 40px;
+
                             .product-name {
-                                padding-top: 15px;
                                 text-transform: capitalize;
                                 font-size: 18px;
                                 font-weight: 600;
@@ -137,65 +206,39 @@
                                 outline: none;
                                 cursor: pointer;
                             }
-                            .try-expired-time {
-                                display: flex;
-                                justify-content: flex-start;
-                                .expired-label-container {
-                                    margin-right: 14px;
-                                    .expired-label {
-                                        font-family: 'Roboto-Regular';
-                                        line-height: 32px;
-                                        font-size: 18px;
-                                        color: #f14c7f;
-                                    }
-                                }
-                                .expired-time {
-                                    display: flex;
-                                    .time-block {
-                                        position: relative;
-                                        margin-left: 5px;
-                                        width: 48px;
-                                        text-align: center;
-                                        .count-down-value {
-                                            height: 32px;
-                                            background-color: #f14c7f;
-                                            border-radius: 3px;
-                                            text-align: center;
-                                            span {
-                                                font-size: 27px;
-                                                color: #fff;
-                                                font-weight: 100;
-                                                line-height: 32px;
-                                            }
-                                        }
-                                        .count-down-unit {
-                                            font-size: 11px;
-                                        }
-                                    }
-                                }
-                            }
+
                             .product-number {
                                 margin-top: 15px;
-                                .product-number-label {
-                                    font-size: 13px;
-                                    color: #666;
-                                    margin-right: 10px;
-                                }
-                                .product-number-value {
-                                    font-family: 'Roboto-Regular';
-                                    font-size: 18px;
-                                    color: #222;
-                                    line-height: 1;
+                                box-sizing: content-box;
+                                .col-md-6{
+                                    padding-right: 0px;
+                                    .product-number-label {
+                                        font-size: 14px;
+                                        color: #222;
+                                        margin-right: 10px;
+                                        font-weight: 600;
+                                    }
+
+                                    .product-number-value {
+                                        font-family: 'Agency-Fbb';
+                                        font-size: 27px;
+                                        color: #f14c7f;
+                                        line-height: 1;
+                                    }
                                 }
                             }
+
                             .product-price {
                                 margin-top: 15px;
+
                                 .sale-price {
                                     font-family: 'Roboto-Regular';
-                                    font-size: 22px;
+                                    font-size: 24px;
                                     color: #f14c7f;
                                     margin-right: 10px;
+                                    font-weight: bold;
                                 }
+
                                 .original-price {
                                     font-family: 'Roboto-Regular';
                                     font-size: 16px;
@@ -203,74 +246,85 @@
                                     text-decoration: line-through;
                                 }
                             }
+
                             .action-block {
                                 display: flex;
-                                margin-top: 45px;
+                                margin-top: 20px;
                                 justify-content: space-between;
+
                                 .list-users-liked {
                                     display: flex;
-                                    margin-right: 5px;
-                                    .circle-avt {
-                                        overflow: hidden;
-                                        margin-right: 5px;
-                                        img {
-                                            object-fit: cover;
-                                            border-radius: 50%;
-                                            width: 30px;
-                                            height: 30px;
+                                    width: 80%;
+                                    align-items: center;
+                                    padding: 10px 0;
+                                    
+                                    .user-like {
+                                        margin-left: 10px;
+                                        display: flex;
+                                        .circle-avt {
+                                            overflow: hidden;
+                                            margin-right: -8px;
+
+                                            img {
+                                                position: relative;
+                                                cursor: pointer;
+                                                object-fit: cover;
+                                                border-radius: 50%;
+                                                width: 30px;
+                                                height: 30px;
+                                                border: 1px solid #f14c7f;
+                                            }
                                         }
                                     }
-                                    .number-of-likes {
-                                        background-color: #fff;
-                                        font-size: 14px;
-                                        color: #999;
-                                        border: 1px solid #d1d1d1;
-                                        border-radius: 66px;
-                                        line-height: 30px;
-                                        padding: 2px 10px 0;
-                                    }
-                                }
-                                .action {
-                                    .like-btn {
-                                        margin-right: 10px;
-                                        font-size: 13px;
-                                        background-color: #fff;
-                                        color: #222;
-                                        border-radius: 20px;
-                                        padding: 5px 18px 4px;
-                                        border: 1px solid #222;
-                                        outline: none;
+                                    .action-btn {
+                                        border: none;
+                                        background-color: transparent;
+                                        font-size: 26px;
+                                        color: #535353;
+                                        margin-right: 5px;
                                         cursor: pointer;
-                                        transition: all 500ms;
+                                        i {
+                                            font-size: 25px;
+                                        }
+
                                         &:hover {
-                                            color: #999;
-                                            background-color: #f0f0f0;
-                                            border-color: #f0f0f0;
+                                            color: #f14c7f;
                                         }
 
                                         &.active {
-                                            background-color: #f14c7f;
-                                            border: 1px solid #f14c7f;
-                                            color: #fff;
+                                            color: #f14c7f !important;
                                         }
+                                        
                                     }
 
+                                    .number-of-likes {
+                                        font-size: 12px;
+                                        font-family: 'Roboto-Regular';
+                                        color: #222;
+                                    }
+                                }
+
+                                .action {
                                     .join-btn {
-                                        margin-right: 10px;
+                                        margin-right: 20px;
+                                        margin-top: 15px;
                                         background-color: #f14c7f;
                                         color: #fff;
                                         font-size: 13px;
                                         border-radius: 20px;
-                                        padding: 5px 18px 4px;
+                                        padding-left: 5px;
+                                        width: 90px;
                                         border: 1px solid #f14c7f;
                                         cursor: pointer;
                                         outline: none;
                                         transition: all 500ms;
+
                                         &:hover {
                                             background-color: #fff;
                                             color: #f14c7f;
                                             border: 1px solid #f14c7f;
                                         }
+
                                         &:disabled {
                                             pointer-events: none;
                                             cursor: default;
@@ -282,30 +336,88 @@
                     }
                 }
             }
+            .try-me-panel{
+                padding:0px 50px;
+            }
+            .try-expired-time {
+                display: flex;
+                justify-content: flex-start;
+
+                .expired-label-container {
+                    margin-right: 14px;
+
+                    .expired-label {
+                        font-family: 'Roboto-Regular';
+                        line-height: 32px;
+                        font-size: 14px;
+                        color: #222;
+                        font-weight: 600;
+                    }
+                }
+
+                .expired-time {
+                    display: flex;
+                    
+                    .time-block {
+                        position: relative;
+                        margin-left: 5px;
+                        width: 40px;
+                        text-align: center;
+                        
+                        .count-down-value {
+                            height: 40px;
+                            background-color: #eeeeee;
+                            border-radius: 3px;
+                            text-align: center;
+                            font-family: 'Agency-Fbb';
+
+                            span {
+                                font-size: 27px;
+                                color: #f14c7f;
+                                font-weight: 300;
+                                // line-height: 32px;
+                            }
+                        }
+
+                        .count-down-unit {
+                            font-size: 11px;
+                            color: #bbb;
+                        }
+                    }
+                }
+            }
         }
+
+
+
         .review,
         .hot-fimer {
             background-color: #fafafa;
             padding: 60px 0;
             font-family: 'Roboto-Regular';
             font-size: 100%;
+
             .review-wrap {
                 .review-header {
                     display: flex;
                     justify-content: space-between;
                     width: 100%;
                     margin-bottom: 40px;
+
                     .left-col {
                         display: flex;
+
                         .review-title {
                             font-size: 22px;
                             text-transform: uppercase;
                             line-height: 1;
                             color: #222;
-                            margin: 0 50px 0 0;
+                            margin: 5px 50px 0 0;
                         }
+
                         .review-type {
                             display: flex;
+
                             .type-btn {
                                 text-transform: uppercase;
                                 background-color: #fff;
@@ -317,17 +429,20 @@
                                 cursor: pointer;
                                 margin-right: 20px;
                                 transition: all 500ms;
+
                                 &:hover {
                                     background-color: #222;
                                     color: #fff;
                                 }
                             }
+
                             .type-btn.active {
                                 background-color: #222;
                                 color: #fff;
                             }
                         }
                     }
+
                     .right-col {
                         .type-btn {
                             text-transform: uppercase;
@@ -340,35 +455,42 @@
                             cursor: pointer;
                             margin-right: 20px;
                             transition: all 500ms;
+
                             &:hover {
                                 background-color: #222;
                                 color: #fff;
                             }
                         }
+
                         .see-all-btn {
                             text-transform: none;
                             padding: 5px 16px;
+
                             i {
                                 padding-left: 5px;
                             }
                         }
+
                         .type-btn.active {
                             background-color: #222;
                             color: #fff;
                         }
                     }
                 }
+
                 .review-body {
                     display: flex;
                     justify-content: flex-start;
                     padding: 0 50px;
+
                     .review-post {
                         background-color: #fff;
-                        padding: 10px;
+                        padding: 10px 0 10px 0;
                         border-radius: 5px;
                         border: 1px solid #ddd;
                         width: 23.5%;
                         margin-left: 2%;
+
                         .post-header {
                             position: relative;
                             display: flex;
@@ -377,23 +499,26 @@
                             justify-content: space-between;
                             align-items: center;
                             margin-bottom: 15px;
+
                             .user-block {
                                 padding-right: 100px;
                                 display: flex;
                                 align-items: center;
+
                                 .user-avt {
                                     object-fit: cover;
-                                    width: 50px;
-                                    height: 50px;
+                                    width: 40px;
+                                    height: 40px;
                                     border-radius: 50%;
                                     cursor: pointer;
                                     margin-right: 10px;
                                 }
+
                                 .user-info {
                                     .user-name {
                                         display: block;
                                         font-family: 'Roboto-Regular';
-                                        font-size: 12px;
+                                        font-size: 14px;
                                         font-weight: 600;
                                         color: #333;
                                         cursor: pointer;
@@ -402,6 +527,7 @@
                                         white-space: nowrap;
                                         overflow: hidden;
                                     }
+
                                     .number-of-follows {
                                         display: block;
                                         font-size: 13px;
@@ -410,12 +536,13 @@
                                     }
                                 }
                             }
+
                             .follow-btn {
-                                background-color: #fff;
+                                background-color: #f14c7f;
                                 display: flex;
                                 justify-content: space-around;
                                 align-items: center;
-                                color: #f14c7f;
+                                color: #fff;
                                 font-size: 12px;
                                 padding: 0px 5px 0 8px;
                                 border: 1px solid #f14c7f;
@@ -428,6 +555,7 @@
                                 top: 13px;
                                 transition: all 500ms;
                                 margin-right: 5px;
+
                                 span {
                                     padding-right: 5px;
                                     overflow: hidden;
@@ -435,24 +563,29 @@
                                     white-space: nowrap;
                                     display: block;
                                 }
+
                                 .material-icons {
                                     font-size: 16px;
                                 }
+
                                 &:hover {
                                     background-color: #f14c7f;
                                     color: #fff;
                                 }
                             }
+
                             .follow-btn.active {
                                 background-color: #f14c7f !important;
                                 color: #fff !important;
                                 width: 95px;
+
                                 &:hover {
                                     background-color: #fff;
                                     color: #f14c7f;
                                 }
                             }
                         }
+
                         .post-body {
                             .main-img {
                                 width: 100%;
@@ -460,13 +593,16 @@
                                 border-radius: 5px;
                                 height: 280px;
                             }
+
                             .post-title {
                                 padding: 0 10px;
                                 margin-top: 15px;
                                 font-size: 12px;
                                 font-weight: 600;
-                                color: #666;
+                                color: #222;
                                 line-height: 1.375;
+                                overflow: hidden;
+                                height: 50px;
                             }
 
                             .post-content {
@@ -476,7 +612,19 @@
                                 font-size: 12px;
                                 color: #666;
                                 line-height: 1.375;
+                                overflow: hidden;
+                                height: 48px;
                             }
+                            
+                            .time{
+                                font-size: 10px;
+                                margin-top: -10px;
+                                margin-bottom: 1rem;
+                                padding: 0 10px;
+                                color: #999;
+                                text-transform: uppercase;
+                            }
+
                             .see-more-link {
                                 font-size: 12px;
                                 line-height: 1.375;
@@ -485,13 +633,15 @@
                                 padding: 0 10px;
                             }
                         }
+
                         .post-footer {
                             display: flex;
-                            border-top: 1px solid #d7d7d7;
+                            // border-top: 1px solid #d7d7d7;
                             margin-top: 10px;
-                            padding: 10px 0 0px 0;
+                            padding: 10px 10px 0px 10px;
                             width: 100%;
                             justify-content: space-between;
+
                             .action-block {
                                 .action-btn {
                                     border: none;
@@ -500,55 +650,86 @@
                                     color: #3a3a3a;
                                     margin-right: 5px;
                                     cursor: pointer;
+
                                     &:hover {
                                         color: #f14c7f;
                                     }
+                                    i{
+                                        -webkit-transform: rotateY(180deg);
+                                        -moz-transform: rotateY(180deg);
+                                        -o-transform: rotateY(180deg);
+                                        -ms-transform: rotateY(180deg);
+                                        transform: rotateY(180deg);
+                                    }
                                 }
+
                                 .action-btn.active {
                                     color: #f14c7f !important;
                                 }
-                                .number-of-like {
-                                    font-size: 13px;
-                                    color: #3a3a3a;
+
+                                // .number-of-like {
+                                //     font-size: 13px;
+                                //     color: #3a3a3a;
+                                // }
+
+                                .share-btn{
+                                    cursor: pointer;
+                                    .share-ico{
+                                        height: 22px;
+                                        margin-top: 8px;
+                                        margin-right: 3px;
+                                    }
                                 }
                             }
                         }
+                        .number-of-like {
+                            font-weight: 600;
+                            font-size: 13px;
+                            color: #3a3a3a;
+                            margin-left: 15px;
+                        }
                     }
+
                     .review-post.first {
                         margin-left: 0;
                     }
                 }
             }
         }
+
         .advertisement {
             background-color: #fff;
             padding: 60px 0;
             font-family: 'Roboto-Regular';
             font-size: 100%;
+
             .advertisement-wrap {
                 padding: 0 50px;
                 display: flex;
+
                 .advertisement-item {
                     width: 23.5%;
                     margin-left: 2%;
+
                     a {
                         display: block;
+
                         .ad-image {
-                            width: 100%;
-                            height: 170px;
+                            max-width: 100%;
                             border-radius: 5px;
-                            object-fit: cover;
                         }
                     }
                 }
+
                 .advertisement-item.first {
                     margin-left: 0;
                 }
             }
         }
+
         .tip {
             font-family: 'Roboto-Regular';
-            padding: 60px 0;
+            padding: 15px 0;
 
             .image-zoom {
                 cursor: pointer;
@@ -564,6 +745,7 @@
                     display: flex;
                     justify-content: space-between;
                     margin-bottom: 40px;
+
                     .tip-title {
                         font-size: 22px;
                         text-transform: uppercase;
@@ -571,6 +753,7 @@
                         color: #222;
                         margin: 0;
                     }
+
                     .type-btn {
                         text-decoration: none;
                         text-transform: uppercase;
@@ -583,22 +766,26 @@
                         cursor: pointer;
                         margin-right: 20px;
                         transition: all 500ms;
+
                         &:hover {
                             background-color: #222;
                             color: #fff;
                         }
                     }
+
                     .see-all-btn {
                         padding: 5px 16px;
                         text-transform: none;
+
                         i {
                             padding-left: 5px;
                         }
                     }
                 }
+
                 .tip-body {
                     padding-right: 15px;
-                    border-right: 1px solid #eee;
+                    // border-right: 1px solid #eee;
                     display: flex;
                     justify-content: space-between;
 
@@ -607,8 +794,8 @@
                         flex-wrap: wrap;
                         width: 69%;
 
-                        .img{
-                            .banner-img{
+                        .img {
+                            .banner-img {
                                 height: 280px;
                                 object-fit: cover;
                                 width: 100%;
@@ -641,8 +828,8 @@
 
                             .post-img {
                                 object-fit: cover;
-                                width: 100%;
-                                height: 90px;
+                                width: 90%;
+                                height: 80px;
                                 border-radius: 5px;
                             }
 
@@ -650,15 +837,18 @@
                                 width: 60%;
                                 padding-left: 10px;
                                 padding-top: 5px;
-                                h2{
+
+                                h2 {
                                     font-size: 14px;
                                     font-weight: 600;
                                 }
-                                p{
+
+                                p {
                                     font-size: 12px;
                                     font-weight: 400;
-                                    
+
                                     &.time {
+                                        display: none;
                                         color: #999;
                                     }
                                 }
@@ -681,7 +871,8 @@
                                     position: relative;
                                     overflow: hidden;
                                     border-radius: 5px;
-                                    .banner-img{
+
+                                    .banner-img {
                                         height: 180px;
                                         object-fit: cover;
                                         width: 100%;
@@ -815,6 +1006,7 @@
                         }
 
                         .video-content {
+                            border-bottom: 1px solid #999999;
                             .video-title {
                                 font-family: 'Roboto-Regular';
                                 font-size: 16px;
@@ -836,6 +1028,7 @@
                                 font-size: 11px;
                                 font-family: 'Roboto-Regular';
                                 color: #999999;
+                                display: none;
                             }
 
                             .video-description {
@@ -843,10 +1036,13 @@
                                 line-height: 1.375;
                                 color: #666666;
                             }
-                            .tip_head{
+
+                            .tip_head {
                                 font-size: 12px;
+                                margin-top: 1rem;
                             }
-                            .tip_body{
+
+                            .tip_body {
                                 font-size: 12px;
                                 white-space: pre-line;
                                 overflow: hidden;
@@ -854,6 +1050,24 @@
                                 display: -webkit-box;
                                 max-height: 145px;
                                 -webkit-line-clamp: 10;
+                            }
+                        }
+
+                        .tip-item{
+                            margin-top: 20px;
+                            .tip-content{
+                                .video-title{
+                                    font-size: 14px;
+                                    font-weight: 600;
+                                &:hover{
+                                    color: #f14c7f;
+                                    }
+                                }
+                                i{
+                                    width: 30px;
+                                    font-size: 14px;
+                                    color: #f14c7f;
+                                }
                             }
                         }
 
@@ -898,33 +1112,42 @@
                 }
             }
         }
+
         .hot-fimer {
             .review-wrap {
                 .review-body {
                     .review-post {
                         background-color: #fff;
+
                         .post-header {
                             position: relative;
                             padding: 5px;
+
                             .follow-btn {
                                 right: 10px;
                                 top: 25px;
                                 display: flex;
                                 justify-content: space-around;
+                                background-color: #fff;
+                                color: #f14c7f;
                             }
+
                             .user-block {
                                 width: 100%;
+
                                 .avt-block {
                                     position: relative;
                                     width: 60px;
                                     height: 60px;
                                     cursor: pointer;
                                     margin-right: 10px;
+
                                     .user-avt {
                                         width: 60px;
                                         height: 60px;
                                         object-fit: cover;
                                     }
+
                                     .fimer-rank {
                                         position: absolute;
                                         right: 0px;
@@ -935,6 +1158,7 @@
                                         text-align: center;
                                         background-color: #333333;
                                         line-height: 20px;
+
                                         span {
                                             font-family: 'Roboto-Regular';
                                             font-weight: 600;
@@ -942,22 +1166,28 @@
                                             color: #fff;
                                         }
                                     }
+
                                     .fimer-rank.first {
                                         background-color: #ffcc00;
+
                                         span {
                                             color: #333333;
                                         }
                                     }
+
                                     .fimer-rank.second {
                                         background-color: #e1e1e1;
+
                                         span {
                                             color: #333333;
                                         }
                                     }
+
                                     .fimer-rank.third {
                                         background-color: #ff9933;
                                     }
                                 }
+
                                 .user-name {
                                     cursor: pointer;
                                     font-family: 'Roboto-Regular';
@@ -970,16 +1200,19 @@
                                 }
                             }
                         }
+
                         .post-body {
                             .fimer-info {
                                 display: flex;
-                                padding: 10px;
+                                padding: 10px 0px; 
                                 border-top: 1px solid #dddddd;
                                 border-bottom: 1px solid #dddddd;
+
                                 .col-info {
                                     width: 33.33%;
                                     text-align: center;
                                     border-right: 1px solid #ddd;
+
                                     div {
                                         font-size: 13px;
                                         margin: 0;
@@ -987,36 +1220,44 @@
                                         line-height: 1.25;
                                     }
                                 }
+
                                 .col-info:last-child {
                                     border-right: none;
                                 }
                             }
+
                             .lastest-review {
                                 display: flex;
                                 padding: 15px 5px 5px;
                                 justify-content: space-between;
+
                                 .col-review {
                                     width: 33.3%;
                                     margin-left: 15px;
                                     cursor: pointer;
+
                                     img {
                                         object-fit: cover;
                                         width: 100%;
-                                        height: 85px;
+                                        height: 77px;
+                                        border-radius: 5px;
                                     }
                                 }
+
                                 .col-review:first-child {
                                     margin-left: 0;
                                 }
                             }
                         }
                     }
+
                     .right-list-fimer {
                         width: 23.5%;
                         margin-left: 1.5%;
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
+
                         .fimer-item {
                             position: relative;
                             background-color: #fff;
@@ -1027,23 +1268,27 @@
                             padding: 15px;
                             border-radius: 5px;
                             border: 1px solid #ddd;
+
                             .user-block {
                                 display: flex;
                                 position: relative;
                                 align-items: center;
                                 margin-right: 95px;
+
                                 .avt-block {
                                     margin-right: 10px;
                                     position: relative;
                                     width: 45px;
                                     height: 45px;
                                     cursor: pointer;
+
                                     .user-avt {
                                         object-fit: cover;
                                         border-radius: 50%;
                                         width: 45px;
                                         height: 45px;
                                     }
+
                                     .fimer-rank {
                                         position: absolute;
                                         right: 0px;
@@ -1054,6 +1299,7 @@
                                         text-align: center;
                                         background-color: #333333;
                                         line-height: 20px;
+
                                         span {
                                             font-family: 'Roboto-Regular';
                                             font-weight: 600;
@@ -1061,22 +1307,28 @@
                                             color: #fff;
                                         }
                                     }
+
                                     .fimer-rank.first {
                                         background-color: #ffcc00;
+
                                         span {
                                             color: #333333;
                                         }
                                     }
+
                                     .fimer-rank.second {
                                         background-color: #e1e1e1;
+
                                         span {
                                             color: #333333;
                                         }
                                     }
+
                                     .fimer-rank.third {
                                         background-color: #ff9933;
                                     }
                                 }
+
                                 .user-info {
                                     .user-name {
                                         cursor: pointer;
@@ -1090,6 +1342,7 @@
                                         overflow: hidden;
                                         text-overflow: ellipsis;
                                     }
+
                                     .number-of-follows {
                                         display: block;
                                         font-size: 13px;
@@ -1097,6 +1350,7 @@
                                     }
                                 }
                             }
+
                             .follow-btn {
                                 background-color: #fff;
                                 display: flex;
@@ -1112,6 +1366,7 @@
                                 transition: all 500ms;
                                 position: absolute;
                                 right: 20px;
+
                                 span {
                                     padding-right: 5px;
                                     overflow: hidden;
@@ -1120,9 +1375,11 @@
                                     width: 80px;
                                     display: block;
                                 }
+
                                 .material-icons {
                                     font-size: 16px;
                                 }
+
                                 &:hover {
                                     background-color: #f14c7f;
                                     color: #fff;
@@ -1139,11 +1396,14 @@
                 }
             }
         }
+
         .top-hashtag {
             padding: 40px 0;
+
             .top-hashtag-wrap {
                 .hashtag-header {
                     margin-bottom: 55px;
+
                     .title {
                         font-size: 22px !important;
                         font-weight: unset !important;
@@ -1152,9 +1412,11 @@
                         color: #222;
                     }
                 }
+
                 .list-hashtag {
                     display: flex;
                     flex-wrap: wrap;
+
                     .hashtag {
                         font-family: 'Roboto-Regular';
                         font-size: 13px;
@@ -1167,10 +1429,12 @@
                         padding: 4px 12px;
                         cursor: pointer;
                         font-weight: 600;
+
                         &:hover {
                             border-color: #f14c7f;
                             color: #f14c7f;
                         }
+
                         img {
                             margin-top: -2px;
                             margin-right: 5px;
@@ -1179,6 +1443,291 @@
                 }
             }
         }
+    }
+}
+@media (max-width: 1366px) and (min-width: 1300px){
+    .production-info{
+        padding-left: 15px!important;
+    }
+    .try-expired-time{
+        padding-top:15px!important;
+    }
+}
+@media (max-width: 1299px) and (min-width: 992px){
+    .home {
+        .main-wrap {
+            .try-me {
+                .try-me-wrap {
+
+                    .left-col {
+
+                        .product-container{
+                            margin-bottom: 20px;
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            grid-gap: 5px;
+                            margin: 14px 5px 0px -22px;
+                            border-right: 1px solid #dddddd;
+                            .banner{
+                                    
+                                .banner-img{
+                                    object-fit: cover;
+                                    width: 135px;
+                                    height: 85px;
+                                    border-radius: 5px;
+                                    margin-bottom: 12px;
+                                    filter: brightness(50%);
+                                    &:hover{
+                                        border: 2px solid #f14c7f;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .right-col {
+
+                        .product-container {
+                            
+
+                            .product-slideshow {
+                                width: 50%;
+                                padding-right: 0;
+                                margin-top: -65px;
+                            }
+
+                            .production-info {
+                                // padding-left: 0;
+                                // width: 150%;
+                                // padding-top: 30px;
+
+                                .action-block {
+                                    // margin-top: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .review {
+                padding: 30px 0;
+
+                .review-wrap {
+                    .review-header {
+                        margin-bottom: 25px;
+
+                        .left-col {
+                            align-items: center;
+                        }
+                    }
+
+                    .review-body {
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        padding: 0 10px;
+
+                        .review-post {
+                            width: 48%;
+                            margin-left: 2%;
+                            margin-bottom: 10px;
+
+                            .post-body {
+                                .main-img {
+                                    height: 250px;
+                                }
+                            }
+                        }
+
+                        .review-post:nth-child(2n+1) {
+                            margin-left: 0;
+                        }
+                    }
+                }
+            }
+
+            .advertisement {
+                padding: 30px 0;
+
+                .advertisement-wrap {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    padding: 0 10px;
+
+                    .advertisement-item {
+                        width: 48%;
+                        margin-left: 2%;
+                        margin-bottom: 10px;
+                    }
+
+                    .advertisement-item:nth-child(2n+1) {
+                        margin-left: 0;
+                    }
+                }
+            }
+
+            .tip {
+                padding: 30px 0;
+
+                .tip-wrap {
+
+                    .tip-header {
+                        margin-bottom: 25px;
+
+                        .tip-title {
+                        }
+                    }
+
+                    .tip-body {
+                        flex-wrap: wrap;
+
+                        .inner-body {
+                            width: 100%;
+
+                            .banner {
+                                height: auto;
+                            }
+                        }
+
+                        .video-block {
+                            width: 50%;
+
+                            .video {
+                                width: 100%;
+                                height: 250px;
+                            }
+
+                            .play-btn {
+                                bottom: 20px;
+                            }
+                        }
+
+                        .video-list-block {
+                            width: 50%;
+                        }
+
+                        .post-list-block {
+                            margin-top: 20px;
+                            width: 100%;
+
+                            .post-item {
+                                .image-container {
+                                    width: 25%;
+                                }
+
+                                .post-title {
+                                    width: 75%;
+                                    padding-left: 15px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .hot-fimer {
+                padding: 30px 0;
+
+                .review-wrap {
+                    .review-header {
+                        margin-bottom: 15px;
+                        display: block;
+
+                        .left-col {
+                            display: block;
+
+                            .review-title {
+                                display: block;
+                                font-size: 18px;
+                                margin-bottom: 15px;
+                            }
+
+                            .review-type {
+                                display: block;
+                                margin-bottom: 15px;
+                            }
+                        }
+                    }
+
+                    .review-body {
+                        padding: 0 10px;
+
+                        .review-post {
+                            .post-header {
+                                padding: 0;
+
+                                .user-block {
+                                    .avt-block {
+                                        margin-right: 10px;
+                                    }
+                                }
+                            }
+                        }
+
+                        flex-wrap: wrap;
+
+                        .review-post {
+                            width: 100%;
+                            margin-left: 0;
+                            margin-bottom: 10px;
+                        }
+
+                        .right-list-fimer {
+                            width: 100%;
+                            margin-left: 0;
+                            margin-top: 15px;
+                            margin-bottom: 0;
+
+                            .fimer-item {
+                                margin-bottom: 15px !important;
+
+                                .user-block {
+                                    .user-info {
+                                        .user-name {
+                                            width: 200px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .lastest-review {
+                            .col-review {
+                                width: 31% !important;
+
+                                img {
+                                    height: 110px !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .top-hashtag {
+                padding: 30px 0;
+
+                .top-hashtag-wrap {
+                    .hashtag-header {
+                        margin-bottom: 30px;
+                    }
+                }
+            }
+        }
+    }
+        
+    
+    .try-expired-time{
+        flex-direction: column;
+    }
+    .action-block{
+        flex-direction: column;
+        margin-top: 15px!important;
+        .action{
+            padding-top: 5px;
+        }
+    }
+    .try-expired-time{
+        padding-top:0px!important;
     }
 }
 
@@ -1199,25 +1748,31 @@
                     }
                 }
             }
+
             .try-me {
                 .expired-label {
                     line-height: 1 !important;
                 }
+
                 .need-to-hide {
                     display: none !important;
                     margin: 0 !important;
                 }
+
                 .action-block {
                     margin-top: 20px !important;
                 }
             }
+
             .review {
                 .review-wrap {
                     .review-body {
                         padding: 0 10px;
+
                         .review-post {
                             width: 24%;
                             margin-left: 1.5%;
+
                             .post-body {
                                 .main-img {
                                     height: 150px;
@@ -1226,6 +1781,7 @@
                         }
                     }
                 }
+
                 .review-wrap {
                     .review-body {
                         .review-post {
@@ -1236,8 +1792,10 @@
                                         height: 40px;
                                         margin-right: 10px;
                                     }
+
                                     .user-info {
                                         width: 40%;
+
                                         .user-name {
                                             white-space: nowrap;
                                             text-overflow: ellipsis;
@@ -1251,6 +1809,7 @@
                     }
                 }
             }
+
             .tip {
                 .tip-wrap {
                     .tip-body {
@@ -1262,35 +1821,43 @@
                     }
                 }
             }
+
             .hot-fimer {
                 .review-wrap {
                     .review-body {
                         .review-post {
                             .post-header {
                                 padding: 0;
+
                                 .follow-btn {
-                                    top: 30px !important;
-                                    ;
+                                    top: 30px !important;;
                                 }
+
                                 .user-block {
                                     margin-right: 5px;
+
                                     .avt-block {
                                     }
                                 }
                             }
                         }
+
                         flex-wrap: wrap;
+
                         .review-post {
                             width: 32%;
                             margin-left: 1.5%;
                         }
+
                         .right-list-fimer {
                             width: 100%;
                             margin-left: 0;
                             margin-top: 15px;
                             margin-bottom: 0;
+
                             .fimer-item {
                                 margin-bottom: 15px !important;
+
                                 .user-block {
                                     .user-info {
                                         .user-name {
@@ -1300,6 +1867,7 @@
                                 }
                             }
                         }
+
                         .lastest-review {
                             img {
                                 height: 80px !important;
@@ -1317,15 +1885,19 @@
         .main-wrap {
             .banner {
                 height: 500px;
+
                 .banner-wrap {
                     height: 500px;
+
                     .carousel {
                         .banner-img {
                             height: 500px;
                         }
+
                         .banner-info-wrap {
                             height: 50%;
                             transform: translateY(50%);
+
                             .banner-info {
                                 .banner-url {
                                     padding: 10px 25px;
@@ -1334,11 +1906,13 @@
                             }
                         }
                     }
+
                     .arrow-block {
                         .arrow-container {
                             .arrow-prev {
                                 left: 15px;
                             }
+
                             .arrow-next {
                                 right: 15px;
                             }
@@ -1346,32 +1920,46 @@
                     }
                 }
             }
+
             .try-me {
                 padding: 30px 0;
+
                 .banner {
                     height: 300px;
                 }
+
                 .try-me-wrap {
                     display: block !important;
+
                     .left-col {
                         width: 100%;
                         margin-bottom: 20px;
                         padding-left: 0;
+
+                        .product-container{
+                            display: none !important;
+                        }
                     }
+
                     .right-col {
                         padding-left: 0;
                         width: 100%;
+
                         .product-container {
                             display: block;
                             height: auto;
+                            
+
                             .product-slideshow {
                                 width: 100%;
                                 padding-right: 0;
                             }
+
                             .production-info {
                                 padding-left: 0;
                                 width: 100%;
                                 padding-top: 30px;
+
                                 .action-block {
                                     margin-top: 20px;
                                 }
@@ -1380,8 +1968,10 @@
                     }
                 }
             }
+
             .review {
                 padding: 30px 0;
+
                 .review-wrap {
                     .review-header {
                         margin-bottom: 25px;
@@ -1390,79 +1980,100 @@
                             align-items: center;
                         }
                     }
+
                     .review-body {
                         flex-wrap: wrap;
                         justify-content: center;
                         padding: 0 10px;
+
                         .review-post {
                             width: 48%;
                             margin-left: 2%;
                             margin-bottom: 10px;
+
                             .post-body {
                                 .main-img {
                                     height: 250px;
                                 }
                             }
                         }
+
                         .review-post:nth-child(2n+1) {
                             margin-left: 0;
                         }
                     }
                 }
             }
+
             .advertisement {
                 padding: 30px 0;
+
                 .advertisement-wrap {
                     flex-wrap: wrap;
                     justify-content: center;
                     padding: 0 10px;
+
                     .advertisement-item {
                         width: 48%;
                         margin-left: 2%;
                         margin-bottom: 10px;
                     }
+
                     .advertisement-item:nth-child(2n+1) {
                         margin-left: 0;
                     }
                 }
             }
+
             .tip {
                 padding: 30px 0;
+
                 .tip-wrap {
 
                     .tip-header {
                         margin-bottom: 25px;
-                        .tip-title {}
+
+                        .tip-title {
+                        }
                     }
+
                     .tip-body {
                         flex-wrap: wrap;
-                        .inner-body{
+
+                        .inner-body {
                             width: 100%;
-                            .banner{
+
+                            .banner {
                                 height: auto;
                             }
                         }
 
                         .video-block {
                             width: 50%;
+
                             .video {
                                 width: 100%;
                                 height: 250px;
                             }
+
                             .play-btn {
                                 bottom: 20px;
                             }
                         }
+
                         .video-list-block {
                             width: 50%;
                         }
+
                         .post-list-block {
                             margin-top: 20px;
                             width: 100%;
+
                             .post-item {
                                 .image-container {
                                     width: 25%;
                                 }
+
                                 .post-title {
                                     width: 75%;
                                     padding-left: 15px;
@@ -1472,30 +2083,38 @@
                     }
                 }
             }
+
             .hot-fimer {
                 padding: 30px 0;
+
                 .review-wrap {
                     .review-header {
                         margin-bottom: 15px;
                         display: block;
+
                         .left-col {
                             display: block;
+
                             .review-title {
                                 display: block;
                                 font-size: 18px;
                                 margin-bottom: 15px;
                             }
+
                             .review-type {
                                 display: block;
                                 margin-bottom: 15px;
                             }
                         }
                     }
+
                     .review-body {
                         padding: 0 10px;
+
                         .review-post {
                             .post-header {
                                 padding: 0;
+
                                 .user-block {
                                     .avt-block {
                                         margin-right: 10px;
@@ -1503,19 +2122,24 @@
                                 }
                             }
                         }
+
                         flex-wrap: wrap;
+
                         .review-post {
                             width: 100%;
                             margin-left: 0;
                             margin-bottom: 10px;
                         }
+
                         .right-list-fimer {
                             width: 100%;
                             margin-left: 0;
                             margin-top: 15px;
                             margin-bottom: 0;
+
                             .fimer-item {
                                 margin-bottom: 15px !important;
+
                                 .user-block {
                                     .user-info {
                                         .user-name {
@@ -1525,9 +2149,11 @@
                                 }
                             }
                         }
+
                         .lastest-review {
                             .col-review {
                                 width: 31% !important;
+
                                 img {
                                     height: 110px !important;
                                 }
@@ -1536,8 +2162,10 @@
                     }
                 }
             }
+
             .top-hashtag {
                 padding: 30px 0;
+
                 .top-hashtag-wrap {
                     .hashtag-header {
                         margin-bottom: 30px;
@@ -1577,10 +2205,14 @@
     }
 
     .home .main-wrap .try-me .try-me-wrap .right-col .product-container .production-info .action-block .action .like-btn {
-    background-color: #fff;
-    color: #222;
-    border-color: #222;
-  }
+        background-color: #fff;
+        color: #222;
+        border-color: #222;
+    }
+
+    .try-me-panel{
+        padding:0px 10px!important;
+    }
 }
 
 @include phone {
@@ -1588,28 +2220,35 @@
         .main-wrap {
             .banner {
                 height: 200px;
+
                 .banner-wrap {
                     height: 200px;
+
                     .carousel {
                         .banner-img {
                             height: 200px;
                         }
+
                         .banner-info-wrap {
                             height: 50%;
                             transform: translateY(50%);
                             width: 290px;
+
                             .banner-info {
                                 width: 100%;
                                 padding-left: 10px;
+
                                 .banner-title {
                                     font-size: 18px;
                                     margin-bottom: 15px;
                                 }
+
                                 .banner-description {
                                     font-size: 14px;
                                     line-height: 1.125;
                                     margin-bottom: 15px;
                                 }
+
                                 .banner-url {
                                     padding: 8px 16px;
                                     border-radius: 30px;
@@ -1618,39 +2257,52 @@
                             }
                         }
                     }
+
                     .arrow-block {
                         .arrow-container {
                             .arrow-prev {
                                 left: 15px;
                             }
+
                             .arrow-next {
                                 right: 15px;
                             }
                         }
                     }
+
                     .dot-block {
                         bottom: 10px;
                     }
                 }
             }
+
             .try-me {
                 .banner {
                     height: 200px;
                 }
-              padding: 20px 0;
+
+                padding: 20px 0;
+
                 .container {
                     padding: 0;
                 }
+
                 .try-me-wrap {
                     display: block !important;
+
                     .left-col {
                         padding: 0 10px;
                         width: 100%;
                         margin-bottom: 5px;
                         position: relative;
 
+                        .product-container{
+                            display: none !important;
+                        }
+
                         .try-me-title {
-                          margin-bottom: 5px;font-size: 20px;
+                            margin-bottom: 5px;
+                            font-size: 20px;
                         }
 
                         .try-me-description {
@@ -1665,23 +2317,28 @@
                             font-size: 12px;
                         }
                     }
+
                     .right-col {
                         width: 100%;
                         padding: 10px;
-                      .product-container {
+
+                        .product-container {
                             display: block;
                             height: auto;
+                            margin-top: -35px;
+
                             .product-slideshow {
                                 width: 100%;
                                 padding-left: 0;
                                 padding-right: 0;
 
-                              .carousel {
-                                .banner-img {
-                                  height: 200px;
+                                .carousel {
+                                    .banner-img {
+                                        height: 200px;
+                                    }
                                 }
-                              }
                             }
+
                             .production-info {
                                 padding-left: 0;
                                 width: 100%;
@@ -1713,26 +2370,31 @@
                                 .try-expired-time {
                                     display: block;
 
-                                  .expired-time {
+                                    .expired-time {
 
-                                      .time-block {
-                                          .count-down-value {
-                                              height: 30px;
-                                              span {
-                                                  font-size: 24px;
-                                              }
-                                          }
-                                      }
-                                    .time-block:first-child {
-                                      margin-left: 0;
+                                        .time-block {
+                                            .count-down-value {
+                                                height: 30px;
+
+                                                span {
+                                                    font-size: 24px;
+                                                }
+                                            }
+                                        }
+
+                                        .time-block:first-child {
+                                            margin-left: 0;
+                                        }
                                     }
-                                  }
                                 }
+
                                 .action-block {
                                     margin-top: 20px;
                                 }
+
                                 .action-block {
                                     display: block;
+
                                     .list-users-liked {
                                         margin-bottom: 20px;
                                     }
@@ -1742,16 +2404,20 @@
                     }
                 }
             }
+
             .review {
                 padding: 20px 0;
+
                 .review-wrap {
                     .review-header {
                         display: block;
                         margin-bottom: 20px;
                         position: relative;
+
                         .left-col {
                             display: block;
                             margin-bottom: 10px;
+
                             .review-title {
                                 margin-bottom: 10px;
                                 font-size: 20px;
@@ -1759,6 +2425,7 @@
 
                             .review-type {
                                 margin-top: 15px;
+
                                 .type-btn {
                                     font-size: 12px;
                                 }
@@ -1769,32 +2436,39 @@
                             position: absolute;
                             top: -2px;
                             right: 0;
+
                             .see-all-btn {
                                 margin-right: 0;
                                 font-size: 12px;
                             }
                         }
                     }
+
                     .review-body {
                         padding: 0 10px;
                         display: block;
+
                         .review-post {
                             width: 100%;
                             margin-bottom: 10px;
                             margin-left: 0;
+
                             .post-header {
                                 .user-avt {
                                     margin-right: 10px !important;
                                 }
+
                                 .user-info {
                                     .user-name {
                                         font-size: 15px !important;
                                     }
+
                                     .number-of-follows {
                                         font-size: 13px !important;
                                     }
                                 }
                             }
+
                             .post-body {
                                 .main-img {
                                     height: 200px;
@@ -1804,56 +2478,69 @@
                     }
                 }
             }
+
             .advertisement {
                 padding: 20px 0;
+
                 .advertisement-wrap {
                     flex-wrap: wrap;
                     padding: 0 10px;
+
                     .advertisement-item {
                         width: 100%;
                         margin-left: 0;
                         margin-bottom: 20px;
                     }
+
                     .advertisement-item:nth-child(2n+1) {
                         margin-left: 0;
                     }
                 }
             }
+
             .tip {
                 padding: 20px 0;
+
                 .tip-wrap {
                     .tip-header {
                         display: flex;
                         margin-bottom: 20px;
                         align-items: center;
+
                         .tip-title {
                             margin-bottom: 0;
                             font-size: 20px;
                         }
+
                         .see-all-btn {
                             margin-right: 0;
                         }
                     }
+
                     .tip-body {
                         display: block;
 
-                        .inner-body{
+                        .inner-body {
                             width: 100%;
-                            .banner{
+
+                            .banner {
                                 height: auto;
                             }
                         }
 
                         .video-block {
                             width: 100%;
+
                             .video {
                                 width: 100%;
                                 height: 250px;
                             }
+
                             .play-btn {
                                 bottom: 20px;
                             }
                         }
+
                         .video-list-block {
                             width: 100%;
                             padding: 0;
@@ -1868,13 +2555,16 @@
                                 }
                             }
                         }
+
                         .post-list-block {
                             margin-top: 0;
                             width: 100%;
+
                             .post-item {
                                 .image-container {
                                     width: 30%;
                                 }
+
                                 .post-title {
                                     width: 70%;
                                     padding-left: 10px;
@@ -1884,48 +2574,60 @@
                     }
                 }
             }
+
             .hot-fimer {
                 padding: 20px 0;
+
                 .review-wrap {
                     .review-header {
                         margin-bottom: 15px;
                         display: block;
                         position: relative;
+
                         .left-col {
                             display: block;
+
                             .review-title {
                                 display: block;
                                 margin-bottom: 15px;
                                 font-size: 20px;
                             }
+
                             .review-type {
                                 display: block;
                                 margin-bottom: 10px;
+
                                 .type-btn {
                                     margin-bottom: 10px !important;
-                                    font-size: 12px !important;
+                                    font-size: 10px !important;
+                                    margin-right: 5px;
                                 }
                             }
                         }
+
                         .right-col {
                             position: absolute;
                             top: -2px;
                             right: 0;
+
                             .see-all-btn {
                                 font-size: 12px;
                                 margin-right: 0;
                             }
                         }
                     }
+
                     .review-body {
                         padding: 0 10px;
+
                         .review-post {
                             .post-header {
                                 padding: 0;
+
                                 .follow-btn {
-                                    top: 20px !important;
-                                    ;
+                                    top: 20px !important;;
                                 }
+
                                 .user-block {
                                     .avt-block {
                                         margin-right: 5px !important;
@@ -1933,19 +2635,24 @@
                                 }
                             }
                         }
+
                         flex-wrap: wrap;
+
                         .review-post {
                             width: 100%;
                             margin-left: 0;
                             margin-bottom: 15px;
                         }
+
                         .right-list-fimer {
                             width: 100%;
                             margin-left: 0;
                             margin-top: 15px;
                             margin-bottom: 0;
+
                             .fimer-item {
                                 margin-bottom: 15px !important;
+
                                 .user-block {
                                     .user-info {
                                         .user-name {
@@ -1955,9 +2662,11 @@
                                 }
                             }
                         }
+
                         .lastest-review {
                             .col-review {
                                 width: 31% !important;
+
                                 img {
                                     height: 80px !important;
                                 }
@@ -1966,11 +2675,14 @@
                     }
                 }
             }
+
             .top-hashtag {
                 padding: 20px 0;
+
                 .top-hashtag-wrap {
                     .hashtag-header {
                         margin-bottom: 20px;
+
                         .title {
                             font-size: 20px !important;
                         }
@@ -2010,9 +2722,26 @@
     }
 
     .home .main-wrap .try-me .try-me-wrap .right-col .product-container .production-info .action-block .action .like-btn {
-      background-color: #fff;
-      color: #222;
-      border-color: #222;
+        background-color: #fff;
+        color: #222;
+        border-color: #222;
+    }
+    
+    .left-col{
+        .product-container{
+            flex-direction: column;
+            .product-slideshow{
+                width:100%!important
+            }
+            .production-info{
+                width: 100%!important;
+                padding-left: 0px!important;
+                padding-top: 20px;
+            }
+        }
+    }
+    .try-me-panel{
+        padding:0px!important;
     }
 }
 
@@ -2022,6 +2751,6 @@
     }
     .home .main-wrap .review .review-wrap .review-body .review-post .post-body .main-img, .home .main-wrap .hot-fimer
     .review-wrap .review-body .review-post .post-body .main-img {
-      height: 200px;
+        height: 250px;
     }
 }

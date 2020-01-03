@@ -65,25 +65,12 @@
                         <div *ngIf="form.controls.pm_name.invalid&&activeForm" class="text-danger">
                             Name is required
                         </div>
-                        <div *ngIf="partner.pm_name.length>255&&activeForm" class="text-danger">
+                        <div *ngIf="partner.pc_brand.length>255&&activeForm" class="text-danger">
                             Length cannot be greater than 255 characters
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Password</label>
-                    <div class="col-sm-9">
-                        <input type="password" class="form-control" [(ngModel)]="partner.password" formControlName="password"
-                            name="password">
-                        <div *ngIf="form.controls.password.invalid&&activeForm" class="text-danger">
-                            Password is required
-                        </div>
-                        <div *ngIf="partner.password?.length<6&&activeForm" class="text-danger">
-                            Password must be greater than or equal to 6 characters
-                        </div>
-                    </div>
-                </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">id</label>
                     <div class="col-sm-9">

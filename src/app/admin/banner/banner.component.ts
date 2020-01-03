@@ -5,8 +5,7 @@ import * as _ from 'lodash';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import * as moment from 'moment';
-
+import {formatDate } from '@angular/common';
 @Component({
     selector: 'app-admin-banner',
     templateUrl: './banner.component.html',
@@ -22,7 +21,15 @@ export class AdminBannerComponent implements OnInit {
     public showDelete = false;
     public showDeactivate = false;
     public showActive = false;
-
+    public pageSize: 10;
+    public pageLimitOptions = [];
+    public pageIndex = 1;
+    public filter = {
+        title: null,
+        from: null,
+        to: null
+    };
+    public total: any;
     constructor(
         private api: Restangular,
         private cookieService: CookieService,
@@ -32,21 +39,50 @@ export class AdminBannerComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.pageSize = 10;
         this.env = environment;
         this.getBanners();
+        
+        this.pageLimitOptions = [
+            {value: 5},
+            {value: 10},
+            {value: 20},
+            {value: 25},
+            {value: 50}
+        ];
     }
 
+    changePageLimit(limit: any): void {
+        this.pageSize = limit;
+        this.getBanners();
+    }
+    setPage(pageInfo) {
+        this.pageIndex = pageInfo.offset + 1;
+        this.getBanners();
+    }
+    onSearch() {
+        this.pageIndex = 1;
+        this.getBanners();
+    }
+    onReset() {
+        this.filter = {
+            title: null,
+            from: null,
+            to: null
+        };
+
+        this.getBanners();
+    }
     getBanners() {
         this.selected = [];
-
-        this.api.all('banners/all').customGET('').subscribe(res => {
-            this.banners = res.result;
-            for (let i = 0; i < this.banners.length; i++) {
-                this.banners[i].period_from = moment.utc(this.banners[i].period_from).toDate();
-                this.banners[i].period_to = moment.utc(this.banners[i].period_to).toDate();
-            }
+        const from = this.filter.from ? formatDate(this.filter.from, 'MM/dd/yyyy', 'en-US') : null;
+        const to = this.filter.to ? formatDate(this.filter.to, 'MM/dd/yyyy', 'en-US') : null;
+        this.api.all('banners/all').customGET('',{page: this.pageIndex,pageSize: this.pageSize,name: this.filter.title,from: from, to: to}).subscribe(res => {
+            this.banners = res.result.data;
+            this.total = res.result.total;
         });
     }
+
 
     onToggle(rows, togggle) {
         const ids = _.map(rows, 'id');

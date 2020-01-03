@@ -53,7 +53,7 @@ export class AdminPartnerCampaignHistoryComponent implements OnInit {
         private modalService: BsModalService,
         private partnerService: PartnerService,
         private activeRoute: ActivatedRoute,
-        private commonService: CommonService,
+        public commonService: CommonService,
     ) {
 
     }

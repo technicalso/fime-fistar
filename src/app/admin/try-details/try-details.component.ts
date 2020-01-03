@@ -177,7 +177,7 @@ export class AdminTryDetailsComponent implements OnInit {
         this.resourceImgDesc.onSave((res) => {
             if (typeof res !== 'undefined') {
                 if (res.images) {
-                    this.try.img_desc = res.images;
+                    this.try.img_desc = res.images[0];
                 } else {
                     this.try.img_desc = null;
                 }

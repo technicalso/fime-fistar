@@ -1,4 +1,13 @@
 <div class="component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
     <div class="row">
         <div class="col">
             <div class="admin-heading">
@@ -217,24 +226,24 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #userActions="matMenu">
-                    <button mat-menu-item [routerLink]="['/admin/comments/try', row.cntnts_no]" class="datatable-action-button">
+                    <a mat-menu-item [routerLink]="['/admin/comments/try', row.cntnts_no]" class="datatable-action-button">
                         <mat-icon>mode_comment</mat-icon>
                         <span>Comment</span>
-                    </button>
-                    <button mat-menu-item [routerLink]="['/admin/reviews/try', row.cntnts_no]" class="datatable-action-button">
+                    </a>
+                    <a mat-menu-item [routerLink]="['/admin/reviews/try', row.cntnts_no]" class="datatable-action-button">
                         <mat-icon>rate_review</mat-icon>
                         <span>Reviews</span>
-                    </button>
-                    <button mat-menu-item [routerLink]="['/admin/winner/try', row.cntnts_no]" class="datatable-action-button">
+                    </a>
+                    <a mat-menu-item [routerLink]="['/admin/winner/try', row.cntnts_no]" class="datatable-action-button">
                         <mat-icon>
                             star_rate
                         </mat-icon>
                         <span>Winners</span>
-                    </button>
-                    <button mat-menu-item [routerLink]="['/admin/try/event/edit', row.cntnts_no]" class="datatable-action-button">
+                    </a>
+                    <a mat-menu-item [routerLink]="['/admin/try/event/edit', row.cntnts_no]" class="datatable-action-button">
                         <mat-icon>edit</mat-icon>
                         <span>Edit</span>
-                    </button>
+                    </a>
                     <button mat-menu-item [swal]="deleteSwal" (confirm)="onDelete([row])" class="datatable-action-button">
                         <mat-icon>delete</mat-icon>
                         <span>Delete</span>
@@ -244,6 +253,7 @@
         </ngx-datatable-column>
 
     </ngx-datatable>
+
 </div>
 
 <swal #enableSwal text="Are you sure to enable try?" type="question" [showCancelButton]="true"

@@ -7,6 +7,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'lodash';
 import { formatDate } from '@angular/common';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { AdminReviewDetailsComponent } from '../review-detail/review-details.component';
 
 @Component({
     selector: 'app-admin-review',
@@ -19,10 +21,13 @@ export class AdminReviewComponent implements OnInit {
     public pageIndex: any;
     public pageSize: any;
     public reviews = [];
+    public images = [];
     public totalReviews: any;
     public env: any;
+    public modalRef: BsModalRef;
     public selected = [];
     public categories = [];
+    public users = [];
     public showDelete = false;
     public showDeactivate = false;
     public showActive = false;
@@ -32,6 +37,7 @@ export class AdminReviewComponent implements OnInit {
     public sort = 'desc';
     public filter = {
         name: null,
+        reg_name: null,
         is_disabled: 'null',
         type: 'null',
         category_id: 'null',
@@ -39,12 +45,13 @@ export class AdminReviewComponent implements OnInit {
         to: null
     };
     public tryId: string;
-
+    public pageLimitOptions = [];
     constructor(
         private api: Restangular,
         private toast: ToastrService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        public modalService: BsModalService
     ) { }
 
     ngOnInit() {
@@ -56,6 +63,20 @@ export class AdminReviewComponent implements OnInit {
         this.sort = 'desc';
         this.getCategories();
         this.getReviews();
+        this.getUsers();
+        this.pageLimitOptions = [
+            {value: 5},
+            {value: 10},
+            {value: 20},
+            {value: 25},
+            {value: 50}
+        ];
+    }
+
+    changePageLimit(limit: any): void {
+        this.pageSize = limit;
+        this.getReviews();
+
     }
 
     getReviews() {
@@ -65,18 +86,26 @@ export class AdminReviewComponent implements OnInit {
         this.api.all('reviews').customGET('', {
             tryId: this.tryId,
             page: this.pageIndex, pageSize: this.pageSize, column: this.column, sort: this.sort,
-            category_id: this.filter.category_id, name: this.filter.name,
+            category_id: this.filter.category_id, name: this.filter.name, reg_name: this.filter.reg_name,
             is_disabled: this.filter.is_disabled, type: this.filter.type,
             from: from, to: to
         }).subscribe(res => {
             this.reviews = res.result.data;
             this.totalReviews = res.result.total;
+            for (let i = 0; i < this.reviews.length; i++) {
+                this.reviews[i].view_cnt = parseInt(this.reviews[i].view_cnt);
+            }
         });
     }
 
     getCategories() {
         this.api.all('categories').customGET('').subscribe(res => {
             this.categories = res.result;
+        });
+    }
+    getUsers() {
+        this.api.all('admin/users/get-list').customGET('').subscribe(res => {
+            this.users = res.result;
         });
     }
 
@@ -190,6 +219,7 @@ export class AdminReviewComponent implements OnInit {
     onReset() {
         this.filter = {
             name: null,
+            reg_name: null,
             is_disabled: 'null',
             type: 'null',
             category_id: 'null',
@@ -214,4 +244,22 @@ export class AdminReviewComponent implements OnInit {
     openReviewDetail(url) {
         window.open(url);
     }
+
+    getReviewsDetail(slug) {
+        this.images = [];
+        this.api.all('reviews/details').customGET(slug).subscribe(res => {
+            const initialState = {
+                review: res.result
+            };
+            this.modalRef = this.modalService.show(
+                AdminReviewDetailsComponent,
+                {initialState}
+            );
+
+            this.modalRef.content.onClose.subscribe(res => {
+                this.reviews = res.result;
+            });
+        });
+    }
+
 }

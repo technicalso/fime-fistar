@@ -1,6 +1,6 @@
 <div class="component-admin-try">
     <div class="row">
-        <div class="col-12 d-flex justify-content-between">
+        <div class="col-md-12 d-flex justify-content-between">
             <div class="admin-heading" *ngIf="!tryId">
                 Create Try
             </div>
@@ -8,7 +8,7 @@
                 Edit Try
             </div>
             <div>
-                <button class="btn btn-default" (click)="goBack()"><i class="material-icons align-text-bottom">
+                <button class="btn btn-default" routerLink="/admin/try/event"><i class="material-icons align-text-bottom">
                     arrow_back
                 </i> <span>Back</span></button>
             </div>
@@ -19,7 +19,7 @@
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Name <span style="color: red">(*)</span></label>
+                        <label>Name</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
@@ -70,7 +70,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Short Description  </label>
+                        <label>Short Description</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
@@ -81,24 +81,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Description  <span style="color: red">(*)</span></label>
+                        <label>Description</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
                             <ck-editor [(ngModel)]="try.goods_dc" skin="moono-lisa" language="en" [fullPage]="true"
                                        formControlName="description" name="description"></ck-editor>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <label>Hashtag</label>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="form-group">
-                                <textarea class="form-control" [(ngModel)]="try.hash_tag"
-                                          formControlName="hash_tag" name="hash_tag"></textarea>
-                            <span>Type space for seperating. 예)#fime #lipstic #3CE</span>
                         </div>
                     </div>
                 </div>
@@ -115,7 +103,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Brand <span style="color: red">(*)</span></label>
+                        <label>Brand</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
@@ -137,7 +125,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Catalogs <span style="color: red">(*)</span></label>
+                        <label>Category</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
@@ -164,8 +152,7 @@
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Enter model"
-                                   [(ngModel)]="try.modl_nombr"
+                            <input type="text" class="form-control" placeholder="Enter model" [(ngModel)]="try.modl_nombr"
                                    formControlName="model" name="model"/>
                             <div *ngIf="form.controls.model.invalid && (form.controls.model.dirty || form.controls.model.touched)"
                                  class="text-danger">
@@ -178,7 +165,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Product Url <span style="color: red">(*)</span></label>
+                        <label>Product Url</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
@@ -239,19 +226,19 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Start Date <span style="color: red">(*)</span></label>
+                        <label>Start Date</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
                             <div class="calendar-control">
                                 <label class="example-input-wrapper">
-                                    <input placeholder="Date Time:"
+                                    <!-- <input placeholder="Date Time:"
                                            formControlName="start_date"
                                            [(ngModel)]="try.event_bgnde"
                                            [owlDateTimeTrigger]="start_date"
                                            class="form-control"
                                            [owlDateTime]="start_date">
-                                    <owl-date-time #start_date></owl-date-time>
+                                    <owl-date-time #start_date></owl-date-time> -->
                                 </label>
                             </div>
                             <div *ngIf="form.controls.start_date.invalid && (form.controls.start_date.dirty || form.controls.start_date.touched)"
@@ -265,19 +252,19 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>End Date <span style="color: red">(*)</span></label>
+                        <label>End Date</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
                             <div class="calendar-control">
                                 <label class="example-input-wrapper">
-                                    <input placeholder="Date Time:"
+                                    <!-- <input placeholder="Date Time:"
                                            formControlName="end_date"
                                            [(ngModel)]="try.event_endde"
                                            [owlDateTimeTrigger]="end_date"
                                            class="form-control"
                                            [owlDateTime]="end_date">
-                                    <owl-date-time #end_date></owl-date-time>
+                                    <owl-date-time #end_date></owl-date-time> -->
                                 </label>
                             </div>
                             <div *ngIf="form.controls.end_date.invalid && (form.controls.end_date.dirty || form.controls.end_date.touched)"
@@ -291,7 +278,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Join Max Count <span style="color: red">(*)</span></label>
+                        <label>Join Max Count</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
@@ -309,15 +296,15 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Delivery Start Date <span style="color: red">(*)</span></label>
+                        <label>Delivery Start Date</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
                             <div class="calendar-control">
                                 <mat-datepicker-toggle [for]="delivery_start_date"
-                                                       matSuffix></mat-datepicker-toggle>
+                                                           matSuffix></mat-datepicker-toggle>
                                 <mat-datepicker #delivery_start_date type="datetime" openOnFocus="true"
-                                                timeInterval="5"></mat-datepicker>
+                                                    timeInterval="5"></mat-datepicker>
                                 <input matInput class="form-control" formControlName="delivery_start_date"
                                        [(ngModel)]="try.dlvy_bgnde"
                                        [matDatepicker]="delivery_start_date" required autocomplete="false"
@@ -334,15 +321,15 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Delivery End Date <span style="color: red">(*)</span></label>
+                        <label>Delivery End Date</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
                             <div class="calendar-control">
                                 <mat-datepicker-toggle [for]="delivery_end_date"
-                                                       matSuffix></mat-datepicker-toggle>
+                                                           matSuffix></mat-datepicker-toggle>
                                 <mat-datepicker #delivery_end_date type="datetime" openOnFocus="true"
-                                                timeInterval="5"></mat-datepicker>
+                                                    timeInterval="5"></mat-datepicker>
                                 <input matInput class="form-control" formControlName="delivery_end_date"
                                        [(ngModel)]="try.dlvy_endde"
                                        [matDatepicker]="delivery_end_date" required autocomplete="false"
@@ -359,7 +346,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Quantity to qualify <span style="color: red">(*)</span></label>
+                        <label>Quantity to qualify</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
@@ -377,7 +364,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Try event type <span style="color: red">(*)</span></label>
+                        <label>Try event type</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
@@ -399,7 +386,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Main image <span style="color: red">(*)</span></label>
+                        <label>Main image</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
@@ -415,37 +402,23 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Images <span style="color: red">(*)</span></label>
+                        <label>Images</label>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
                             <app-admin-multiple-images #images [images]="{ data: try.files}"
-                                                       [resizeToWidth]="720" [aspectRatio]="1 / 1"></app-admin-multiple-images>
+                                                       [resizeToWidth]="720" [aspectRatio]="9 / 16"></app-admin-multiple-images>
                             <div *ngIf="isSubmitted && invalidImages"
                                  class="text-danger">
-                                Choose at least one image
+                                    Choose at least one image
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-3">
-                        <label>Image Description</label>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            <app-admin-multiple-images #resourceImgDesc
-                                                       [needToCrop]="false"
-                                                       [images]="{ data: try.imgDesc }"
-                                                       [resizeToWidth]="720" [aspectRatio]="1 / 1"></app-admin-multiple-images>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="actions d-flex justify-content-end col-md-8">
-            <button class="btn btn-default mr-1" (click)="goBack()">
+            <button class="btn btn-default mr-1" routerLink="/admin/try/event">
                 <i class="material-icons align-text-bottom">
                     cancel
                 </i> <span> {{ "cancel" | translate }}</span>

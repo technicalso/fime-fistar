@@ -6,4 +6,20 @@
     label {
         font-weight: bold;
     }
+    .row{
+        .col-12{
+            .review-footer{
+                .review-images{
+                    display: grid;
+                    grid-template-columns: 0fr 0fr;
+                    grid-column-gap: 20px;
+                    grid-row-gap: 21px;
+                    img{
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+
 }

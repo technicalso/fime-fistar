@@ -34,7 +34,7 @@ export class AdminRequestFistarBasicComponent implements OnInit {
         private toast: ToastrService,
         private route: ActivatedRoute,
         private requestFistar: RequestFistarService,
-        private commonService: CommonService,
+        public commonService: CommonService,
         @Inject(PLATFORM_ID) private platformId: Object
     ) { }
 

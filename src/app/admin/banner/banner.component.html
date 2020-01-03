@@ -1,4 +1,13 @@
-<div class="component-admin-banner">
+<div class="component-admin-banner component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
     <div class="row">
         <div class="col">
             <div class="admin-heading">
@@ -13,6 +22,49 @@
             </button>
         </div>
     </div>
+    <mat-card class="search-control">
+        <div class="row">
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Title</label>
+                    <div>
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="" [(ngModel)]="filter.title">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Period</label>
+                    <div>
+                        <mat-form-field class="half-width">
+                            <input matInput [matDatepicker]="from" placeholder="From" [(ngModel)]="filter.from"
+                                   [max]="filter.to">
+                            <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                            <mat-datepicker #from></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="half-width">
+                            <input matInput [matDatepicker]="to" placeholder="To" [(ngModel)]="filter.to"
+                                   [min]="filter.from">
+                            <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                            <mat-datepicker #to></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="pull-right">
+                    <button class="btn btn-primary mr-1" (click)="onSearch()"><i class="material-icons align-text-bottom">
+                        search
+                    </i> <span>Search</span></button>
+                    <button class="btn btn-default" (click)="onReset()"><i class="material-icons align-text-bottom">
+                        replay
+                    </i> <span>Reset</span></button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
     <div class="multi-action d-flex justify-content-end" *ngIf="selected.length > 0">
         <button class="btn btn-primary mr-1" [swal]="disableSwal" *ngIf="showDeactivate" (confirm)="onToggleMulti(true)">
             <i class="material-icons align-text-bottom">
@@ -32,7 +84,7 @@
     </div>
     <ngx-datatable #myTable class="material" [rows]="banners" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
                    [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)' [selected]="selected"
-                   [rowHeight]="'auto'" [count]="banners.length" [limit]="10">
+                   [rowHeight]="'auto'" [count]="total" [offset]="pageIndex-1" [limit]="pageSize" [externalPaging]="true" (page)='setPage($event)'>
         <ngx-datatable-column [frozenLeft]="true" [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
                               [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
         </ngx-datatable-column>
@@ -56,9 +108,10 @@
 
         <ngx-datatable-column name="Period" prop="event_bgnde">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <span>{{ row.period_from | date : 'yyyy/MM/dd' }} - {{ row.period_to | date : 'yyyy/MM/dd' }}</span>
+                <span>{{ row.period_from | date : 'yyyy/MM/dd HH:mm' }} - {{ row.period_to | date : 'yyyy/MM/dd HH:mm' }}</span>
             </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column name="Views" prop="view_cnt"></ngx-datatable-column>
 
         <ngx-datatable-column name="Action" [sortable]="false" [maxWidth]="100" [headerClass]="'text-center'" [cellClass]="'text-center'">>
             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -66,10 +119,10 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #userActions="matMenu">
-                    <button mat-menu-item routerLink="/admin/banners/edit/{{row.id}}" class="datatable-action-button">
+                    <a mat-menu-item routerLink="/admin/banners/edit/{{row.id}}" class="datatable-action-button">
                         <mat-icon>edit</mat-icon>
                         <span>Edit</span>
-                    </button>
+                    </a>
                     <button mat-menu-item [swal]="disableSwal"
                             *ngIf="!row.is_disabled" (confirm)="onToggle([row], true)" class="datatable-action-button">
                         <mat-icon>visibility_off</mat-icon>

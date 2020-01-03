@@ -48,7 +48,7 @@ export class AdminCampaignEditComponent implements OnInit {
   isInputCustomerText = false;
   cpOutputText = 1;
   colors;
-  campaign = {};
+  campaign: any;
   image_description: File;
   image_main_image: File;
   image_main_image_type: any;
@@ -70,7 +70,7 @@ export class AdminCampaignEditComponent implements OnInit {
     private campaignServiceGet: CampaignService,
     private formbuilder: FormBuilder,
     private toa: ToastrService,
-    private commonService: CommonService,
+    public commonService: CommonService,
     private modalService: BsModalService,
   ) { }
 

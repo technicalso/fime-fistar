@@ -31,17 +31,17 @@
                     </div>
                     <div class="row">
                         <div class="col-md-3">
-                            <label>{{ "admin.users.name" | translate }}</label>
+                            <label>Full name</label>
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Enter name"
                                        [(ngModel)]="user.reg_name"
                                        formControlName="reg_name" name="reg_name"/>
-                                <div *ngIf="form.controls.reg_name.invalid && (isSubmitted || form.controls.reg_name.touched)"
+                                <div *ngIf="form.controls.reg_name.invalid && (form.controls.reg_name.dirty || form.controls.reg_name.touched)"
                                      class="text-danger">
                                     <div *ngIf="form.controls.reg_name.errors.required">
-                                        User name is required
+                                        {{ "admin.users.name_required" | translate }}
                                     </div>
                                 </div>
                             </div>
@@ -56,17 +56,11 @@
                                 <input type="text" class="form-control" placeholder="Enter name"
                                        [(ngModel)]="user.id"
                                        formControlName="id" name="id"/>
-                                <div *ngIf="form.controls.id.invalid && (isSubmitted|| form.controls.id.touched)"
+                                <div *ngIf="form.controls.id.invalid && (form.controls.id.dirty || form.controls.id.touched)"
                                      class="text-danger">
                                     <div *ngIf="form.controls.id.errors.required">
-                                        Display name is required
+                                        {{ "admin.users.name_required" | translate }}
                                     </div>
-                                    <div *ngIf="form.controls.id.errors.pattern">
-                                        Display name is invalid (not contain space and special character).
-                                    </div>
-                                </div>
-                                <div *ngIf="isExistedID" class="text-danger">
-                                    Display name is existed
                                 </div>
                             </div>
                         </div>
@@ -80,15 +74,6 @@
                                 <input type="text" class="form-control" placeholder="Enter email"
                                        [(ngModel)]="user.email"
                                        formControlName="email" name="email">
-                                <div *ngIf="form.controls.email.invalid && (isSubmitted || form.controls.email.touched)"
-                                     class="text-danger">
-                                    <div *ngIf="form.controls.email.errors.required">
-                                        Email is required
-                                    </div>
-                                </div>
-                                <div *ngIf="isExistedEmail" class="text-danger">
-                                    Email is existed
-                                </div>
                             </div>
                         </div>
                     </div>

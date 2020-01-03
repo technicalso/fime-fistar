@@ -91,7 +91,7 @@
                             <div *ngIf="content.title&&content.social&&!content.title_second" class="groub-social">
                                 <span>{{content.title}}</span>
                                 <div class="social">
-                                    <i *ngFor="let channelchild of content.channel" class="fab" [ngClass]="{'fa-adversal': channelchild ==1,
+                                    <i *ngFor="let channelchild of content.channel" class="fa" [ngClass]="{'fa-adversal': channelchild ==1,
                                         ' fa-facebook': channelchild ==2,
                                         ' fa-youtube': channelchild ==3,
                                     ' fa-instagram': channelchild==4 }"></i>
@@ -102,7 +102,7 @@
                                     <span *ngIf="channelchild['sns_id'] !=1"
                                         class="item_channel_mathching_start">
                                         <label (click)="opennew(channelchild)">
-                                            <i class="fab" [ngClass]="{'fa-adversal': channelchild['sns_id'] ==1,
+                                            <i class="fa" [ngClass]="{'fa-adversal': channelchild['sns_id'] ==1,
                                             ' fa-facebook': channelchild['sns_id'] ==2,
                                             ' fa-youtube': channelchild['sns_id'] ==3,
                                             ' fa-instagram': channelchild['sns_id']==4 }"></i>{{channelchild['usn_follower']}}
@@ -113,7 +113,7 @@
                             <div class="matching_channel" *ngIf="content.matching_channel">
                                 <div *ngFor="let matching_channel_child of content.matching_channel"
                                     class="matching_channel_child">
-                                    <i (click)="updateSnsStatus(matching_channel_child)" class="fab" [ngClass]="{'fa-adversal': matching_channel_child['sns_id'] ==1,
+                                    <i (click)="updateSnsStatus(matching_channel_child)" class="fa" [ngClass]="{'fa-adversal': matching_channel_child['sns_id'] ==1,
                                         ' fa-facebook': matching_channel_child['sns_id'] ==2,
                                         ' fa-youtube': matching_channel_child['sns_id'] ==3,
                                     ' fa-instagram': matching_channel_child['sns_id']==4,

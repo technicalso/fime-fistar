@@ -18,6 +18,10 @@
                         <i class="material-icons">settings</i> <span>{{ 'mypage.update' | translate }}</span>
                     </button>
                 </div>
+                <div class="intro user-no" *ngIf="updateRole">
+                    <span>fi: code {{user.user_no}}</span>
+                </div>
+
                 <div class="slug pointer" [routerLink]="['/usr/' + user.slug]">
                     <span [innerHtml]="env.url + '/usr/' + user.slug | safeHtml"></span>
                 </div>

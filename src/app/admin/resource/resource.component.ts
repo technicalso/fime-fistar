@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ChangeDetectorRef, OnChanges, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectorRef, OnChanges} from '@angular/core';
 import {Restangular} from 'ngx-restangular';
 // import * as _ from 'lodash';
 import {environment} from '../../../environments/environment';
@@ -30,9 +30,6 @@ export class AdminResourceComponent implements OnInit, OnChanges {
 
     @Input()
     public needToCrop: any;
-
-
-    @Output() ouputItem = new EventEmitter();
 
     public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'video'});
     public brands = [];
@@ -85,8 +82,6 @@ export class AdminResourceComponent implements OnInit, OnChanges {
         this.isChanged = true;
         const files = event.target.files;
         const file = files[0];
-
-        this.ouputItem.emit({type : 1 , file: file });
         if (files && file) {
             const reader = new FileReader();
             if (this.resource.resource_type === '1') {
@@ -113,15 +108,9 @@ export class AdminResourceComponent implements OnInit, OnChanges {
         this.isChanged = true;
         const files = event.target.files;
         const file = files[0];
-        this.ouputItem.emit({type : 3 , file: file });
         if (files && file) {
             this.videoName = file.name;
         }
-    }
-
-
-    detectText(){
-        this.ouputItem.emit({type : 2 , file: this.resource.video_url });
     }
 
     handleImageNotCrop(img) {

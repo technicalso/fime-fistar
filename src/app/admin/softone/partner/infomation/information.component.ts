@@ -48,7 +48,7 @@ export class AdminFartnerInformationComponent implements OnInit {
         private partnerService: PartnerService,
         private activeRoute: ActivatedRoute,
         private requestPartner: RequestPartnerService,
-        private commonService: CommonService,
+        public commonService: CommonService,
         private snsService: SnsService,
     ) {
     }

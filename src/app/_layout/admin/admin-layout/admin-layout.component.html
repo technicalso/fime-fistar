@@ -1,14 +1,6 @@
 <div class="admin-page">
     <app-admin-sidebar *ngIf="!isLoading && showSidebar" [user]="user" class="admin-sidebar"></app-admin-sidebar>
     <div class="main-container admin" *ngIf="!isLoading" [ngClass]="{'auth': user.user_no}">
-        <div class="fistar-header">
-            <div class="row">
-                <div class="col-sm-6"><span style="text-transform: capitalize">{{user.roles[0].name}}</span> &nbsp; &nbsp; <strong>{{user.reg_name}}</strong></div>
-                <div class="col-sm-6 text-right">
-                    <button (click)="gotoProfile()">Account management</button>
-                </div>
-            </div>
-        </div>
         <router-outlet></router-outlet>
     </div>
 </div>

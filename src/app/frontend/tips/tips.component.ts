@@ -4,6 +4,7 @@ import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Restangular} from 'ngx-restangular';
 import * as moment from 'moment';
+import { MetaService } from '@ngx-meta/core';
 
 @Component({
     selector: 'app-tips',
@@ -29,6 +30,7 @@ export class TipsComponent implements OnInit {
                 private cookieService: CookieService,
                 private router: Router,
                 private route: ActivatedRoute,
+                public meta: MetaService,
                 @Inject(PLATFORM_ID) private platformId: Object) {
     }
 
@@ -49,6 +51,9 @@ export class TipsComponent implements OnInit {
         this.env = environment;
         this.getTips();
         this.getTopViewTips();
+        this.meta.setTitle("fi:me / Tips");
+        this.meta.setTag('og:title', "fi:me / Tips");
+        this.meta.setTag('og:url', environment.url + "/tips");
     }
 
     formatCreatedTime(tips) {

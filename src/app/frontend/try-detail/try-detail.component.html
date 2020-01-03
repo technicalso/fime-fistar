@@ -10,15 +10,15 @@
             <div class="col-sm-7 try-content-block">
                 <div class="content">
                     <div class="status">
-                        <div class="comming" *ngIf="try.count_down_type == 0">Sắp diễn ra</div>
-                        <div class="inprogress" *ngIf="try.count_down_type == 1">Đang diễn ra</div>
-                        <div class="end" *ngIf="try.count_down_type == 2">Đã kết thúc</div>
+                        <div class="comming custom-status-before" *ngIf="try.count_down_type == 0">Sắp diễn ra</div>
+                        <div class="inprogress custom-status" *ngIf="try.count_down_type == 1">Đang diễn ra</div>
+                        <div class="end custom-status" *ngIf="try.count_down_type == 2">Đã kết thúc</div>
                     </div>
                     <div class="name">{{try.cntnts_nm}}</div>
                     <!-- Error #1087: Product Display -->
-<!--                    <div class="short-description">-->
-<!--                        {{try.short_desc}}-->
-<!--                    </div>-->
+                    <!--                    <div class="short-description">-->
+                    <!--                        {{try.short_desc}}-->
+                    <!--                    </div>-->
                     <div class="price">
                         <div class="d-flex">
                             <div>
@@ -38,51 +38,51 @@
                     </div>
                     <div class="count-down-container">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="count-down coming-soon" *ngIf="try.count_down_type == 0">
                                     <div class="title">
-                                        Mở sau
+                                        Sẽ mở sau
                                     </div>
                                     <div class="count-down-time">
                                         <div class="tick">
                                             <div class="number">{{try.days}}</div>
-                                            <div class="desc">Ngày</div>
+                                            <div class="desc">ngày</div>
                                         </div>
                                         <div class="tick">
                                             <div class="number">{{try.hours}}</div>
-                                            <div class="desc">Giờ</div>
+                                            <div class="desc">giờ</div>
                                         </div>
                                         <div class="tick">
                                             <div class="number">{{try.minutes}}</div>
-                                            <div class="desc">Phút</div>
+                                            <div class="desc">phút</div>
                                         </div>
                                         <div class="tick">
                                             <div class="number">{{try.seconds}}</div>
-                                            <div class="desc">Giây</div>
+                                            <div class="desc">giây</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="count-down inprogress" *ngIf="try.count_down_type == 1">
                                     <div class="title">
-                                        Kết thúc sau
+                                        Thời gian còn lại
                                     </div>
                                     <div class="count-down-time">
                                         <div class="tick">
                                             <div class="number">{{try.days}}</div>
-                                            <div class="desc">Ngày</div>
+                                            <div class="desc">ngày</div>
                                         </div>
                                         <div class="tick">
                                             <div class="number">{{try.hours}}</div>
-                                            <div class="desc">Giờ</div>
+                                            <div class="desc">giờ</div>
                                         </div>
                                         <div class="tick">
                                             <div class="number">{{try.minutes}}</div>
-                                            <div class="desc">Phút</div>
+                                            <div class="desc">phút</div>
                                         </div>
                                         <div class="tick">
                                             <div class="number">{{try.seconds}}</div>
-                                            <div class="desc">Giây</div>
+                                            <div class="desc">giây</div>
                                         </div>
                                     </div>
                                 </div>
@@ -91,13 +91,33 @@
                                     <div class="title">
                                         Đã kết thúc
                                     </div>
+                                    <div class="count-down-time ">
+                                        <div class="tick end-time">
+                                            <div class="number">0</div>
+                                            <div class="desc">ngày</div>
+                                        </div>
+                                        <div class="tick end-time">
+                                            <div class="number">0</div>
+                                            <div class="desc">giờ</div>
+                                        </div>
+                                        <div class="tick end-time">
+                                            <div class="number">0</div>
+                                            <div class="desc">phút</div>
+                                        </div>
+                                        <div class="tick end-time">
+                                            <div class="number">0</div>
+                                            <div class="desc">giây</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="product-info">
                                     <div class="title">Số lượng sản phẩm</div>
                                     <div class="number">{{try.event_trgter_co}}</div>
                                 </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="product-info">
                                     <div class="title">Số lượt đăng ký</div>
                                     <div class="number">{{try.total_apply}}</div>
@@ -105,50 +125,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="control">
-                        <div class="row" style="justify-content: flex-end">
-                            <div [ngClass]="{'col-md-9': try.is_winner == 0, 'col-md-6': try.is_winner == 1}"
-                                 *ngIf="try.count_down_type == 1 && try.event_knd_code == 398002">
-                                <div class="btn-try applied" *ngIf="try.is_joined">
-                                    <span>Đã đăng ký</span>
-                                </div>
-
-                                <div class="btn-try" *ngIf="!try.is_joined" [appAuth] (action)="apply(try)">
-                                    <span>Đăng ký miễn phí</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3" *ngIf="try.is_winner == 1">
-                                <div class="btn-try" routerLink="/reviews/create/{{try.cntnts_no}}">
-                                    <span>Viết Review</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <a class="btn-cart" href="{{try.link_url}}" target="_blank" *ngIf="try.event_knd_code == 398002">
-                                    <img src="/assets/icons/cart-black.png"/>
-                                </a>
-                                <span class="btn-cart" *ngIf="try.event_knd_code != 398002" [appAuth] (action)="apply(try)">
-                                    Buy
-                                </span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="social-info">
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="like-container">
-                                    <button class="action-btn" [ngClass]="{'active': try.is_liked == 1}" [appAuth]
-                                            (action)="toggleLikeReview(try.id, i)">
+                                    <button class="action-btn" *ngIf="try.is_liked == 0" [appAuth]
+                                        (action)="toggleLikeReview(try.id, i)">
                                         <i class="fa fa-heart-o" aria-hidden="true"></i>
                                     </button>
+                                    <button class="action-btn" *ngIf="try.is_liked == 1" [appAuth]
+                                        (action)="toggleLikeReview(try.id, i)">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                    </button>
                                     <div class="likes">
-                                        <span class="number-of-like" (click)="usersLikeDialog(try.cntnts_no, 'try')">{{ try.likes | numberlike }}</span>
+                                        <span class="number-of-like"
+                                            (click)="usersLikeDialog(try.cntnts_no, 'try')">{{ try.likes | numberlike }}</span>
                                     </div>
                                     <div class="user-likes">
-                                        <div *ngFor="let user of try.users_liked; let i = index">
-                                            <div class="circle-avt" *ngIf="i < 4">
-                                                <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/user.png'"
-                                                     alt="" title="{{user.id ? user.id : user.reg_name}}" class="user-avt"
-                                                     [routerLink]="['/usr/' + user.slug]">
+                                        <div [style.z-index]="6-i" *ngFor="let user of try.users_liked; let i = index">
+                                            <div class="circle-avt" *ngIf="i < 6">
+                                                <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/avatar.jpg'"
+                                                    alt="" title="{{user.id ? user.id : user.reg_name}}"
+                                                    class="user-avt" [routerLink]="['/usr/' + user.slug]">
                                             </div>
                                         </div>
                                     </div>
@@ -156,138 +154,141 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="share-container">
-                                    <div class="like-container">
+                                    <!-- <div class="like-container">
                                         <button class="action-btn right">
                                             <i class="fa fa-comment-o" aria-hidden="true"></i>
                                         </button>
                                         <div class="likes">
                                             <span class="number-of-like">{{ try.comments | numberlike }}</span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <span class="float-right pull-right share-btn" (click)="shareLink()">
-                                        <img class="share-ico" src="/assets/icons/share-icon.png"/>
+                                        <img class="share-ico" src="/assets/icons/share-icon.png" />
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="control">
+                        <div class="group-btn-try">
+                            <div class="btn-try applied" *ngIf="try.is_joined && try.count_down_type == 1 && try.event_knd_code == 398002">
+                                <span>Đã đăng ký</span>
+                            </div>
+
+                            <div class="btn-try-active" *ngIf="!try.is_joined && try.count_down_type == 1 && try.event_knd_code == 398002" [appAuth] (action)="apply(try)">
+                                <span class="btn-active">Đăng ký trải nghiệm</span>
+                            </div>
+                            <div class="btn-try  {{accordionFimer}}" id="accordionFimer" (click)="accordionClick('accordionFimer')" *ngIf="try.count_down_type == 2">
+                                <span >fi :mer nhận thưởng</span>
+                            </div>
+                            <div class="btn-try  {{accordionHeading}}" id="accordionHeading" (click)="accordionClick('accordionHeading')">
+                                <div class="arrow"></div>
+                                <span>Thông tin sản phẩm</span>
+                            </div>
+                            <div class="btn-try {{accordionComments}}" id="accordionComments">
+                                <div class="like-container" (click)="accordionClick('accordionComments')">
+                                    <span>Bình luận ({{ try.comments | numberlike }})</span>
+                                </div>
+                            </div>
+                            <div class="btn-try" *ngIf="try.is_winner == 1" routerLink="/reviews/create/{{try.cntnts_no}}">
+                                <span>Viết Review</span>
+                            </div>
+                            <a class="btn-cart btn-try" href="{{try.link_url}}" target="_blank"
+                                *ngIf="try.event_knd_code == 398002">
+                                <img src="/assets/icons/cart.png" />
+                            </a>
+                            <span class="btn-cart btn-try" *ngIf="try.event_knd_code != 398002" [appAuth]
+                                (action)="apply(try)">
+                                Buy
+                            </span>
+                        </div>
+                    </div>
+
                     <div class="try-content">
-                        <accordion>
-                            <accordion-group>
-                                <button class="btn btn-link btn-block clearfix" accordion-heading>
-                                    <div class="pull-left float-left">Thông tin sản phẩm</div>
-                                    <span class="float-right pull-right">
-                                        <i class="material-icons down">
-                                            keyboard_arrow_down
-                                        </i>
-                                        <i class="material-icons up">
-                                            keyboard_arrow_up
-                                        </i>
-                                    </span>
-                                </button>
-                                <div class="description">
-                                    <p [innerHTML]="try.goods_dc | safeHtml"></p>
-                                    <div *ngIf="try.imgDesc.length > 0">
-                                        <img alt="desc-image" class="desc-img"
-                                             [src]="(try.imgDesc[0].file_cours &&  try.imgDesc[0].stre_file_nm) ? env.rootHost + try.imgDesc[0].file_cours + '/' + try.imgDesc[0].stre_file_nm: 'https://via.placeholder.com/900'">
-                                    </div>
-                                </div>
-                            </accordion-group>
-                            <accordion-group *ngIf="try.delivery_info.dlvy_dt" is-open="true">
-                                <button class="btn btn-link btn-block clearfix" accordion-heading>
-                                    <div class="pull-left float-left">Thông tin giao hàng</div>
-                                    <span class="float-right pull-right">
-                                        <i class="material-icons down">
-                                            keyboard_arrow_down
-                                        </i>
-                                        <i class="material-icons up">
-                                            keyboard_arrow_up
-                                        </i>
-                                    </span>
-                                </button>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <ul>
-                                            <li>
-                                                <strong>Địa chỉ</strong> : {{try.delivery_info.dlvy_addr}}
-                                            </li>
-                                            <li>
-                                                <strong>Công ty vận chuyển</strong> : {{try.delivery_info.company_name}}
-                                            </li>
-                                            <li>
-                                                <strong>Mã đơn hàng</strong> : {{try.delivery_info.invc_no}}
-                                            </li>
-                                            <li>
-                                                <strong>Trạng thái vận chuyển</strong> : {{try.delivery_info.status}}
-                                            </li>
-                                            <li>
-                                                <strong>Ngày gửi sản phẩm</strong> : {{try.delivery_info.dlvy_dt}}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="try.winners.length == 0">
-                                    <div class="col-md-12">
-                                        <p>Chưa có thông tin</p>
-                                    </div>
-                                </div>
-                            </accordion-group>
-                            <accordion-group>
-                                <button class="btn btn-link btn-block clearfix" accordion-heading>
-                                    <div class="pull-left float-left" *ngIf="try.event_knd_code == 398002">Danh sách fimer nhận thưởng</div>
-                                    <div class="pull-left float-left" *ngIf="try.event_knd_code != 398002">Danh sách khách hàng</div>
-                                    <span class="float-right pull-right">
-                                        <i class="material-icons down">
-                                            keyboard_arrow_down
-                                        </i>
-                                        <i class="material-icons up">
-                                            keyboard_arrow_up
-                                        </i>
-                                    </span>
-                                </button>
-                                <div class="row" *ngIf="try.winners.length > 0">
-                                    <div class="col-md-6" *ngFor="let winner of try.winners">
-                                        <div class="winner-info">
-                                            <div class="user-block pointer">
-                                                <img [src]="winner.pic ? env.rootHost + winner.pic : '/assets/images/user.png'"
-                                                     alt="{{winner.id ? winner.id : winner.reg_name}}" class="user-avt"
-                                                     routerLink="/usr/{{winner.slug}}">
-                                                <div class="user-info">
-                                                    <span class="user-name" [routerLink]="'/usr/' + winner.slug"
-                                                          [innerHtml]="winner.id ? winner.id : winner.reg_name | safeHtml"></span>
-                                                    <span class="number-of-follows"
-                                                          routerLink="/usr/{{winner.slug}}/followers">{{
-                                                        winner.follows }} {{ 'follower' | translate
-                                                        }}</span>
-                                                </div>
+                        <div class="description panel-body" *ngIf="accordionHeading">
+                            <span class="title-description">Thông tin sản phẩm</span>
+                            <div class="description" [innerHTML]="try.goods_dc | safeHtml"></div>
+                            <div *ngIf="try.imgDesc.length > 0">
+                                <img alt="desc-image" class="desc-img" *ngFor="let imgDesc of try.imgDesc"
+                                    [src]="(imgDesc.file_cours &&  imgDesc.stre_file_nm) ? env.rootHost + imgDesc.file_cours + '/' + imgDesc.stre_file_nm: 'https://via.placeholder.com/900'">
+                            </div>
+                        </div>
+                        <div class="panel-body" *ngIf="try.count_down_type == 2 && accordionFimer">
+                            <span class="title-description">Danh sách nhận thưởng</span>
+                            <div class="row" *ngIf="try.winners.length > 0">
+                                <div class="col-md-6" *ngFor="let winner of try.winners">
+                                    <div class="winner-info">
+                                        <div class="user-block pointer">
+                                            <img [src]="winner.pic ? env.rootHost + winner.pic : '/assets/images/avatar.jpg'"
+                                                alt="{{winner.id ? winner.id : winner.reg_name}}" class="user-avt"
+                                                routerLink="/usr/{{winner.slug}}">
+                                            <div class="user-info">
+                                                <span class="user-name" [routerLink]="'/usr/' + winner.slug"
+                                                    [innerHtml]="winner.id ? winner.id : winner.reg_name | safeHtml"></span>
+                                                <span class="number-of-follows"
+                                                    routerLink="/usr/{{winner.slug}}/followers">{{
+                                                    winner.follows }} {{ 'follower' | translate
+                                                    }}</span>
                                             </div>
-                                            <button type="button" class="follow-btn"
-                                                    [ngClass]="{'active': winner.followed == 1}"
-                                                    [appAuth] (action)="toggleFollowFimer(winner)">
-                                                <ng-container *ngIf="winner.followed == 0">
-                                                    <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span>
-                                                    <i class="material-icons">add</i>
-                                                </ng-container>
-                                                <ng-container *ngIf="winner.followed == 1">
-                                                    <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
-                                                    <i class="material-icons">done</i>
-                                                </ng-container>
-                                            </button>
                                         </div>
+                                        <button type="button" class="follow-btn"
+                                            [ngClass]="{'active': winner.followed == 1}" [appAuth]
+                                            (action)="toggleFollowFimer(winner)">
+                                            <ng-container *ngIf="winner.followed == 0">
+                                                <span
+                                                    title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span>
+                                                <i class="material-icons">add</i>
+                                            </ng-container>
+                                            <ng-container *ngIf="winner.followed == 1">
+                                                <span
+                                                    title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
+                                                <i class="material-icons">done</i>
+                                            </ng-container>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="try.winners.length == 0">
-                                    <div class="col-md-12">
-                                        <p>Chưa có thông tin</p>
-                                    </div>
+                            </div>
+                            <div class="row" *ngIf="try.winners.length == 0">
+                                <div class="col-md-12">
+                                    <p>Chưa có thông tin</p>
                                 </div>
-                            </accordion-group>
-                        </accordion>
+                            </div>
+                        </div>
+                        <div class="panel-body" *ngIf="accordionComments">
+                            <app-comments (changeCommentCount)="updateCommentCount($event)" [objectType]="'try'"></app-comments>
+                        </div>
+                        <div class="panel-body" *ngIf="try.delivery_info.dlvy_dt && accordionShipping" is-open="true">
+                            <h4>Thông tin giao hàng</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul>
+                                        <li>
+                                            <strong>Địa chỉ</strong> : {{try.delivery_info.dlvy_addr}}
+                                        </li>
+                                        <li>
+                                            <strong>Công ty vận chuyển</strong> : {{try.delivery_info.company_name}}
+                                        </li>
+                                        <li>
+                                            <strong>Mã đơn hàng</strong> : {{try.delivery_info.invc_no}}
+                                        </li>
+                                        <li>
+                                            <strong>Trạng thái vận chuyển</strong> : {{try.delivery_info.status}}
+                                        </li>
+                                        <li>
+                                            <strong>Ngày gửi sản phẩm</strong> : {{try.delivery_info.dlvy_dt}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="try.winners.length == 0">
+                                <div class="col-md-12">
+                                    <p>Chưa có thông tin</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div #comment>
-                    <app-comments (changeCommentCount)="updateCommentCount($event)" [objectType]="'try'"></app-comments>
-                </div>
+                
             </div>
         </div>
     </div>

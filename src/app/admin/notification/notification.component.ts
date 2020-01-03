@@ -22,7 +22,10 @@ export class AdminNotificationComponent implements OnInit {
     public showDelete = false;
     public showDeactivate = false;
     public showActive = false;
-
+    public pageSize: 10;
+    public pageLimitOptions = [];
+    public pageIndex = 1;
+    public total: any;
     constructor(private api: Restangular,
                 private cookieService: CookieService,
                 private router: Router,
@@ -32,16 +35,33 @@ export class AdminNotificationComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.pageSize = 10;
         this.env = environment;
         this.unseen_count = 12;
         this.notifications = [];
         this.getSystemNotifications();
+        this.pageLimitOptions = [
+            {value: 5},
+            {value: 10},
+            {value: 20},
+            {value: 25},
+            {value: 50}
+        ];
+    }
+    changePageLimit(limit: any): void {
+        this.pageSize = limit;
+        this.getSystemNotifications();
+    }
+    setPage(pageInfo) {
+        this.pageIndex = pageInfo.offset + 1;
+        this.getSystemNotifications();
     }
 
     getSystemNotifications() {
-        this.api.all('system-notification').customGET().subscribe(res => {
+        this.api.all('system-notification').customGET('',{page: this.pageIndex,pageSize: this.pageSize}).subscribe(res => {
             if (res.result) {
-                this.notifications = res.result;
+                this.notifications = res.result.data;
+                this.total = res.result.total;
             }
         });
     }

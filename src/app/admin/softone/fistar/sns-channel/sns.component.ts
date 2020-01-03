@@ -38,6 +38,7 @@ export class AdminFistarSNS implements OnInit {
     public channelIstagram: any = {};
     public fiSimilar: any = [];
     public yearCurren: number;
+    public numberNegative: any;
     public Math;
     public active: boolean = false;
     modalRef: BsModalRef;

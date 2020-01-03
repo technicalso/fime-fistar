@@ -33,7 +33,7 @@ export class AdminBlogComponent implements OnInit {
     public showDelete = false;
     public showDeactivate = false;
     public showActive = false;
-
+    public pageLimitOptions = [];
     constructor(
         private api: Restangular,
         private cd: ChangeDetectorRef,
@@ -43,6 +43,18 @@ export class AdminBlogComponent implements OnInit {
 
     ngOnInit() {
         this.env = environment;
+        this.getBlogs();
+        this.pageSize = 10;
+        this.pageLimitOptions = [
+            {value: 5},
+            {value: 10},
+            {value: 20},
+            {value: 25},
+            {value: 50}
+        ];
+    }
+    changePageLimit(limit: any): void {
+        this.pageSize = limit;
         this.getBlogs();
     }
 

@@ -4,20 +4,20 @@
             arrow_back_ios
         </mat-icon>
     </button>-->
-    <!-- <div style="width: 180px; margin: 15px auto 0">
-        <img style="width: 100%" src="https://www.netpower.vn/wp-content/uploads/2017/07/Netpower.png">
-    </div> -->
+    <div style="width: 180px; margin: 15px auto 0">
+        <img style="width: 100%" src="assets/images/Netpower.png">
+    </div>
     <mat-nav-list>
-
-        <b>{{ 'fime Admin'  }}</b>
-
         <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/categories']">
             <mat-icon class="sidenav-icon">category</mat-icon>
             <span>{{ 'CATALOG' | translate }}</span>
         </a>
         <div class="nested-menu">
-            <a mat-list-item (click)="addExpandClass('try')" [routerLink]="['/admin/try']"
-                [ngClass]="{'active': router.url === '/admin/try' || router.url === '/admin/try/event'}">
+            <a mat-list-item
+               (click)="addExpandClass('try')"
+               [routerLink]="['/admin/try']"
+               [ngClass]="{'active': router.url === '/admin/try' || router.url === '/admin/try/event'}"
+            >
                 <mat-icon class="sidenav-icon">opacity</mat-icon>
                 <span>{{ 'TRY PRODUCTS' | translate }}</span>
             </a>
@@ -28,11 +28,20 @@
                 <li [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
                     <a [routerLink]="['/admin/try/event']"><span>{{ 'Try Events' | translate }}</span></a>
                 </li>
+                <li [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+                    <a [routerLink]="['/admin/try/winner']"><span>{{ 'Try Winner' | translate }}</span></a>
+                </li>
+                <li [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+                    <a [routerLink]="['/admin/try/delivery']"><span>{{ 'Delivery' | translate }}</span></a>
+                </li>
             </ul>
         </div>
         <div class="nested-menu">
-            <a mat-list-item (click)="addExpandClass('review')" [routerLink]="['/admin/reviews']"
-                [ngClass]="{'active': router.url === '/admin/reviews' || router.url === '/admin/ads' || router.url === '/admin/reviews/fimer'}">
+            <a mat-list-item
+               (click)="addExpandClass('review')"
+               [routerLink]="['/admin/reviews']"
+               [ngClass]="{'active': router.url === '/admin/reviews' || router.url === '/admin/ads' || router.url === '/admin/reviews/fimer'}"
+            >
                 <mat-icon class="sidenav-icon">rate_review</mat-icon>
                 <span>{{ 'FIMER REVIEWS' | translate }}</span>
             </a>
@@ -60,12 +69,14 @@
             <span>{{ 'PRODUCT BRANDS' | translate }}</span>
         </a>
         <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/notifications']">
-            <mat-icon class="sidenav-icon">notification_important</mat-icon>
-            <span>{{ 'NOTIFICATIONS' | translate }}</span>
+            <mat-icon class="sidenav-icon">notification_important</mat-icon> <span>{{ 'NOTIFICATIONS' | translate }}</span>
         </a>
         <div class="nested-menu">
-            <a mat-list-item (click)="addExpandClass('faq')" [routerLink]="['/admin/faqs']"
-                [ngClass]="{'active': router.url === '/admin/faqs' || router.url === '/admin/faq-categories'}">
+            <a mat-list-item
+               (click)="addExpandClass('faq')"
+               [routerLink]="['/admin/faqs']"
+               [ngClass]="{'active': router.url === '/admin/faqs' || router.url === '/admin/faq-categories'}"
+            >
                 <mat-icon class="sidenav-icon">question_answer</mat-icon>
                 <span>{{ 'FAQS' | translate }}</span>
             </a>
@@ -87,6 +98,12 @@
         <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/user-management']">
             <mat-icon class="sidenav-icon">people</mat-icon> <span>{{ 'USERS' | translate }}</span>
         </a>
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/hot-fimer']">
+            <mat-icon class="sidenav-icon">people_alt</mat-icon> <span>{{ 'HOT FIMERS' | translate }}</span>
+        </a>
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/hashtags']">
+            <mat-icon class="sidenav-icon">#</mat-icon> <span>{{ 'HASHTAGS' | translate }}</span>
+        </a>
         <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/settings']">
             <mat-icon class="sidenav-icon">settings</mat-icon>
             <span>{{ 'SETTINGS' | translate }}</span>
@@ -95,10 +112,6 @@
             <mat-icon class="sidenav-icon">account_box</mat-icon>
             <span>{{ 'PROFILE' | translate }}</span>
         </a>
-        <!-- <a mat-list-item (click)="onLoggedout()">
-            <mat-icon class="sidenav-icon">exit_to_app</mat-icon>
-            <span>{{ 'LOGOUT' | translate }}</span>
-        </a> -->
 
         <hr>
         <b>{{ 'fistar Admin'  }}</b>
@@ -205,7 +218,6 @@
                 </li>
             </ul>
         </div>
-
         <a mat-list-item (click)="onLoggedout()">
             <mat-icon class="sidenav-icon">exit_to_app</mat-icon>
             <span>{{ 'LOGOUT' | translate }}</span>
@@ -222,41 +234,41 @@
         <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/categories']">
             <mat-icon class="sidenav-icon">category</mat-icon>
         </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}"
-            [routerLink]="['/admin/try']" matTooltip="{{ 'Try' | translate }}" matTooltipPosition="right">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/admin/try']" matTooltip="{{ 'Try' | translate }}"
+           matTooltipPosition="right">
             <mat-icon class="sidenav-icon">opacity</mat-icon>
         </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/reviews']"
-            matTooltip="{{ 'Review' | translate }}" matTooltipPosition="right">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/reviews']" matTooltip="{{ 'Review' | translate }}"
+           matTooltipPosition="right">
             <mat-icon class="sidenav-icon">rate_review</mat-icon>
         </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/banners']"
-            matTooltip="{{ 'Banner' | translate }}" matTooltipPosition="right">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/banners']" matTooltip="{{ 'Banner' | translate }}"
+           matTooltipPosition="right">
             <mat-icon class="sidenav-icon">photo</mat-icon>
         </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/brands']"
-            matTooltip="{{ 'Brand' | translate }}" matTooltipPosition="right">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/brands']" matTooltip="{{ 'Brand' | translate }}"
+           matTooltipPosition="right">
             <mat-icon class="sidenav-icon">photo_library</mat-icon>
         </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/notifications']"
-            matTooltip="{{ 'Notification' | translate }}" matTooltipPosition="right">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/notifications']" matTooltip="{{ 'Notification' | translate }}"
+           matTooltipPosition="right">
             <mat-icon class="sidenav-icon">notification_important</mat-icon>
         </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/faqs']"
-            matTooltip="{{ 'FAQ' | translate }}" matTooltipPosition="right">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/faqs']" matTooltip="{{ 'FAQ' | translate }}"
+           matTooltipPosition="right">
             <mat-icon class="sidenav-icon">question_answer</mat-icon>
         </a>
 
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/blogs']"
-            matTooltip="{{ 'Blog' | translate }}" matTooltipPosition="right">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/blogs']" matTooltip="{{ 'Blog' | translate }}"
+           matTooltipPosition="right">
             <mat-icon class="sidenav-icon">comment</mat-icon>
         </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/user-management']"
-            matTooltip="{{ 'User' | translate }}" matTooltipPosition="right">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/user-management']" matTooltip="{{ 'User' | translate }}"
+           matTooltipPosition="right">
             <mat-icon class="sidenav-icon">people</mat-icon>
         </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/settings']"
-            matTooltip="{{ 'Setting' | translate }}" matTooltipPosition="right">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin/settings']" matTooltip="{{ 'Setting' | translate }}"
+           matTooltipPosition="right">
             <mat-icon class="sidenav-icon">settings</mat-icon>
         </a>
     </mat-nav-list>

@@ -67,10 +67,6 @@
       "user_role": "Role",
       "address": "Address",
       "phone": "Phone"
-    },
-    "account": {
-      "add_account": "Add account",
-      "edit_account": "Edit account"
     }
   },
   "error_upload_file_does_not_exist": "Your upload file does not exist",
@@ -87,7 +83,7 @@
   "short_description_required": "Short description is required",
   "create_ad": "Create Ad",
   "edit_ad": "Edit Ad",
-  "url": "Image URL",
+  "url": "URL",
   "enter_url": "Enter URL",
   "order": "Order",
   "target_url_required": "Please enter URL",
@@ -100,7 +96,7 @@
   "disapprove": "Disapprove",
   "review_detail": "Review detail",
   "faq_management": "FAQ management",
-  "add_new_faq": "Create FAQ",
+  "add_new_faq": "Add new FAQ",
   "edit_faq": "Edit FAQ",
   "type": "Type",
   "content_required": "Please type content",
@@ -110,6 +106,7 @@
   "home_page": "Home",
   "logo": "Logo",
   "see_all": "See all",
+  "see_alls": "see all",
   "will_end_after": "Will end after",
   "days": "Days",
   "hours": "Hours",
@@ -140,6 +137,7 @@
       "all": "Tất cả",
       "weekly": "Hàng tuần",
       "monthly": "Hàng tháng",
+      "yearly": "Hàng năm",
       "new_member": "Fimers mới"
     },
     "info": {
@@ -226,8 +224,6 @@
   "notification_reply": "just replied your comment",
   "notification_follow": "just followed you",
   "notification_like": "liked your <strong>Review</strong>",
-  "crete_notifycation": "CREATE NOTIFICATION",
-  "edit_notifycation": "EDIT NOTIFICATION",
   "please_choose_image": "Please choose at least 1 image",
   "edit_review": "Edit review",
   "delete_review": "Delete review",
@@ -258,6 +254,5 @@
   "self_intro_200": "Max length is 250 characters",
   "privacy_policy": "Privacy policy",
   "service_term": "Service Term",
-  "answer_qa": "ANSWER Q&A",
-  "access_account": "Access"
+  "inactive_account": "Your account has been inactive"
 }

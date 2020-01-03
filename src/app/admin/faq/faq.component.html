@@ -1,4 +1,13 @@
-<div class="component-admin-faq">
+<div class="component-admin-faq component-admin-try">
+    <select (change)="changePageLimit($event.target.value)" class="page-limit">
+      <option
+        *ngFor="let option of pageLimitOptions"
+        [value]="option.value"
+        [selected]="option.value == pageSize"
+      >
+        {{option.value}} per page
+      </option>
+    </select>
     <div class="row">
         <div class="col">
             <div class="admin-heading">
@@ -87,7 +96,7 @@
     </div>
     <ngx-datatable #myTable class="material" [rows]="faqs" [columnMode]="'force'" [headerHeight]="50"
                    [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)' [selected]="selected"
-                   [footerHeight]="50" [rowHeight]="'auto'" [count]="faqs.length" [limit]="10">
+                   [footerHeight]="50" [rowHeight]="'auto'" [count]="faqs.length" [limit]="pageSize">
         <ngx-datatable-column [frozenLeft]="true" [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
                               [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
         </ngx-datatable-column>
@@ -110,10 +119,10 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #userActions="matMenu">
-                    <button mat-menu-item  [routerLink]="['/admin/faqs/edit', row.cntnts_no]" class="datatable-action-button">
+                    <a mat-menu-item  [routerLink]="['/admin/faqs/edit', row.cntnts_no]" class="datatable-action-button">
                         <mat-icon>edit</mat-icon>
                         <span>Edit</span>
-                    </button>
+                    </a>
                     <button mat-menu-item [swal]="disableSwal" *ngIf="row.is_approved == 'Y'" (confirm)="onToggle([row], false)" class="datatable-action-button">
                         <mat-icon>visibility_off</mat-icon>
                         <span>Disable</span>

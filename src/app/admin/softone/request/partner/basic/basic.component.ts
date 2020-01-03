@@ -36,7 +36,7 @@ export class AdminRequestPartnerBasicComponent implements OnInit {
         private requestPartner: RequestPartnerService,
         private route: ActivatedRoute,
         @Inject(PLATFORM_ID) private platformId: Object,
-        private commonService: CommonService,
+        public commonService: CommonService,
     ) { }
 
     ngOnInit() {

@@ -20,7 +20,10 @@ export class AdminCategoryComponent implements OnInit {
     public mappingCategories: any;
     public env: any;
     public modalRef: BsModalRef;
-
+    public pageSize: 10;
+    public pageLimitOptions = [];
+    public pageIndex = 1;
+    public total: any;
     constructor(
         private api: Restangular,
         private toast: ToastrService,
@@ -28,16 +31,33 @@ export class AdminCategoryComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.pageSize = 10;
         this.env = environment;
+        this.getCategories();
+        this.pageLimitOptions = [
+            {value: 5},
+            {value: 10},
+            {value: 20},
+            {value: 25},
+            {value: 50}
+        ];
+    }
+    changePageLimit(limit: any): void {
+        this.pageSize = limit;
+        this.getCategories();
+    }
+    setPage(pageInfo) {
+        this.pageIndex = pageInfo.offset + 1;
         this.getCategories();
     }
 
     getCategories() {
         this.api
             .all('categories')
-            .customGET('')
+            .customGET('',{page: this.pageIndex,pageSize: this.pageSize})
             .subscribe(res => {
-                this.categories = res.result;
+                this.categories = res.result.data;
+                this.total = res.result.total;
             });
     }
 

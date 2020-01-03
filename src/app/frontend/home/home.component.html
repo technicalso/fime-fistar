@@ -5,22 +5,28 @@
             <div class="banner-wrap">
                 <carousel [interval]="intervalTime" class="carousel">
                     <slide *ngFor="let banner of banners" class="banner">
-                        <img [src]="banner.url" alt="{{banner.name}}" class="banner-img"
-                             *ngIf="banner.resource_type == 1">
+                        <a href="{{banner.target_url}}" [target]="banner.target_type" *ngIf="banner.target_url">
+                            <img [src]="banner.url" alt="{{banner.name}}" class="banner-img"
+                                *ngIf="banner.resource_type == 1">
+                        </a>
+                        <div *ngIf="!banner.target_url" class="banner-img-contain">
+                            <img [src]="banner.url" alt="{{banner.name}}" class="banner-img"
+                                *ngIf="banner.resource_type == 1">
+                        </div>
                         <iframe class="banner-img" [src]="banner.url | safe" *ngIf="banner.resource_type == 2">
                         </iframe>
                         <video class="banner-img" *ngIf="banner.resource_type == 3" controls>
-                            <source [src]="banner.url + '/' + '#t=0.5' | safe">
+                            <source [src]="banner.url + '#t=0.5' | safe">
                         </video>
                         <div class="container">
-                            <div class="banner-info-wrap">
-                                <div class="banner-info">
-                                    <h1 class="banner-title" *ngIf="banner.name != ''">{{banner.name}}</h1>
-                                    <p class="banner-description">{{banner.description}}</p>
-                                    <a href="{{banner.target_url}}" class="banner-url" [target]="banner.target_type"
-                                       *ngIf="banner.button_text">{{banner.button_text}}</a>
+                            <a href="{{banner.target_url}}" [target]="banner.target_type" *ngIf="banner.target_url">
+                                <div class="banner-info-wrap">
+                                    <div class="banner-info">
+                                        <h1 class="banner-title" *ngIf="banner.name != ''">{{banner.name}}</h1>
+                                        <p class="banner-description">{{banner.description}}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </slide>
                 </carousel>
@@ -33,110 +39,257 @@
             <div class="container">
                 <div class="try-me-wrap">
                     <div class="left-col">
-                        <h1 class="try-me-title">Try me</h1>
-                        <p class="try-me-description">
+                        <span class="try-me-title">Try me</span>
+                        <span class="try-me-description">
                             {{ try_info }}
-                        </p>
-                        <button class="see-all-btn" routerLink="/tries">
-                            {{ 'see_all' | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i>
-                        </button>
+                        </span>
                     </div>
                     <div class="right-col">
-                        <div class="product-container">
-                            <div class="product-slideshow">
-                                <carousel [interval]="intervalTime" (activeSlideChange)="changeProduct($event)"
-                                          class="carousel">
-                                    <slide *ngFor="let product of products;let i = index" class="banner">
-                                        <a [routerLink]="['/tries/' + product.slug]">
-                                            <img class="banner-img"
-                                                 [src]="product.file.stre_file_nm ? env.rootHost + product.file.file_cours + '/'
-                                                 + product.file.stre_file_nm : env.rootHost + product.file.file_cours"
-                                                 alt="Review image" *ngIf="product.resource_type == 1">
-                                            <video class="banner-img" *ngIf="product.resource_type == 3" muted
-                                                   controls>
-                                                <source [src]="env.rootHost + product.file.file_cours + '/' + product.file.stre_file_nm"
-                                                        type="video/mp4">
-                                                <source [src]="env.rootHost + product.file.file_cours + '/' + product.file.stre_file_nm"
-                                                        type="video/ogg">
-                                                <source [src]="env.rootHost + product.file.file_cours + '/' + product.file.stre_file_nm"
-                                                        type="video/webm">
-                                            </video>
-                                            <iframe class="banner-img"
-                                                    [src]="('https://www.youtube.com/embed/' + product.file.orginl_file_nm + '?autoplay=0&mute=1&loop=1&controls=1&showinfo=0' | safe)"
-                                                    *ngIf="product.resource_type == 2"></iframe>
-                                        </a>
-                                    </slide>
-                                </carousel>
-                            </div>
-                            <div class="production-info">
-                                <h1 class="product-name"
-                                    routerLink="/tries/{{currentProduct.slug}}">{{currentProduct.cntnts_nm}}</h1>
-                                <div class="try-expired-time">
-                                    <div class="expired-label-container">
-                                        <span class="expired-label">{{ 'will_end_after' | translate }}</span>
-                                    </div>
-                                    <div class="expired-time">
-                                        <div class="time-block">
-                                            <div class="count-down-value"><span>{{ days }}</span></div>
-                                            <span class="count-down-unit">{{ 'days' | translate }}</span>
+                        <div class="btn-more-container">
+                            <button class="see-all-btn" routerLink="/tries">
+                                {{ 'see_alls' | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="try-me-wrap try-me-panel">
+                <div class="left-col">
+                    <div class="product-container" >
+                        <div *ngFor="let product of products;let i = index" class="banner" (click)="changeProduct(i)" [ngClass]="{'active' : i == currentImageIndex}" >
+                            <!-- <a [routerLink]="['/tries/' + product.slug]"> -->
+                            <img class="banner-img" [src]="product.file.stre_file_nm ? env.rootHost + product.file.file_cours + '/'
+                                             + product.file.stre_file_nm : env.rootHost + product.file.file_cours"
+                                alt="Review image" *ngIf="product.resource_type == 1">
+                            <video class="banner-img" *ngIf="product.resource_type == 3" muted controls>
+                                <source [src]="env.rootHost + product.file.file_cours + '/' + product.file.stre_file_nm"
+                                    type="video/mp4">
+                                <source [src]="env.rootHost + product.file.file_cours + '/' + product.file.stre_file_nm"
+                                    type="video/ogg">
+                                <source [src]="env.rootHost + product.file.file_cours + '/' + product.file.stre_file_nm"
+                                    type="video/webm">
+                            </video>
+                            <iframe class="banner-img"
+                                [src]="('https://www.youtube.com/embed/' + product.file.orginl_file_nm + '?autoplay=0&mute=1&loop=1&controls=1&showinfo=0' | safe)"
+                                *ngIf="product.resource_type == 2"></iframe>
+                            <!-- </a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-col">
+                    <div class="product-container">
+                        <div class="product-slideshow">
+                            <carousel [interval]="intervalTime" (activeSlideChange)="changeProduct($event)" 
+                                class="carousel">
+                                <slide *ngFor="let product of products;let i = index" class="banner" [ngClass]="{'active' : i == currentImageIndex}" >
+                                    <a [routerLink]="['/tries/' + product.slug]">
+                                        <img class="banner-img" [src]="product.file.stre_file_nm ? env.rootHost + product.file.file_cours + '/'
+                                             + product.file.stre_file_nm : env.rootHost + product.file.file_cours"
+                                            alt="Review image" *ngIf="product.resource_type == 1">
+                                        <video class="banner-img" *ngIf="product.resource_type == 3" muted controls>
+                                            <source
+                                                [src]="env.rootHost + product.file.file_cours + '/' + product.file.stre_file_nm"
+                                                type="video/mp4">
+                                            <source
+                                                [src]="env.rootHost + product.file.file_cours + '/' + product.file.stre_file_nm"
+                                                type="video/ogg">
+                                            <source
+                                                [src]="env.rootHost + product.file.file_cours + '/' + product.file.stre_file_nm"
+                                                type="video/webm">
+                                        </video>
+                                        <iframe class="banner-img"
+                                            [src]="('https://www.youtube.com/embed/' + product.file.orginl_file_nm + '?autoplay=0&mute=1&loop=1&controls=1&showinfo=0' | safe)"
+                                            *ngIf="product.resource_type == 2"></iframe>
+                                    </a>
+                                </slide>
+                            </carousel>
+                        </div>
+                        <div class="production-info">
+                            <h1 class="product-name" routerLink="/tries/{{currentProduct.slug}}">
+                                {{currentProduct.cntnts_nm}}</h1>
+                            <div class="try-expired-time">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="expired-label-container">
+                                            <span class="expired-label">{{ 'will_end_after' | translate }}</span>
                                         </div>
-                                        <div class="time-block">
-                                            <div class="count-down-value"><span>{{ hours }}</span></div>
-                                            <span class="count-down-unit">{{ 'hours' | translate }}</span>
-                                        </div>
-                                        <div class="time-block">
-                                            <div class="count-down-value"><span>{{ minutes }}</span></div>
-                                            <span class="count-down-unit">{{ 'minutes' | translate }}</span>
-                                        </div>
-                                        <div class="time-block">
-                                            <div class="count-down-value"><span>{{ seconds }}</span></div>
-                                            <span class="count-down-unit">{{ 'seconds' | translate }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-number">
-                                    <span class="product-number-label">{{ 'number_of_products' | translate }}
-                                        / {{ 'number_of_registrations' | translate }}</span>
-                                    <span class="product-number-value">{{ currentProduct.event_trgter_co }} / {{
-                                        currentProduct.total_apply }}
-                                    </span>
-                                </div>
-                                <div class="product-price">
-                                    <span class="sale-price" *ngIf="currentProduct.event_pc">
-                                        {{ currentProduct.event_pc | formatnumber }} VND
-                                    </span>
-                                    <span class="sale-price" *ngIf="!currentProduct.event_pc">
-                                        -,- VND
-                                    </span>
-                                    <span class="original-price" *ngIf="currentProduct.goods_pc">
-                                        {{ currentProduct.goods_pc | formatnumber }} VND
-                                    </span>
-                                </div>
-                                <div class="action-block">
-                                    <div class="list-users-liked">
-                                        <ng-container *ngFor="let user of currentProduct.users_liked; let i = index;">
-                                            <div class="circle-avt"
-                                                 [ngClass]="{'need-to-hide': i > 1}" *ngIf="i < 3">
-                                                <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/user.png'"
-                                                     alt="" title="{{user.id ? user.id : user.reg_name}}" class="user-avt pointer" *ngIf="i < 4"
-                                                     routerLink="/usr/{{user.slug}}">
+                                        <div class="expired-time">
+                                            <div class="time-block">
+                                                <div class="count-down-value"><span>{{ days }}</span></div>
+                                                <span class="count-down-unit">{{ 'day' | translate }}</span>
                                             </div>
-                                        </ng-container>
-                                        <span class="number-of-likes" *ngIf="currentProduct.likes > 0" (click)="usersLikeDialog(currentProduct.cntnts_no, 'try')">{{
-                                                currentProduct.likes | numberlike}}</span>
+                                            <div class="time-block">
+                                                <div class="count-down-value"><span>{{ hours }}</span></div>
+                                                <span class="count-down-unit">{{ 'hour' | translate }}</span>
+                                            </div>
+                                            <div class="time-block">
+                                                <div class="count-down-value"><span>{{ minutes }}</span></div>
+                                                <span class="count-down-unit">{{ 'minute' | translate }}</span>
+                                            </div>
+                                            <div class="time-block">
+                                                <div class="count-down-value"><span>{{ seconds }}</span></div>
+                                                <span class="count-down-unit">{{ 'second' | translate }}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="action">
-                                        <button class="like-btn" [ngClass]="{'active': currentProduct.is_liked}"
-                                                [appAuth] (action)="toggleLikeTry(currentProduct)">{{
-                                            'like' | translate }}</button>
-                                        <button [disabled]="currentProduct.isExpired" *ngIf="!currentProduct.is_joined"
-                                                [appAuth] (action)="apply(currentProduct)" class="join-btn">{{ 'join' |
-                                            translate }}</button>
+                                </div>
+                            </div>
+                            <div class="product-number">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="product-number-label">{{ 'number_of_products' | translate }}</span>
+                                        <span class="product-number-value">{{ currentProduct.event_trgter_co }}</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span
+                                            class="product-number-label">{{ 'number_of_registrations' | translate }}</span>
+                                        <span class="product-number-value">{{currentProduct.total_apply }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-price" style="display: none;">
+                                <span class="sale-price" *ngIf="currentProduct.event_pc">
+                                    {{ currentProduct.event_pc | formatnumber }} VND
+                                </span>
+                                <span class="sale-price" *ngIf="!currentProduct.event_pc">
+                                    -,- VND
+                                </span>
+                                <span class="original-price" *ngIf="currentProduct.goods_pc">
+                                    {{ currentProduct.goods_pc | formatnumber }} VND
+                                </span>
+                            </div>
+                            <div class="action-block">
+                                <div class="list-users-liked">
+                                    <button class="action-btn active" *ngIf="!currentProduct.is_liked" [appAuth]
+                                        (action)="toggleLikeTry(currentProduct)">
+                                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="action-btn active" *ngIf="currentProduct.is_liked" [appAuth]
+                                        (action)="toggleLikeTry(currentProduct)">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                    <span class="number-of-likes" *ngIf="currentProduct.likes > 0"
+                                        (click)="usersLikeDialog(currentProduct.cntnts_no, 'try')">{{
+                                            currentProduct.likes | numberlike}}</span>
+                                    <div class="user-like">
+                                        <div [style.z-index]="6-i"
+                                            *ngFor="let user of currentProduct.users_liked; let i = index;">
+                                            <div class="circle-avt" [ngClass]="{'need-to-hide': i > 1}" *ngIf="i < 6">
+                                                <img [src]="user.pic ? env.rootHost + user.pic : 'assets/images/avatar.jpg'"
+                                                    alt="" title="{{user.id ? user.id : user.reg_name}}"
+                                                    class="user-avt pointer" *ngIf="i < 6"
+                                                    routerLink="/usr/{{user.slug}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="action">
+                                    <button [disabled]="currentProduct.isExpired" *ngIf="!currentProduct.is_joined"
+                                        [appAuth] (action)="apply(currentProduct)" class="join-btn">{{ 'register' |
+                                        translate }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="product-item" *ngIf="products[1]">
+                        <div class="image-container">
+                            <img class="banner-img" [src]="products[1].file.stre_file_nm ? env.rootHost + products[1].file.file_cours + '/'
+                                 + products[1].file.stre_file_nm : env.rootHost + products[1].file.file_cours"
+                                alt="Review image" *ngIf="products[1].resource_type == 1">
+                            <video class="banner-img" *ngIf="products[1].resource_type == 3" muted controls>
+                                <source
+                                    [src]="env.rootHost + products[1].file.file_cours + '/' + products[1].file.stre_file_nm"
+                                    type="video/mp4">
+                                <source
+                                    [src]="env.rootHost + products[1].file.file_cours + '/' + products[1].file.stre_file_nm"
+                                    type="video/ogg">
+                                <source
+                                    [src]="env.rootHost + products[1].file.file_cours + '/' + products[1].file.stre_file_nm"
+                                    type="video/webm">
+                            </video>
+                            <iframe class="banner-img"
+                                [src]="('https://www.youtube.com/embed/' + products[1].file.orginl_file_nm + '?autoplay=0&mute=1&loop=1&controls=1&showinfo=0' | safe)"
+                                *ngIf="products[1].resource_type == 2"></iframe>
+                        </div>
+                        <div class="production-info">
+                            <h2 class="product-name" routerLink="/tries/{{products[1].slug}}">
+                                {{products[1].cntnts_nm | slice:0:50}}</h2>
+                            <div class="try-expired-time">
+                                <div class="expired-label-container">
+                                    <span class="expired-label">{{ 'will_end_after' | translate }}</span>
+                                </div>
+                                <div class="expired-time">
+                                    <div class="time-block">
+                                        <div class="count-down-value"><span>{{products[1].days}}</span></div>
+                                        <span class="count-down-unit">{{ 'days' | translate }}</span>
+                                    </div>
+                                    <div class="time-block">
+                                        <div class="count-down-value"><span>{{ products[1].hours }}</span></div>
+                                        <span class="count-down-unit">{{ 'hours' | translate }}</span>
+                                    </div>
+                                    <div class="time-block">
+                                        <div class="count-down-value"><span>{{ products[1].minutes }}</span></div>
+                                        <span class="count-down-unit">{{ 'minutes' | translate }}</span>
+                                    </div>
+                                    <div class="time-block">
+                                        <div class="count-down-value"><span>{{ products[1].seconds }}</span></div>
+                                        <span class="count-down-unit">{{ 'seconds' | translate }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="product-item" *ngIf="products[2]">
+                        <div class="image-container">
+                            <img class="banner-img" [src]="products[2].file.stre_file_nm ? env.rootHost + products[2].file.file_cours + '/'
+                                 + products[2].file.stre_file_nm : env.rootHost + products[2].file.file_cours"
+                                alt="Review image" *ngIf="products[2].resource_type == 1">
+                            <video class="banner-img" *ngIf="products[2].resource_type == 3" muted controls>
+                                <source
+                                    [src]="env.rootHost + products[2].file.file_cours + '/' + products[2].file.stre_file_nm"
+                                    type="video/mp4">
+                                <source
+                                    [src]="env.rootHost + products[2].file.file_cours + '/' + products[2].file.stre_file_nm"
+                                    type="video/ogg">
+                                <source
+                                    [src]="env.rootHost + products[2].file.file_cours + '/' + products[2].file.stre_file_nm"
+                                    type="video/webm">
+                            </video>
+                            <iframe class="banner-img"
+                                [src]="('https://www.youtube.com/embed/' + products[2].file.orginl_file_nm + '?autoplay=0&mute=1&loop=1&controls=1&showinfo=0' | safe)"
+                                *ngIf="products[2].resource_type == 2"></iframe>
+                        </div>
+                        <div class="production-info">
+                            <h2 class="product-name" routerLink="/tries/{{products[2].slug}}">
+                                {{(products[2].cntnts_nm.length>70)? (products[2].cntnts_nm | slice:0:70)+'..':(products[2].cntnts_nm)}}
+                            </h2>
+                            <div class="try-expired-time">
+                                <div class="expired-label-container">
+                                    <span class="expired-label">{{ 'will_end_after' | translate }}</span>
+                                </div>
+                                <div class="expired-time">
+                                    <div class="time-block">
+                                        <div class="count-down-value"><span>{{products[2].days}}</span></div>
+                                        <span class="count-down-unit">{{ 'days' | translate }}</span>
+                                    </div>
+                                    <div class="time-block">
+                                        <div class="count-down-value"><span>{{ products[2].hours }}</span></div>
+                                        <span class="count-down-unit">{{ 'hours' | translate }}</span>
+                                    </div>
+                                    <div class="time-block">
+                                        <div class="count-down-value"><span>{{ products[2].minutes }}</span></div>
+                                        <span class="count-down-unit">{{ 'minutes' | translate }}</span>
+                                    </div>
+                                    <div class="time-block">
+                                        <div class="count-down-value"><span>{{ products[2].seconds }}</span></div>
+                                        <span class="count-down-unit">{{ 'seconds' | translate }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
                 </div>
             </div>
         </section>
@@ -151,41 +304,42 @@
                             <h1 class="review-title">{{ 'review' | translate }}</h1>
                             <div class="review-type">
                                 <button type="button" class="type-btn" [ngClass]="{'active': typeReview == 'popular'}"
-                                        (click)="getReviewByType('popular')">
+                                    (click)="getReviewByType('popular')">
                                     {{ 'popular' | translate }}
                                 </button>
                                 <button type="button" class="type-btn" [ngClass]="{'active': typeReview == 'recently'}"
-                                        (click)="getReviewByType('recently')">
+                                    (click)="getReviewByType('recently')">
                                     {{ 'recently' | translate }}
                                 </button>
                             </div>
                         </div>
                         <div class="right-col">
                             <button type="button" class="type-btn see-all-btn" routerLink="/reviews">
-                                {{ 'see_all' | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                {{ 'see_alls' | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="review-body">
-                    <div class="review-post" *ngFor="let review of reviews; let i = index;" data-id="{{ review.cntnts_no }}"
-                         [ngClass]="{'first': i == 0}">
+                    <div class="review-post" *ngFor="let review of reviews; let i = index;"
+                        data-id="{{ review.cntnts_no }}" [ngClass]="{'first': i == 0}">
                         <div class="post-header">
-                            <div class="user-block pointer" >
-                                <img [src]="review.author_avatar ? env.rootHost + review.author_avatar : '/assets/images/user.png'"
-                                    alt="" class="user-avt"  routerLink="/usr/{{review.author_slug}}">
+                            <div class="user-block pointer">
+                                <img [src]="review.author_avatar ? env.rootHost + review.author_avatar : '/assets/images/avatar.jpg'"
+                                    alt="" class="user-avt" routerLink="/usr/{{review.author_slug}}">
                                 <div class="user-info">
-                                    <span class="user-name"  routerLink="/usr/{{review.author_slug}}"
-                                          [innerHtml]="review.author_ds ? review.author_ds : review.author_name | safeHtml"></span>
+                                    <span class="user-name" routerLink="/usr/{{review.author_slug}}"
+                                        [innerHtml]="review.author_ds ? review.author_ds : review.author_name | safeHtml"></span>
                                     <span class="number-of-follows">{{ review.author_follows }} {{ 'follower' |
                                         translate }}</span>
                                 </div>
                             </div>
                             <button type="button" class="follow-btn" [ngClass]="{'active': review.followed == 1}"
-                                    *ngIf="user.user_no != review.user_no"
-                                [appAuth] (action)="toggleFollowFimer(review.author_id)">
+                                *ngIf="user.user_no != review.user_no" [appAuth]
+                                (action)="toggleFollowFimer(review.author_id)">
                                 <ng-container *ngIf="review.followed != 1">
-                                    <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span> <i class="material-icons">add</i>
+                                    <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span> <i
+                                        class="material-icons">add</i>
                                 </ng-container>
                                 <ng-container *ngIf="review.followed == 1">
                                     <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
@@ -195,12 +349,17 @@
                         </div>
                         <div class="post-body">
                             <a [routerLink]="['/reviews/detail/' + review.slug]">
-                                <img class="main-img" [src]="review.images ? env.rootHost + review.images : 'https://via.placeholder.com/900'"
-                                alt="Review image">
+                                <img class="main-img"
+                                    [src]="review.images ? env.rootHost + review.images : 'https://via.placeholder.com/900'"
+                                    alt="Review image">
                             </a>
                             <p class="post-title">
-                                    {{ review.goods_nm }}
-                                </p>
+                                {{ review.goods_nm }}
+                            </p>
+                            <p class="time">
+                                {{ review.time }} {{ review.timeUnit | translate }}
+                                {{ 'ago' | translate }}
+                            </p>
                             <p class="post-content">
                                 {{ review.review_short }}
                             </p>
@@ -209,19 +368,31 @@
                         </div>
                         <div class="post-footer">
                             <div class="action-block">
-                                <button class="action-btn" [ngClass]="{'active': review.is_liked == 1}" [appAuth]
-                                        (action)="toggleLikeReview(review.review_no, i)">
+                                <button class="action-btn active" *ngIf="review.is_liked == 1" [appAuth]
+                                    (action)="toggleLikeReview(review.review_no, i)">
+                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                </button>
+                                <button class="action-btn active" *ngIf="review.is_liked == 0" [appAuth]
+                                    (action)="toggleLikeReview(review.review_no, i)">
                                     <i class="fa fa-heart-o" aria-hidden="true"></i>
                                 </button>
-                                <span class="number-of-like" (click)="usersLikeDialog(review.review_no, 'review')">{{ review.like_number | numberlike }}</span>
-                            </div>
-                            <div class="action-block">
+
                                 <button class="action-btn" routerLink="/reviews/detail/{{review.slug}}">
                                     <i class="fa fa-comment-o" aria-hidden="true"></i>
                                 </button>
-                                <span class="number-of-like">{{ review.comment_number | numberlike }}</span>
+                                <span class="number-of-like"
+                                    style="display: none">{{ review.comment_number | numberlike }}</span>
+                            </div>
+                            <div class="action-block">
+                                <span class="float-right share-btn" (click)="shareLink()">
+                                    <img class="share-ico" src="/assets/icons/share-icon.png" />
+                                </span>
                             </div>
                         </div>
+                        <span class="number-of-like"
+                            (click)="usersLikeDialog(review.review_no, 'review')">{{ review.like_number | numberlike }}
+                            {{ '_like' | translate }}</span>
+
                     </div>
                 </div>
             </div>
@@ -248,7 +419,7 @@
                         <div class="col-sm-12 tip-header">
                             <h1 class="tip-title">{{ 'fime_tips' | translate }}</h1>
                             <a [routerLink]="['/tips']" class="type-btn see-all-btn">
-                                {{ 'see_all' | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                {{ 'see_alls' | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -257,30 +428,47 @@
                             <div class="inner-body">
                                 <div class="video-block covers">
                                     <div class="img-container img">
-                                        <carousel [interval]="intervalTime" class="carousel">
-                                            <slide class="banner" *ngIf="mainTip.cover_img1">
-                                                <img class="banner-img pointer" [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img1" [routerLink]="['/tips/' + mainTip.ti_id]">
-                                            </slide>
-                                            <slide class="banner"  *ngIf="mainTip.cover_img2">
-                                                <img class="banner-img pointer" [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img2" [routerLink]="['/tips/' + mainTip.ti_id]">
+                                        <!-- <carousel [interval]="intervalTime" class="carousel"> -->
+                                            <div class="banner" *ngIf="mainTip.cover_img1">
+                                                <img class="banner-img pointer"
+                                                    [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img1"
+                                                    [routerLink]="['/tips/' + mainTip.ti_id]">
+                                            </div>
+                                            <!-- <slide class="banner" *ngIf="mainTip.cover_img2">
+                                                <img class="banner-img pointer"
+                                                    [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img2"
+                                                    [routerLink]="['/tips/' + mainTip.ti_id]">
                                             </slide>
                                             <slide class="banner" *ngIf="mainTip.cover_img3">
-                                                <img class="banner-img pointer" [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img3" [routerLink]="['/tips/' + mainTip.ti_id]">
+                                                <img class="banner-img pointer"
+                                                    [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img3"
+                                                    [routerLink]="['/tips/' + mainTip.ti_id]">
                                             </slide>
                                             <slide class="banner" *ngIf="mainTip.cover_img4">
-                                                <img class="banner-img pointer" [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img4" [routerLink]="['/tips/' + mainTip.ti_id]">
-                                            </slide>
-                                        </carousel>
+                                                <img class="banner-img pointer"
+                                                    [src]="env.rootHost + mainTip.img_url + '/' + mainTip.cover_img4"
+                                                    [routerLink]="['/tips/' + mainTip.ti_id]">
+                                            </slide> -->
+                                        <!-- </carousel> -->
                                     </div>
                                 </div>
                                 <div class="video-list-block pointer" [routerLink]="['/tips/' + mainTip.ti_id]">
                                     <div class="video-content">
                                         <a class="video-title">{{ mainTip.subject }}</a>
                                         <p class="time">
-                                            {{ mainTip.time }} {{ mainTip.timeUnit | translate }} {{ 'ago' | translate }}
+                                            {{ mainTip.time }} {{ mainTip.timeUnit | translate }}
+                                            {{ 'ago' | translate }}
                                         </p>
                                         <p class="tip_head">{{mainTip.tips_desc_head }}</p>
-                                        <p class="tip_body">{{mainTip.tips_desc_body }}</p>
+                                        <p class="tip_body" style="display: none;">{{mainTip.tips_desc_body }}</p>
+                                    </div>
+                                    <div class="tip-item" *ngFor="let tip of otherTips; let i = index;">
+                                        <div class="tip-content pointer" [routerLink]="['/tips/' + tip.ti_id]">
+                                            <i class="material-icons">
+                                                play_circle_filled_white
+                                            </i>
+                                            <a class="video-title">{{ tip.subject }}</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -288,7 +476,9 @@
                                 <ng-container *ngFor="let item of listTip; let i = index;">
                                     <a class="post-item pointer" *ngIf="i < 3">
                                         <div class="image-container">
-                                            <img class="banner-img post-img" [src]="env.rootHost + item.img_url + '/' + item.cover_img1" [routerLink]="['/tips/' + item.ti_id]">
+                                            <img class="banner-img post-img"
+                                                [src]="env.rootHost + item.img_url + '/' + item.cover_img1"
+                                                [routerLink]="['/tips/' + item.ti_id]">
                                         </div>
                                         <div class="content post-title" [routerLink]="['/tips/' + item.ti_id]">
                                             <h2>
@@ -317,51 +507,52 @@
                             <h1 class="review-title">{{ 'hot_fimers' | translate }}</h1>
                             <div class="review-type">
                                 <button type="button" class="type-btn"
-                                        [ngClass]="{'active' : hotFimersFilterType === 'weekly'}"
-                                        (click)="searchHotFimers('weekly')">{{ 'weekly' | translate }}</button>
+                                    [ngClass]="{'active' : hotFimersFilterType === 'weekly'}"
+                                    (click)="searchHotFimers('weekly')">{{ 'fimers.sort.weekly' | translate }}</button>
                                 <button type="button" class="type-btn"
-                                        [ngClass]="{'active' : hotFimersFilterType === 'monthly'}"
-                                        (click)="searchHotFimers('monthly')">{{ 'monthly' | translate }}</button>
+                                    [ngClass]="{'active' : hotFimersFilterType === 'monthly'}"
+                                    (click)="searchHotFimers('monthly')">{{ 'fimers.sort.monthly' | translate }}</button>
                                 <button type="button" class="type-btn"
-                                        [ngClass]="{'active' : hotFimersFilterType === 'all'}"
-                                        (click)="searchHotFimers('all')">{{ 'yearly' | translate }}</button>
+                                    [ngClass]="{'active' : hotFimersFilterType === 'all'}"
+                                    (click)="searchHotFimers('all')">{{ 'fimers.sort.yearly' | translate }}</button>
                             </div>
                         </div>
                         <div class="right-col">
                             <button type="button" class="type-btn see-all-btn" (click)="goToFimersPage()">
-                                {{ 'see_all' | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                {{ 'see_alls' | translate }} <i class="fa fa-caret-right" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="review-body">
                     <div class="review-post" *ngFor="let item of hotLeftFimers; let i = index;"
-                         [ngClass]="{'first': i == 0}">
+                        [ngClass]="{'first': i == 0}">
                         <div class="post-header">
                             <div class="user-block pointer" routerLink="/usr/{{item.slug}}">
                                 <div class="avt-block">
                                     <img *ngIf="item.pic; else orderAvatar" [src]="env.rootHost + item.pic" alt=""
-                                         class="user-avt">
+                                        class="user-avt">
                                     <ng-template #orderAvatar>
                                         <img [src]="defaultUserAvatar" alt="" class="user-avt">
                                     </ng-template>
                                     <div class="fimer-rank"
-                                         [ngClass]="{'first': i == 0, 'second': i==1, 'third': i==2}">
+                                        [ngClass]="{'first': i == 0, 'second': i==1, 'third': i==2}">
                                         <span>#{{i + 1}}</span>
                                     </div>
                                 </div>
-                                <span class="user-name" [innerHtml]="item.id ? item.id : item.reg_name | safeHtml"></span>
+                                <span class="user-name"
+                                    [innerHtml]="item.id ? item.id : item.reg_name | safeHtml"></span>
                             </div>
                             <button type="button" class="follow-btn" [ngClass]="{'active': item.followed == 1}"
-                                    *ngIf="user.user_no != item.user_no"
-                                    [appAuth] (action)="toggleFollowFimer(item.user_no)">
+                                *ngIf="user.user_no != item.user_no" [appAuth]
+                                (action)="toggleFollowFimer(item.user_no)">
                                 <ng-container *ngIf="item.followed != 1">
                                     <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span> <i
                                         class="material-icons">add</i>
                                 </ng-container>
                                 <ng-container *ngIf="item.followed == 1">
                                     <span title="{{ 'unfollow' | translate }}">{{ 'follow' | translate }}</span>
-                                    <i class="material-icons">done</i>
+                                    <i class="material-icons">add</i>
                                 </ng-container>
                             </button>
                         </div>
@@ -400,9 +591,10 @@
                             </div>
                             <div class="lastest-review">
                                 <div class="col-review" *ngFor="let review of item.reviews"
-                                     routerLink="/reviews/detail/{{review.slug}}">
-                                    <img *ngIf="review.files.stre_file_nm; else imageNull" [src]="env.rootHost + review.files.file_cours + '/' + review.files.stre_file_nm"
-                                         alt="">
+                                    routerLink="/reviews/detail/{{review.slug}}">
+                                    <img *ngIf="review.files.stre_file_nm; else imageNull"
+                                        [src]="env.rootHost + review.files.file_cours + '/' + review.files.stre_file_nm"
+                                        alt="">
                                     <ng-template #imageNull>
                                         <img [src]="defaultImage" alt="">
                                     </ng-template>
@@ -415,19 +607,20 @@
                             <div class="user-block">
                                 <div class="avt-block pointer" routerLink="/usr/{{item.slug}}">
                                     <img *ngIf="item.pic; else orderAvatar" [src]="env.rootHost + item.pic" alt=""
-                                         class="user-avt">
+                                        class="user-avt">
                                     <ng-template #orderAvatar>
                                         <img [src]="defaultUserAvatar" alt="" class="user-avt">
                                     </ng-template>
                                     <div class="fimer-rank"
-                                         [ngClass]="{'first': i == 0, 'second': i==1, 'third': i==2}">
+                                        [ngClass]="{'first': i == 0, 'second': i==1, 'third': i==2}">
                                         <span>#{{i + 4}}</span>
                                     </div>
                                 </div>
                                 <div class="user-info pointer" routerLink="/usr/{{item.slug}}">
-                                    <span class="user-name" [innerHtml]="item.id ? item.id : item.reg_name | safeHtml"></span>
+                                    <span class="user-name"
+                                        [innerHtml]="item.id ? item.id : item.reg_name | safeHtml"></span>
                                     <span class="number-of-follows"
-                                          *ngIf="item.number_of_followers > 1; else other_number_of_followers">{{item.number_of_followers}}
+                                        *ngIf="item.number_of_followers > 1; else other_number_of_followers">{{item.number_of_followers}}
                                         {{ 'fimers.info.followers' | translate }}</span>
                                     <ng-template #other_number_of_followers>
                                         <span class="number-of-follows">{{item.number_of_followers}} {{
@@ -436,8 +629,8 @@
                                 </div>
                             </div>
                             <button type="button" class="follow-btn" [ngClass]="{'active': item.followed == 1}"
-                                    *ngIf="user.user_no != item.user_no"
-                                    [appAuth] (action)="toggleFollowFimer(item.user_no)">
+                                *ngIf="user.user_no != item.user_no" [appAuth]
+                                (action)="toggleFollowFimer(item.user_no)">
                                 <ng-container *ngIf="item.followed != 1">
                                     <span title="{{ 'follow' | translate }}">{{ 'follow' | translate }}</span> <i
                                         class="material-icons">add</i>
@@ -462,7 +655,8 @@
                         <h1 class="title">{{ 'top_hashtag' | translate }}</h1>
                     </div>
                     <div class="list-hashtag">
-                        <button class="hashtag" [routerLink]="['/reviews/all']" [queryParams]="{hashtag: item.name}" *ngFor="let item of hashtags; let i = index;">
+                        <button class="hashtag" [routerLink]="['/reviews/all']" [queryParams]="{hashtag: item.name}"
+                            *ngFor="let item of hashtags; let i = index;">
                             <img src="/assets/icons/crown-golden-icon.png" alt="icon" *ngIf="i == 0">
                             <img src="/assets/icons/crown-silver-icon.png" alt="icon" *ngIf="i == 1">
                             <img src="/assets/icons/crown-bronze-icon.png" alt="icon" *ngIf="i == 2">

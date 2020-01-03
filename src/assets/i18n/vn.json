@@ -67,10 +67,6 @@
       "user_role": "Role",
       "address": "Address",
       "phone": "Phone"
-    },
-    "account": {
-      "add_account": "Add account",
-      "edit_account": "Edit account"
     }
   },
   "error_upload_file_does_not_exist": "File không tồn tại",
@@ -110,6 +106,7 @@
   "home_page": "Trang chủ",
   "logo": "Logo",
   "see_all": "Xem tất cả",
+  "see_alls": "xem tất cả",
   "will_end_after": "Sẽ kết thúc sau",
   "days": "Ngày",
   "hours": "Giờ",
@@ -140,9 +137,10 @@
       "all": "Tất cả",
       "weekly": "Hàng tuần",
       "monthly": "Hàng tháng",
+      "yearly": "Hàng năm",
       "new_member": "Fimers mới"
     },
-    "info": {
+    "info":{
       "reviews": "reviews",
       "review": "review",
       "follower": "follower",
@@ -226,8 +224,6 @@
   "notification_reply": "trả lời bình luận của bạn",
   "notification_follow": "theo dõi bạn",
   "notification_like": "thích bài <strong>Review</strong> của bạn",
-  "crete_notifycation": "Tạo NOTIFICATION",
-  "edit_notifycation": "Chỉnh Sửa NOTIFICATION",
   "please_choose_image": "Vui lòng chọn ít nhất 1 hình",
   "edit_review": "Chỉnh sửa review",
   "delete_review": "Xóa review",
@@ -258,6 +254,5 @@
   "self_intro_200": "Tối đa 250 ký tự",
   "privacy_policy": "Chính sách bảo mật",
   "service_term": "Điều khoản dịch vụ",
-  "answer_qa": "Trả lời Q&A",
-  "access_account": "Truy cập"
+  "inactive_account": "Tài khoản của bạn đã bị vô hiệu hóa"
 }

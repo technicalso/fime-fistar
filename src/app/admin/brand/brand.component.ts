@@ -22,7 +22,10 @@ export class AdminBrandComponent implements OnInit {
     public filter = {
         name: null
     };
-
+    public pageSize = 10;
+    public pageLimitOptions = [];
+    public total: any;
+    public pageIndex = 1;
     constructor(
         private api: Restangular,
         private toast: ToastrService,
@@ -33,15 +36,33 @@ export class AdminBrandComponent implements OnInit {
     ngOnInit() {
         this.env = environment;
         this.getBrands();
+        this.pageSize = 10;
+        this.pageLimitOptions = [
+            {value: 5},
+            {value: 10},
+            {value: 20},
+            {value: 25},
+            {value: 50}
+        ];
+    }
+
+    changePageLimit(limit: any): void {
+        this.pageSize = limit;
+        this.getBrands();
+    }
+    setPage(pageInfo) {
+        this.pageIndex = pageInfo.offset + 1;
+        this.getBrands();
     }
 
     getBrands() {
         this.api
             .all('brands')
-            .customGET('')
+            .customGET('',{page: this.pageIndex,pageSize: this.pageSize,name: this.filter.name})
             .subscribe(res => {
-                this.brands = res.result;
+                this.brands = res.result.data;
                 this.crrbrands = res.result;
+                this.total = res.result.total;
             });
     }
 
@@ -86,25 +107,15 @@ export class AdminBrandComponent implements OnInit {
     }
 
     onSearch() {
-        if (this.filter.name !== null && this.filter.name !== '') {
-            const val = this.filter.name;
-            // filter our data
-            this.brands = this.crrbrands.filter(function (d) {
-                return d.code_nm.toLowerCase().indexOf(val) !== -1 || !val;
-            });
-
-            this.offset = 0;
-        } else {
-            this.brands = this.crrbrands;
-            this.offset = 0;
-        }
+        this.pageIndex = 1;
+        this.getBrands();
     }
 
     onReset() {
         this.filter = {
             name: null
         };
-        this.brands = this.crrbrands;
-        this.offset = 0;
+        this.pageIndex = 1;
+        this.getBrands();
     }
 }

@@ -1,167 +1,166 @@
 <div class="app-admin-fistar-basic">
-        <div class="row">
-            <div class="col-12 d-flex justify-content-between">
-                <div class="admin-heading">
-                    {{ "Basic Infomation" | translate }}
-                </div>
-                <div>
-                    <button class="btn btn-default" routerLink="/admin/fistar"><i class="material-icons align-text-bottom">
-                        arrow_back
-                    </i> <span>Back</span></button>
-                </div>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="admin-heading">
+                {{ "Basic Infomation" | translate }}
+            </div>
+            <div>
+                <button class="btn btn-default" routerLink="/admin/fistar"><i class="material-icons align-text-bottom">
+                    arrow_back
+                </i> <span>Back</span></button>
             </div>
         </div>
-        <app-admin-fistar-tab></app-admin-fistar-tab><br>
-        <form [formGroup]="form" novalidate>
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="form">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>User No</label>
+    </div>
+    <app-admin-fistar-tab></app-admin-fistar-tab><br>
+    <form [formGroup]="form" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>User No</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="fistar.uid"
+                                       formControlName="uid" readonly />
                             </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" [(ngModel)]="fistar.uid"
-                                           formControlName="uid" readonly />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Full Name</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="fistar.fullname"
+                                        formControlName="fullname" name="name"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Display Name</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+
+                                <input type="text" required class="form-control" [(ngModel)]="fistar.id"
+                                        formControlName="id" name="id"/>
+                            </div>
+                            <div *ngIf="form.controls.id.invalid && (form.controls.id.dirty || form.controls.id.touched)"
+                                class="text-danger">
+                                <div *ngIf="form.controls.id.errors.required">
+                                    Display name is required
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>Full Name</label>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" [(ngModel)]="fistar.fullname"
-                                            formControlName="fullname" name="name"/>
-                                </div>
-                            </div>
+                        
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Email</label>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>Display Name</label>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="email" class="form-control" [(ngModel)]="fistar.email"
+                                pattern="^[a-zA-Z0-9\.]{2,}@[a-zA-Z0-9]{2}(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z](?:[a-zA-Z-]{0,61}[a-zA-Z])?)(?=.*[\.])*$"
+                                        formControlName="email" name="email"/>
+                                        <div *ngIf="form.controls.email.dirty && form.controls.email.invalid" class="text-danger">
+                                                Invalid Email
+                                            </div>
+                                            <div *ngIf="form.controls.email.dirty && form.controls.email.value == ''" class="text-danger">
+                                                Email is required
+                                            </div>
+                                            <!-- <div *ngIf="!form.controls.email.invalid && activeForm &&error.error && error.error.errors.email" class="text-danger">
+                                                {{error.error.errors.email[0]}}
+                                                </div> -->
                             </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
-
-                                    <input type="text" required class="form-control" [(ngModel)]="fistar.id"
-                                            formControlName="id" name="id"/>
-                                </div>
-                                <div *ngIf="form.controls.id.invalid && (form.controls.id.dirty || form.controls.id.touched)"
-                                    class="text-danger">
-                                    <div *ngIf="form.controls.id.errors.required">
-                                        Display name is required
-                                    </div>
-                                </div>
-                            </div>
-                            
                         </div>
                         
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>Email</label>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" [(ngModel)]="fistar.email"
-                                    pattern="^[a-zA-Z0-9\.]{2,}@[a-zA-Z0-9]{2}(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z](?:[a-zA-Z-]{0,61}[a-zA-Z])?)(?=.*[\.])*$"
-                                            formControlName="email" name="email"/>
-                                            <div *ngIf="form.controls.email.dirty && form.controls.email.invalid" class="text-danger">
-                                                    Invalid Email
-                                                </div>
-                                                <div *ngIf="form.controls.email.dirty && form.controls.email.value == ''" class="text-danger">
-                                                    Email is required
-                                                </div>
-                                                <div *ngIf="!form.controls.email.invalid && activeForm &&error.error && error.error.errors.email" class="text-danger">
-                                                        {{error.error.errors.email[0]}}
-                                                    </div>
-                                </div>
-                            </div>
-                            
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Phone</label>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>Phone</label>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <input type="number" class="form-control" [(ngModel)]="fistar.phone"
-                                            formControlName="phone" name="phone"  onkeydown="return event.keyCode !== 69"/>
-                                </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="number" class="form-control" [(ngModel)]="fistar.phone"
+                                        formControlName="phone" name="phone"  onkeydown="return event.keyCode !== 69"/>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>{{ "admin.users.access_control" | translate }}</label>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "admin.users.access_control" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
 
-                                    <mat-checkbox formControlName="active" name="active" class="px-3"
-                                                    [(ngModel)]="fistar.active" color="primary">Active
-                                    </mat-checkbox>
-                                    <mat-checkbox formControlName="allow_comment" name="allow_comment" class="px-3"
-                                                    [(ngModel)]="fistar.allow_comment" color="primary">Allow
-                                        Comment
-                                    </mat-checkbox>
-                                    <mat-checkbox formControlName="allow_review" name="allow_review" class="px-3"
-                                                    [(ngModel)]="fistar.allow_review" color="primary">Allow
-                                        Review
-                                    </mat-checkbox>
-                                </div>
+                                <mat-checkbox formControlName="active" name="active" class="px-3"
+                                                [(ngModel)]="fistar.active" color="primary">Active
+                                </mat-checkbox>
+                                <mat-checkbox formControlName="allow_comment" name="allow_comment" class="px-3"
+                                                [(ngModel)]="fistar.allow_comment" color="primary">Allow
+                                    Comment
+                                </mat-checkbox>
+                                <mat-checkbox formControlName="allow_review" name="allow_review" class="px-3"
+                                                [(ngModel)]="fistar.allow_review" color="primary">Allow
+                                    Review
+                                </mat-checkbox>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>{{ "Role" | translate }}</label>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Role" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
 
-                                    <mat-checkbox formControlName="fimer" name="fimer" class="px-3"
-                                                    [(ngModel)]="fistar.fimer" color="primary">fimer
-                                    </mat-checkbox>
-                                    <mat-checkbox formControlName="fistar" name="fistar" class="px-3"
-                                                    [(ngModel)]="fistar.fistar" color="primary">fistar
-                                    </mat-checkbox>
-                                </div>
+                                <mat-checkbox formControlName="fimer" name="fimer" class="px-3"
+                                                [(ngModel)]="fistar.fimer" color="primary">fimer
+                                </mat-checkbox>
+                                <mat-checkbox formControlName="fistar" name="fistar" class="px-3"
+                                                [(ngModel)]="fistar.fistar" color="primary">fistar
+                                </mat-checkbox>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>{{ "Address" | translate }}</label>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <textarea type="text" class="form-control" placeholder="Enter address"
-                                                [(ngModel)]="fistar.address"
-                                                formControlName="address" name="address"></textarea>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>{{ "Address" | translate }}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" placeholder="Enter address"
+                                            [(ngModel)]="fistar.address"
+                                            formControlName="address" name="address"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-    
-            <div class="actions d-flex justify-content-end col-md-8">
-                <button class="btn btn-default mr-1" routerLink="/admin/fistar">
-                    <i class="material-icons align-text-bottom">
-                        cancel
-                    </i> <span> {{ "cancel" | translate }}</span>
-                </button>
-                <button class="btn btn-primary mr-1" (click)="updateBasicFistar()" [disabled]="!form.dirty || form.invalid">
-                    <i class="material-icons align-text-bottom">
-                        save
-                    </i> <span> {{ "save" | translate }}</span>
-                </button>
-            </div>
-        </form>
-    </div>
-  
+        </div>
+
+        <div class="actions d-flex justify-content-end col-md-8">
+            <button class="btn btn-default mr-1" routerLink="/admin/fistar">
+                <i class="material-icons align-text-bottom">
+                    cancel
+                </i> <span> {{ "cancel" | translate }}</span>
+            </button>
+            <button class="btn btn-primary mr-1" (click)="updateBasicFistar()" [disabled]="!form.dirty || form.invalid">
+                <i class="material-icons align-text-bottom">
+                    save
+                </i> <span> {{ "save" | translate }}</span>
+            </button>
+        </div>
+    </form>
+</div>

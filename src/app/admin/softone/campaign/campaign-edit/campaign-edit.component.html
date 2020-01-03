@@ -472,7 +472,7 @@
                             <div class="form-group">
                                 <app-admin-multiple-images-softone #images [images]="{ data: dataImage}"
                                     [resizeToWidth]="720" [aspectRatio]="1 / 1"></app-admin-multiple-images-softone>
-                                <div *ngIf="isSubmitted && invalidImages" class="text-danger">
+                                <div class="text-danger">
                                     Choose at least one image
                                 </div>
                             </div>

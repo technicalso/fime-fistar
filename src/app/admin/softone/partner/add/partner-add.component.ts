@@ -76,7 +76,6 @@ export class AdminPartnerAddComponent implements OnInit {
         this.image = 'http://chieusangmiennam.com/assets/img/default.jpg';
         this.form = new FormGroup({
             pm_name: new FormControl(this.partner.pm_name, [Validators.required]),
-            password: new FormControl(this.partner.password, [Validators.required]),
             pm_id: new FormControl(this.partner.pm_id, [Validators.required]),
             pm_phone: new FormControl(this.partner.pm_phone, [Validators.required]),
             email: new FormControl(this.partner.email, [Validators.required]),

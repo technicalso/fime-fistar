@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {NgxMasonryOptions} from 'ngx-masonry';
+import { MetaService } from '@ngx-meta/core';
 
 @Component({
     selector: 'app-home',
@@ -38,6 +39,7 @@ export class FimersComponent implements OnInit {
                 private translate: TranslateService,
                 private activeRoute: ActivatedRoute,
                 private api: Restangular,
+                public meta: MetaService,
                 @Inject(PLATFORM_ID) private platformId: Object) {
     }
 
@@ -60,6 +62,9 @@ export class FimersComponent implements OnInit {
             this.user = {};
         }
         this.getFimers();
+        this.meta.setTitle('fi:me / Fimers');
+        this.meta.setTag('og:title', 'fi:me / Fimers');
+        this.meta.setTag('og:url', environment.url + '/fimers/all');
     }
 
     getFimers() {

@@ -228,6 +228,14 @@
           }
         }
       }
+
+      .error-hint {
+        margin-bottom: 15px;
+
+        span {
+          color: $error_color;
+        }
+      }
     }
   }
 }

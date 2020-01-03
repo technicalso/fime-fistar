@@ -5,6 +5,8 @@ import {ToastrService} from 'ngx-toastr';
 import {Subject} from 'rxjs';
 import {MatDialog} from '@angular/material';
 import {AdminResourceDialogImageCropComponent} from './dialog-image-crop.component';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+
 
 @Component({
     selector: 'app-admin-multiple-images',
@@ -57,6 +59,10 @@ export class AdminMultipleImagesComponent implements OnInit, OnChanges {
         }
         this.cd.detectChanges();
     }
+
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.imagesBase64, event.previousIndex, event.currentIndex);
+      }
 
     fileChangeEvent(event: any): void {
         this.change = true;
@@ -160,10 +166,12 @@ export class ImageBase64 {
     public type: any;
     public base64: any;
     public url: any;
+    public thumb_name: any;
 
-    constructor(type, base64, url) {
+    constructor(type, base64, url, thumb_name = '') {
         this.type = type;
         this.base64 = base64;
         this.url = url;
+        this.thumb_name = thumb_name;
     }
 }

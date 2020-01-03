@@ -48,7 +48,7 @@ export class PartnerService {
     return this.http.get(this.url+'/'+id);
   }
   addPartner(data){
-      return this.http.post(this.env.host_fistar+'/api/admin/partners',data,{headers:headers});
+      return this.http.post(this.env.host_fistar+'/api/admin/partners/',data,{headers:headers});
   }
   getRecommend(pId){
     return this.http.get(this.env.host_fistar+'/api/admin/recommended/partners/'+pId+'?paginate=500');

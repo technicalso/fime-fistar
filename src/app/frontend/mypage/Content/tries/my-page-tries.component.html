@@ -108,7 +108,7 @@
                             <a href="{{try.link_url}}" class="btn-cart" target="_blank">
                                 <img src="/assets/icons/cart.png" />
                             </a>
-                            <a class="btn-try" *ngIf="try.is_joined && try.event_knd_code == 398002" routerLink="/tries/{{try.slug}}">
+                            <a class="btn-try display-none" *ngIf="try.is_joined && try.event_knd_code == 398002" routerLink="/tries/{{try.slug}}">
                                 <span>Đã đăng ký</span>
                             </a>
                             <a class="btn-try" [appAuth] *ngIf="!try.is_joined && try.event_knd_code == 398002" (action)="apply(try)">

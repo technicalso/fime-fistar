@@ -11,6 +11,8 @@ import {TryDialogComponent} from '../try-dialog/try-dialog.component';
 import {SettingService} from '../../../services/setting.service';
 import {UsersLikeDialogComponent} from '../users-like-dialog/users-like-dialog.component';
 import {ToastrService} from 'ngx-toastr';
+import {MetaService} from '@ngx-meta/core';
+import { ShareFacebookService } from '../../../services/share-facebook.service';
 
 @Component({
     selector: 'app-home',
@@ -32,6 +34,11 @@ export class HomeComponent implements OnInit {
     public reviewPopularCache = [];
     public reviewRecentlyCache = [];
     public currentProduct: any;
+    public currentImageIndex;
+    public resourceType: number;
+    public currentResourceType: number;
+    public mainImage;
+    public images = [];
     public intervalTime = 0;
     public endTime: any;
     public days = 99;
@@ -50,8 +57,11 @@ export class HomeComponent implements OnInit {
     public mainTip: any;
     public subTips: any;
     public listTip: any;
+    public otherTips: any;
     public try_info: string;
     public user: any;
+    public isLoading = false;
+    public interval: any;
 
     constructor(private restangular: Restangular,
                 private cookieService: CookieService,
@@ -59,10 +69,16 @@ export class HomeComponent implements OnInit {
                 private router: Router,
                 private toast: ToastrService,
                 private settingService: SettingService,
+                private shareFacebookService: ShareFacebookService,
+                public meta: MetaService,
                 @Inject(PLATFORM_ID) private platformId: Object) {
     }
 
     ngOnInit() {
+        this.meta.setTitle('fi:me');
+        this.meta.setTag('og:title', 'fi:me');
+        this.meta.setTag('og:url', environment.url);
+        this.meta.setTag('og:description', 'Cộng đồng trải nghiệm miễn phí mỹ phẩm và review, chia sẻ và truyền cảm hứng làm đẹp đến mọi người');
         this.user = this.cookieService.get('user');
         if (!this.user) {
             this.user = {};
@@ -86,6 +102,7 @@ export class HomeComponent implements OnInit {
             id: 0,
             resource_type: 1
         };
+        this.otherTips = [];
         this.subTips = [];
         this.listTip = [];
         this.hotFimersFilterTypes = ['weekly', 'monthly', 'all'];
@@ -189,6 +206,13 @@ export class HomeComponent implements OnInit {
 
     changeProduct(index: number) {
         this.currentProduct = this.products[index];
+        this.currentImageIndex = index;
+        if (index === 0) {
+            this.resourceType = this.currentResourceType;
+        } else {
+            this.resourceType = 1;
+        }
+        this.mainImage = this.images[this.currentImageIndex];
         this.endTime = moment.utc(this.currentProduct.event_endde);
         this.countDownTryTime();
     }
@@ -210,6 +234,36 @@ export class HomeComponent implements OnInit {
                 this.currentProduct.isExpired = true;
             }
         }, 1000);
+
+        clearInterval(this.interval);
+
+        this.interval = setInterval(() => {
+            const now = moment();
+            for (const item of this.products) {
+                const startTime = moment.utc(item.event_bgnde);
+                const endTime = moment.utc(item.event_endde);
+
+                let remainingTime = null;
+                if (startTime > now) {
+                    // Coming soon
+                    item.count_down_type = 0;
+                    remainingTime = moment.duration(startTime.diff(now));
+                } else if (startTime <= now && endTime > now) {
+                    // Coming soon
+                    item.count_down_type = 1;
+                    remainingTime = moment.duration(endTime.diff(now));
+                } else {
+                    item.count_down_type = 2;
+                    continue;
+                }
+
+                item.days = remainingTime.days();
+                item.hours = remainingTime.hours();
+                item.minutes = remainingTime.minutes();
+                item.seconds = remainingTime.seconds();
+            }
+
+        }, 1000);
     }
 
     // End TryMe section
@@ -227,6 +281,7 @@ export class HomeComponent implements OnInit {
                             this.processProductData(data);
                             // Cache data
                             this.reviewPopularCache = this.reviews.slice();
+                            this.formatCreatedTimeReviews(data);
                         }
                     });
                 } else { // Have cached data
@@ -242,6 +297,7 @@ export class HomeComponent implements OnInit {
                             this.processProductData(data);
                             // Cache data
                             this.reviewRecentlyCache = this.reviews.slice();
+                            this.formatCreatedTimeReviews(data);
                         }
                     });
                 } else { // Have cached data
@@ -250,6 +306,34 @@ export class HomeComponent implements OnInit {
                 break;
             default:
         }
+    }
+
+    formatCreatedTimeReviews(reviews) {
+        for (let i = 0; i < reviews.length; i++) {
+            const now = moment();
+            const created_time = moment(reviews[i].writng_dt);
+            const duration = moment.duration(now.diff(created_time));
+            if (duration.years() > 0) {
+                reviews[i].time = duration.years();
+                reviews[i].timeUnit = 'year';
+            } else if (duration.months() > 0) {
+                reviews[i].time = duration.months();
+                reviews[i].timeUnit = 'month';
+            } else if (duration.days() > 0) {
+                reviews[i].time = duration.days();
+                reviews[i].timeUnit = 'day';
+            } else if (duration.hours() > 0) {
+                reviews[i].time = duration.hours();
+                reviews[i].timeUnit = 'hour';
+            } else if (duration.minutes() > 0) {
+                reviews[i].time = duration.minutes();
+                reviews[i].timeUnit = 'minute';
+            } else {
+                reviews[i].time = duration.seconds();
+                reviews[i].timeUnit = 'second';
+            }
+        }
+        return reviews;
     }
 
     processProductData(data: any) {
@@ -341,6 +425,7 @@ export class HomeComponent implements OnInit {
             }
         });
     }
+    
 
     // Hashtags section
     getTopHashtags() {
@@ -365,11 +450,19 @@ export class HomeComponent implements OnInit {
         });
     }
 
+    shareLink(){
+        const href = this.env.url + this.router.url;
+        this.shareFacebookService.share(href);
+        this.shareFacebookService.response.subscribe(res => {
+        });
+    }
+
     getTips() {
         this.restangular.all('tips').customGET('').subscribe(res => {
             if (res.result) {
                 this.tips = this.formatCreatedTime(res.result);
                 this.mainTip = this.tips[0] ;
+                this.otherTips = this.tips.slice(1, 3);
             }
         });
 
@@ -440,8 +533,13 @@ export class HomeComponent implements OnInit {
     }
 
     apply(item) {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
         let fimer = {reviews: 0};
         this.restangular.all('fimers').customGET('profile').subscribe(res => {
+            this.isLoading = false;
             fimer = res.result;
             if (item.is_try_event === 1) {
                 if (fimer.reviews < item.quantity_to_qualify) {
